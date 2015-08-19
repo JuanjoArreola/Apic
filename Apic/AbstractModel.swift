@@ -9,91 +9,112 @@
 import Foundation
 
 protocol InitializableWithDictionary {
-    init?(dictionary: Dictionary<String, AnyObject>)
+    init(dictionary: [String: AnyObject]) throws
 }
 
 public protocol InitializableWithString {
     init?(string: String)
 }
 
+enum ModelError: ErrorType {
+    case PropertyNotFound
+    case DateError
+}
+
 public class AbstractModel: NSObject, InitializableWithDictionary {
     
-    required convenience public init?(dictionary: Dictionary<String, AnyObject>) {
+    required convenience public init(dictionary: [String: AnyObject]) throws {
         self.init()
-        let mirror = reflect(self)
-        for index in 0..<mirror.count {
-            let (name, childMirror) = mirror[index]
-            if name == "super" {
+        let children = Mirror(reflecting: self).children
+        for index in children.startIndex..<children.endIndex {
+            let child = children[index]
+            guard let name = child.label else {
                 continue
             }
+//            if name == "super" {
+//                continue
+//            }
             
-            switch childMirror.valueType {
-            case let type as String?.Type:
+            switch Mirror(reflecting:child.value).subjectType {
+            case _ as String?.Type:
                 if let value = dictionary[name] as? String {
-                    self.setValue(value, forKey: name)
+                    setValue(value, forKey: name)
                 }
-            case let type as String.Type:
+            case _ as String.Type:
                 if let value = dictionary[name] as? String {
-                    self.setValue(value, forKey: name)
+                    setValue(value, forKey: name)
                 } else {
-                    return nil
+                    throw ModelError.PropertyNotFound
                 }
                 
-            case let type as Int?.Type:
-                if let value = dictionary[name] as? Int {
-                    assignValue(value, forKey: name)
+            case _ as Int?.Type:
+                if let value = dictionary[name] {
+                    try assignValue(value, forKey: name)
                 }
-            case let type as Int.Type:
+            case _ as Int.Type:
                 if let value = dictionary[name] as? Int {
-                    self.setValue(value, forKey: name)
+                    setValue(value, forKey: name)
                 } else {
-                    return nil
+                    throw ModelError.PropertyNotFound
                 }
                 
-            case let type as Float?.Type:
-                if let value = dictionary[name] as? Float {
-                    assignValue(value, forKey: name)
+            case _ as Float?.Type:
+                if let value = dictionary[name] {
+                    try assignValue(value, forKey: name)
                 } else if let value = dictionary[name] as? String {
                     if let float = AbstractModel.floatValue(string: value) {
-                        assignValue(float, forKey: name)
+                        try assignValue(float, forKey: name)
                     }
                 }
-            case let type as Float.Type:
+            case _ as Float.Type:
                 if let value = dictionary[name] as? Float {
-                    self.setValue(value, forKey: name)
+                    setValue(value, forKey: name)
                 } else if let value = dictionary[name] as? String {
                     if let float = AbstractModel.floatValue(string: value) {
-                        assignValue(float, forKey: name)
+                        try assignValue(float, forKey: name)
                     }
                 }
                 else {
-                    return nil
+                    throw ModelError.PropertyNotFound
                 }
                 
-            case let type as Bool?.Type:
-                if let value = dictionary[name] as? Bool {
-                    assignValue(value, forKey: name)
+            case _ as Bool?.Type:
+                if let value = dictionary[name] {
+                    try assignValue(value, forKey: name)
                 }
-            case let type as Bool.Type:
+            case _ as Bool.Type:
                 if let value = dictionary[name] as? Bool {
-                    self.setValue(value, forKey: name)
+                    setValue(value, forKey: name)
                 } else {
-                    return nil
+                    throw ModelError.PropertyNotFound
+                }
+                
+            case _ as NSDate?.Type:
+                if let value = dictionary[name] as? String {
+                    if let date = AbstractModel.dateFromString(value) {
+                        try assignValue(date, forKey: name)
+                    }
+                }
+            case _ as NSDate.Type:
+                if let value = dictionary[name] as? String {
+                    if let date = AbstractModel.dateFromString(value) {
+                        setValue(date, forKey: name)
+                    } else {
+                        throw ModelError.DateError
+                    }
+                } else {
+                    throw ModelError.PropertyNotFound
                 }
                 
             default:
                 if let value: AnyObject = dictionary[name] {
-                    if !assignValue(value, forKey: name) {
-                        return nil
-                    }
+                    try assignValue(value, forKey: name)
                 }
             }
         }
     }
     
-    func assignValue<T>(value: T, forKey key: String) -> Bool {
-        return true
-    }
+    func assignValue(value: AnyObject, forKey key: String) throws { }
     
     private static var formatter: NSNumberFormatter = {
         var formatter = NSNumberFormatter()
@@ -101,9 +122,20 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
         return formatter
         }()
     
-    private class func floatValue(#string: String) -> Float? {
+    private class func floatValue(string string: String) -> Float? {
         let number = formatter.numberFromString(string)
         return number?.floatValue
+    }
+    
+    private static var dateFormatter: NSDateFormatter = {
+        let formatter = NSDateFormatter()
+        formatter.locale = NSLocale.currentLocale()
+        formatter.dateFormat = ""
+        return formatter
+    }()
+    
+    private class func dateFromString(string: String) -> NSDate? {
+        return dateFormatter.dateFromString(string)
     }
 }
 

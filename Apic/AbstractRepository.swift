@@ -7,105 +7,93 @@
 //
 
 import Foundation
+import Alamofire
 
-public let ERROR_BAD_JSON = 400
-public let ERROR_BAD_JSON_CONTENT = 401
-public let ERROR_STATUS_FAIL = 402
-
-public let ApicErrorDomain = "com.apic.error"
+enum RepositoryError: ErrorType {
+    case BadJSON
+    case BadJSONContent
+    case StatusFail(message: String?, code: Int?)
+    case RequestError
+}
 
 public class AbstractRepository: NSObject {
     
-    class func requestSuccess(method: Method, url: String, params: Dictionary<String, AnyObject> = [:], encoding: ParameterEncoding = .URL, completion: (success: Bool, error: NSError?) -> Void) -> Request {
-        return request(method, url, parameters: params, encoding: encoding).responseJSON { (_, _, JSON, error) in
-            if error == nil {
-                let (data, jsonError) = dataFromJSON(JSON)
-                if jsonError == nil {
-                    completion(success: true, error: nil)
-                } else if jsonError?.code != ERROR_BAD_JSON && jsonError?.code != ERROR_BAD_JSON_CONTENT {
-                    completion(success: false, error: nil)
-                } else {
-                    completion(success: false, error: jsonError)
+    class func requestSuccess(method method: Alamofire.Method, url: String, params: [String: AnyObject] = [:], encoding: ParameterEncoding = .URL, completion: (complete: () throws -> Bool) -> Void) -> Request {
+        return Alamofire.request(method, url, parameters: params, encoding: encoding).responseJSON { (_, _, result) in
+            if result.isSuccess {
+                do {
+                    let _ = try dataFromJSON(result.value)
+                    completion(complete: { return true })
+                } catch RepositoryError.StatusFail {
+                    completion(complete: { return false })
+                } catch {
+                    completion(complete: { throw error })
                 }
             } else {
-                completion(success: false, error: error)
+                completion(complete: { throw getErrorWithNSError(result.error) })
             }
         }
     }
     
-    class func requestObject<T: InitializableWithDictionary>(method: Method, url: String, params: Dictionary<String, AnyObject> = [:],
-        encoding: ParameterEncoding = .URL, completion: (object: T?, error: NSError?) -> Void) -> Request {
-        return request(method, url, parameters: params, encoding: encoding).responseJSON { (_, _, JSON, error) in
-            if error == nil {
-                let (data, error) = dataFromJSON(JSON)
-                if error == nil {
-                    if let obj = data![Configuration.objectKey] as? Dictionary<String, AnyObject> {
-                        var object: T? = T(dictionary: obj)
-                        if object != nil {
-                            completion(object: object, error: nil)
-                            return
-                        }
+    class func requestObject<T: InitializableWithDictionary>(method: Alamofire.Method, url: String, params: [String: AnyObject] = [:],
+        encoding: ParameterEncoding = .URL, completion: (complete: () throws -> T?) -> Void) -> Request {
+        return request(method, url, parameters: params, encoding: encoding).responseJSON { (_, _, result) in
+            if result.isSuccess {
+                do {
+                    let data = try dataFromJSON(result.value)
+                    guard let obj = data[Configuration.objectKey] as? [String: AnyObject] else {
+                        throw RepositoryError.BadJSONContent
                     }
-                    completion(object: nil, error: getErrorWithCode(ERROR_BAD_JSON_CONTENT, descriptionKey: "bad_json_content"))
-                    return
+                    let object = try T(dictionary: obj)
+                    completion(complete: { return object })
+                } catch {
+                    completion(complete: { throw error })
                 }
-                completion(object: nil, error: error)
             } else {
-                completion(object: nil, error: error)
+                completion(complete: { throw getErrorWithNSError(result.error) })
             }
         }
     }
     
-    class func requestObjects<T: InitializableWithDictionary>(method: Method, url: String, params: Dictionary<String, AnyObject> = [:],
-        encoding: ParameterEncoding = .URL, completion: (objects: [T]?, error: NSError?) -> Void) -> Request {
-            return request(method, url, parameters: params, encoding: encoding).responseJSON { (_, _, JSON, error) in
-            if error == nil {
-                let (data, jsonError) = dataFromJSON(JSON)
-                if jsonError == nil {
-                    if let objs = data![Configuration.objectsKey] as? Array<Dictionary<String, AnyObject>> {
-                        var objects = [T]()
-                        for obj in objs {
-                            var object: T? = T(dictionary: obj)
-                            if object != nil {
-                                objects.append(object!)
-                            } else {
-                                completion(objects: nil, error: getErrorWithCode(ERROR_BAD_JSON_CONTENT, descriptionKey: "bad_json_content"))
-                                return
-                            }
-                        }
-                        completion(objects: objects, error: nil)
-                        return
+    class func requestObjects<T: InitializableWithDictionary>(method: Alamofire.Method, url: String, params: Dictionary<String, AnyObject> = [:], encoding: ParameterEncoding = .URL, completion: (complete: () throws -> [T]?) -> Void) -> Request {
+        return request(method, url, parameters: params, encoding: encoding).responseJSON { (_, _, result) in
+            
+            if result.isSuccess {
+                do {
+                    let data = try dataFromJSON(result.value)
+                    guard let objs = data[Configuration.objectKey] as? [[String: AnyObject]] else {
+                        throw RepositoryError.BadJSONContent
                     }
+                    var objects = [T]()
+                    for obj in objs {
+                        objects.append(try T(dictionary: obj))
+                    }
+                    completion(complete: { return objects })
+                } catch {
+                    completion(complete: { throw error })
                 }
-                completion(objects: nil, error: jsonError)
             } else {
-                completion(objects: nil, error: error)
+                completion(complete: { throw getErrorWithNSError(result.error) })
             }
         }
     }
 }
 
-private func dataFromJSON(JSON: AnyObject?) -> (data: Dictionary<String, AnyObject>?, error: NSError?) {
-    if let data = JSON as? Dictionary<String, AnyObject> {
-        if let status = data[Configuration.statusKey] as? String {
-            if status == Configuration.statusOk {
-                return (data, nil)
-            } else {
-                let description: String = data[Configuration.errorDescriptionKey] as? String ??
-                    NSLocalizedString("status_fail_desc", tableName: "apic_strings", comment: "")
-                let code = data[Configuration.errorCodeKey] as? Int ?? ERROR_STATUS_FAIL
-                return (nil, NSError(domain: ApicErrorDomain, code: code, userInfo: [NSLocalizedDescriptionKey: description]))
-            }
+private func dataFromJSON(JSON: AnyObject?) throws -> [String: AnyObject] {
+    guard let data = JSON as? [String: AnyObject] else {
+        throw RepositoryError.BadJSON
+    }
+    if let status = data[Configuration.statusKey] as? String {
+        if status == Configuration.statusOk {
+            return data
         } else {
-            return (nil, getErrorWithCode(ERROR_BAD_JSON_CONTENT, descriptionKey: "bad_json_content"))
+            throw RepositoryError.StatusFail(message: data[Configuration.errorDescriptionKey] as? String, code: data[Configuration.errorCodeKey] as? Int)
         }
-    } else {
-        return (nil, getErrorWithCode(ERROR_BAD_JSON, descriptionKey: "bad_json"))
     }
+    throw RepositoryError.BadJSONContent
 }
 
-private func getErrorWithCode(code: Int, #descriptionKey: String) -> NSError? {
-    let tableName = Configuration.useDefaultStrings ? "apic_strings" : "ApicStrings"
-    return NSError(domain: ApicErrorDomain, code: code,
-        userInfo: [NSLocalizedDescriptionKey: NSLocalizedString(descriptionKey, tableName: tableName, comment: "")])
+//                TODO: convert NSError to ErrorType
+private func getErrorWithNSError(error: NSError?) -> ErrorType {
+    return RepositoryError.RequestError
 }

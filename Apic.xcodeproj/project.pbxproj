@@ -7,15 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		438D88B553164C47A6A1BF28 /* Pods_Apic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E011FEDB9742FA038B21B7FC /* Pods_Apic.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		813764D61B1A9CA60015EC12 /* Apic.h in Headers */ = {isa = PBXBuildFile; fileRef = 813764D51B1A9CA60015EC12 /* Apic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		813764DC1B1A9CA60015EC12 /* Apic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 813764D01B1A9CA60015EC12 /* Apic.framework */; };
 		813764E31B1A9CA60015EC12 /* ApicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813764E21B1A9CA60015EC12 /* ApicTests.swift */; };
-		813764ED1B1A9E3E0015EC12 /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813764EC1B1A9E3E0015EC12 /* Alamofire.swift */; };
 		813764EF1B1AA0610015EC12 /* AbstractModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813764EE1B1AA0610015EC12 /* AbstractModel.swift */; };
 		813764F11B1AB9980015EC12 /* AbstractRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813764F01B1AB9980015EC12 /* AbstractRepository.swift */; };
 		813764F31B1ABAAA0015EC12 /* apic_properties.plist in Resources */ = {isa = PBXBuildFile; fileRef = 813764F21B1ABAAA0015EC12 /* apic_properties.plist */; };
 		813764F51B1ABAF10015EC12 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813764F41B1ABAF10015EC12 /* Configuration.swift */; };
 		813764F71B1B684B0015EC12 /* apic_strings.strings in Resources */ = {isa = PBXBuildFile; fileRef = 813764F61B1B684B0015EC12 /* apic_strings.strings */; };
+		AC74C102D0645BEA362FD707 /* Pods_ApicTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301903321A3585B083F41F98 /* Pods_ApicTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,18 +30,23 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2E73B308F3AAA7EFC3AAC64E /* Pods-ApicTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ApicTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ApicTests/Pods-ApicTests.release.xcconfig"; sourceTree = "<group>"; };
+		301903321A3585B083F41F98 /* Pods_ApicTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ApicTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6779A9D05C7BA4C3D664EEAA /* Pods-Apic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Apic.release.xcconfig"; path = "Pods/Target Support Files/Pods-Apic/Pods-Apic.release.xcconfig"; sourceTree = "<group>"; };
 		813764D01B1A9CA60015EC12 /* Apic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Apic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		813764D41B1A9CA60015EC12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		813764D51B1A9CA60015EC12 /* Apic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Apic.h; sourceTree = "<group>"; };
 		813764DB1B1A9CA60015EC12 /* ApicTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ApicTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		813764E11B1A9CA60015EC12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		813764E21B1A9CA60015EC12 /* ApicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApicTests.swift; sourceTree = "<group>"; };
-		813764EC1B1A9E3E0015EC12 /* Alamofire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alamofire.swift; sourceTree = "<group>"; };
 		813764EE1B1AA0610015EC12 /* AbstractModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbstractModel.swift; sourceTree = "<group>"; };
 		813764F01B1AB9980015EC12 /* AbstractRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbstractRepository.swift; sourceTree = "<group>"; };
 		813764F21B1ABAAA0015EC12 /* apic_properties.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = apic_properties.plist; sourceTree = "<group>"; };
 		813764F41B1ABAF10015EC12 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		813764F61B1B684B0015EC12 /* apic_strings.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = apic_strings.strings; sourceTree = "<group>"; };
+		8CDB90E111EBBDCA595472AC /* Pods-Apic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Apic.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Apic/Pods-Apic.debug.xcconfig"; sourceTree = "<group>"; };
+		E011FEDB9742FA038B21B7FC /* Pods_Apic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Apic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		ECF96778CBD90817ABE7F15F /* Pods-ApicTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ApicTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ApicTests/Pods-ApicTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				438D88B553164C47A6A1BF28 /* Pods_Apic.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,18 +63,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				813764DC1B1A9CA60015EC12 /* Apic.framework in Frameworks */,
+				AC74C102D0645BEA362FD707 /* Pods_ApicTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6CE2A50D38B2F9B6DA5C5711 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E011FEDB9742FA038B21B7FC /* Pods_Apic.framework */,
+				301903321A3585B083F41F98 /* Pods_ApicTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		813764C61B1A9CA60015EC12 = {
 			isa = PBXGroup;
 			children = (
 				813764D21B1A9CA60015EC12 /* Apic */,
 				813764DF1B1A9CA60015EC12 /* ApicTests */,
 				813764D11B1A9CA60015EC12 /* Products */,
+				9DB161A45158A3639F61D3C6 /* Pods */,
+				6CE2A50D38B2F9B6DA5C5711 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -95,7 +114,6 @@
 		813764D31B1A9CA60015EC12 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				813764EC1B1A9E3E0015EC12 /* Alamofire.swift */,
 				813764D41B1A9CA60015EC12 /* Info.plist */,
 				813764F21B1ABAAA0015EC12 /* apic_properties.plist */,
 				813764F61B1B684B0015EC12 /* apic_strings.strings */,
@@ -120,6 +138,17 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		9DB161A45158A3639F61D3C6 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8CDB90E111EBBDCA595472AC /* Pods-Apic.debug.xcconfig */,
+				6779A9D05C7BA4C3D664EEAA /* Pods-Apic.release.xcconfig */,
+				ECF96778CBD90817ABE7F15F /* Pods-ApicTests.debug.xcconfig */,
+				2E73B308F3AAA7EFC3AAC64E /* Pods-ApicTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -138,10 +167,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 813764E61B1A9CA60015EC12 /* Build configuration list for PBXNativeTarget "Apic" */;
 			buildPhases = (
+				BCD39099F76A798CA11D8AAF /* Check Pods Manifest.lock */,
 				813764CB1B1A9CA60015EC12 /* Sources */,
 				813764CC1B1A9CA60015EC12 /* Frameworks */,
 				813764CD1B1A9CA60015EC12 /* Headers */,
 				813764CE1B1A9CA60015EC12 /* Resources */,
+				8CDB85856BDA34FE19E0E409 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -156,9 +187,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 813764E91B1A9CA60015EC12 /* Build configuration list for PBXNativeTarget "ApicTests" */;
 			buildPhases = (
+				BB1EBA3B540BAEE25A8127AC /* Check Pods Manifest.lock */,
 				813764D71B1A9CA60015EC12 /* Sources */,
 				813764D81B1A9CA60015EC12 /* Frameworks */,
 				813764D91B1A9CA60015EC12 /* Resources */,
+				171D3E496B0051845391B3AD /* Embed Pods Frameworks */,
+				BA7CDCB9B68B3A8598C7FEC0 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -176,7 +210,9 @@
 		813764C71B1A9CA60015EC12 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = Juanjo;
 				TargetAttributes = {
 					813764CF1B1A9CA60015EC12 = {
@@ -224,13 +260,90 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		171D3E496B0051845391B3AD /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ApicTests/Pods-ApicTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8CDB85856BDA34FE19E0E409 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Apic/Pods-Apic-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BA7CDCB9B68B3A8598C7FEC0 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ApicTests/Pods-ApicTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BB1EBA3B540BAEE25A8127AC /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		BCD39099F76A798CA11D8AAF /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		813764CB1B1A9CA60015EC12 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				813764F11B1AB9980015EC12 /* AbstractRepository.swift in Sources */,
-				813764ED1B1A9E3E0015EC12 /* Alamofire.swift in Sources */,
 				813764F51B1ABAF10015EC12 /* Configuration.swift in Sources */,
 				813764EF1B1AA0610015EC12 /* AbstractModel.swift in Sources */,
 			);
@@ -277,6 +390,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -346,6 +460,7 @@
 		};
 		813764E71B1A9CA60015EC12 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8CDB90E111EBBDCA595472AC /* Pods-Apic.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
@@ -354,8 +469,9 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Apic/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.juanjoarreola.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -364,6 +480,7 @@
 		};
 		813764E81B1A9CA60015EC12 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6779A9D05C7BA4C3D664EEAA /* Pods-Apic.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
@@ -372,8 +489,9 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Apic/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.juanjoarreola.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -381,30 +499,28 @@
 		};
 		813764EA1B1A9CA60015EC12 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ECF96778CBD90817ABE7F15F /* Pods-ApicTests.debug.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = ApicTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.juanjoarreola.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		813764EB1B1A9CA60015EC12 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2E73B308F3AAA7EFC3AAC64E /* Pods-ApicTests.release.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = ApicTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.juanjoarreola.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -428,6 +544,7 @@
 				813764E81B1A9CA60015EC12 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		813764E91B1A9CA60015EC12 /* Build configuration list for PBXNativeTarget "ApicTests" */ = {
 			isa = XCConfigurationList;
@@ -436,6 +553,7 @@
 				813764EB1B1A9CA60015EC12 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
