@@ -9,3 +9,7 @@ target 'ApicTests' do
    pod 'Alamofire', :git => 'https://github.com/Alamofire/Alamofire.git', :branch => 'swift-2.0'
 end
 
+target 'ApicWatchOS' do
+   platform :watchos, '2.0'
+   pod 'Alamofire', :git => 'https://github.com/Alamofire/Alamofire.git', :branch => 'swift-2.0'
+end

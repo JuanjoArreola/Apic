@@ -9,20 +9,22 @@
 import Foundation
 import Alamofire
 
-enum RepositoryError: ErrorType {
+public enum RepositoryError: ErrorType {
     case BadJSON
     case BadJSONContent
+    case InvalidURL
+    case InvalidParameters
+    case RequestError(message: String?)
     case StatusFail(message: String?, code: Int?)
-    case RequestError
 }
 
 public class AbstractRepository: NSObject {
     
-    class func requestSuccess(method method: Alamofire.Method, url: String, params: [String: AnyObject] = [:], encoding: ParameterEncoding = .URL, completion: (complete: () throws -> Bool) -> Void) -> Request {
+    public class func requestSuccess(method method: Alamofire.Method, url: String, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, completion: (complete: () throws -> Bool) -> Void) -> Request {
         return Alamofire.request(method, url, parameters: params, encoding: encoding).responseJSON { (_, _, result) in
             if result.isSuccess {
                 do {
-                    let _ = try dataFromJSON(result.value)
+                    try dataFromJSON(result.value)
                     completion(complete: { return true })
                 } catch RepositoryError.StatusFail {
                     completion(complete: { return false })
@@ -30,12 +32,12 @@ public class AbstractRepository: NSObject {
                     completion(complete: { throw error })
                 }
             } else {
-                completion(complete: { throw getErrorWithNSError(result.error) })
+                completion(complete: { throw result.error! })
             }
         }
     }
     
-    class func requestObject<T: InitializableWithDictionary>(method: Alamofire.Method, url: String, params: [String: AnyObject] = [:],
+    public class func requestObject<T: InitializableWithDictionary>(method: Alamofire.Method, url: String, params: [String: AnyObject]? = [:],
         encoding: ParameterEncoding = .URL, completion: (complete: () throws -> T?) -> Void) -> Request {
         return request(method, url, parameters: params, encoding: encoding).responseJSON { (_, _, result) in
             if result.isSuccess {
@@ -50,18 +52,18 @@ public class AbstractRepository: NSObject {
                     completion(complete: { throw error })
                 }
             } else {
-                completion(complete: { throw getErrorWithNSError(result.error) })
+                completion(complete: { throw result.error! })
             }
         }
     }
     
-    class func requestObjects<T: InitializableWithDictionary>(method: Alamofire.Method, url: String, params: Dictionary<String, AnyObject> = [:], encoding: ParameterEncoding = .URL, completion: (complete: () throws -> [T]?) -> Void) -> Request {
+    public class func requestObjects<T: InitializableWithDictionary>(method: Alamofire.Method, url: String, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, completion: (complete: () throws -> [T]) -> Void) -> Request {
         return request(method, url, parameters: params, encoding: encoding).responseJSON { (_, _, result) in
             
             if result.isSuccess {
                 do {
                     let data = try dataFromJSON(result.value)
-                    guard let objs = data[Configuration.objectKey] as? [[String: AnyObject]] else {
+                    guard let objs = data[Configuration.objectsKey] as? [[String: AnyObject]] else {
                         throw RepositoryError.BadJSONContent
                     }
                     var objects = [T]()
@@ -73,9 +75,13 @@ public class AbstractRepository: NSObject {
                     completion(complete: { throw error })
                 }
             } else {
-                completion(complete: { throw getErrorWithNSError(result.error) })
+                completion(complete: { throw result.error! })
             }
         }
+    }
+    
+    public class func defaultIdentifier(function: StaticString = __FUNCTION__) -> String {
+        return String(self) + ".\(function)"
     }
 }
 
@@ -95,5 +101,6 @@ private func dataFromJSON(JSON: AnyObject?) throws -> [String: AnyObject] {
 
 //                TODO: convert NSError to ErrorType
 private func getErrorWithNSError(error: NSError?) -> ErrorType {
-    return RepositoryError.RequestError
+    return RepositoryError.RequestError(message: error?.localizedDescription)
 }
+

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		438D88B553164C47A6A1BF28 /* Pods_Apic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E011FEDB9742FA038B21B7FC /* Pods_Apic.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		48C1FE7A3539C71B4DBF3056 /* Pods_ApicWatchOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE1E9D9A82F1A2DB56C0B573 /* Pods_ApicWatchOS.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		813764D61B1A9CA60015EC12 /* Apic.h in Headers */ = {isa = PBXBuildFile; fileRef = 813764D51B1A9CA60015EC12 /* Apic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		813764DC1B1A9CA60015EC12 /* Apic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 813764D01B1A9CA60015EC12 /* Apic.framework */; };
 		813764E31B1A9CA60015EC12 /* ApicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813764E21B1A9CA60015EC12 /* ApicTests.swift */; };
@@ -16,6 +17,13 @@
 		813764F31B1ABAAA0015EC12 /* apic_properties.plist in Resources */ = {isa = PBXBuildFile; fileRef = 813764F21B1ABAAA0015EC12 /* apic_properties.plist */; };
 		813764F51B1ABAF10015EC12 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813764F41B1ABAF10015EC12 /* Configuration.swift */; };
 		813764F71B1B684B0015EC12 /* apic_strings.strings in Resources */ = {isa = PBXBuildFile; fileRef = 813764F61B1B684B0015EC12 /* apic_strings.strings */; };
+		81F936EE1B90E20E007C5CA6 /* ApicWatchOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 81F936ED1B90E20E007C5CA6 /* ApicWatchOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		81F936F41B90EA98007C5CA6 /* AbstractModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813764EE1B1AA0610015EC12 /* AbstractModel.swift */; settings = {ASSET_TAGS = (); }; };
+		81F936F51B90EA9B007C5CA6 /* AbstractRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813764F01B1AB9980015EC12 /* AbstractRepository.swift */; settings = {ASSET_TAGS = (); }; };
+		81F936F61B90EA9D007C5CA6 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813764F41B1ABAF10015EC12 /* Configuration.swift */; settings = {ASSET_TAGS = (); }; };
+		81F936F71B90EABF007C5CA6 /* apic_properties.plist in Resources */ = {isa = PBXBuildFile; fileRef = 813764F21B1ABAAA0015EC12 /* apic_properties.plist */; settings = {ASSET_TAGS = (); }; };
+		81F936F81B90EAC1007C5CA6 /* apic_strings.strings in Resources */ = {isa = PBXBuildFile; fileRef = 813764F61B1B684B0015EC12 /* apic_strings.strings */; settings = {ASSET_TAGS = (); }; };
+		81F937001B911AFB007C5CA6 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81F936FF1B911AFB007C5CA6 /* Alamofire.framework */; };
 		AC74C102D0645BEA362FD707 /* Pods_ApicTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301903321A3585B083F41F98 /* Pods_ApicTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -32,6 +40,7 @@
 /* Begin PBXFileReference section */
 		2E73B308F3AAA7EFC3AAC64E /* Pods-ApicTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ApicTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ApicTests/Pods-ApicTests.release.xcconfig"; sourceTree = "<group>"; };
 		301903321A3585B083F41F98 /* Pods_ApicTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ApicTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6369FF4FBAAF649B171DE02D /* Pods-ApicWatchOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ApicWatchOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ApicWatchOS/Pods-ApicWatchOS.debug.xcconfig"; sourceTree = "<group>"; };
 		6779A9D05C7BA4C3D664EEAA /* Pods-Apic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Apic.release.xcconfig"; path = "Pods/Target Support Files/Pods-Apic/Pods-Apic.release.xcconfig"; sourceTree = "<group>"; };
 		813764D01B1A9CA60015EC12 /* Apic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Apic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		813764D41B1A9CA60015EC12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -44,9 +53,16 @@
 		813764F21B1ABAAA0015EC12 /* apic_properties.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = apic_properties.plist; sourceTree = "<group>"; };
 		813764F41B1ABAF10015EC12 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		813764F61B1B684B0015EC12 /* apic_strings.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = apic_strings.strings; sourceTree = "<group>"; };
+		81F936EB1B90E20E007C5CA6 /* ApicWatchOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ApicWatchOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		81F936ED1B90E20E007C5CA6 /* ApicWatchOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ApicWatchOS.h; sourceTree = "<group>"; };
+		81F936EF1B90E20E007C5CA6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		81F936FD1B911A2B007C5CA6 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Pods/../build/Debug-watchos/Pods-ApicWatchOS/Alamofire.framework"; sourceTree = "<group>"; };
+		81F936FF1B911AFB007C5CA6 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Pods/../build/Debug-watchos/Pods-ApicWatchOS/Alamofire.framework"; sourceTree = "<group>"; };
 		8CDB90E111EBBDCA595472AC /* Pods-Apic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Apic.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Apic/Pods-Apic.debug.xcconfig"; sourceTree = "<group>"; };
 		E011FEDB9742FA038B21B7FC /* Pods_Apic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Apic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECF96778CBD90817ABE7F15F /* Pods-ApicTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ApicTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ApicTests/Pods-ApicTests.debug.xcconfig"; sourceTree = "<group>"; };
+		FAE6337F07E3D420FA84F0A0 /* Pods-ApicWatchOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ApicWatchOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-ApicWatchOS/Pods-ApicWatchOS.release.xcconfig"; sourceTree = "<group>"; };
+		FE1E9D9A82F1A2DB56C0B573 /* Pods_ApicWatchOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ApicWatchOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,14 +83,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		81F936E71B90E20E007C5CA6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				81F937001B911AFB007C5CA6 /* Alamofire.framework in Frameworks */,
+				48C1FE7A3539C71B4DBF3056 /* Pods_ApicWatchOS.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		6CE2A50D38B2F9B6DA5C5711 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				81F936FF1B911AFB007C5CA6 /* Alamofire.framework */,
+				81F936FD1B911A2B007C5CA6 /* Alamofire.framework */,
 				E011FEDB9742FA038B21B7FC /* Pods_Apic.framework */,
 				301903321A3585B083F41F98 /* Pods_ApicTests.framework */,
+				FE1E9D9A82F1A2DB56C0B573 /* Pods_ApicWatchOS.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -84,6 +112,7 @@
 			children = (
 				813764D21B1A9CA60015EC12 /* Apic */,
 				813764DF1B1A9CA60015EC12 /* ApicTests */,
+				81F936EC1B90E20E007C5CA6 /* ApicWatchOS */,
 				813764D11B1A9CA60015EC12 /* Products */,
 				9DB161A45158A3639F61D3C6 /* Pods */,
 				6CE2A50D38B2F9B6DA5C5711 /* Frameworks */,
@@ -95,6 +124,7 @@
 			children = (
 				813764D01B1A9CA60015EC12 /* Apic.framework */,
 				813764DB1B1A9CA60015EC12 /* ApicTests.xctest */,
+				81F936EB1B90E20E007C5CA6 /* ApicWatchOS.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -138,6 +168,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		81F936EC1B90E20E007C5CA6 /* ApicWatchOS */ = {
+			isa = PBXGroup;
+			children = (
+				81F936ED1B90E20E007C5CA6 /* ApicWatchOS.h */,
+				81F936EF1B90E20E007C5CA6 /* Info.plist */,
+			);
+			path = ApicWatchOS;
+			sourceTree = "<group>";
+		};
 		9DB161A45158A3639F61D3C6 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -145,6 +184,8 @@
 				6779A9D05C7BA4C3D664EEAA /* Pods-Apic.release.xcconfig */,
 				ECF96778CBD90817ABE7F15F /* Pods-ApicTests.debug.xcconfig */,
 				2E73B308F3AAA7EFC3AAC64E /* Pods-ApicTests.release.xcconfig */,
+				6369FF4FBAAF649B171DE02D /* Pods-ApicWatchOS.debug.xcconfig */,
+				FAE6337F07E3D420FA84F0A0 /* Pods-ApicWatchOS.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -157,6 +198,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				813764D61B1A9CA60015EC12 /* Apic.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		81F936E81B90E20E007C5CA6 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				81F936EE1B90E20E007C5CA6 /* ApicWatchOS.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,6 +253,26 @@
 			productReference = 813764DB1B1A9CA60015EC12 /* ApicTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		81F936EA1B90E20E007C5CA6 /* ApicWatchOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 81F936F21B90E20E007C5CA6 /* Build configuration list for PBXNativeTarget "ApicWatchOS" */;
+			buildPhases = (
+				53A71D8E35FA605994AE9061 /* Check Pods Manifest.lock */,
+				81F936E61B90E20E007C5CA6 /* Sources */,
+				81F936E71B90E20E007C5CA6 /* Frameworks */,
+				81F936E81B90E20E007C5CA6 /* Headers */,
+				81F936E91B90E20E007C5CA6 /* Resources */,
+				EAD3441780333C00085E2B46 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ApicWatchOS;
+			productName = ApicWatchOS;
+			productReference = 81F936EB1B90E20E007C5CA6 /* ApicWatchOS.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -221,6 +290,9 @@
 					813764DA1B1A9CA60015EC12 = {
 						CreatedOnToolsVersion = 6.3.2;
 					};
+					81F936EA1B90E20E007C5CA6 = {
+						CreatedOnToolsVersion = 7.0;
+					};
 				};
 			};
 			buildConfigurationList = 813764CA1B1A9CA60015EC12 /* Build configuration list for PBXProject "Apic" */;
@@ -237,6 +309,7 @@
 			targets = (
 				813764CF1B1A9CA60015EC12 /* Apic */,
 				813764DA1B1A9CA60015EC12 /* ApicTests */,
+				81F936EA1B90E20E007C5CA6 /* ApicWatchOS */,
 			);
 		};
 /* End PBXProject section */
@@ -258,6 +331,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		81F936E91B90E20E007C5CA6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				81F936F81B90EAC1007C5CA6 /* apic_strings.strings in Resources */,
+				81F936F71B90EABF007C5CA6 /* apic_properties.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -274,6 +356,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ApicTests/Pods-ApicTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		53A71D8E35FA605994AE9061 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		8CDB85856BDA34FE19E0E409 /* Copy Pods Resources */ = {
@@ -336,6 +433,21 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		EAD3441780333C00085E2B46 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ApicWatchOS/Pods-ApicWatchOS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -354,6 +466,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				813764E31B1A9CA60015EC12 /* ApicTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		81F936E61B90E20E007C5CA6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				81F936F61B90EA9D007C5CA6 /* Configuration.swift in Sources */,
+				81F936F41B90EA98007C5CA6 /* AbstractModel.swift in Sources */,
+				81F936F51B90EA9B007C5CA6 /* AbstractRepository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -507,6 +629,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = ApicTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.juanjoarreola.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -519,9 +642,61 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = ApicTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.juanjoarreola.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		81F936F01B90E20E007C5CA6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6369FF4FBAAF649B171DE02D /* Pods-ApicWatchOS.debug.xcconfig */;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-watchos/Pods-ApicWatchOS",
+				);
+				INFOPLIST_FILE = ApicWatchOS/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.crayon.ApicWatchOS;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		81F936F11B90E20E007C5CA6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FAE6337F07E3D420FA84F0A0 /* Pods-ApicWatchOS.release.xcconfig */;
+			buildSettings = {
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-watchos/Pods-ApicWatchOS",
+				);
+				INFOPLIST_FILE = ApicWatchOS/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.crayon.ApicWatchOS;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
@@ -551,6 +726,15 @@
 			buildConfigurations = (
 				813764EA1B1A9CA60015EC12 /* Debug */,
 				813764EB1B1A9CA60015EC12 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		81F936F21B90E20E007C5CA6 /* Build configuration list for PBXNativeTarget "ApicWatchOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				81F936F01B90E20E007C5CA6 /* Debug */,
+				81F936F11B90E20E007C5CA6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

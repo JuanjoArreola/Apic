@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol InitializableWithDictionary {
+public protocol InitializableWithDictionary {
     init(dictionary: [String: AnyObject]) throws
 }
 
@@ -16,14 +16,15 @@ public protocol InitializableWithString {
     init?(string: String)
 }
 
-enum ModelError: ErrorType {
-    case PropertyNotFound
+public enum ModelError: ErrorType {
+    case ValueTypeError
     case DateError
+    case InstanciationError
 }
 
 public class AbstractModel: NSObject, InitializableWithDictionary {
     
-    required convenience public init(dictionary: [String: AnyObject]) throws {
+    public required convenience init(dictionary: [String: AnyObject]) throws {
         self.init()
         let children = Mirror(reflecting: self).children
         for index in children.startIndex..<children.endIndex {
@@ -31,9 +32,6 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
             guard let name = child.label else {
                 continue
             }
-//            if name == "super" {
-//                continue
-//            }
             
             switch Mirror(reflecting:child.value).subjectType {
             case _ as String?.Type:
@@ -44,49 +42,41 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                 if let value = dictionary[name] as? String {
                     setValue(value, forKey: name)
                 } else {
-                    throw ModelError.PropertyNotFound
+                    throw ModelError.ValueTypeError
                 }
                 
             case _ as Int?.Type:
-                if let value = dictionary[name] {
+                if let value: Int = convertValue(dictionary[name]) {
                     try assignValue(value, forKey: name)
                 }
             case _ as Int.Type:
-                if let value = dictionary[name] as? Int {
+                if let value: Int = convertValue(dictionary[name]) {
                     setValue(value, forKey: name)
                 } else {
-                    throw ModelError.PropertyNotFound
+                    throw ModelError.ValueTypeError
                 }
                 
             case _ as Float?.Type:
-                if let value = dictionary[name] {
+                if let value: Float = convertValue(dictionary[name]) {
                     try assignValue(value, forKey: name)
-                } else if let value = dictionary[name] as? String {
-                    if let float = AbstractModel.floatValue(string: value) {
-                        try assignValue(float, forKey: name)
-                    }
                 }
             case _ as Float.Type:
-                if let value = dictionary[name] as? Float {
+                if let value: Float = convertValue(dictionary[name]) {
                     setValue(value, forKey: name)
-                } else if let value = dictionary[name] as? String {
-                    if let float = AbstractModel.floatValue(string: value) {
-                        try assignValue(float, forKey: name)
-                    }
                 }
                 else {
-                    throw ModelError.PropertyNotFound
+                    throw ModelError.ValueTypeError
                 }
                 
             case _ as Bool?.Type:
-                if let value = dictionary[name] {
+                if let value: Bool = convertValue(dictionary[name]) {
                     try assignValue(value, forKey: name)
                 }
             case _ as Bool.Type:
-                if let value = dictionary[name] as? Bool {
+                if let value: Bool = convertValue(dictionary[name]) {
                     setValue(value, forKey: name)
                 } else {
-                    throw ModelError.PropertyNotFound
+                    throw ModelError.ValueTypeError
                 }
                 
             case _ as NSDate?.Type:
@@ -103,7 +93,7 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                         throw ModelError.DateError
                     }
                 } else {
-                    throw ModelError.PropertyNotFound
+                    throw ModelError.ValueTypeError
                 }
                 
             default:
@@ -114,23 +104,26 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
         }
     }
     
-    func assignValue(value: AnyObject, forKey key: String) throws { }
+    public func assignValue(value: AnyObject, forKey key: String) throws { }
     
-    private static var formatter: NSNumberFormatter = {
-        var formatter = NSNumberFormatter()
-        formatter.numberStyle = .DecimalStyle
-        return formatter
-        }()
-    
-    private class func floatValue(string string: String) -> Float? {
-        let number = formatter.numberFromString(string)
-        return number?.floatValue
+    public func parseArray<T: InitializableWithDictionary>(array: [AnyObject]) throws -> [T] {
+        var newArray = [T]()
+        
+        for item in array {
+            if let dictionary = item as? [String: AnyObject] {
+                let t = try T(dictionary: dictionary)
+                newArray.append(t)
+            } else {
+                throw ModelError.InstanciationError
+            }
+        }
+        return newArray
     }
     
     private static var dateFormatter: NSDateFormatter = {
         let formatter = NSDateFormatter()
         formatter.locale = NSLocale.currentLocale()
-        formatter.dateFormat = ""
+        formatter.dateFormat = Configuration.dateFormat
         return formatter
     }()
     
@@ -139,9 +132,47 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
     }
 }
 
-public func createType<T: InitializableWithString>(type: T.Type, withString string: String?) -> T? {
-    if let value = string {
-        return T(string: value)
+public func createType<T: RawRepresentable>(withValue value: AnyObject?) -> T? {
+    if let value = value as? T.RawValue {
+        return T(rawValue: value)
     }
     return nil
 }
+
+private func convertValue<T: InitializableWithString>(value: AnyObject?) -> T? {
+    if let val = value {
+        if let v = val as? T {
+            return v
+        }
+        if let string = val as? String {
+            return T(string: string)
+        }
+    }
+    return nil
+}
+
+extension Int: InitializableWithString {
+    public init?(string: String) {
+        self.init(string)
+    }
+}
+
+extension Float: InitializableWithString {
+    public init?(string: String) {
+        self.init(string)
+    }
+}
+
+extension Bool: InitializableWithString {
+    public init?(string: String) {
+        switch string {
+        case "true", "True", "1":
+            self = true
+        case "false", "False", "0":
+            self = false
+        default:
+            return nil
+        }
+    }
+}
+

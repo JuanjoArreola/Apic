@@ -10,14 +10,17 @@ import Foundation
 
 public final class Configuration: NSObject {
     
-    private static let defaultProperties: Dictionary<String, AnyObject> = {
-        let path = NSBundle.mainBundle().pathForResource("apic_properties", ofType: "plist")
-        return NSDictionary(contentsOfFile: path!) as! Dictionary<String, AnyObject>
+    private static let defaultProperties: [String: AnyObject] = {
+        let bundle = NSBundle(forClass: Configuration.self)
+        let path = bundle.pathForResource("apic_properties", ofType: "plist")
+        return NSDictionary(contentsOfFile: path!) as! [String: AnyObject]
     }()
     
-    private static let properties: Dictionary<String, AnyObject>? = {
-        var path = NSBundle.mainBundle().pathForResource("ApicProperties", ofType: "plist")
-        return NSDictionary(contentsOfFile: path!) as? Dictionary<String, AnyObject>
+    private static let properties: [String: AnyObject]? = {
+        if let path = NSBundle.mainBundle().pathForResource("ApicProperties", ofType: "plist") {
+            return NSDictionary(contentsOfFile: path) as? [String: AnyObject]
+        }
+        return nil
     }()
    
     static var statusKey: String = {
@@ -47,6 +50,10 @@ public final class Configuration: NSObject {
     static var objectsKey: String = {
         return properties?["objects_key"] as? String ?? defaultProperties["objects_key"] as! String
     }()
+    
+    static var dateFormat: String = {
+        return properties?["date_format"] as? String ?? defaultProperties["date_format"] as! String
+        }()
     
     static let useDefaultStrings: Bool = {
         return NSBundle.mainBundle().pathForResource("ApicStrings", ofType: "strings") == nil ? true : false
