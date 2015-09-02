@@ -17,12 +17,17 @@ public protocol InitializableWithString {
 }
 
 public enum ModelError: ErrorType {
-    case ValueTypeError
+    case ValueTypeError(property: String?)
     case DateError
     case InstanciationError
+    case InvalidProperty(property: String)
 }
 
 public class AbstractModel: NSObject, InitializableWithDictionary {
+    
+    override init() {
+        super.init()
+    }
     
     public required convenience init(dictionary: [String: AnyObject]) throws {
         self.init()
@@ -41,10 +46,11 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
             case _ as String.Type:
                 if let value = dictionary[name] as? String {
                     setValue(value, forKey: name)
-                } else {
-                    throw ModelError.ValueTypeError
+                } else if valueForKey(name) == nil {
+                    throw ModelError.ValueTypeError(property: name)
                 }
                 
+//          MARK: - Int
             case _ as Int?.Type:
                 if let value: Int = convertValue(dictionary[name]) {
                     try assignValue(value, forKey: name)
@@ -52,10 +58,11 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
             case _ as Int.Type:
                 if let value: Int = convertValue(dictionary[name]) {
                     setValue(value, forKey: name)
-                } else {
-                    throw ModelError.ValueTypeError
+                } else if valueForKey(name) == nil {
+                    throw ModelError.ValueTypeError(property: name)
                 }
                 
+//          MARK: - Float
             case _ as Float?.Type:
                 if let value: Float = convertValue(dictionary[name]) {
                     try assignValue(value, forKey: name)
@@ -64,9 +71,24 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                 if let value: Float = convertValue(dictionary[name]) {
                     setValue(value, forKey: name)
                 }
-                else {
-                    throw ModelError.ValueTypeError
+                else if valueForKey(name) == nil {
+                    throw ModelError.ValueTypeError(property: name)
                 }
+                
+//          MARK: - Double
+            case _ as Double?.Type:
+                if let value: Double = convertValue(dictionary[name]) {
+                    try assignValue(value, forKey: name)
+                }
+            case _ as Double.Type:
+                if let value: Double = convertValue(dictionary[name]) {
+                    setValue(value, forKey: name)
+                }
+                else if valueForKey(name) == nil {
+                    throw ModelError.ValueTypeError(property: name)
+                }
+                
+//          MARK: - Bool
                 
             case _ as Bool?.Type:
                 if let value: Bool = convertValue(dictionary[name]) {
@@ -75,9 +97,11 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
             case _ as Bool.Type:
                 if let value: Bool = convertValue(dictionary[name]) {
                     setValue(value, forKey: name)
-                } else {
-                    throw ModelError.ValueTypeError
+                } else if valueForKey(name) == nil {
+                    throw ModelError.ValueTypeError(property: name)
                 }
+                
+//          MARK: - Date
                 
             case _ as NSDate?.Type:
                 if let value = dictionary[name] as? String {
@@ -92,8 +116,23 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                     } else {
                         throw ModelError.DateError
                     }
-                } else {
-                    throw ModelError.ValueTypeError
+                } else if valueForKey(name) == nil {
+                    throw ModelError.ValueTypeError(property: name)
+                }
+                
+//          MARK: - InitializableWithDictionary
+                
+            case let type as InitializableWithDictionary?.Type:
+                if let value = dictionary[name] as? [String: AnyObject] {
+                    let obj = try (type as! InitializableWithDictionary.Type).init(dictionary: value)
+                    try assignValue((obj as! AnyObject), forKey: name)
+                }
+            case let type as InitializableWithDictionary.Type:
+                if let value = dictionary[name] as? [String: AnyObject] {
+                    let obj = try type.init(dictionary: value)
+                    setValue((obj as! AnyObject), forKey: name)
+                } else if valueForKey(name) == nil {
+                    throw ModelError.ValueTypeError(property: name)
                 }
                 
             default:
@@ -104,7 +143,24 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
         }
     }
     
+    /// Override this method in subclasses to assign the value of optional properties
+    /// - parameter value: the value to assign
+    /// - parameter forKey: the name of the property to set
     public func assignValue(value: AnyObject, forKey key: String) throws { }
+    
+    func parseArray<T: InitializableWithDictionary>(array: [AnyObject], type: [T].Type) throws -> [T] {
+        var newArray = [T]()
+        
+        for item in array {
+            if let dictionary = item as? [String: AnyObject] {
+                let t = try T(dictionary: dictionary)
+                newArray.append(t)
+            } else {
+                throw ModelError.InstanciationError
+            }
+        }
+        return newArray
+    }
     
     public func parseArray<T: InitializableWithDictionary>(array: [AnyObject]) throws -> [T] {
         var newArray = [T]()
@@ -158,6 +214,12 @@ extension Int: InitializableWithString {
 }
 
 extension Float: InitializableWithString {
+    public init?(string: String) {
+        self.init(string)
+    }
+}
+
+extension Double: InitializableWithString {
     public init?(string: String) {
         self.init(string)
     }
