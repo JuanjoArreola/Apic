@@ -25,7 +25,7 @@ public enum ModelError: ErrorType {
 
 public class AbstractModel: NSObject, InitializableWithDictionary {
     
-    override init() {
+    public override init() {
         super.init()
     }
     
