@@ -2,8 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>date_format</key>
-	<string>YYYY-MM-dd&apos;T&apos; HH:mm:ssZ</string>
+	<key>log_level</key>
+	<integer>1</integer>
+	<key>date_formats</key>
+	<array>
+		<string>YYYY-MM-dd&apos;T&apos; HH:mm:ssZ</string>
+	</array>
 	<key>objects_key</key>
 	<string>objects</string>
 	<key>object_key</key>

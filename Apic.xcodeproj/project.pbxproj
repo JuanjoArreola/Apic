@@ -17,6 +17,8 @@
 		813764F31B1ABAAA0015EC12 /* apic_properties.plist in Resources */ = {isa = PBXBuildFile; fileRef = 813764F21B1ABAAA0015EC12 /* apic_properties.plist */; };
 		813764F51B1ABAF10015EC12 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813764F41B1ABAF10015EC12 /* Configuration.swift */; };
 		813764F71B1B684B0015EC12 /* apic_strings.strings in Resources */ = {isa = PBXBuildFile; fileRef = 813764F61B1B684B0015EC12 /* apic_strings.strings */; };
+		81E685F71BA4A1E200FEBCF0 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E685F61BA4A1E200FEBCF0 /* Movie.swift */; settings = {ASSET_TAGS = (); }; };
+		81E9510F1BA248670044B4B1 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E9510E1BA248670044B4B1 /* Log.swift */; settings = {ASSET_TAGS = (); }; };
 		81F936EE1B90E20E007C5CA6 /* ApicWatchOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 81F936ED1B90E20E007C5CA6 /* ApicWatchOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		81F936F41B90EA98007C5CA6 /* AbstractModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813764EE1B1AA0610015EC12 /* AbstractModel.swift */; settings = {ASSET_TAGS = (); }; };
 		81F936F51B90EA9B007C5CA6 /* AbstractRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813764F01B1AB9980015EC12 /* AbstractRepository.swift */; settings = {ASSET_TAGS = (); }; };
@@ -53,6 +55,8 @@
 		813764F21B1ABAAA0015EC12 /* apic_properties.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = apic_properties.plist; sourceTree = "<group>"; };
 		813764F41B1ABAF10015EC12 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		813764F61B1B684B0015EC12 /* apic_strings.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = apic_strings.strings; sourceTree = "<group>"; };
+		81E685F61BA4A1E200FEBCF0 /* Movie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		81E9510E1BA248670044B4B1 /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		81F936EB1B90E20E007C5CA6 /* ApicWatchOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ApicWatchOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		81F936ED1B90E20E007C5CA6 /* ApicWatchOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ApicWatchOS.h; sourceTree = "<group>"; };
 		81F936EF1B90E20E007C5CA6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -136,6 +140,7 @@
 				813764EE1B1AA0610015EC12 /* AbstractModel.swift */,
 				813764F01B1AB9980015EC12 /* AbstractRepository.swift */,
 				813764F41B1ABAF10015EC12 /* Configuration.swift */,
+				81E9510E1BA248670044B4B1 /* Log.swift */,
 				813764D31B1A9CA60015EC12 /* Supporting Files */,
 			);
 			path = Apic;
@@ -156,6 +161,7 @@
 			children = (
 				813764E21B1A9CA60015EC12 /* ApicTests.swift */,
 				813764E01B1A9CA60015EC12 /* Supporting Files */,
+				81E685F61BA4A1E200FEBCF0 /* Movie.swift */,
 			);
 			path = ApicTests;
 			sourceTree = "<group>";
@@ -457,6 +463,7 @@
 			files = (
 				813764F11B1AB9980015EC12 /* AbstractRepository.swift in Sources */,
 				813764F51B1ABAF10015EC12 /* Configuration.swift in Sources */,
+				81E9510F1BA248670044B4B1 /* Log.swift in Sources */,
 				813764EF1B1AA0610015EC12 /* AbstractModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -465,6 +472,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81E685F71BA4A1E200FEBCF0 /* Movie.swift in Sources */,
 				813764E31B1A9CA60015EC12 /* ApicTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

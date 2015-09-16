@@ -8,7 +8,7 @@
 
 import Foundation
 
-public final class Configuration: NSObject {
+public final class Configuration {
     
     private static let defaultProperties: [String: AnyObject] = {
         let bundle = NSBundle(forClass: Configuration.self)
@@ -51,9 +51,13 @@ public final class Configuration: NSObject {
         return properties?["objects_key"] as? String ?? defaultProperties["objects_key"] as! String
     }()
     
-    static var dateFormat: String = {
-        return properties?["date_format"] as? String ?? defaultProperties["date_format"] as! String
-        }()
+    static var dateFormats: [String] = {
+        return properties?["date_formats"] as? [String] ?? defaultProperties["date_formats"] as! [String]
+    }()
+    
+    static var logLevel: Int = {
+        return properties?["log_level"] as? Int ?? defaultProperties["log_level"] as! Int
+    }()
     
     static let useDefaultStrings: Bool = {
         return NSBundle.mainBundle().pathForResource("ApicStrings", ofType: "strings") == nil ? true : false
