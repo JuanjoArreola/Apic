@@ -15,7 +15,7 @@ public enum RepositoryError: ErrorType {
     case InvalidURL
     case InvalidParameters
     case RequestError(message: String?)
-    case StatusFail(message: String?, code: Int?)
+    case StatusFail(message: String?, code: String?)
 }
 
 public class AbstractRepository {
@@ -59,7 +59,6 @@ public class AbstractRepository {
     
     public class func requestObjects<T: InitializableWithDictionary>(method: Alamofire.Method, url: String, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, completion: (getObjects: () throws -> [T]) -> Void) -> Request {
         return request(method, url, parameters: params, encoding: encoding).responseJSON { (_, _, result) in
-            
             if result.isSuccess {
                 do {
                     let data = try dataFromJSON(result.value)
@@ -93,7 +92,7 @@ private func dataFromJSON(JSON: AnyObject?) throws -> [String: AnyObject] {
         if status == Configuration.statusOk {
             return data
         } else {
-            throw RepositoryError.StatusFail(message: data[Configuration.errorDescriptionKey] as? String, code: data[Configuration.errorCodeKey] as? Int)
+            throw RepositoryError.StatusFail(message: data[Configuration.errorDescriptionKey] as? String, code: data[Configuration.errorCodeKey] as? String)
         }
     }
     throw RepositoryError.BadJSONContent
