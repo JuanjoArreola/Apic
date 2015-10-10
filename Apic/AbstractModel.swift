@@ -108,13 +108,42 @@ public class AbstractModel: NSObject, InitializableWithDictionary, AbstractModel
                 }
             }
             
-//          MARK: - Date
+//          MARK: - NSDate
             else if type is NSDate?.Type || type is NSDate.Type {
                 if let value = dictionary[property] as? String {
                     if let date = AbstractModel.dateFromString(value) {
                         try assignValue(date, forProperty: property)
-                    } else if shouldFailWithInvalidValue(dictionary[property], forProperty: property) {
+                    } else if shouldFailWithInvalidValue(value, forProperty: property) {
                         throw ModelError.DateError
+                    }
+                } else if shouldFailWithInvalidValue(dictionary[property], forProperty: property) {
+                    throw ModelError.SourceValueError(property: property)
+                }
+            }
+                
+//          MARK: - NSDecimalNumber
+            else if type is NSDecimalNumber?.Type || type is NSDecimalNumber.Type {
+                if let value = dictionary[property] as? Double {
+                    try assignValue(NSDecimalNumber(double: value), forProperty: property)
+                }
+                else if let value = dictionary[property] as? String {
+                    if let number = AbstractModel.decimalNumberFromString(value) {
+                        try assignValue(number, forProperty: property)
+                    } else if shouldFailWithInvalidValue(value, forProperty: property) {
+                        throw ModelError.SourceValueError(property: property)
+                    }
+                } else if shouldFailWithInvalidValue(dictionary[property], forProperty: property) {
+                    throw ModelError.SourceValueError(property: property)
+                }
+            }
+                
+//          MARK: - UIColor
+            else if type is UIColor?.Type || type is UIColor.Type {
+                if let value = dictionary[property] as? String {
+                    if let color = UIColor(hex: value) {
+                        try assignValue(color, forProperty: property)
+                    } else if shouldFailWithInvalidValue(dictionary[property], forProperty: property) {
+                        throw ModelError.SourceValueError(property: property)
                     }
                 } else if shouldFailWithInvalidValue(dictionary[property], forProperty: property) {
                     throw ModelError.SourceValueError(property: property)
@@ -214,6 +243,10 @@ public class AbstractModel: NSObject, InitializableWithDictionary, AbstractModel
         return nil
     }
     
+    private class func decimalNumberFromString(string: String) -> NSDecimalNumber? {
+        return NSDecimalNumber(string: string)
+    }
+    
     /// This function tries to convert a value of type `AnyObject?` to a value of type `T: InitializableWithString`
     /// - parameter value: the value to be converted
     /// - returns: a value of type T or nil if the original value couln't be cenverted
@@ -256,6 +289,33 @@ extension Double: InitializableWithString {
     }
 }
 
+extension UIColor {
+    
+    convenience init?(var hex: String) {
+        hex = hex.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).uppercaseString
+        hex = (hex.hasPrefix("#")) ? hex.substringFromIndex(hex.startIndex.advancedBy(1)) : hex
+        
+        var value: UInt32 = 0
+        if NSScanner(string: hex).scanHexInt(&value) {
+            if hex.characters.count == 8 {
+                self.init(red: CGFloat((value & 0xFF000000) >> 24) / 255.0,
+                    green: CGFloat((value & 0x00FF0000) >> 16) / 255.0,
+                    blue: CGFloat((value & 0x0000FF00) >> 8) / 255.0,
+                    alpha: CGFloat((value & 0x000000FF)) / 255.0)
+                return
+            } else if hex.characters.count == 6 {
+                self.init(red: CGFloat((value & 0xFF0000) >> 16) / 255.0,
+                    green: CGFloat((value & 0x00FF00) >> 8) / 255.0,
+                    blue: CGFloat(value & 0x0000FF) / 255.0,
+                    alpha: 1.0)
+                return
+            }
+        }
+        self.init()
+        return nil
+    }
+}
+
 extension Bool: InitializableWithString {
     public init?(string: String) {
         switch string {
@@ -268,4 +328,6 @@ extension Bool: InitializableWithString {
         }
     }
 }
+
+
 
