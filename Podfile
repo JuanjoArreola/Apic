@@ -8,8 +8,3 @@ end
 target 'ApicTests' do
    pod 'Alamofire'
 end
-
-target 'ApicWatchOS' do
-   platform :watchos, '2.0'
-   pod 'Alamofire'
-end

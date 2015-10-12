@@ -21,10 +21,10 @@ public enum RepositoryError: ErrorType {
 public class AbstractRepository {
     
     public class func requestSuccess(method method: Alamofire.Method, url: String, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, completion: (getSuccess: () throws -> Bool) -> Void) -> Request {
-        return Alamofire.request(method, url, parameters: params, encoding: encoding).responseJSON { (_, _, result) in
-            if result.isSuccess {
+        return Alamofire.request(method, url, parameters: params, encoding: encoding).responseJSON { response in
+            if response.result.isSuccess {
                 do {
-                    try dataFromJSON(result.value)
+                    try dataFromJSON(response.result.value)
                     completion(getSuccess: { return true })
                 } catch RepositoryError.StatusFail {
                     completion(getSuccess: { return false })
@@ -32,17 +32,17 @@ public class AbstractRepository {
                     completion(getSuccess: { throw error })
                 }
             } else {
-                completion(getSuccess: { throw result.error! })
+                completion(getSuccess: { throw response.result.error! })
             }
         }
     }
     
     public class func requestObject<T: InitializableWithDictionary>(method: Alamofire.Method, url: String, params: [String: AnyObject]? = [:],
         encoding: ParameterEncoding = .URL, completion: (getObject: () throws -> T?) -> Void) -> Request {
-        return request(method, url, parameters: params, encoding: encoding).responseJSON { (_, _, result) in
-            if result.isSuccess {
+        return request(method, url, parameters: params, encoding: encoding).responseJSON { response in
+            if response.result.isSuccess {
                 do {
-                    let data = try dataFromJSON(result.value)
+                    let data = try dataFromJSON(response.result.value)
                     guard let obj = data[Configuration.objectKey] as? [String: AnyObject] else {
                         throw RepositoryError.BadJSONContent
                     }
@@ -52,16 +52,16 @@ public class AbstractRepository {
                     completion(getObject: { throw error })
                 }
             } else {
-                completion(getObject: { throw result.error! })
+                completion(getObject: { throw response.result.error! })
             }
         }
     }
     
     public class func requestObjects<T: InitializableWithDictionary>(method: Alamofire.Method, url: String, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, completion: (getObjects: () throws -> [T]) -> Void) -> Request {
-        return request(method, url, parameters: params, encoding: encoding).responseJSON { (_, _, result) in
-            if result.isSuccess {
+        return request(method, url, parameters: params, encoding: encoding).responseJSON { response in
+            if response.result.isSuccess {
                 do {
-                    let data = try dataFromJSON(result.value)
+                    let data = try dataFromJSON(response.result.value)
                     guard let objs = data[Configuration.objectsKey] as? [[String: AnyObject]] else {
                         throw RepositoryError.BadJSONContent
                     }
@@ -74,7 +74,7 @@ public class AbstractRepository {
                     completion(getObjects: { throw error })
                 }
             } else {
-                completion(getObjects: { throw result.error! })
+                completion(getObjects: { throw response.result.error! })
             }
         }
     }

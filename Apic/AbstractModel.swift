@@ -127,7 +127,7 @@ public class AbstractModel: NSObject, InitializableWithDictionary, AbstractModel
                     try assignValue(NSDecimalNumber(double: value), forProperty: property)
                 }
                 else if let value = dictionary[property] as? String {
-                    if let number = AbstractModel.decimalNumberFromString(value) {
+                    if let number = decimalNumberFromString(value) {
                         try assignValue(number, forProperty: property)
                     } else if shouldFailWithInvalidValue(value, forProperty: property) {
                         throw ModelError.SourceValueError(property: property)
@@ -243,10 +243,6 @@ public class AbstractModel: NSObject, InitializableWithDictionary, AbstractModel
         return nil
     }
     
-    private class func decimalNumberFromString(string: String) -> NSDecimalNumber? {
-        return NSDecimalNumber(string: string)
-    }
-    
     /// This function tries to convert a value of type `AnyObject?` to a value of type `T: InitializableWithString`
     /// - parameter value: the value to be converted
     /// - returns: a value of type T or nil if the original value couln't be cenverted
@@ -262,6 +258,10 @@ public class AbstractModel: NSObject, InitializableWithDictionary, AbstractModel
         }
         return nil
     }
+}
+
+public func decimalNumberFromString(string: String) -> NSDecimalNumber? {
+    return NSDecimalNumber(string: string)
 }
 
 public func createType<T: RawRepresentable>(withValue value: AnyObject?) -> T? {
