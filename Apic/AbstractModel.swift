@@ -185,7 +185,7 @@ public class AbstractModel: NSObject, InitializableWithDictionary, AbstractModel
 //          MARK: - Undefined Type
             else {
                 if let value: AnyObject = dictionary[property] {
-                    try assignUndefinedValue(value, forKey: property)
+                    try assignUndefinedValue(value, forProperty: property)
                 }
             }
         }
@@ -205,7 +205,7 @@ public class AbstractModel: NSObject, InitializableWithDictionary, AbstractModel
     /// Override this method in subclasses to assign a value of an undefined type to a property
     /// - parameter value: the value to be assigned
     /// - parameter key: the name of the property to assign
-    public func assignUndefinedValue(undefinedValue: AnyObject, forKey key: String) throws {}
+    public func assignUndefinedValue(undefinedValue: AnyObject, forProperty property: String) throws {}
     
     public func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool { return false }
     
@@ -230,7 +230,7 @@ public class AbstractModel: NSObject, InitializableWithDictionary, AbstractModel
         return formatter
     }()
     
-    private class func dateFromString(string: String) -> NSDate? {
+    public class func dateFromString(string: String) -> NSDate? {
         if let date = dateFormatter.dateFromString(string) {
             return date
         }
