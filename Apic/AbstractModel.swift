@@ -24,7 +24,7 @@ public protocol InitializableWithString {
 public enum ModelError: ErrorType {
     case SourceValueError(property: String)
     case ValueTypeError(property: String?)
-    case DateError
+    case DateError(property: String?)
     case InstanciationError
     case InvalidProperty(property: String)
 }
@@ -114,7 +114,7 @@ public class AbstractModel: NSObject, InitializableWithDictionary, AbstractModel
                     if let date = AbstractModel.dateFromString(value) {
                         try assignValue(date, forProperty: property)
                     } else if shouldFailWithInvalidValue(value, forProperty: property) {
-                        throw ModelError.DateError
+                        throw ModelError.DateError(property: property)
                     }
                 } else if shouldFailWithInvalidValue(dictionary[property], forProperty: property) {
                     throw ModelError.SourceValueError(property: property)
