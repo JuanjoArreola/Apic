@@ -174,8 +174,8 @@ public class AbstractModel: NSObject, InitializableWithDictionary, AbstractModel
                             throw error
                         }
                     }
-                } else {
-                    Log.warn("Potentially incorrect source data for property \(property) of model \(self.dynamicType)")
+                } else if dictionary[property] != nil {
+                    Log.warn("Potentially incorrect source data for property <\(property)> of model \(self.dynamicType)")
                     if shouldFailWithInvalidValue(dictionary[property], forProperty: property) {
                         throw ModelError.SourceValueError(property: property)
                     }
