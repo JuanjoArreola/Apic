@@ -16,9 +16,9 @@ class Log {
     
     static var logLevel = LogLevel(rawValue: Configuration.logLevel) ?? LogLevel.DEBUG
     static var showDate = true
-    static var showFile = true
-    static var showFunc = true
-    static var showLine = true
+    static var showFile = Configuration.showFile
+    static var showFunc = Configuration.showFunc
+    static var showLine = Configuration.showLine
     
     static var formatter: NSDateFormatter = {
         let f = NSDateFormatter()

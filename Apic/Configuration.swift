@@ -59,6 +59,18 @@ public final class Configuration {
         return properties?["log_level"] as? Int ?? defaultProperties["log_level"] as! Int
     }()
     
+    static var showFile: Bool = {
+        return properties?["show_file"] as? Bool ?? defaultProperties["show_file"] as! Bool
+    }()
+    
+    static var showFunc: Bool = {
+        return properties?["show_func"] as? Bool ?? defaultProperties["show_func"] as! Bool
+    }()
+    
+    static var showLine: Bool = {
+        return properties?["show_line"] as? Bool ?? defaultProperties["show_line"] as! Bool
+    }()
+    
     static let useDefaultStrings: Bool = {
         return NSBundle.mainBundle().pathForResource("ApicStrings", ofType: "strings") == nil ? true : false
     }()
