@@ -7,7 +7,21 @@
 //
 
 import WatchKit
-import Apic
+@testable import Apic
+
+enum MovieFormat: RawRepresentable, StringRepresentable {
+    case Widescreen
+    init?(rawValue: String) {
+        if rawValue == "16:9" {
+            self = .Widescreen
+        }
+        return nil
+    }
+    
+    var rawValue: String {
+        return "16:9"
+    }
+}
 
 class Movie: AbstractModel {
     var id: String!
