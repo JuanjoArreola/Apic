@@ -9,63 +9,86 @@
 import WatchKit
 @testable import Apic
 
-enum MovieFormat: RawRepresentable, StringRepresentable {
+class DefaultModel: AbstractModel {
+    static var defaultResolver = DefaultTypeResolver()
+    override class var resolver: TypeResolver! { return defaultResolver }
+}
+
+enum MovieFormat: RawRepresentable, StringInitializable {
     case Widescreen
+    case Standard
+    
     init?(rawValue: String) {
         if rawValue == "16:9" {
             self = .Widescreen
+        } else if rawValue == "4:3" {
+            self = .Standard
         }
         return nil
     }
     
     var rawValue: String {
-        return "16:9"
+        switch self {
+        case .Standard:
+            return "4:3"
+        case .Widescreen:
+            return "16:9"
+        }
     }
 }
 
-class Movie: AbstractModel {
+class Movie: DefaultModel {
     var id: String!
     var name: String!
-    var duration: Int? = 0
-    var releaseDate: NSDate?
-    
+    var year: Int = 0
+    var country: [String]!
     var director: Director!
     var cast: [Actor]!
+    
+    var rating: Float?
+    
+//    MARK: - Specifications
+    var duration: Int = 0
+    var format: MovieFormat!
+    
+    var releaseDate: NSDate?
+    
+    var budget: NSDecimalNumber?
+    var gross: NSDecimalNumber?
+    
+    
     var nominations: [Nomination]?
     
     var synopsis: Synopsis?
     
-    override class var modelProperties: [String: AbstractModel.Type] { return ["director": Director.self, "synopsis": Synopsis.self] }
-    override class var arrayOfModelProperties: [String: AbstractModel.Type] { return ["cast": Actor.self, "nominations": Nomination.self] }
+    var reproductions = 0
+    
+    override class var ignoredProperties: [String] { return ["reproductions"] }
+    
+    override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String, type: Any.Type) -> Bool {
+        return ["id", "name", "year", "rating", "duration", "format", "country"].contains(property)
+    }
     
     override func assignValue(value: AnyObject, forProperty property: String) throws {
         switch property {
-        case "duration": duration = value as? Int
         case "releaseDate": releaseDate = value as? NSDate
         case "nominations": nominations = value as? [Nomination]
         case "synopsis": synopsis = value as? Synopsis
+        case "rating": rating = value as? Float
         default: try super.assignValue(value, forProperty: property)
         }
     }
-    
-    override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool {
-        return ["id", "name", "director", "cast"].contains(property)
-    }
 }
 
-class Person: AbstractModel {
+class Person: DefaultModel {
     var name: String!
-    
-    override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool {
-        return ["name"].contains(property)
-    }
 }
 
 class Director: Person {
     var filmography: [Movie]?
 }
 
-class Nomination: AbstractModel {
+class Nomination: DefaultModel {
     var name: String!
 }
 
@@ -73,9 +96,20 @@ class Actor: Person {
     var country: String?
 }
 
-class Synopsis: AbstractModel {
+class Synopsis: DefaultModel {
     var text: String!
     var author: Person?
-    
-    
 }
+
+class DefaultTypeResolver: TypeResolver {
+    
+    func resolveType(type: Any) -> Any? {
+        if type is Actor.Type || type is Actor?.Type || type is [Actor]?.Type {
+            return Actor.self
+        } else if type is Director.Type || type is Director?.Type {
+            return Director.self
+        }
+        return nil
+    }
+}
+

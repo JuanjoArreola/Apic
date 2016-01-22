@@ -12,14 +12,16 @@ public protocol InitializableWithDictionary {
     init(dictionary: [String: AnyObject]) throws
 }
 
-public protocol AbstractModelContainer {
-    static var modelProperties: [String: AbstractModel.Type] { get }
-    static var arrayOfModelProperties: [String: AbstractModel.Type] { get }
-    static var descriptionProperty: String? { get }
+public protocol StringInitializable {
+    init?(rawValue: String)
 }
 
-public protocol InitializableWithString {
-    init?(string: String)
+protocol StringRepresentable: StringInitializable {
+    var rawValue: String { get }
+}
+
+public protocol TypeResolver {
+    func resolveType(type: Any) -> Any?
 }
 
 public enum ModelError: ErrorType {
@@ -28,13 +30,17 @@ public enum ModelError: ErrorType {
     case DateError(property: String?)
     case InstanciationError
     case InvalidProperty(property: String)
+    case UnasignedInstance(property: String)
 }
 
-public class AbstractModel: NSObject, InitializableWithDictionary, AbstractModelContainer {
+/// Abstract model that provides the parsing functionality for all other models
+/// Issues:
+///   Int! properties without initial value are treated as optionals, avoid, is better to declare them with a default value
+public class AbstractModel: NSObject, InitializableWithDictionary {
     
-    public class var modelProperties: [String: AbstractModel.Type] { return [:] }
-    public class var arrayOfModelProperties: [String: AbstractModel.Type] { return [:] }
-    public class var descriptionProperty: String? { return nil }
+    public class var descriptionProperty: String { return "" }
+    public class var resolver: TypeResolver! { return nil }
+    public class var ignoredProperties: [String] { return [] }
     
     public override init() {
         super.init()
@@ -55,117 +61,137 @@ public class AbstractModel: NSObject, InitializableWithDictionary, AbstractModel
             try initializePropertiesOfMirror(superclassMirror, withDictionary: dictionary)
         }
         
-        let modelContainer = mirror.subjectType as! AbstractModelContainer.Type
+        let modelType = mirror.subjectType as! AbstractModel.Type
 
-        let children = mirror.children
-        for index in children.startIndex..<children.endIndex {
-            let child = children[index]
+        for child in mirror.children {
             guard let property = child.label else {
                 continue
             }
-            let type = Mirror(reflecting:child.value).subjectType
-            let rawValue = property == modelContainer.descriptionProperty ? dictionary["description"] : dictionary[property]
+            if modelType.ignoredProperties.contains(property) {
+                continue
+            }
+            let propertyType = Mirror(reflecting:child.value).subjectType
+            let rawValue = property == modelType.descriptionProperty ? dictionary["description"] : dictionary[property]
+            
+            if rawValue == nil {
+                if self.shouldFailWithInvalidValue(rawValue, forProperty: property, type: propertyType) {
+                    throw ModelError.SourceValueError(property: property)
+                }
+            }
 
 //          MARK: - String
-            if type is String?.Type || type is String.Type {
+            if propertyType is String?.Type || propertyType is String.Type {
                 if let value = rawValue as? String {
                     try assignValue(value, forProperty: property)
-                } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
+                } else if shouldFailWithInvalidValue(rawValue, forProperty: property, type: propertyType) {
+                    throw ModelError.SourceValueError(property: property)
+                }
+            }
+                
+//          MARK: - [String]
+            else if propertyType is [String]?.Type {
+                if let array = rawValue as? [String] {
+                    try assignValue(array, forProperty: property)
+                } else if shouldFailWithInvalidValue(rawValue, forProperty: property, type: propertyType) {
                     throw ModelError.SourceValueError(property: property)
                 }
             }
             
 //          MARK: - Int
-            else if type is Int?.Type || type is Int.Type {
+            else if propertyType is Int?.Type || propertyType is Int.Type {
                 if let value: Int = convertValue(rawValue) {
                     try assignValue(value, forProperty: property)
-                } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
+                } else if shouldFailWithInvalidValue(rawValue, forProperty: property, type: propertyType) {
                     throw ModelError.SourceValueError(property: property)
                 }
             }
             
 //          MARK: - Float
-            else if type is Float?.Type || type is Float.Type {
+            else if propertyType is Float?.Type || propertyType is Float.Type {
                 if let value: Float = convertValue(rawValue) {
                     try assignValue(value, forProperty: property)
-                } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
+                } else if shouldFailWithInvalidValue(rawValue, forProperty: property, type: propertyType) {
                     throw ModelError.SourceValueError(property: property)
                 }
             }
             
 //          MARK: - Double
-            else if type is Double?.Type || type is Double.Type {
+            else if propertyType is Double?.Type || propertyType is Double.Type {
                 if let value: Double = convertValue(rawValue) {
                     try assignValue(value, forProperty: property)
-                } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
+                } else if shouldFailWithInvalidValue(rawValue, forProperty: property, type: propertyType) {
                     throw ModelError.SourceValueError(property: property)
                 }
             }
             
 //          MARK: - Bool
-            else if type is Bool?.Type || type is Bool.Type {
+            else if propertyType is Bool?.Type || propertyType is Bool.Type {
                 if let value: Bool = convertValue(rawValue) {
                     try assignValue(value, forProperty: property)
-                } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
+                } else if shouldFailWithInvalidValue(rawValue, forProperty: property, type: propertyType) {
                     throw ModelError.SourceValueError(property: property)
                 }
             }
             
 //          MARK: - NSDate
-            else if type is NSDate?.Type || type is NSDate.Type {
+            else if propertyType is NSDate?.Type || propertyType is NSDate.Type {
                 if let value = rawValue as? String {
                     if let date = AbstractModel.dateFromString(value) {
                         try assignValue(date, forProperty: property)
-                    } else if shouldFailWithInvalidValue(value, forProperty: property) {
+                    } else if shouldFailWithInvalidValue(value, forProperty: property, type: propertyType) {
                         throw ModelError.DateError(property: property)
                     }
-                } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
+                } else if shouldFailWithInvalidValue(rawValue, forProperty: property, type: propertyType) {
                     throw ModelError.SourceValueError(property: property)
                 }
             }
                 
 //          MARK: - NSDecimalNumber
-            else if type is NSDecimalNumber?.Type || type is NSDecimalNumber.Type {
+            else if propertyType is NSDecimalNumber?.Type || propertyType is NSDecimalNumber.Type {
                 if let value = rawValue as? Double {
                     try assignValue(NSDecimalNumber(double: value), forProperty: property)
                 }
                 else if let value = rawValue as? String {
                     if let number = decimalNumberFromString(value) {
                         try assignValue(number, forProperty: property)
-                    } else if shouldFailWithInvalidValue(value, forProperty: property) {
+                    } else if shouldFailWithInvalidValue(value, forProperty: property, type: propertyType) {
                         throw ModelError.SourceValueError(property: property)
                     }
-                } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
+                } else if shouldFailWithInvalidValue(rawValue, forProperty: property, type: propertyType) {
                     throw ModelError.SourceValueError(property: property)
                 }
             }
                 
 //          MARK: - UIColor
-            else if type is UIColor?.Type || type is UIColor.Type {
+            else if propertyType is UIColor?.Type || propertyType is UIColor.Type {
                 if let value = rawValue as? String {
                     if let color = UIColor(hex: value) {
                         try assignValue(color, forProperty: property)
-                    } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
+                    } else if shouldFailWithInvalidValue(rawValue, forProperty: property, type: propertyType) {
                         throw ModelError.SourceValueError(property: property)
                     }
-                } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
+                } else if shouldFailWithInvalidValue(rawValue, forProperty: property, type: propertyType) {
                     throw ModelError.SourceValueError(property: property)
                 }
             }
                 
-//          MARK: - InitializableWithDictionary
-            else if let propertyType = modelContainer.modelProperties[property] {
-                if let value = rawValue as? [String: AnyObject] {
+//          MARK: - [:]
+            else if let value = rawValue as? [String: AnyObject] {
+                
+//              MARK: AbstractModel
+                if let propertyType = modelType.resolver.resolveType(propertyType) as? AbstractModel.Type {
                     let obj = try propertyType.init(dictionary: value)
                     try assignValue(obj, forProperty: property)
-                } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
-                    throw ModelError.SourceValueError(property: property)
+                } else {
+                    Log.warn("Unresolved type <\(propertyType)> for property <\(property)> of model <\(self.dynamicType)>")
                 }
             }
             
-//          MARK: - [InitializableWithDictionary]
-            else if let propertyType = modelContainer.arrayOfModelProperties[property] {
-                if let array = rawValue as? [[String: AnyObject]] {
+//          MARK: - [[:]]
+            else if let array = rawValue as? [[String: AnyObject]] {
+                
+//              MARK: [AbstractModel]
+                if let propertyType = modelType.resolver.resolveType(propertyType) as? AbstractModel.Type {
                     do {
                         var newArray = [AbstractModel]()
                         for item in array {
@@ -173,26 +199,38 @@ public class AbstractModel: NSObject, InitializableWithDictionary, AbstractModel
                         }
                         try assignValue(newArray, forProperty: property)
                     } catch {
-                        if shouldFailWithInvalidValue(rawValue, forProperty: property) {
+                        if shouldFailWithInvalidValue(rawValue, forProperty: property, type: propertyType) {
                             throw error
                         }
                     }
-                } else if rawValue != nil {
-                    Log.warn("Potentially incorrect source data for property <\(property)> of model \(self.dynamicType)")
-                    if shouldFailWithInvalidValue(rawValue, forProperty: property) {
-                        throw ModelError.SourceValueError(property: property)
-                    }
+                } else {
+                    Log.warn("Unresolved type <\(propertyType)> for property <\(property)> of model <\(self.dynamicType)>")
                 }
+            }
+                
+//          MARK: - StringInitializable
+            else if let propertyType = modelType.resolver.resolveType(propertyType) as? StringInitializable.Type {
+                if let string = rawValue as? String {
+                    if let value = propertyType.init(rawValue: string) {
+                        try assignInstance(value, forProperty: property)
+                    }
+                } else if shouldFailWithInvalidValue(rawValue, forProperty: property, type: propertyType) {
+                    throw ModelError.SourceValueError(property: property)
+                }
+            }
+                
+//          MARK: - Should fail?
+            else if shouldFailWithInvalidValue(rawValue, forProperty: property, type: propertyType) {
+                throw ModelError.SourceValueError(property: property)
             }
             
 //          MARK: - Undefined Type
             else {
-                if let value: AnyObject = rawValue {
+                if let value = rawValue {
                     try assignUndefinedValue(value, forProperty: property)
                 }
             }
         }
-        
     }
     
     /// Override this method in subclasses to assign the value of optional properties
@@ -206,12 +244,26 @@ public class AbstractModel: NSObject, InitializableWithDictionary, AbstractModel
         setValue(value, forKey: property)
     }
     
+    public func assignInstance(instance: Any, forProperty property: String) throws {
+        if let object = instance as? AnyObject {
+            setValue(object, forKey: property)
+        } else {
+            throw ModelError.UnasignedInstance(property: property)
+        }
+    }
+    
     /// Override this method in subclasses to assign a value of an undefined type to a property
     /// - parameter value: the value to be assigned
     /// - parameter key: the name of the property to assign
     public func assignUndefinedValue(undefinedValue: AnyObject, forProperty property: String) throws {}
     
-    public func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool { return false }
+    public func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String, type: Any.Type) -> Bool {
+        Log.debug("\(property) - \(type)")
+        if !String(type).hasPrefix("Optional") {
+            return true
+        }
+        return false
+    }
     
     public func parseArray<T: InitializableWithDictionary>(array: [AnyObject]) throws -> [T] {
         var newArray = [T]()
@@ -250,13 +302,26 @@ public class AbstractModel: NSObject, InitializableWithDictionary, AbstractModel
     /// This function tries to convert a value of type `AnyObject?` to a value of type `T: InitializableWithString`
     /// - parameter value: the value to be converted
     /// - returns: a value of type T or nil if the original value couln't be cenverted
-    private func convertValue<T: InitializableWithString>(value: AnyObject?) -> T? {
+    private func convertValue<T: StringInitializable>(value: AnyObject?) -> T? {
         if let val = value {
             if let v = val as? T {
                 return v
             }
             if let string = val as? String {
-                return T(string: string)
+                return T(rawValue: string)
+            }
+            Log.warn("\(self.dynamicType): value: \(val) couldn't be converted to \(T.self)")
+        }
+        return nil
+    }
+    
+    private func convertValue<T: StringInitializable>(value: AnyObject?, type: T.Type) -> T? {
+        if let val = value {
+            if let v = val as? T {
+                return v
+            }
+            if let string = val as? String {
+                return T(rawValue: string)
             }
             Log.warn("\(self.dynamicType): value: \(val) couldn't be converted to \(T.self)")
         }
@@ -275,21 +340,21 @@ public func createType<T: RawRepresentable>(withValue value: AnyObject?) -> T? {
     return nil
 }
 
-extension Int: InitializableWithString {
-    public init?(string: String) {
-        self.init(string)
+extension Int: StringInitializable {
+    public init?(rawValue: String) {
+        self.init(rawValue)
     }
 }
 
-extension Float: InitializableWithString {
-    public init?(string: String) {
-        self.init(string)
+extension Float: StringInitializable {
+    public init?(rawValue: String) {
+        self.init(rawValue)
     }
 }
 
-extension Double: InitializableWithString {
-    public init?(string: String) {
-        self.init(string)
+extension Double: StringInitializable {
+    public init?(rawValue: String) {
+        self.init(rawValue)
     }
 }
 
@@ -320,9 +385,9 @@ extension UIColor {
     }
 }
 
-extension Bool: InitializableWithString {
-    public init?(string: String) {
-        switch string {
+extension Bool: StringInitializable {
+    public init?(rawValue: String) {
+        switch rawValue {
         case "true", "True", "1":
             self = true
         case "false", "False", "0":
