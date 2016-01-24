@@ -65,15 +65,12 @@ class Movie: DefaultModel {
     
     override class var ignoredProperties: [String] { return ["reproductions"] }
     
-    override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String, type: Any.Type) -> Bool {
+    override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool {
         return ["id", "name", "year", "rating", "duration", "format", "country"].contains(property)
     }
     
     override func assignValue(value: AnyObject, forProperty property: String) throws {
         switch property {
-        case "releaseDate": releaseDate = value as? NSDate
-        case "nominations": nominations = value as? [Nomination]
-        case "synopsis": synopsis = value as? Synopsis
         case "rating": rating = value as? Float
         default: try super.assignValue(value, forProperty: property)
         }

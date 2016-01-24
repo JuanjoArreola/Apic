@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Juanjo. All rights reserved.
 //
 
-import UIKit
 import XCTest
 @testable import Apic
 
@@ -36,6 +35,7 @@ class ApicTests: XCTestCase {
             XCTAssertNotNil(movie.nominations)
             XCTAssertFalse(movie.nominations!.isEmpty)
             XCTAssertNotNil(movie.synopsis)
+            XCTAssertNotNil(movie.releaseDate)
         } catch {
             Log.error(error)
         }

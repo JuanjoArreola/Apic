@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		438D88B553164C47A6A1BF28 /* Pods_Apic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E011FEDB9742FA038B21B7FC /* Pods_Apic.framework */; };
+		810689391C543351008C3E9F /* IntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810689381C543351008C3E9F /* IntTests.swift */; };
+		811AAE6D1C52D77000A45017 /* StringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811AAE6C1C52D77000A45017 /* StringTests.swift */; };
 		813764D61B1A9CA60015EC12 /* Apic.h in Headers */ = {isa = PBXBuildFile; fileRef = 813764D51B1A9CA60015EC12 /* Apic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		813764DC1B1A9CA60015EC12 /* Apic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 813764D01B1A9CA60015EC12 /* Apic.framework */; };
 		813764E31B1A9CA60015EC12 /* ApicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813764E21B1A9CA60015EC12 /* ApicTests.swift */; };
@@ -16,6 +18,15 @@
 		813764F31B1ABAAA0015EC12 /* apic_properties.plist in Resources */ = {isa = PBXBuildFile; fileRef = 813764F21B1ABAAA0015EC12 /* apic_properties.plist */; };
 		813764F51B1ABAF10015EC12 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813764F41B1ABAF10015EC12 /* Configuration.swift */; };
 		813764F71B1B684B0015EC12 /* apic_strings.strings in Resources */ = {isa = PBXBuildFile; fileRef = 813764F61B1B684B0015EC12 /* apic_strings.strings */; };
+		8155ADA61C5451C8005963AB /* DateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155ADA51C5451C8005963AB /* DateTests.swift */; };
+		8155ADA81C545610005963AB /* FloatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155ADA71C545610005963AB /* FloatTests.swift */; };
+		8155ADAA1C545786005963AB /* DoubleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155ADA91C545786005963AB /* DoubleTests.swift */; };
+		8155ADAC1C545886005963AB /* BoolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155ADAB1C545886005963AB /* BoolTests.swift */; };
+		8155ADAE1C545B2C005963AB /* DecimalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155ADAD1C545B2C005963AB /* DecimalTests.swift */; };
+		8155ADB01C546153005963AB /* ColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155ADAF1C546153005963AB /* ColorTests.swift */; };
+		8155ADB21C54664A005963AB /* ComplexModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155ADB11C54664A005963AB /* ComplexModelTests.swift */; };
+		8155ADB41C549A77005963AB /* NoClassTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155ADB31C549A77005963AB /* NoClassTests.swift */; };
+		8155ADB61C55196A005963AB /* UndefinedTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155ADB51C55196A005963AB /* UndefinedTypeTests.swift */; };
 		81E685F71BA4A1E200FEBCF0 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E685F61BA4A1E200FEBCF0 /* Movie.swift */; };
 		81E9510F1BA248670044B4B1 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E9510E1BA248670044B4B1 /* Log.swift */; };
 		AC74C102D0645BEA362FD707 /* Pods_ApicTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301903321A3585B083F41F98 /* Pods_ApicTests.framework */; };
@@ -36,6 +47,8 @@
 		301903321A3585B083F41F98 /* Pods_ApicTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ApicTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6369FF4FBAAF649B171DE02D /* Pods-ApicWatchOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ApicWatchOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ApicWatchOS/Pods-ApicWatchOS.debug.xcconfig"; sourceTree = "<group>"; };
 		6779A9D05C7BA4C3D664EEAA /* Pods-Apic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Apic.release.xcconfig"; path = "Pods/Target Support Files/Pods-Apic/Pods-Apic.release.xcconfig"; sourceTree = "<group>"; };
+		810689381C543351008C3E9F /* IntTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntTests.swift; sourceTree = "<group>"; };
+		811AAE6C1C52D77000A45017 /* StringTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTests.swift; sourceTree = "<group>"; };
 		813764D01B1A9CA60015EC12 /* Apic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Apic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		813764D41B1A9CA60015EC12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		813764D51B1A9CA60015EC12 /* Apic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Apic.h; sourceTree = "<group>"; };
@@ -47,10 +60,17 @@
 		813764F21B1ABAAA0015EC12 /* apic_properties.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = apic_properties.plist; sourceTree = "<group>"; };
 		813764F41B1ABAF10015EC12 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		813764F61B1B684B0015EC12 /* apic_strings.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = apic_strings.strings; sourceTree = "<group>"; };
+		8155ADA51C5451C8005963AB /* DateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTests.swift; sourceTree = "<group>"; };
+		8155ADA71C545610005963AB /* FloatTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatTests.swift; sourceTree = "<group>"; };
+		8155ADA91C545786005963AB /* DoubleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoubleTests.swift; sourceTree = "<group>"; };
+		8155ADAB1C545886005963AB /* BoolTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoolTests.swift; sourceTree = "<group>"; };
+		8155ADAD1C545B2C005963AB /* DecimalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecimalTests.swift; sourceTree = "<group>"; };
+		8155ADAF1C546153005963AB /* ColorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorTests.swift; sourceTree = "<group>"; };
+		8155ADB11C54664A005963AB /* ComplexModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComplexModelTests.swift; sourceTree = "<group>"; };
+		8155ADB31C549A77005963AB /* NoClassTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoClassTests.swift; sourceTree = "<group>"; };
+		8155ADB51C55196A005963AB /* UndefinedTypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UndefinedTypeTests.swift; sourceTree = "<group>"; };
 		81E685F61BA4A1E200FEBCF0 /* Movie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		81E9510E1BA248670044B4B1 /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
-		81F936ED1B90E20E007C5CA6 /* ApicWatchOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ApicWatchOS.h; sourceTree = "<group>"; };
-		81F936EF1B90E20E007C5CA6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		81F936FD1B911A2B007C5CA6 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Pods/../build/Debug-watchos/Pods-ApicWatchOS/Alamofire.framework"; sourceTree = "<group>"; };
 		81F936FF1B911AFB007C5CA6 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Pods/../build/Debug-watchos/Pods-ApicWatchOS/Alamofire.framework"; sourceTree = "<group>"; };
 		8CDB90E111EBBDCA595472AC /* Pods-Apic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Apic.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Apic/Pods-Apic.debug.xcconfig"; sourceTree = "<group>"; };
@@ -98,7 +118,6 @@
 			children = (
 				813764D21B1A9CA60015EC12 /* Apic */,
 				813764DF1B1A9CA60015EC12 /* ApicTests */,
-				81F936EC1B90E20E007C5CA6 /* ApicWatchOS */,
 				813764D11B1A9CA60015EC12 /* Products */,
 				9DB161A45158A3639F61D3C6 /* Pods */,
 				6CE2A50D38B2F9B6DA5C5711 /* Frameworks */,
@@ -141,8 +160,19 @@
 			isa = PBXGroup;
 			children = (
 				813764E21B1A9CA60015EC12 /* ApicTests.swift */,
-				813764E01B1A9CA60015EC12 /* Supporting Files */,
+				8155ADAB1C545886005963AB /* BoolTests.swift */,
+				8155ADAF1C546153005963AB /* ColorTests.swift */,
+				8155ADB11C54664A005963AB /* ComplexModelTests.swift */,
+				8155ADA51C5451C8005963AB /* DateTests.swift */,
+				8155ADAD1C545B2C005963AB /* DecimalTests.swift */,
+				8155ADA91C545786005963AB /* DoubleTests.swift */,
+				8155ADA71C545610005963AB /* FloatTests.swift */,
+				810689381C543351008C3E9F /* IntTests.swift */,
 				81E685F61BA4A1E200FEBCF0 /* Movie.swift */,
+				8155ADB31C549A77005963AB /* NoClassTests.swift */,
+				811AAE6C1C52D77000A45017 /* StringTests.swift */,
+				8155ADB51C55196A005963AB /* UndefinedTypeTests.swift */,
+				813764E01B1A9CA60015EC12 /* Supporting Files */,
 			);
 			path = ApicTests;
 			sourceTree = "<group>";
@@ -153,15 +183,6 @@
 				813764E11B1A9CA60015EC12 /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		81F936EC1B90E20E007C5CA6 /* ApicWatchOS */ = {
-			isa = PBXGroup;
-			children = (
-				81F936ED1B90E20E007C5CA6 /* ApicWatchOS.h */,
-				81F936EF1B90E20E007C5CA6 /* Info.plist */,
-			);
-			path = ApicWatchOS;
 			sourceTree = "<group>";
 		};
 		9DB161A45158A3639F61D3C6 /* Pods */ = {
@@ -382,8 +403,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8155ADB21C54664A005963AB /* ComplexModelTests.swift in Sources */,
+				8155ADA81C545610005963AB /* FloatTests.swift in Sources */,
+				8155ADAC1C545886005963AB /* BoolTests.swift in Sources */,
+				8155ADB61C55196A005963AB /* UndefinedTypeTests.swift in Sources */,
 				81E685F71BA4A1E200FEBCF0 /* Movie.swift in Sources */,
+				811AAE6D1C52D77000A45017 /* StringTests.swift in Sources */,
+				8155ADAA1C545786005963AB /* DoubleTests.swift in Sources */,
 				813764E31B1A9CA60015EC12 /* ApicTests.swift in Sources */,
+				810689391C543351008C3E9F /* IntTests.swift in Sources */,
+				8155ADB01C546153005963AB /* ColorTests.swift in Sources */,
+				8155ADA61C5451C8005963AB /* DateTests.swift in Sources */,
+				8155ADAE1C545B2C005963AB /* DecimalTests.swift in Sources */,
+				8155ADB41C549A77005963AB /* NoClassTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

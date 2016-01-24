@@ -44,7 +44,8 @@ public class AbstractRepository {
                 do {
                     let data = try dataFromJSON(response.result.value)
                     guard let obj = data[Configuration.objectKey] as? [String: AnyObject] else {
-                        throw RepositoryError.BadJSONContent
+                        completion(getObject: { return nil })
+                        return
                     }
                     let object = try T(dictionary: obj)
                     completion(getObject: { return object })
