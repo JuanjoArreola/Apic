@@ -74,4 +74,9 @@ public final class Configuration {
     static let useDefaultStrings: Bool = {
         return NSBundle.mainBundle().pathForResource("ApicStrings", ofType: "strings") == nil ? true : false
     }()
+    
+    static let checkReachability: Bool = {
+        return properties?["check_reachability"] as? Bool ?? defaultProperties["check_reachability"] as! Bool
+    }()
+    
 }

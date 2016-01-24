@@ -27,6 +27,7 @@
 		8155ADB21C54664A005963AB /* ComplexModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155ADB11C54664A005963AB /* ComplexModelTests.swift */; };
 		8155ADB41C549A77005963AB /* NoClassTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155ADB31C549A77005963AB /* NoClassTests.swift */; };
 		8155ADB61C55196A005963AB /* UndefinedTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155ADB51C55196A005963AB /* UndefinedTypeTests.swift */; };
+		8155ADB81C5529A2005963AB /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155ADB71C5529A2005963AB /* Reachability.swift */; };
 		81E685F71BA4A1E200FEBCF0 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E685F61BA4A1E200FEBCF0 /* Movie.swift */; };
 		81E9510F1BA248670044B4B1 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E9510E1BA248670044B4B1 /* Log.swift */; };
 		AC74C102D0645BEA362FD707 /* Pods_ApicTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301903321A3585B083F41F98 /* Pods_ApicTests.framework */; };
@@ -69,6 +70,7 @@
 		8155ADB11C54664A005963AB /* ComplexModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComplexModelTests.swift; sourceTree = "<group>"; };
 		8155ADB31C549A77005963AB /* NoClassTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoClassTests.swift; sourceTree = "<group>"; };
 		8155ADB51C55196A005963AB /* UndefinedTypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UndefinedTypeTests.swift; sourceTree = "<group>"; };
+		8155ADB71C5529A2005963AB /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		81E685F61BA4A1E200FEBCF0 /* Movie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		81E9510E1BA248670044B4B1 /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		81F936FD1B911A2B007C5CA6 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Pods/../build/Debug-watchos/Pods-ApicWatchOS/Alamofire.framework"; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 				813764F41B1ABAF10015EC12 /* Configuration.swift */,
 				81E9510E1BA248670044B4B1 /* Log.swift */,
 				813764D31B1A9CA60015EC12 /* Supporting Files */,
+				8155ADB71C5529A2005963AB /* Reachability.swift */,
 			);
 			path = Apic;
 			sourceTree = "<group>";
@@ -395,6 +398,7 @@
 				813764F11B1AB9980015EC12 /* AbstractRepository.swift in Sources */,
 				813764F51B1ABAF10015EC12 /* Configuration.swift in Sources */,
 				81E9510F1BA248670044B4B1 /* Log.swift in Sources */,
+				8155ADB81C5529A2005963AB /* Reachability.swift in Sources */,
 				813764EF1B1AA0610015EC12 /* AbstractModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
