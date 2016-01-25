@@ -251,9 +251,9 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
             else if let value = rawValue as? [String: AnyObject] {
                 
 //              MARK: AbstractModel
-                if let propertyType = modelType.resolver?.resolveType(propertyType) as? AbstractModel.Type {
+                if let propertyType = modelType.resolver?.resolveType(propertyType) as? InitializableWithDictionary.Type {
                     let obj = try propertyType.init(dictionary: value)
-                    try assignValue(obj, forProperty: property)
+                    try assignInstance(obj, forProperty: property)
                 } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
                     throw ModelError.UndefinedType(type: propertyType)
                 } else {
@@ -293,17 +293,12 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                 } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
                     throw ModelError.SourceValueError(property: property)
                 }
-            }
-                
-//          MARK: - Should fail?
-            else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
-                throw ModelError.SourceValueError(property: property)
-            }
-            
-//          MARK: - Undefined Type
-            else {
+            } else {
                 if let value = rawValue {
                     try assignUndefinedValue(value, forProperty: property)
+                }
+                if shouldFailWithInvalidValue(rawValue, forProperty: property) {
+                    throw ModelError.SourceValueError(property: property)
                 }
             }
         }
