@@ -8,9 +8,10 @@ Pod::Spec.new do |s|
 
   s.platform     = :ios, "8.0"
   s.source       = { :git => "https://github.com/JuanjoArreola/Apic.git", :tag => "version_1.1" }
-  s.source_files  = "Apic/*.swift"
+  s.source_files = "Apic/*.swift"
+  s.resources    = "Apic/apic_properties.plist"
 
   s.requires_arc = true
-  s.framework = "SystemConfiguration"
+  s.framework    = "SystemConfiguration"
   s.dependency "Alamofire", "~> 3.1.5"
 end
