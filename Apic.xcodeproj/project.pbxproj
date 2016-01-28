@@ -143,8 +143,8 @@
 				813764F01B1AB9980015EC12 /* AbstractRepository.swift */,
 				813764F41B1ABAF10015EC12 /* Configuration.swift */,
 				81E9510E1BA248670044B4B1 /* Log.swift */,
-				813764D31B1A9CA60015EC12 /* Supporting Files */,
 				8155ADB71C5529A2005963AB /* Reachability.swift */,
+				813764D31B1A9CA60015EC12 /* Supporting Files */,
 			);
 			path = Apic;
 			sourceTree = "<group>";

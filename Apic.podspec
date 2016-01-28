@@ -11,5 +11,6 @@ Pod::Spec.new do |s|
   s.source_files  = "Apic/*.swift"
 
   s.requires_arc = true
+  s.framework = "SystemConfiguration"
   s.dependency "Alamofire", "~> 3.1.5"
 end
