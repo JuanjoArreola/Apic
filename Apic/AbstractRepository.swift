@@ -21,15 +21,15 @@ public enum RepositoryError: ErrorType {
 
 public class AbstractRepository {
     
-    var objectKey: String?
-    var objectsKey: String?
-    var statusKey: String?
-    var statusFail: String?
-    var errorDescriptionKey: String?
-    var errorCodeKey: String?
-    var checkReachability = true
+    public var objectKey: String?
+    public var objectsKey: String?
+    public var statusKey: String?
+    public var statusFail: String?
+    public var errorDescriptionKey: String?
+    public var errorCodeKey: String?
+    public var checkReachability = true
     
-    init(objectKey: String? = nil, objectsKey: String? = nil, statusKey: String? = nil, statusFail: String? = nil, errorDescriptionKey: String? = nil, errorCodeKey: String? = nil) {
+    public init(objectKey: String? = nil, objectsKey: String? = nil, statusKey: String? = nil, statusFail: String? = nil, errorDescriptionKey: String? = nil, errorCodeKey: String? = nil) {
         self.objectKey = objectKey
         self.objectsKey = objectsKey
         self.statusKey = statusKey
