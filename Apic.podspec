@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   s.summary      = "Apic is a library build on top of Alamofire that parses JSON API responses into swift objects"
   s.homepage     = "https://github.com/JuanjoArreola/Apic"
   s.license      = { :type => "MIT", :file => "LICENSE" }
-  s.author             = { "Juanjo Arreola" => "juanjo.arreola@gmail.com" }
+  s.author       = { "Juanjo Arreola" => "juanjo.arreola@gmail.com" }
 
   s.platform     = :ios, "8.0"
   s.source       = { :git => "https://github.com/JuanjoArreola/Apic.git", :tag => "version_1.1" }

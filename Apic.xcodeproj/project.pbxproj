@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		438D88B553164C47A6A1BF28 /* Pods_Apic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E011FEDB9742FA038B21B7FC /* Pods_Apic.framework */; };
 		810689391C543351008C3E9F /* IntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810689381C543351008C3E9F /* IntTests.swift */; };
+		810D29651C66F44F0022AC57 /* RequestObjectsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810D29641C66F44F0022AC57 /* RequestObjectsTest.swift */; };
 		811AAE6D1C52D77000A45017 /* StringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811AAE6C1C52D77000A45017 /* StringTests.swift */; };
 		813764D61B1A9CA60015EC12 /* Apic.h in Headers */ = {isa = PBXBuildFile; fileRef = 813764D51B1A9CA60015EC12 /* Apic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		813764DC1B1A9CA60015EC12 /* Apic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 813764D01B1A9CA60015EC12 /* Apic.framework */; };
@@ -49,6 +50,7 @@
 		6369FF4FBAAF649B171DE02D /* Pods-ApicWatchOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ApicWatchOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ApicWatchOS/Pods-ApicWatchOS.debug.xcconfig"; sourceTree = "<group>"; };
 		6779A9D05C7BA4C3D664EEAA /* Pods-Apic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Apic.release.xcconfig"; path = "Pods/Target Support Files/Pods-Apic/Pods-Apic.release.xcconfig"; sourceTree = "<group>"; };
 		810689381C543351008C3E9F /* IntTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntTests.swift; sourceTree = "<group>"; };
+		810D29641C66F44F0022AC57 /* RequestObjectsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestObjectsTest.swift; sourceTree = "<group>"; };
 		811AAE6C1C52D77000A45017 /* StringTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTests.swift; sourceTree = "<group>"; };
 		813764D01B1A9CA60015EC12 /* Apic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Apic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		813764D41B1A9CA60015EC12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 				811AAE6C1C52D77000A45017 /* StringTests.swift */,
 				8155ADB51C55196A005963AB /* UndefinedTypeTests.swift */,
 				813764E01B1A9CA60015EC12 /* Supporting Files */,
+				810D29641C66F44F0022AC57 /* RequestObjectsTest.swift */,
 			);
 			path = ApicTests;
 			sourceTree = "<group>";
@@ -409,6 +412,7 @@
 			files = (
 				8155ADB21C54664A005963AB /* ComplexModelTests.swift in Sources */,
 				8155ADA81C545610005963AB /* FloatTests.swift in Sources */,
+				810D29651C66F44F0022AC57 /* RequestObjectsTest.swift in Sources */,
 				8155ADAC1C545886005963AB /* BoolTests.swift in Sources */,
 				8155ADB61C55196A005963AB /* UndefinedTypeTests.swift in Sources */,
 				81E685F71BA4A1E200FEBCF0 /* Movie.swift in Sources */,

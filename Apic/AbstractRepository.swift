@@ -21,8 +21,25 @@ public enum RepositoryError: ErrorType {
 
 public class AbstractRepository {
     
-    public class func requestSuccess(method method: Alamofire.Method, url: String, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, completion: (getSuccess: () throws -> Bool) -> Void) -> Request? {
-        if Configuration.checkReachability && !Reachability.isConnectedToNetwork() {
+    var objectKey: String?
+    var objectsKey: String?
+    var statusKey: String?
+    var statusFail: String?
+    var errorDescriptionKey: String?
+    var errorCodeKey: String?
+    var checkReachability = true
+    
+    init(objectKey: String? = nil, objectsKey: String? = nil, statusKey: String? = nil, statusFail: String? = nil, errorDescriptionKey: String? = nil, errorCodeKey: String? = nil) {
+        self.objectKey = objectKey
+        self.objectsKey = objectsKey
+        self.statusKey = statusKey
+        self.statusFail = statusFail
+        self.errorDescriptionKey = errorDescriptionKey
+        self.errorCodeKey = errorCodeKey
+    }
+    
+    public func requestSuccess(method method: Alamofire.Method, url: String, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, completion: (getSuccess: () throws -> Bool) -> Void) -> Request? {
+        if checkReachability && !Reachability.isConnectedToNetwork() {
             completion(getSuccess: { throw RepositoryError.NetworkConnection })
             return nil
         }
@@ -32,7 +49,7 @@ public class AbstractRepository {
                 return
             }
             do {
-                try dataFromJSON(response.result.value)
+                try self.dictionaryFromJSON(response.result.value)
                 completion(getSuccess: { return true })
             } catch RepositoryError.StatusFail {
                 completion(getSuccess: { return false })
@@ -42,9 +59,8 @@ public class AbstractRepository {
         }
     }
     
-    public class func requestObject<T: InitializableWithDictionary>(method: Alamofire.Method, url: String, params: [String: AnyObject]? = [:],
-        encoding: ParameterEncoding = .URL, completion: (getObject: () throws -> T?) -> Void) -> Request? {
-        if Configuration.checkReachability && !Reachability.isConnectedToNetwork() {
+    public func requestObject<T: InitializableWithDictionary>(method: Alamofire.Method, url: String, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, completion: (getObject: () throws -> T) -> Void) -> Request? {
+        if checkReachability && !Reachability.isConnectedToNetwork() {
             completion(getObject: { throw RepositoryError.NetworkConnection })
             return nil
         }
@@ -54,35 +70,10 @@ public class AbstractRepository {
                 return
             }
             do {
-                let data = try dataFromJSON(response.result.value)
-                guard let obj = data[Configuration.objectKey] as? [String: AnyObject] else {
-                    completion(getObject: { return nil })
-                    return
-                }
-                let object = try T(dictionary: obj)
-                completion(getObject: { return object })
-            } catch {
-                completion(getObject: { throw error })
-            }
-        }
-    }
-    
-    public class func requestObject<T: InitializableWithDictionary>(method: Alamofire.Method, url: String, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, completion: (getObject: () throws -> T) -> Void) -> Request? {
-        if Configuration.checkReachability && !Reachability.isConnectedToNetwork() {
-            completion(getObject: { throw RepositoryError.NetworkConnection })
-            return nil
-        }
-        return request(method, url, parameters: params, encoding: encoding).responseJSON { response in
-            if response.result.isFailure {
-                completion(getObject: { throw response.result.error! })
-                return
-            }
-            do {
-                let data = try dataFromJSON(response.result.value)
-                guard let obj = data[Configuration.objectKey] as? [String: AnyObject] else {
+                guard let dictionary = try self.dictionaryFromJSON(response.result.value) else {
                     throw RepositoryError.BadJSONContent
                 }
-                let object = try T(dictionary: obj)
+                let object = try T(dictionary: dictionary)
                 completion(getObject: { return object })
             } catch {
                 completion(getObject: { throw error })
@@ -90,8 +81,8 @@ public class AbstractRepository {
         }
     }
     
-    public class func requestObjects<T: InitializableWithDictionary>(method: Alamofire.Method, url: String, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, completion: (getObjects: () throws -> [T]) -> Void) -> Request? {
-        if Configuration.checkReachability && !Reachability.isConnectedToNetwork() {
+    public func requestObjects<T: InitializableWithDictionary>(method: Alamofire.Method, url: String, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, completion: (getObjects: () throws -> [T]) -> Void) -> Request? {
+        if checkReachability && !Reachability.isConnectedToNetwork() {
             completion(getObjects: { throw RepositoryError.NetworkConnection })
             return nil
         }
@@ -101,14 +92,30 @@ public class AbstractRepository {
                 return
             }
             do {
-                let data = try dataFromJSON(response.result.value)
-                guard let objs = data[Configuration.objectsKey] as? [[String: AnyObject]] else {
-                    throw RepositoryError.BadJSONContent
+                var array: [[String: AnyObject]]!
+                if let objectsKey = self.objectsKey {
+                    guard let data = try self.dictionaryFromJSON(response.result.value) else {
+                        throw RepositoryError.BadJSONContent
+                    }
+                    array = data[objectsKey] as? [[String: AnyObject]]
+                    if array == nil {
+                        throw RepositoryError.BadJSONContent
+                    }
+                } else {
+                    array = response.result.value as? [[String: AnyObject]]
+                    if array == nil {
+                        throw RepositoryError.BadJSONContent
+                    }
                 }
                 var objects = [T]()
-                for obj in objs {
-                    objects.append(try T(dictionary: obj))
+                let start = CFAbsoluteTimeGetCurrent()
+                for object in array {
+                    objects.append(try T(dictionary: object))
                 }
+                let end = CFAbsoluteTimeGetCurrent()
+                let time = (end - start) * 1000
+                Log.debug(">>> \(time) milliseconds")
+                
                 completion(getObjects: { return objects })
             } catch {
                 completion(getObjects: { throw error })
@@ -116,18 +123,22 @@ public class AbstractRepository {
         }
     }
 
-}
-
-private func dataFromJSON(JSON: AnyObject?) throws -> [String: AnyObject] {
-    guard let data = JSON as? [String: AnyObject] else {
-        throw RepositoryError.BadJSON
-    }
-    guard let status = data[Configuration.statusKey] as? String else {
-        throw RepositoryError.BadJSONContent
-    }
-    if status == Configuration.statusOk {
+    private func dictionaryFromJSON(JSON: AnyObject?) throws -> [String: AnyObject]? {
+        guard let data = JSON as? [String: AnyObject] else {
+            return nil
+        }
+        guard let statusKey = statusKey, statusFail = statusFail else {
+            return data
+        }
+        guard let status = data[statusKey] as? String else {
+            return data
+        }
+        if status == statusFail {
+            let message = errorDescriptionKey != nil ? data[errorDescriptionKey!] as? String : nil
+            let code = errorCodeKey != nil ? data[errorCodeKey!] as? String : nil
+            throw RepositoryError.StatusFail(message: message, code: code)
+        }
         return data
-    } else {
-        throw RepositoryError.StatusFail(message: data[Configuration.errorDescriptionKey] as? String, code: data[Configuration.errorCodeKey] as? String)
     }
+    
 }
