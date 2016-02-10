@@ -27,7 +27,8 @@ public protocol TypeResolver {
 public enum ModelError: ErrorType {
     case SourceValueError(property: String)
     case ValueTypeError(property: String?)
-    case DateError(property: String?)
+    case DateError(property: String?, value: String?)
+    case URLError(property: String?, value: String?)
     case InstanciationError
     case InvalidProperty(property: String)
     case UndefinedType(type: Any.Type)
@@ -210,7 +211,7 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                     if let date = AbstractModel.dateFromString(value) {
                         try assignValue(date, forProperty: property)
                     } else if shouldFailWithInvalidValue(value, forProperty: property) {
-                        throw ModelError.DateError(property: property)
+                        throw ModelError.DateError(property: property, value: value)
                     }
                 } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
                     throw ModelError.SourceValueError(property: property)
@@ -228,6 +229,19 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                         try assignValue(number, forProperty: property)
                     } else if shouldFailWithInvalidValue(number, forProperty: property) {
                         throw ModelError.SourceValueError(property: property)
+                    }
+                } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
+                    throw ModelError.SourceValueError(property: property)
+                }
+            }
+                
+//          MARK: - NSURL
+            else if propertyType is NSURL?.Type || propertyType is NSURL.Type {
+                if let value = rawValue as? String {
+                    if let url = NSURL(string: value) {
+                        try assignValue(url, forProperty: property)
+                    } else {
+                        throw ModelError.URLError(property: property, value: value)
                     }
                 } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
                     throw ModelError.SourceValueError(property: property)
