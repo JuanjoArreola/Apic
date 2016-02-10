@@ -346,7 +346,7 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
     
     private static var dateFormatter: NSDateFormatter = {
         let formatter = NSDateFormatter()
-        formatter.locale = NSLocale.currentLocale()
+        formatter.locale = Configuration.locale
         formatter.dateFormat = Configuration.dateFormats.first
         return formatter
     }()

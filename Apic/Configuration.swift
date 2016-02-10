@@ -55,6 +55,13 @@ public final class Configuration {
         return properties?["date_formats"] as? [String] ?? defaultProperties["date_formats"] as! [String]
     }()
     
+    static var locale: NSLocale = {
+        if let identifier = properties?["locale_identifier"] as? String {
+            return NSLocale(localeIdentifier: identifier)
+        }
+        return NSLocale.currentLocale()
+    }()
+    
     static var logLevel: Int = {
         return properties?["log_level"] as? Int ?? defaultProperties["log_level"] as! Int
     }()
