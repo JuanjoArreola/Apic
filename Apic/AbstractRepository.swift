@@ -9,6 +9,9 @@
 import Foundation
 import Alamofire
 
+private let processQueue: dispatch_queue_t = dispatch_queue_create("com.apic.ProcessQueue", DISPATCH_QUEUE_CONCURRENT)
+
+
 public enum RepositoryError: ErrorType {
     case BadJSON
     case BadJSONContent
@@ -43,20 +46,22 @@ public class AbstractRepository {
             completion(getSuccess: { throw RepositoryError.NetworkConnection })
             return nil
         }
-        return Alamofire.request(method, url, parameters: params, encoding: encoding).responseJSON { response in
+        let request = Alamofire.request(method, url, parameters: params, encoding: encoding)
+        request.response(queue: processQueue, responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments)) { (response) in
             if response.result.isFailure {
-                completion(getSuccess: { throw response.result.error! })
+                dispatch_async(dispatch_get_main_queue()) { completion(getSuccess: { throw response.result.error! }) }
                 return
             }
             do {
                 try self.dictionaryFromJSON(response.result.value)
-                completion(getSuccess: { return true })
+                dispatch_async(dispatch_get_main_queue()) { completion(getSuccess: { return true }) }
             } catch RepositoryError.StatusFail {
-                completion(getSuccess: { return false })
+                dispatch_async(dispatch_get_main_queue()) { completion(getSuccess: { return false }) }
             } catch {
-                completion(getSuccess: { throw error })
+                dispatch_async(dispatch_get_main_queue()) { completion(getSuccess: { throw error }) }
             }
         }
+        return request
     }
     
     public func requestObject<T: InitializableWithDictionary>(method: Alamofire.Method, url: String, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, completion: (getObject: () throws -> T) -> Void) -> Request? {
@@ -64,9 +69,10 @@ public class AbstractRepository {
             completion(getObject: { throw RepositoryError.NetworkConnection })
             return nil
         }
-        return request(method, url, parameters: params, encoding: encoding).responseJSON { response in
+        let request = Alamofire.request(method, url, parameters: params, encoding: encoding)
+        request.response(queue: processQueue, responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments)) { (response) in
             if response.result.isFailure {
-                completion(getObject: { throw response.result.error! })
+                dispatch_async(dispatch_get_main_queue()) { completion(getObject: { throw response.result.error! }) }
                 return
             }
             do {
@@ -74,11 +80,12 @@ public class AbstractRepository {
                     throw RepositoryError.BadJSONContent
                 }
                 let object = try T(dictionary: dictionary)
-                completion(getObject: { return object })
+                dispatch_async(dispatch_get_main_queue()) { completion(getObject: { return object }) }
             } catch {
-                completion(getObject: { throw error })
+                dispatch_async(dispatch_get_main_queue()) { completion(getObject: { throw error }) }
             }
         }
+        return request
     }
     
     public func requestObjects<T: InitializableWithDictionary>(method: Alamofire.Method, url: String, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, completion: (getObjects: () throws -> [T]) -> Void) -> Request? {
@@ -86,9 +93,10 @@ public class AbstractRepository {
             completion(getObjects: { throw RepositoryError.NetworkConnection })
             return nil
         }
-        return request(method, url, parameters: params, encoding: encoding).responseJSON { response in
+        let request = Alamofire.request(method, url, parameters: params, encoding: encoding)
+        request.response(queue: processQueue, responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments)) { (response) in
             if response.result.isFailure {
-                completion(getObjects: { throw response.result.error! })
+                dispatch_async(dispatch_get_main_queue()) { completion(getObjects: { throw response.result.error! }) }
                 return
             }
             do {
@@ -108,19 +116,15 @@ public class AbstractRepository {
                     }
                 }
                 var objects = [T]()
-                let start = CFAbsoluteTimeGetCurrent()
                 for object in array {
                     objects.append(try T(dictionary: object))
                 }
-                let end = CFAbsoluteTimeGetCurrent()
-                let time = (end - start) * 1000
-                Log.debug(">>> \(time) milliseconds")
-                
-                completion(getObjects: { return objects })
+                dispatch_async(dispatch_get_main_queue()) { completion(getObjects: { return objects }) }
             } catch {
-                completion(getObjects: { throw error })
+                dispatch_async(dispatch_get_main_queue()) { completion(getObjects: { throw error }) }
             }
         }
+        return request
     }
 
     private func dictionaryFromJSON(JSON: AnyObject?) throws -> [String: AnyObject]? {
