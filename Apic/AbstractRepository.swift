@@ -41,12 +41,12 @@ public class AbstractRepository {
         self.errorCodeKey = errorCodeKey
     }
     
-    public func requestSuccess(method method: Alamofire.Method, url: String, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, completion: (getSuccess: () throws -> Bool) -> Void) -> Request? {
+    public func requestSuccess(method method: Alamofire.Method, url: String, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, headers: [String: String]? = nil, completion: (getSuccess: () throws -> Bool) -> Void) -> Request? {
         if checkReachability && !Reachability.isConnectedToNetwork() {
             completion(getSuccess: { throw RepositoryError.NetworkConnection })
             return nil
         }
-        let request = Alamofire.request(method, url, parameters: params, encoding: encoding)
+        let request = Alamofire.request(method, url, parameters: params, encoding: encoding, headers: headers)
         request.response(queue: processQueue, responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments)) { (response) in
             if response.result.isFailure {
                 dispatch_async(dispatch_get_main_queue()) { completion(getSuccess: { throw response.result.error! }) }
@@ -64,12 +64,12 @@ public class AbstractRepository {
         return request
     }
     
-    public func requestObject<T: InitializableWithDictionary>(method: Alamofire.Method, url: String, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, completion: (getObject: () throws -> T) -> Void) -> Request? {
+    public func requestObject<T: InitializableWithDictionary>(method: Alamofire.Method, url: String, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, headers: [String: String]? = nil, completion: (getObject: () throws -> T) -> Void) -> Request? {
         if checkReachability && !Reachability.isConnectedToNetwork() {
             completion(getObject: { throw RepositoryError.NetworkConnection })
             return nil
         }
-        let request = Alamofire.request(method, url, parameters: params, encoding: encoding)
+        let request = Alamofire.request(method, url, parameters: params, encoding: encoding, headers: headers)
         request.response(queue: processQueue, responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments)) { (response) in
             if response.result.isFailure {
                 dispatch_async(dispatch_get_main_queue()) { completion(getObject: { throw response.result.error! }) }
@@ -88,12 +88,12 @@ public class AbstractRepository {
         return request
     }
     
-    public func requestObjects<T: InitializableWithDictionary>(method: Alamofire.Method, url: String, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, completion: (getObjects: () throws -> [T]) -> Void) -> Request? {
+    public func requestObjects<T: InitializableWithDictionary>(method: Alamofire.Method, url: String, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, headers: [String: String]? = nil, completion: (getObjects: () throws -> [T]) -> Void) -> Request? {
         if checkReachability && !Reachability.isConnectedToNetwork() {
             completion(getObjects: { throw RepositoryError.NetworkConnection })
             return nil
         }
-        let request = Alamofire.request(method, url, parameters: params, encoding: encoding)
+        let request = Alamofire.request(method, url, parameters: params, encoding: encoding, headers: headers)
         request.response(queue: processQueue, responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments)) { (response) in
             if response.result.isFailure {
                 dispatch_async(dispatch_get_main_queue()) { completion(getObjects: { throw response.result.error! }) }
