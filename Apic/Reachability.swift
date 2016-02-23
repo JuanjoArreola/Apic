@@ -11,6 +11,8 @@
 #elseif os(OSX)
     import Foundation
 #endif
+
+#if os(iOS) || os(OSX)
 import SystemConfiguration
 
 public class Reachability {
@@ -31,3 +33,4 @@ public class Reachability {
         return (isReachable && !needsConnection)
     }
 }
+#endif
