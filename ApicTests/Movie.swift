@@ -6,7 +6,7 @@
 //  Copyright © 2015 Juanjo. All rights reserved.
 //
 
-import WatchKit
+import Foundation
 @testable import Apic
 
 class DefaultModel: AbstractModel {

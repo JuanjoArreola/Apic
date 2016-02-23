@@ -24,7 +24,7 @@ class DateTests: XCTestCase {
 //    YYYY-MM-dd'T' HH:mm:ssZ
     func testMandatoryDate() {
         do {
-            let container = try DateContainer(dictionary: ["created": "2016-01-23T 18:30:00Z"])
+            let container = try DateContainer(dictionary: ["created": "2016-01-23 18:30:00Z"])
             XCTAssertNotNil(container.created)
         } catch { XCTFail() }
     }
@@ -52,7 +52,7 @@ class DateTests: XCTestCase {
     
     func testOptionalDateNil() {
         do {
-            let container = try DateContainer(dictionary: ["created": "2016-01-23T 18:30:00Z"])
+            let container = try DateContainer(dictionary: ["created": "2016-01-23 18:30:00Z"])
             XCTAssertNotNil(container)
             XCTAssertNil(container.lastEdit)
         } catch { XCTFail() }
@@ -60,7 +60,7 @@ class DateTests: XCTestCase {
     
     func testOptionalDateNotNil() {
         do {
-            let container = try DateContainer(dictionary: ["created": "2016-01-23T 18:30:00Z", "lastEdit": "2016-01-23T 18:40:00Z"])
+            let container = try DateContainer(dictionary: ["created": "2016-01-23 18:30:00Z", "lastEdit": "2016-01-23 18:40:00Z"])
             XCTAssertNotNil(container)
             XCTAssertNotNil(container.lastEdit)
         } catch { XCTFail() }
@@ -68,7 +68,7 @@ class DateTests: XCTestCase {
     
     func testChangeDate() {
         do {
-            let container = try DateContainer(dictionary: ["created": "2016-01-23T 18:30:00Z", "lastAccess": "2016-01-23T 18:40:00Z"])
+            let container = try DateContainer(dictionary: ["created": "2016-01-23 18:30:00Z", "lastAccess": "2016-01-23 18:40:00Z"])
             XCTAssertNotNil(container)
             XCTAssertNotEqual(container.lastAccess, NSDate(timeIntervalSince1970: 0))
         } catch { XCTFail() }

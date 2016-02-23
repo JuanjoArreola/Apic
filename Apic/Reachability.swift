@@ -6,7 +6,11 @@
 // http://stackoverflow.com/questions/30743408/check-for-internet-connection-in-swift-2-ios-9
 //
 
-import UIKit
+#if os(iOS)
+    import UIKit
+#elseif os(OSX)
+    import Foundation
+#endif
 import SystemConfiguration
 
 public class Reachability {

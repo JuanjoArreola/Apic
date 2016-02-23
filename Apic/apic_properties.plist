@@ -14,7 +14,7 @@
 	<integer>1</integer>
 	<key>date_formats</key>
 	<array>
-		<string>YYYY-MM-dd&apos;T&apos; HH:mm:ssZ</string>
+		<string>y-MM-dd HH:mm:ssZ</string>
 	</array>
 	<key>objects_key</key>
 	<string>objects</string>

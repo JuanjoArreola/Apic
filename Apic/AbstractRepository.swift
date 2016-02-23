@@ -42,10 +42,12 @@ public class AbstractRepository {
     }
     
     public func requestSuccess(method method: Alamofire.Method, url: String, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, headers: [String: String]? = nil, completion: (getSuccess: () throws -> Bool) -> Void) -> Request? {
+#if os(iOS)
         if checkReachability && !Reachability.isConnectedToNetwork() {
             completion(getSuccess: { throw RepositoryError.NetworkConnection })
             return nil
         }
+#endif
         let request = Alamofire.request(method, url, parameters: params, encoding: encoding, headers: headers)
         request.response(queue: processQueue, responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments)) { (response) in
             if response.result.isFailure {
@@ -65,10 +67,12 @@ public class AbstractRepository {
     }
     
     public func requestObject<T: InitializableWithDictionary>(method: Alamofire.Method, url: String, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, headers: [String: String]? = nil, completion: (getObject: () throws -> T) -> Void) -> Request? {
+#if os(iOS)
         if checkReachability && !Reachability.isConnectedToNetwork() {
             completion(getObject: { throw RepositoryError.NetworkConnection })
             return nil
         }
+#endif
         let request = Alamofire.request(method, url, parameters: params, encoding: encoding, headers: headers)
         request.response(queue: processQueue, responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments)) { (response) in
             if response.result.isFailure {
@@ -76,8 +80,13 @@ public class AbstractRepository {
                 return
             }
             do {
-                guard let dictionary = try self.dictionaryFromJSON(response.result.value) else {
-                    throw RepositoryError.BadJSONContent
+                var dictionary = try self.dictionaryFromJSON(response.result.value)
+                if let objectKey = self.objectKey {
+                    if let objectDictionary = dictionary[objectKey] as? [String: AnyObject] {
+                        dictionary = objectDictionary
+                    } else {
+                        throw RepositoryError.BadJSONContent
+                    }
                 }
                 let object = try T(dictionary: dictionary)
                 dispatch_async(dispatch_get_main_queue()) { completion(getObject: { return object }) }
@@ -89,10 +98,12 @@ public class AbstractRepository {
     }
     
     public func requestObjects<T: InitializableWithDictionary>(method: Alamofire.Method, url: String, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, headers: [String: String]? = nil, completion: (getObjects: () throws -> [T]) -> Void) -> Request? {
+#if os(iOS)
         if checkReachability && !Reachability.isConnectedToNetwork() {
             completion(getObjects: { throw RepositoryError.NetworkConnection })
             return nil
         }
+#endif
         let request = Alamofire.request(method, url, parameters: params, encoding: encoding, headers: headers)
         request.response(queue: processQueue, responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments)) { (response) in
             if response.result.isFailure {
@@ -102,18 +113,13 @@ public class AbstractRepository {
             do {
                 var array: [[String: AnyObject]]!
                 if let objectsKey = self.objectsKey {
-                    guard let data = try self.dictionaryFromJSON(response.result.value) else {
-                        throw RepositoryError.BadJSONContent
-                    }
+                    let data = try self.dictionaryFromJSON(response.result.value)
                     array = data[objectsKey] as? [[String: AnyObject]]
-                    if array == nil {
-                        throw RepositoryError.BadJSONContent
-                    }
                 } else {
                     array = response.result.value as? [[String: AnyObject]]
-                    if array == nil {
-                        throw RepositoryError.BadJSONContent
-                    }
+                }
+                if array == nil {
+                    throw RepositoryError.BadJSONContent
                 }
                 var objects = [T]()
                 for object in array {
@@ -127,15 +133,15 @@ public class AbstractRepository {
         return request
     }
 
-    private func dictionaryFromJSON(JSON: AnyObject?) throws -> [String: AnyObject]? {
+    private func dictionaryFromJSON(JSON: AnyObject?) throws -> [String: AnyObject] {
         guard let data = JSON as? [String: AnyObject] else {
-            return nil
+            throw RepositoryError.BadJSONContent
         }
         guard let statusKey = statusKey, statusFail = statusFail else {
             return data
         }
         guard let status = data[statusKey] as? String else {
-            return data
+            throw RepositoryError.BadJSONContent
         }
         if status == statusFail {
             let message = errorDescriptionKey != nil ? data[errorDescriptionKey!] as? String : nil

@@ -6,7 +6,13 @@
 //  Copyright (c) 2015 Juanjo. All rights reserved.
 //
 
-import Foundation
+#if os(OSX)
+    import AppKit
+    typealias Color = NSColor
+#else
+    import UIKit
+    typealias Color = UIColor
+#endif
 
 public protocol InitializableWithDictionary {
     init(dictionary: [String: AnyObject]) throws
@@ -247,11 +253,12 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                     throw ModelError.SourceValueError(property: property)
                 }
             }
+            
+//          MARK: - Color
                 
-//          MARK: - UIColor
-            else if propertyType is UIColor?.Type || propertyType is UIColor.Type {
+            else if propertyType is Color?.Type || propertyType is Color.Type {
                 if let value = rawValue as? String {
-                    if let color = UIColor(hex: value) {
+                    if let color = Color(hex: value) {
                         try assignValue(color, forProperty: property)
                     } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
                         throw ModelError.SourceValueError(property: property)
@@ -260,7 +267,7 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                     throw ModelError.SourceValueError(property: property)
                 }
             }
-                
+            
 //          MARK: - [:]
             else if let value = rawValue as? [String: AnyObject] {
                 
@@ -400,8 +407,7 @@ extension Double: StringInitializable {
     }
 }
 
-extension UIColor {
-    
+extension Color {
     convenience init?(hex: String) {
         var format = hex.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).uppercaseString
         format = (format.hasPrefix("#")) ? format.substringFromIndex(format.startIndex.advancedBy(1)) : format
