@@ -69,6 +69,21 @@ class RequestObjectTests: XCTestCase {
         waitForExpectationsWithTimeout(60.0, handler: nil)
     }
     
+    func testRequestUserWrong() {
+        let repository = WrongUserRepository()
+        
+        let expectation: XCTestExpectation = expectationWithDescription("fetch list")
+        repository.requestUserWithName("JuanjoArreola") { (getUser) -> Void in
+            do {
+                try getUser()
+                XCTFail()
+            } catch {
+                expectation.fulfill()
+            }
+        }
+        waitForExpectationsWithTimeout(60.0, handler: nil)
+    }
+    
 }
 
 class User: AbstractModel {
@@ -82,6 +97,17 @@ class User: AbstractModel {
 }
 
 class UserRepository: AbstractRepository {
+    func requestUserWithName(name: String, completion: (getUser: () throws -> User) -> Void) -> Request? {
+        return requestObject(.GET, url: "https://api.github.com/users/\(name)", completion: completion)
+    }
+}
+
+class WrongUserRepository: AbstractRepository {
+    
+    init() {
+        super.init(objectKey: "user")
+    }
+    
     func requestUserWithName(name: String, completion: (getUser: () throws -> User) -> Void) -> Request? {
         return requestObject(.GET, url: "https://api.github.com/users/\(name)", completion: completion)
     }

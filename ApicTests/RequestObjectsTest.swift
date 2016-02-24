@@ -25,45 +25,119 @@ class RequestObjectsTest: XCTestCase {
     func testGetList() {
         let expectation: XCTestExpectation = expectationWithDescription("fetch list")
         
-        let repository = AlbumRepository()
-        repository.getAlbums { (getAlbums) -> Void in
+        let repository = GistsRepository()
+        repository.requestGistsOfUser("JuanjoArreola") { (getGists) -> Void in
             do {
-                let albums = try getAlbums()
-                XCTAssertGreaterThan(albums.count, 0)
+                let gists = try getGists()
+                XCTAssertGreaterThan(gists.count, 0)
                 expectation.fulfill()
             } catch {
                 Log.error(error)
                 XCTFail()
             }
         }
-        waitForExpectationsWithTimeout(300.0, handler: nil)
+        waitForExpectationsWithTimeout(60.0, handler: nil)
     }
-
-}
-
-
-class AlbumRepository: AbstractRepository {
     
-    func getAlbums(completion: (getAlbums: () throws -> [Album]) -> Void) -> Request? {
-        return requestObjects(.GET, url: "http://jsonplaceholder.typicode.com/photos", completion: completion)
-    }
-}
-
-class Album: AbstractModel {
-    var albumId: Int!
-    var id: Int!
-    var title: String!
-    var url: String!
-    var thumbnailUrl: String!
-    
-    override func assignValue(value: AnyObject, forProperty property: String) throws {
-        switch property {
-        case "albumId":
-            albumId = value as! Int
-        case "id":
-            id = value as! Int
-        default:
-            try super.assignValue(value, forProperty: property)
+    func testGetInnerList() {
+        let expectation: XCTestExpectation = expectationWithDescription("fetch list")
+        
+        let repository = HistoryRepository()
+        repository.requestHistoryOfGist("30f7b1a56a61c71631a6") { getHistory in
+            do {
+                try getHistory()
+                expectation.fulfill()
+            } catch {
+                Log.error(error)
+                XCTFail()
+            }
         }
+        waitForExpectationsWithTimeout(60.0, handler: nil)
+    }
+    
+    func testWrongList() {
+        let expectation: XCTestExpectation = expectationWithDescription("fetch list")
+        
+        let repository = WrongGistsRepository()
+        repository.requestGistsOfUser("JuanjoArreola") { (getGists) -> Void in
+            do {
+                try getGists()
+                XCTFail()
+            } catch {
+                expectation.fulfill()
+            }
+        }
+        waitForExpectationsWithTimeout(60.0, handler: nil)
+    }
+    
+    func testWrongInnerList() {
+        let expectation: XCTestExpectation = expectationWithDescription("fetch list")
+        
+        let repository = WrongHistoryRepository()
+        repository.requestHistoryOfGist("30f7b1a56a61c71631a6") { getHistory in
+            do {
+                try getHistory()
+                XCTFail()
+            } catch {
+                expectation.fulfill()
+            }
+        }
+        waitForExpectationsWithTimeout(60.0, handler: nil)
+    }
+
+}
+
+
+class GistsRepository: AbstractRepository {
+    
+    func requestGistsOfUser(user: String, completion: (getGists: () throws -> [Gist]) -> Void) -> Request? {
+        return requestObjects(.GET, url: "https://api.github.com/users/\(user)/gists", completion: completion)
+    }
+}
+
+class WrongGistsRepository: AbstractRepository {
+    
+    init() {
+        super.init(objectsKey: "gists")
+    }
+    
+    func requestGistsOfUser(user: String, completion: (getGists: () throws -> [Gist]) -> Void) -> Request? {
+        return requestObjects(.GET, url: "https://api.github.com/users/\(user)/gists", completion: completion)
+    }
+}
+
+class HistoryRepository: AbstractRepository {
+    
+    init() {
+        super.init(objectsKey: "history")
+    }
+    
+    func requestHistoryOfGist(gist: String, completion: (getHistory: () throws -> [HistoryEntry]) -> Void) -> Request? {
+        return requestObjects(.GET, url: "https://api.github.com/gists/\(gist)", completion: completion)
+    }
+}
+
+class WrongHistoryRepository: AbstractRepository {
+    
+    func requestHistoryOfGist(gist: String, completion: (getHistory: () throws -> [HistoryEntry]) -> Void) -> Request? {
+        return requestObjects(.GET, url: "https://api.github.com/gists/\(gist)", completion: completion)
+    }
+}
+
+class Gist: AbstractModel {
+    var id: String!
+    var url: NSURL!
+    
+    override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool {
+        return true
+    }
+}
+
+class HistoryEntry: AbstractModel {
+    var version: String!
+    var url: NSURL!
+    
+    override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool {
+        return true
     }
 }

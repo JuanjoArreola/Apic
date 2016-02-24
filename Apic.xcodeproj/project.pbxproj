@@ -75,6 +75,7 @@
 		8155ADB41C549A77005963AB /* NoClassTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155ADB31C549A77005963AB /* NoClassTests.swift */; };
 		8155ADB61C55196A005963AB /* UndefinedTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155ADB51C55196A005963AB /* UndefinedTypeTests.swift */; };
 		8155ADB81C5529A2005963AB /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155ADB71C5529A2005963AB /* Reachability.swift */; };
+		8160D04D1C7E35E600A48387 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155ADB71C5529A2005963AB /* Reachability.swift */; };
 		81B34C5A1C7D14370052F372 /* RequestObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B34C591C7D14370052F372 /* RequestObjectTests.swift */; };
 		81B34C5E1C7D19B60052F372 /* RequestObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B34C591C7D14370052F372 /* RequestObjectTests.swift */; };
 		81B34C5F1C7D19B70052F372 /* RequestObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B34C591C7D14370052F372 /* RequestObjectTests.swift */; };
@@ -979,6 +980,7 @@
 				81528DB31C76623700E20E8A /* Configuration.swift in Sources */,
 				81528DAF1C76622D00E20E8A /* AbstractModel.swift in Sources */,
 				81528DB51C76623A00E20E8A /* Log.swift in Sources */,
+				8160D04D1C7E35E600A48387 /* Reachability.swift in Sources */,
 				81528DB11C76623300E20E8A /* AbstractRepository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1086,6 +1088,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1114,8 +1117,10 @@
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
@@ -1136,6 +1141,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1155,9 +1161,11 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
@@ -1212,6 +1220,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = ECF96778CBD90817ABE7F15F /* Pods-ApicTests.debug.xcconfig */;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1230,6 +1239,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2E73B308F3AAA7EFC3AAC64E /* Pods-ApicTests.release.xcconfig */;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = ApicTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

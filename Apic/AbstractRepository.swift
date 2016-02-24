@@ -30,7 +30,10 @@ public class AbstractRepository {
     public var statusFail: String?
     public var errorDescriptionKey: String?
     public var errorCodeKey: String?
+    
+#if os(iOS) || os(OSX) || os(tvOS)
     public var checkReachability = true
+#endif
     
     public init(objectKey: String? = nil, objectsKey: String? = nil, statusKey: String? = nil, statusFail: String? = nil, errorDescriptionKey: String? = nil, errorCodeKey: String? = nil) {
         self.objectKey = objectKey
@@ -42,7 +45,7 @@ public class AbstractRepository {
     }
     
     public func requestSuccess(method method: Alamofire.Method, url: String, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, headers: [String: String]? = nil, completion: (getSuccess: () throws -> Bool) -> Void) -> Request? {
-#if os(iOS) || os(OSX)
+#if os(iOS) || os(OSX) || os(tvOS)
         if checkReachability && !Reachability.isConnectedToNetwork() {
             completion(getSuccess: { throw RepositoryError.NetworkConnection })
             return nil
@@ -67,7 +70,7 @@ public class AbstractRepository {
     }
     
     public func requestObject<T: InitializableWithDictionary>(method: Alamofire.Method, url: String, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, headers: [String: String]? = nil, completion: (getObject: () throws -> T) -> Void) -> Request? {
-#if os(iOS) || os(OSX)
+#if os(iOS) || os(OSX) || os(tvOS)
         if checkReachability && !Reachability.isConnectedToNetwork() {
             completion(getObject: { throw RepositoryError.NetworkConnection })
             return nil
@@ -98,7 +101,7 @@ public class AbstractRepository {
     }
     
     public func requestObjects<T: InitializableWithDictionary>(method: Alamofire.Method, url: String, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, headers: [String: String]? = nil, completion: (getObjects: () throws -> [T]) -> Void) -> Request? {
-#if os(iOS) || os(OSX)
+#if os(iOS) || os(OSX) || os(tvOS)
         if checkReachability && !Reachability.isConnectedToNetwork() {
             completion(getObjects: { throw RepositoryError.NetworkConnection })
             return nil
