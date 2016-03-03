@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name         = "Apic"
-  s.version      = "1.2.2"
-  s.summary      = "Apic is a library build on top of Alamofire that parses JSON API responses into swift objects"
+  s.version      = "2.0"
+  s.summary      = "Apic is a library that parses JSON API responses into swift objects"
   s.homepage     = "https://github.com/JuanjoArreola/Apic"
   s.license      = { :type => "MIT", :file => "LICENSE" }
   s.author       = { "Juanjo Arreola" => "juanjo.arreola@gmail.com" }
@@ -11,11 +11,10 @@ Pod::Spec.new do |s|
   s.watchos.deployment_target = "2.0"
   s.tvos.deployment_target = "9.0"
 
-  s.source       = { :git => "https://github.com/JuanjoArreola/Apic.git", :tag => "version_1.2.2" }
+  s.source       = { :git => "https://github.com/JuanjoArreola/Apic.git", :tag => "version_2.0" }
   s.source_files = "Apic/*.swift"
   s.resources    = "Apic/apic_properties.plist"
 
   s.requires_arc = true
   s.framework    = "SystemConfiguration"
-  s.dependency "Alamofire", "~> 3.1.5"
 end

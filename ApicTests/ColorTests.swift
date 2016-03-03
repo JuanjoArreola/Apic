@@ -9,6 +9,12 @@
 import XCTest
 @testable import Apic
 
+#if os(OSX)
+    typealias Color = NSColor
+#else
+    typealias Color = UIColor
+#endif
+
 class ColorTests: XCTestCase {
     
     override func setUp() {
@@ -69,7 +75,7 @@ class ColorTests: XCTestCase {
         do {
             let container = try ColorContainer(dictionary: ["main": "FFFFFF", "defaultColor": "FFFF0000"])
             XCTAssertNotNil(container)
-            XCTAssertEqual(container.defaultColor, UIColor(red: 1.0, green: 1.0, blue: 0.0, alpha: 0.0))
+            XCTAssertEqual(container.defaultColor, Color(red: 1.0, green: 1.0, blue: 0.0, alpha: 0.0))
         } catch { XCTFail() }
     }
     
@@ -77,16 +83,16 @@ class ColorTests: XCTestCase {
         do {
             let container = try ColorContainer(dictionary: ["main": "#FF00FF00"])
             XCTAssertNotNil(container)
-            XCTAssertEqual(container.main, UIColor(red: 1.0, green: 0.0, blue: 1.0, alpha: 0.0))
+            XCTAssertEqual(container.main, Color(red: 1.0, green: 0.0, blue: 1.0, alpha: 0.0))
         } catch { XCTFail() }
     }
     
 }
 
 class ColorContainer: AbstractModel {
-    var main: UIColor!
-    var secondary: UIColor?
-    var defaultColor = UIColor(white: 0.0, alpha: 1.0)
+    var main: Color!
+    var secondary: Color?
+    var defaultColor = Color(white: 0.0, alpha: 1.0)
     
     override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool {
         return ["main"].contains(property)

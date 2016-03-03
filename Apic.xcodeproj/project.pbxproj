@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		368B13A88CC9479B6111CB85 /* Pods_Apic_tvOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B483B651BBB43BF2A065F229 /* Pods_Apic_tvOS.framework */; };
-		438D88B553164C47A6A1BF28 /* Pods_Apic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E011FEDB9742FA038B21B7FC /* Pods_Apic.framework */; };
 		810689391C543351008C3E9F /* IntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810689381C543351008C3E9F /* IntTests.swift */; };
 		8109ABF91C76DEFB00E10098 /* ApicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813764E21B1A9CA60015EC12 /* ApicTests.swift */; };
 		8109ABFA1C76DF0000E10098 /* ColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155ADAF1C546153005963AB /* ColorTests.swift */; };
@@ -26,7 +24,28 @@
 		8109AC061C76DF6500E10098 /* apic_properties.plist in Resources */ = {isa = PBXBuildFile; fileRef = 813764F21B1ABAAA0015EC12 /* apic_properties.plist */; };
 		8109AC071C76DF6600E10098 /* apic_properties.plist in Resources */ = {isa = PBXBuildFile; fileRef = 813764F21B1ABAAA0015EC12 /* apic_properties.plist */; };
 		8109AC081C76DF6700E10098 /* apic_properties.plist in Resources */ = {isa = PBXBuildFile; fileRef = 813764F21B1ABAAA0015EC12 /* apic_properties.plist */; };
+		810B79861C84A4C8000FEE9A /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E9510E1BA248670044B4B1 /* Log.swift */; };
+		810B79871C84A4C9000FEE9A /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E9510E1BA248670044B4B1 /* Log.swift */; };
+		810B79881C84A4CA000FEE9A /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E9510E1BA248670044B4B1 /* Log.swift */; };
+		810B79891C84A4CF000FEE9A /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813764F41B1ABAF10015EC12 /* Configuration.swift */; };
+		810B798A1C84A4D0000FEE9A /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813764F41B1ABAF10015EC12 /* Configuration.swift */; };
+		810B798B1C84A4D1000FEE9A /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813764F41B1ABAF10015EC12 /* Configuration.swift */; };
+		810B798C1C84A4D5000FEE9A /* apic_properties.plist in Resources */ = {isa = PBXBuildFile; fileRef = 813764F21B1ABAAA0015EC12 /* apic_properties.plist */; };
+		810B798D1C84A4D6000FEE9A /* apic_properties.plist in Resources */ = {isa = PBXBuildFile; fileRef = 813764F21B1ABAAA0015EC12 /* apic_properties.plist */; };
+		810B798E1C84A4D7000FEE9A /* apic_properties.plist in Resources */ = {isa = PBXBuildFile; fileRef = 813764F21B1ABAAA0015EC12 /* apic_properties.plist */; };
+		810B79901C84C819000FEE9A /* RepositoryStatusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810B798F1C84C819000FEE9A /* RepositoryStatusTests.swift */; };
 		810D29651C66F44F0022AC57 /* RequestObjectsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810D29641C66F44F0022AC57 /* RequestObjectsTest.swift */; };
+		810EDC2A1C877C8500905061 /* NSMutableURLRequest+ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810EDC291C877C8500905061 /* NSMutableURLRequest+ParameterEncoding.swift */; };
+		810EDC2B1C877C8500905061 /* NSMutableURLRequest+ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810EDC291C877C8500905061 /* NSMutableURLRequest+ParameterEncoding.swift */; };
+		810EDC2C1C877C8500905061 /* NSMutableURLRequest+ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810EDC291C877C8500905061 /* NSMutableURLRequest+ParameterEncoding.swift */; };
+		810EDC2D1C877C8500905061 /* NSMutableURLRequest+ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810EDC291C877C8500905061 /* NSMutableURLRequest+ParameterEncoding.swift */; };
+		810EDC2F1C87841C00905061 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810EDC2E1C87841C00905061 /* Request.swift */; };
+		810EDC301C87841C00905061 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810EDC2E1C87841C00905061 /* Request.swift */; };
+		810EDC311C87841C00905061 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810EDC2E1C87841C00905061 /* Request.swift */; };
+		810EDC321C87841C00905061 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810EDC2E1C87841C00905061 /* Request.swift */; };
+		810EDC331C87B9E500905061 /* ColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155ADAF1C546153005963AB /* ColorTests.swift */; };
+		810EDC341C87BDCF00905061 /* RepositoryStatusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810B798F1C84C819000FEE9A /* RepositoryStatusTests.swift */; };
+		810EDC351C87BDCF00905061 /* RepositoryStatusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810B798F1C84C819000FEE9A /* RepositoryStatusTests.swift */; };
 		8119155A1C77890D0099CF99 /* Apic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81528DBD1C7663CC00E20E8A /* Apic.framework */; };
 		811915601C7789220099CF99 /* ApicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813764E21B1A9CA60015EC12 /* ApicTests.swift */; };
 		811915611C7789220099CF99 /* BoolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155ADAB1C545886005963AB /* BoolTests.swift */; };
@@ -79,11 +98,9 @@
 		81B34C5A1C7D14370052F372 /* RequestObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B34C591C7D14370052F372 /* RequestObjectTests.swift */; };
 		81B34C5E1C7D19B60052F372 /* RequestObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B34C591C7D14370052F372 /* RequestObjectTests.swift */; };
 		81B34C5F1C7D19B70052F372 /* RequestObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B34C591C7D14370052F372 /* RequestObjectTests.swift */; };
-		81C8FEACA890F148AC171975 /* Pods_Apic_OSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 741E10331472010BCDCF0AE3 /* Pods_Apic_OSX.framework */; };
 		81E685F71BA4A1E200FEBCF0 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E685F61BA4A1E200FEBCF0 /* Movie.swift */; };
 		81E9510F1BA248670044B4B1 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E9510E1BA248670044B4B1 /* Log.swift */; };
 		AC74C102D0645BEA362FD707 /* Pods_ApicTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301903321A3585B083F41F98 /* Pods_ApicTests.framework */; };
-		AD7B2B75BF7D35504841377D /* Pods_Apic_WatchOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6417ED1DE5F91C1E39B21C3A /* Pods_Apic_WatchOS.framework */; };
 		BCA8165D459C9C8EB81AF24D /* Pods_Apic_OSX_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5FF1150D67BB8EA3D34226D /* Pods_Apic_OSX_Tests.framework */; };
 		D51B490F377CB7BEAE9639E7 /* Pods_Apic_tvOS_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B49D9C8E3FF008DCDDDFD3CB /* Pods_Apic_tvOS_Tests.framework */; };
 /* End PBXBuildFile section */
@@ -126,7 +143,10 @@
 		741E10331472010BCDCF0AE3 /* Pods_Apic_OSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Apic_OSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B02D1B68C017585566787E9 /* Pods-Apic OSX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Apic OSX.release.xcconfig"; path = "Pods/Target Support Files/Pods-Apic OSX/Pods-Apic OSX.release.xcconfig"; sourceTree = "<group>"; };
 		810689381C543351008C3E9F /* IntTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntTests.swift; sourceTree = "<group>"; };
+		810B798F1C84C819000FEE9A /* RepositoryStatusTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryStatusTests.swift; sourceTree = "<group>"; };
 		810D29641C66F44F0022AC57 /* RequestObjectsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestObjectsTest.swift; sourceTree = "<group>"; };
+		810EDC291C877C8500905061 /* NSMutableURLRequest+ParameterEncoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMutableURLRequest+ParameterEncoding.swift"; sourceTree = "<group>"; };
+		810EDC2E1C87841C00905061 /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		811915551C77890D0099CF99 /* Apic OSX Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Apic OSX Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		811AAE6C1C52D77000A45017 /* StringTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTests.swift; sourceTree = "<group>"; };
 		813764D01B1A9CA60015EC12 /* Apic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Apic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -187,7 +207,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				438D88B553164C47A6A1BF28 /* Pods_Apic.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,7 +223,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD7B2B75BF7D35504841377D /* Pods_Apic_WatchOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -212,7 +230,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				368B13A88CC9479B6111CB85 /* Pods_Apic_tvOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,7 +237,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81C8FEACA890F148AC171975 /* Pods_Apic_OSX.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,6 +303,8 @@
 				813764F41B1ABAF10015EC12 /* Configuration.swift */,
 				81E9510E1BA248670044B4B1 /* Log.swift */,
 				8155ADB71C5529A2005963AB /* Reachability.swift */,
+				810EDC291C877C8500905061 /* NSMutableURLRequest+ParameterEncoding.swift */,
+				810EDC2E1C87841C00905061 /* Request.swift */,
 				813764D31B1A9CA60015EC12 /* Supporting Files */,
 			);
 			path = Apic;
@@ -320,6 +338,7 @@
 				81B34C591C7D14370052F372 /* RequestObjectTests.swift */,
 				811AAE6C1C52D77000A45017 /* StringTests.swift */,
 				8155ADB51C55196A005963AB /* UndefinedTypeTests.swift */,
+				810B798F1C84C819000FEE9A /* RepositoryStatusTests.swift */,
 				813764E01B1A9CA60015EC12 /* Supporting Files */,
 			);
 			path = ApicTests;
@@ -416,12 +435,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 813764E61B1A9CA60015EC12 /* Build configuration list for PBXNativeTarget "Apic" */;
 			buildPhases = (
-				BCD39099F76A798CA11D8AAF /* Check Pods Manifest.lock */,
 				813764CB1B1A9CA60015EC12 /* Sources */,
 				813764CC1B1A9CA60015EC12 /* Frameworks */,
 				813764CD1B1A9CA60015EC12 /* Headers */,
 				813764CE1B1A9CA60015EC12 /* Resources */,
-				8CDB85856BDA34FE19E0E409 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -457,12 +474,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 81528D751C7657D800E20E8A /* Build configuration list for PBXNativeTarget "Apic WatchOS" */;
 			buildPhases = (
-				CFEFA130BC1F0FE53CAED55F /* Check Pods Manifest.lock */,
 				81528D691C7657D800E20E8A /* Sources */,
 				81528D6A1C7657D800E20E8A /* Frameworks */,
 				81528D6B1C7657D800E20E8A /* Headers */,
 				81528D6C1C7657D800E20E8A /* Resources */,
-				0F84BF25D451542D3B373A0D /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -477,12 +492,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 81528D851C76611400E20E8A /* Build configuration list for PBXNativeTarget "Apic tvOS" */;
 			buildPhases = (
-				8E5C5A0358B9268C8ECF202C /* Check Pods Manifest.lock */,
 				81528D7B1C76611400E20E8A /* Sources */,
 				81528D7C1C76611400E20E8A /* Frameworks */,
 				81528D7D1C76611400E20E8A /* Headers */,
 				81528D7E1C76611400E20E8A /* Resources */,
-				73CA9EA475D2A00327895E1E /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -497,12 +510,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 81528DC21C7663CC00E20E8A /* Build configuration list for PBXNativeTarget "Apic OSX" */;
 			buildPhases = (
-				1A1613861082AE0AAE3AB09C /* Check Pods Manifest.lock */,
 				81528DB81C7663CC00E20E8A /* Sources */,
 				81528DB91C7663CC00E20E8A /* Frameworks */,
 				81528DBA1C7663CC00E20E8A /* Headers */,
 				81528DBB1C7663CC00E20E8A /* Resources */,
-				6313348E65FB50F2115AA096 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -596,6 +607,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				810B798E1C84A4D7000FEE9A /* apic_properties.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -612,6 +624,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				810B798C1C84A4D5000FEE9A /* apic_properties.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -643,27 +656,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				810B798D1C84A4D6000FEE9A /* apic_properties.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0F84BF25D451542D3B373A0D /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Apic WatchOS/Pods-Apic WatchOS-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		171D3E496B0051845391B3AD /* Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -677,21 +676,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ApicTests/Pods-ApicTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		1A1613861082AE0AAE3AB09C /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		58395102857FC050F89D0AE4 /* Copy Pods Resources */ = {
@@ -709,21 +693,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Apic tvOS Tests/Pods-Apic tvOS Tests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		6313348E65FB50F2115AA096 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Apic OSX/Pods-Apic OSX-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		68CEF681D5BDAD7908D7DA02 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -739,21 +708,6 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		73CA9EA475D2A00327895E1E /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Apic tvOS/Pods-Apic tvOS-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		8CA2709185621382FA1232AD /* Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -767,36 +721,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Apic OSX Tests/Pods-Apic OSX Tests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8CDB85856BDA34FE19E0E409 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Apic/Pods-Apic-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8E5C5A0358B9268C8ECF202C /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		8FBD7AE33F04E75B273AC023 /* Embed Pods Frameworks */ = {
@@ -830,36 +754,6 @@
 			showEnvVarsInLog = 0;
 		};
 		BB1EBA3B540BAEE25A8127AC /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		BCD39099F76A798CA11D8AAF /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		CFEFA130BC1F0FE53CAED55F /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -913,12 +807,16 @@
 			files = (
 				8119156C1C7789220099CF99 /* UndefinedTypeTests.swift in Sources */,
 				811915671C7789220099CF99 /* IntTests.swift in Sources */,
+				810B79881C84A4CA000FEE9A /* Log.swift in Sources */,
+				810EDC351C87BDCF00905061 /* RepositoryStatusTests.swift in Sources */,
 				811915601C7789220099CF99 /* ApicTests.swift in Sources */,
 				8119156B1C7789220099CF99 /* StringTests.swift in Sources */,
 				81B34C5F1C7D19B70052F372 /* RequestObjectTests.swift in Sources */,
+				810B798B1C84A4D1000FEE9A /* Configuration.swift in Sources */,
 				811915621C7789220099CF99 /* ComplexModelTests.swift in Sources */,
 				811915681C7789220099CF99 /* Movie.swift in Sources */,
 				811915651C7789220099CF99 /* DoubleTests.swift in Sources */,
+				810EDC331C87B9E500905061 /* ColorTests.swift in Sources */,
 				811915661C7789220099CF99 /* FloatTests.swift in Sources */,
 				811915611C7789220099CF99 /* BoolTests.swift in Sources */,
 				811915691C7789220099CF99 /* NoClassTests.swift in Sources */,
@@ -934,7 +832,9 @@
 			files = (
 				813764F11B1AB9980015EC12 /* AbstractRepository.swift in Sources */,
 				813764F51B1ABAF10015EC12 /* Configuration.swift in Sources */,
+				810EDC2A1C877C8500905061 /* NSMutableURLRequest+ParameterEncoding.swift in Sources */,
 				81E9510F1BA248670044B4B1 /* Log.swift in Sources */,
+				810EDC2F1C87841C00905061 /* Request.swift in Sources */,
 				8155ADB81C5529A2005963AB /* Reachability.swift in Sources */,
 				813764EF1B1AA0610015EC12 /* AbstractModel.swift in Sources */,
 			);
@@ -947,12 +847,15 @@
 				8155ADB21C54664A005963AB /* ComplexModelTests.swift in Sources */,
 				8155ADA81C545610005963AB /* FloatTests.swift in Sources */,
 				810D29651C66F44F0022AC57 /* RequestObjectsTest.swift in Sources */,
+				810B79901C84C819000FEE9A /* RepositoryStatusTests.swift in Sources */,
 				8155ADAC1C545886005963AB /* BoolTests.swift in Sources */,
 				81B34C5A1C7D14370052F372 /* RequestObjectTests.swift in Sources */,
 				8155ADB61C55196A005963AB /* UndefinedTypeTests.swift in Sources */,
+				810B79861C84A4C8000FEE9A /* Log.swift in Sources */,
 				81E685F71BA4A1E200FEBCF0 /* Movie.swift in Sources */,
 				811AAE6D1C52D77000A45017 /* StringTests.swift in Sources */,
 				8155ADAA1C545786005963AB /* DoubleTests.swift in Sources */,
+				810B79891C84A4CF000FEE9A /* Configuration.swift in Sources */,
 				813764E31B1A9CA60015EC12 /* ApicTests.swift in Sources */,
 				810689391C543351008C3E9F /* IntTests.swift in Sources */,
 				8155ADB01C546153005963AB /* ColorTests.swift in Sources */,
@@ -967,6 +870,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				81528D781C765AD800E20E8A /* Configuration.swift in Sources */,
+				810EDC301C87841C00905061 /* Request.swift in Sources */,
+				810EDC2B1C877C8500905061 /* NSMutableURLRequest+ParameterEncoding.swift in Sources */,
 				81528D761C765A8A00E20E8A /* AbstractModel.swift in Sources */,
 				81528D791C765ADB00E20E8A /* Log.swift in Sources */,
 				81528D771C765A8E00E20E8A /* AbstractRepository.swift in Sources */,
@@ -979,7 +884,9 @@
 			files = (
 				81528DB31C76623700E20E8A /* Configuration.swift in Sources */,
 				81528DAF1C76622D00E20E8A /* AbstractModel.swift in Sources */,
+				810EDC2C1C877C8500905061 /* NSMutableURLRequest+ParameterEncoding.swift in Sources */,
 				81528DB51C76623A00E20E8A /* Log.swift in Sources */,
+				810EDC311C87841C00905061 /* Request.swift in Sources */,
 				8160D04D1C7E35E600A48387 /* Reachability.swift in Sources */,
 				81528DB11C76623300E20E8A /* AbstractRepository.swift in Sources */,
 			);
@@ -991,7 +898,9 @@
 			files = (
 				81528DC71C7663F500E20E8A /* Configuration.swift in Sources */,
 				81528DC51C7663F000E20E8A /* AbstractModel.swift in Sources */,
+				810EDC2D1C877C8500905061 /* NSMutableURLRequest+ParameterEncoding.swift in Sources */,
 				81528DC81C7663F800E20E8A /* Log.swift in Sources */,
+				810EDC321C87841C00905061 /* Request.swift in Sources */,
 				81528DC91C7663FB00E20E8A /* Reachability.swift in Sources */,
 				81528DC61C7663F200E20E8A /* AbstractRepository.swift in Sources */,
 			);
@@ -1004,12 +913,15 @@
 				8109ABFC1C76DF0500E10098 /* DateTests.swift in Sources */,
 				8109ABFE1C76DF0B00E10098 /* DoubleTests.swift in Sources */,
 				8109ABFD1C76DF0800E10098 /* DecimalTests.swift in Sources */,
+				810EDC341C87BDCF00905061 /* RepositoryStatusTests.swift in Sources */,
 				8109AC031C76DF1900E10098 /* RequestObjectsTest.swift in Sources */,
 				81B34C5E1C7D19B60052F372 /* RequestObjectTests.swift in Sources */,
 				8109ABFA1C76DF0000E10098 /* ColorTests.swift in Sources */,
+				810B79871C84A4C9000FEE9A /* Log.swift in Sources */,
 				8109AC001C76DF1000E10098 /* IntTests.swift in Sources */,
 				8109ABFB1C76DF0300E10098 /* ComplexModelTests.swift in Sources */,
 				8109ABFF1C76DF0E00E10098 /* FloatTests.swift in Sources */,
+				810B798A1C84A4D0000FEE9A /* Configuration.swift in Sources */,
 				81528DDA1C76A90E00E20E8A /* BoolTests.swift in Sources */,
 				8109AC051C76DF1F00E10098 /* UndefinedTypeTests.swift in Sources */,
 				8109AC041C76DF1C00E10098 /* StringTests.swift in Sources */,
@@ -1171,7 +1083,6 @@
 		};
 		813764E71B1A9CA60015EC12 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8CDB90E111EBBDCA595472AC /* Pods-Apic.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
@@ -1195,7 +1106,6 @@
 		};
 		813764E81B1A9CA60015EC12 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6779A9D05C7BA4C3D664EEAA /* Pods-Apic.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
@@ -1252,7 +1162,6 @@
 		};
 		81528D731C7657D800E20E8A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 90D7310D4DFCF663F10917BD /* Pods-Apic WatchOS.debug.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -1274,7 +1183,6 @@
 		};
 		81528D741C7657D800E20E8A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9CB31436023A54B1C8C5ADEE /* Pods-Apic WatchOS.release.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				DEFINES_MODULE = YES;
@@ -1295,7 +1203,6 @@
 		};
 		81528D861C76611400E20E8A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CDDA832B8A0F224797D82250 /* Pods-Apic tvOS.debug.xcconfig */;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
@@ -1316,7 +1223,6 @@
 		};
 		81528D871C76611400E20E8A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9474E96743B270377A01CBDD /* Pods-Apic tvOS.release.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1336,7 +1242,6 @@
 		};
 		81528DC31C7663CC00E20E8A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 280B679CA95B574ADECBF3B1 /* Pods-Apic OSX.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1359,7 +1264,6 @@
 		};
 		81528DC41C7663CC00E20E8A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7B02D1B68C017585566787E9 /* Pods-Apic OSX.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;

@@ -7,10 +7,20 @@
 //
 
 import Foundation
-import Alamofire
 
 private let processQueue: dispatch_queue_t = dispatch_queue_create("com.apic.ProcessQueue", DISPATCH_QUEUE_CONCURRENT)
 
+public enum HTTPMethod: String {
+    case GET
+    case POST
+    case PUT
+    case DELETE
+}
+
+public enum ParameterEncoding {
+    case URL
+    case JSON
+}
 
 public enum RepositoryError: ErrorType {
     case BadJSON
@@ -22,136 +32,224 @@ public enum RepositoryError: ErrorType {
     case NetworkConnection
 }
 
-public class AbstractRepository {
+public protocol URLConvertible {
+    var URL: NSURL? { get }
+}
+
+extension NSURL: URLConvertible {
+    public var URL: NSURL? {
+        return self
+    }
+}
+
+extension String: URLConvertible {
+    public var URL: NSURL? {
+        return NSURL(string: self)
+    }
+}
+
+public class AbstractRepository<StatusType: Equatable> {
     
     public var objectKey: String?
     public var objectsKey: String?
     public var statusKey: String?
-    public var statusFail: String?
+    public var statusOk: StatusType?
     public var errorDescriptionKey: String?
     public var errorCodeKey: String?
+    
+    public var session: NSURLSession?
+    public var cachePolicy: NSURLRequestCachePolicy?
+    public var timeoutInterval: NSTimeInterval?
+    public var allowsCellularAccess: Bool?
     
 #if os(iOS) || os(OSX) || os(tvOS)
     public var checkReachability = true
 #endif
     
-    public init(objectKey: String? = nil, objectsKey: String? = nil, statusKey: String? = nil, statusFail: String? = nil, errorDescriptionKey: String? = nil, errorCodeKey: String? = nil) {
+    public init(objectKey: String? = nil, objectsKey: String? = nil, statusKey: String? = nil, statusOk: StatusType? = nil, errorDescriptionKey: String? = nil, errorCodeKey: String? = nil) {
         self.objectKey = objectKey
         self.objectsKey = objectsKey
         self.statusKey = statusKey
-        self.statusFail = statusFail
+        self.statusOk = statusOk
         self.errorDescriptionKey = errorDescriptionKey
         self.errorCodeKey = errorCodeKey
     }
     
-    public func requestSuccess(method method: Alamofire.Method, url: String, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, headers: [String: String]? = nil, completion: (getSuccess: () throws -> Bool) -> Void) -> Request? {
+    public func requestSuccess(method method: HTTPMethod, url: URLConvertible, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, headers: [String: String]? = nil, completion: (getSuccess: () throws -> Bool) -> Void) -> Request<Bool> {
+        let request = URLRequest(completionHandler: completion)
 #if os(iOS) || os(OSX) || os(tvOS)
         if checkReachability && !Reachability.isConnectedToNetwork() {
-            completion(getSuccess: { throw RepositoryError.NetworkConnection })
-            return nil
+            request.completeWithError(RepositoryError.NetworkConnection)
+            return request
         }
 #endif
-        let request = Alamofire.request(method, url, parameters: params, encoding: encoding, headers: headers)
-        request.response(queue: processQueue, responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments)) { (response) in
-            if response.result.isFailure {
-                dispatch_async(dispatch_get_main_queue()) { completion(getSuccess: { throw response.result.error! }) }
-                return
-            }
-            do {
-                try self.dictionaryFromJSON(response.result.value)
-                dispatch_async(dispatch_get_main_queue()) { completion(getSuccess: { return true }) }
-            } catch RepositoryError.StatusFail {
-                dispatch_async(dispatch_get_main_queue()) { completion(getSuccess: { return false }) }
-            } catch {
-                dispatch_async(dispatch_get_main_queue()) { completion(getSuccess: { throw error }) }
-            }
+        guard let URL = url.URL else {
+            request.completeWithError(RepositoryError.InvalidURL)
+            return request
         }
-        return request
-    }
-    
-    public func requestObject<T: InitializableWithDictionary>(method: Alamofire.Method, url: String, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, headers: [String: String]? = nil, completion: (getObject: () throws -> T) -> Void) -> Request? {
-#if os(iOS) || os(OSX) || os(tvOS)
-        if checkReachability && !Reachability.isConnectedToNetwork() {
-            completion(getObject: { throw RepositoryError.NetworkConnection })
-            return nil
-        }
-#endif
-        let request = Alamofire.request(method, url, parameters: params, encoding: encoding, headers: headers)
-        request.response(queue: processQueue, responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments)) { (response) in
-            if response.result.isFailure {
-                dispatch_async(dispatch_get_main_queue()) { completion(getObject: { throw response.result.error! }) }
-                return
-            }
+        dispatch_async(processQueue) {
             do {
-                var dictionary = try self.dictionaryFromJSON(response.result.value)
-                if let objectKey = self.objectKey {
-                    if let objectDictionary = dictionary[objectKey] as? [String: AnyObject] {
-                        dictionary = objectDictionary
-                    } else {
-                        throw RepositoryError.BadJSONContent
+                request.dataTask = try self.requestURL(URL, method: method, parameters: params, parameterEncoding: encoding, headers: headers) { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
+                    do {
+                        if let error = error {
+                            throw error
+                        }
+                        guard let data = data else {
+                            throw RepositoryError.BadJSON
+                        }
+                        let json = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+                        try self.dictionaryFromJSON(json)
+                        dispatch_async(dispatch_get_main_queue()) { request.completeWithObject(true) }
+                    }
+                    catch RepositoryError.StatusFail {
+                        dispatch_async(dispatch_get_main_queue()) { request.completeWithObject(false) }
+                    }
+                    catch {
+                        dispatch_async(dispatch_get_main_queue()) { request.completeWithError(error) }
                     }
                 }
-                let object = try T(dictionary: dictionary)
-                dispatch_async(dispatch_get_main_queue()) { completion(getObject: { return object }) }
             } catch {
-                dispatch_async(dispatch_get_main_queue()) { completion(getObject: { throw error }) }
+                dispatch_async(dispatch_get_main_queue()) { request.completeWithError(error) }
             }
         }
         return request
     }
     
-    public func requestObjects<T: InitializableWithDictionary>(method: Alamofire.Method, url: String, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, headers: [String: String]? = nil, completion: (getObjects: () throws -> [T]) -> Void) -> Request? {
+    public func requestObject<T: InitializableWithDictionary>(method: HTTPMethod, url: URLConvertible, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, headers: [String: String]? = nil, completion: (getObject: () throws -> T) -> Void) -> Request<T> {
+        let request = URLRequest(completionHandler: completion)
 #if os(iOS) || os(OSX) || os(tvOS)
         if checkReachability && !Reachability.isConnectedToNetwork() {
-            completion(getObjects: { throw RepositoryError.NetworkConnection })
-            return nil
+            request.completeWithError(RepositoryError.NetworkConnection)
+            return request
         }
 #endif
-        let request = Alamofire.request(method, url, parameters: params, encoding: encoding, headers: headers)
-        request.response(queue: processQueue, responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments)) { (response) in
-            if response.result.isFailure {
-                dispatch_async(dispatch_get_main_queue()) { completion(getObjects: { throw response.result.error! }) }
-                return
-            }
+        guard let URL = url.URL else {
+            request.completeWithError(RepositoryError.InvalidURL)
+            return request
+        }
+        
+        dispatch_async(processQueue) {
             do {
-                var array: [[String: AnyObject]]!
-                if let objectsKey = self.objectsKey {
-                    let data = try self.dictionaryFromJSON(response.result.value)
-                    array = data[objectsKey] as? [[String: AnyObject]]
-                } else {
-                    array = response.result.value as? [[String: AnyObject]]
-                }
-                if array == nil {
-                    throw RepositoryError.BadJSONContent
-                }
-                var objects = [T]()
-                for object in array {
-                    objects.append(try T(dictionary: object))
-                }
-                dispatch_async(dispatch_get_main_queue()) { completion(getObjects: { return objects }) }
+                request.dataTask = try self.requestURL(URL, method: method, parameters: params, parameterEncoding: encoding, completion: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
+                    do {
+                        if let error = error {
+                            throw error
+                        }
+                        guard let data = data else {
+                            throw RepositoryError.BadJSON
+                        }
+                        let json = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+                        var dictionary = try self.dictionaryFromJSON(json)
+                        if let objectKey = self.objectKey {
+                            if let objectDictionary = dictionary[objectKey] as? [String: AnyObject] {
+                                dictionary = objectDictionary
+                            } else {
+                                throw RepositoryError.BadJSONContent
+                            }
+                        }
+                        let object = try T(dictionary: dictionary)
+                        dispatch_async(dispatch_get_main_queue()) { request.completeWithObject(object) }
+                    } catch {
+                        dispatch_async(dispatch_get_main_queue()) { request.completeWithError(error) }
+                    }
+                })
             } catch {
-                dispatch_async(dispatch_get_main_queue()) { completion(getObjects: { throw error }) }
+                dispatch_async(dispatch_get_main_queue()) { request.completeWithError(error) }
             }
         }
         return request
+    }
+    
+    public func requestObjects<T: InitializableWithDictionary>(method: HTTPMethod, url: URLConvertible, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, headers: [String: String]? = nil, completion: (getObjects: () throws -> [T]) -> Void) -> Request<[T]> {
+        let request = URLRequest(completionHandler: completion)
+#if os(iOS) || os(OSX) || os(tvOS)
+        if checkReachability && !Reachability.isConnectedToNetwork() {
+            request.completeWithError(RepositoryError.NetworkConnection)
+            return request
+        }
+#endif
+        guard let URL = url.URL else {
+            request.completeWithError(RepositoryError.InvalidURL)
+            return request
+        }
+        dispatch_async(processQueue) {
+            do {
+                request.dataTask = try self.requestURL(URL, method: method, parameters: params, parameterEncoding: encoding, completion: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
+                    do {
+                        if let error = error {
+                            throw error
+                        }
+                        guard let data = data else {
+                            throw RepositoryError.BadJSON
+                        }
+                        let json = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+                        var array: [[String: AnyObject]]!
+                        if let objectsKey = self.objectsKey {
+                            let data = try self.dictionaryFromJSON(json)
+                            array = data[objectsKey] as? [[String: AnyObject]]
+                        } else {
+                            array = json as? [[String: AnyObject]]
+                        }
+                        if array == nil {
+                            throw RepositoryError.BadJSONContent
+                        }
+                        var objects = [T]()
+                        for object in array {
+                            objects.append(try T(dictionary: object))
+                        }
+                        dispatch_async(dispatch_get_main_queue()) { request.completeWithObject(objects) }
+                    } catch {
+                        dispatch_async(dispatch_get_main_queue()) { request.completeWithError(error) }
+                    }
+                })
+            } catch {
+                dispatch_async(dispatch_get_main_queue()) { request.completeWithError(error) }
+            }
+        }
+        return request
+    }
+    
+    func requestURL(url: NSURL, method: HTTPMethod = .GET, parameters: [String: AnyObject]? = [:], parameterEncoding: ParameterEncoding = .URL, headers: [String: String]? = nil, completion: ((data: NSData?, response: NSURLResponse?, error:NSError?)) -> Void) throws -> NSURLSessionDataTask {
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = method.rawValue
+        if let cachePolicy = cachePolicy {
+            request.cachePolicy = cachePolicy
+        }
+        if let timeoutInterval = timeoutInterval {
+            request.timeoutInterval = timeoutInterval
+        }
+        if let allowsCellularAccess = allowsCellularAccess {
+            request.allowsCellularAccess = allowsCellularAccess
+        }
+        if let headers = headers {
+            for (header, value) in headers {
+                request.addValue(value, forHTTPHeaderField: header)
+            }
+        }
+        try request.encodeParameters(parameters, withEncoding: parameterEncoding)
+        let session = self.session ?? NSURLSession.sharedSession()
+        
+        let task = session.dataTaskWithRequest(request, completionHandler: completion)
+        task.resume()
+        return task
     }
 
     private func dictionaryFromJSON(JSON: AnyObject?) throws -> [String: AnyObject] {
         guard let data = JSON as? [String: AnyObject] else {
             throw RepositoryError.BadJSONContent
         }
-        guard let statusKey = statusKey, statusFail = statusFail else {
+        guard let statusKey = statusKey, statusOk = statusOk else {
             return data
         }
-        guard let status = data[statusKey] as? String else {
+        guard let status = data[statusKey] as? StatusType else {
             throw RepositoryError.BadJSONContent
         }
-        if status == statusFail {
-            let message = errorDescriptionKey != nil ? data[errorDescriptionKey!] as? String : nil
-            let code = errorCodeKey != nil ? data[errorCodeKey!] as? String : nil
-            throw RepositoryError.StatusFail(message: message, code: code)
+        if status == statusOk {
+            return data
         }
-        return data
+        let message = errorDescriptionKey != nil ? data[errorDescriptionKey!] as? String : nil
+        let code = errorCodeKey != nil ? data[errorCodeKey!] as? String : nil
+        throw RepositoryError.StatusFail(message: message, code: code)
     }
     
 }

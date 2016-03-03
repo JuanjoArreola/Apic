@@ -277,7 +277,7 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                     try assignInstance(obj, forProperty: property)
                 } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
                     throw ModelError.UndefinedType(type: propertyType)
-                } else {
+                } else if valueForKey(property) == nil {
                     Log.warn("Unresolved type <\(propertyType)> for property <\(property)> of model <\(self.dynamicType)>")
                 }
             }
@@ -300,7 +300,7 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                     }
                 } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
                     throw ModelError.UndefinedType(type: propertyType)
-                } else {
+                } else if valueForKey(property) == nil {
                     Log.warn("Unresolved type <\(propertyType)> for property <\(property)> of model <\(self.dynamicType)>")
                 }
             }

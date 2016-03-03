@@ -7,8 +7,7 @@
 //
 
 import XCTest
-@testable import Apic
-import Alamofire
+import Apic
 
 class RequestObjectTests: XCTestCase {
     
@@ -96,37 +95,42 @@ class User: AbstractModel {
     }
 }
 
-class UserRepository: AbstractRepository {
-    func requestUserWithName(name: String, completion: (getUser: () throws -> User) -> Void) -> Request? {
+class UserRepository: AbstractRepository<String> {
+    
+    init() { super.init() }
+    
+    func requestUserWithName(name: String, completion: (getUser: () throws -> User) -> Void) -> Request<User>? {
         return requestObject(.GET, url: "https://api.github.com/users/\(name)", completion: completion)
     }
 }
 
-class WrongUserRepository: AbstractRepository {
+class WrongUserRepository: AbstractRepository<String> {
     
     init() {
         super.init(objectKey: "user")
     }
     
-    func requestUserWithName(name: String, completion: (getUser: () throws -> User) -> Void) -> Request? {
+    func requestUserWithName(name: String, completion: (getUser: () throws -> User) -> Void) -> Request<User>? {
         return requestObject(.GET, url: "https://api.github.com/users/\(name)", completion: completion)
     }
 }
 
-class GistRepository: AbstractRepository {
+class GistRepository: AbstractRepository<String> {
     
     init() {
         super.init(objectKey: "owner")
     }
     
-    func requestUserFromGist(gist: String, completion: (getUser: () throws -> User) -> Void) -> Request? {
+    func requestUserFromGist(gist: String, completion: (getUser: () throws -> User) -> Void) -> Request<User>? {
         return requestObject(.GET, url: "https://api.github.com/gists/\(gist)", completion: completion)
     }
 }
 
-class WrongGistRepository: AbstractRepository {
+class WrongGistRepository: AbstractRepository<String> {
     
-    func requestUserFromGist(gist: String, completion: (getUser: () throws -> User) -> Void) -> Request? {
+    init() { super.init() }
+    
+    func requestUserFromGist(gist: String, completion: (getUser: () throws -> User) -> Void) -> Request<User>? {
         return requestObject(.GET, url: "https://api.github.com/gists/\(gist)", completion: completion)
     }
 }

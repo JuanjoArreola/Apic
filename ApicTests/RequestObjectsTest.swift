@@ -8,7 +8,6 @@
 
 import XCTest
 @testable import Apic
-import Alamofire
 
 class RequestObjectsTest: XCTestCase {
 
@@ -88,38 +87,42 @@ class RequestObjectsTest: XCTestCase {
 }
 
 
-class GistsRepository: AbstractRepository {
+class GistsRepository: AbstractRepository<String> {
     
-    func requestGistsOfUser(user: String, completion: (getGists: () throws -> [Gist]) -> Void) -> Request? {
+    init() { super.init() }
+    
+    func requestGistsOfUser(user: String, completion: (getGists: () throws -> [Gist]) -> Void) -> Request<[Gist]>? {
         return requestObjects(.GET, url: "https://api.github.com/users/\(user)/gists", completion: completion)
     }
 }
 
-class WrongGistsRepository: AbstractRepository {
+class WrongGistsRepository: AbstractRepository<String> {
     
     init() {
         super.init(objectsKey: "gists")
     }
     
-    func requestGistsOfUser(user: String, completion: (getGists: () throws -> [Gist]) -> Void) -> Request? {
+    func requestGistsOfUser(user: String, completion: (getGists: () throws -> [Gist]) -> Void) -> Request<[Gist]>? {
         return requestObjects(.GET, url: "https://api.github.com/users/\(user)/gists", completion: completion)
     }
 }
 
-class HistoryRepository: AbstractRepository {
+class HistoryRepository: AbstractRepository<String> {
     
     init() {
         super.init(objectsKey: "history")
     }
     
-    func requestHistoryOfGist(gist: String, completion: (getHistory: () throws -> [HistoryEntry]) -> Void) -> Request? {
+    func requestHistoryOfGist(gist: String, completion: (getHistory: () throws -> [HistoryEntry]) -> Void) -> Request<[HistoryEntry]>? {
         return requestObjects(.GET, url: "https://api.github.com/gists/\(gist)", completion: completion)
     }
 }
 
-class WrongHistoryRepository: AbstractRepository {
+class WrongHistoryRepository: AbstractRepository<String> {
     
-    func requestHistoryOfGist(gist: String, completion: (getHistory: () throws -> [HistoryEntry]) -> Void) -> Request? {
+    init() { super.init() }
+    
+    func requestHistoryOfGist(gist: String, completion: (getHistory: () throws -> [HistoryEntry]) -> Void) -> Request<[HistoryEntry]>? {
         return requestObjects(.GET, url: "https://api.github.com/gists/\(gist)", completion: completion)
     }
 }
