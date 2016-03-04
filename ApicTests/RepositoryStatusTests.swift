@@ -28,7 +28,8 @@ class RepositoryStatusTests: XCTestCase {
         let repository = StringStatusRepository()
         repository.requestTest { (getSuccess) -> Void in
             do {
-                try getSuccess()
+                let success = try getSuccess()
+                XCTAssertTrue(success)
                 expectation.fulfill()
             } catch {
                 Log.error(error)
@@ -39,12 +40,47 @@ class RepositoryStatusTests: XCTestCase {
     }
     
     func testBoolStatus() {
-        stubWithResponse(["status": true])
+        stubWithResponse(["success": true])
         let expectation: XCTestExpectation = expectationWithDescription("fetch success")
         let repository = BoolStatusRepository()
         repository.requestTest { (getSuccess) -> Void in
             do {
-                try getSuccess()
+                let success = try getSuccess()
+                XCTAssertTrue(success)
+                expectation.fulfill()
+            } catch {
+                Log.error(error)
+                XCTFail()
+            }
+        }
+        waitForExpectationsWithTimeout(1.0, handler: nil)
+    }
+    
+    func testStringStatusFail() {
+        stubWithResponse(["status": "FAIL"])
+        let expectation: XCTestExpectation = expectationWithDescription("fetch success")
+        let repository = StringStatusRepository()
+        repository.requestTest { (getSuccess) -> Void in
+            do {
+                let success = try getSuccess()
+                XCTAssertFalse(success)
+                expectation.fulfill()
+            } catch {
+                Log.error(error)
+                XCTFail()
+            }
+        }
+        waitForExpectationsWithTimeout(1.0, handler: nil)
+    }
+    
+    func testBoolStatusFail() {
+        stubWithResponse(["success": false])
+        let expectation: XCTestExpectation = expectationWithDescription("fetch success")
+        let repository = BoolStatusRepository()
+        repository.requestTest { (getSuccess) -> Void in
+            do {
+                let success = try getSuccess()
+                XCTAssertFalse(success)
                 expectation.fulfill()
             } catch {
                 Log.error(error)
@@ -75,7 +111,7 @@ class StringStatusRepository: AbstractRepository<String> {
 
 class BoolStatusRepository: AbstractRepository<Bool> {
     init() {
-        super.init(statusKey: "status", statusOk: true)
+        super.init(statusKey: "success", statusOk: true)
     }
     
     func requestTest(completion: (getSuccess: () throws -> Bool) -> Void) -> Request<Bool>? {

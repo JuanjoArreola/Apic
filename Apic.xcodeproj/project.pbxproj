@@ -69,6 +69,9 @@
 		813764F31B1ABAAA0015EC12 /* apic_properties.plist in Resources */ = {isa = PBXBuildFile; fileRef = 813764F21B1ABAAA0015EC12 /* apic_properties.plist */; };
 		813764F51B1ABAF10015EC12 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813764F41B1ABAF10015EC12 /* Configuration.swift */; };
 		813764F71B1B684B0015EC12 /* apic_strings.strings in Resources */ = {isa = PBXBuildFile; fileRef = 813764F61B1B684B0015EC12 /* apic_strings.strings */; };
+		8151A1351C8A03490070249A /* HeadersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8151A1341C8A03490070249A /* HeadersTests.swift */; };
+		8151A1361C8A03490070249A /* HeadersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8151A1341C8A03490070249A /* HeadersTests.swift */; };
+		8151A1371C8A03490070249A /* HeadersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8151A1341C8A03490070249A /* HeadersTests.swift */; };
 		81528D761C765A8A00E20E8A /* AbstractModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813764EE1B1AA0610015EC12 /* AbstractModel.swift */; };
 		81528D771C765A8E00E20E8A /* AbstractRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813764F01B1AB9980015EC12 /* AbstractRepository.swift */; };
 		81528D781C765AD800E20E8A /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813764F41B1ABAF10015EC12 /* Configuration.swift */; };
@@ -160,6 +163,7 @@
 		813764F21B1ABAAA0015EC12 /* apic_properties.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = apic_properties.plist; sourceTree = "<group>"; };
 		813764F41B1ABAF10015EC12 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		813764F61B1B684B0015EC12 /* apic_strings.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = apic_strings.strings; sourceTree = "<group>"; };
+		8151A1341C8A03490070249A /* HeadersTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeadersTests.swift; sourceTree = "<group>"; };
 		81528D6E1C7657D800E20E8A /* Apic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Apic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		81528D801C76611400E20E8A /* Apic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Apic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		81528DBD1C7663CC00E20E8A /* Apic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Apic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -323,22 +327,8 @@
 		813764DF1B1A9CA60015EC12 /* ApicTests */ = {
 			isa = PBXGroup;
 			children = (
-				813764E21B1A9CA60015EC12 /* ApicTests.swift */,
-				8155ADAB1C545886005963AB /* BoolTests.swift */,
-				8155ADAF1C546153005963AB /* ColorTests.swift */,
-				8155ADB11C54664A005963AB /* ComplexModelTests.swift */,
-				8155ADA51C5451C8005963AB /* DateTests.swift */,
-				8155ADAD1C545B2C005963AB /* DecimalTests.swift */,
-				8155ADA91C545786005963AB /* DoubleTests.swift */,
-				8155ADA71C545610005963AB /* FloatTests.swift */,
-				810689381C543351008C3E9F /* IntTests.swift */,
-				81E685F61BA4A1E200FEBCF0 /* Movie.swift */,
-				8155ADB31C549A77005963AB /* NoClassTests.swift */,
-				810D29641C66F44F0022AC57 /* RequestObjectsTest.swift */,
-				81B34C591C7D14370052F372 /* RequestObjectTests.swift */,
-				811AAE6C1C52D77000A45017 /* StringTests.swift */,
-				8155ADB51C55196A005963AB /* UndefinedTypeTests.swift */,
-				810B798F1C84C819000FEE9A /* RepositoryStatusTests.swift */,
+				8151A1391C8A037B0070249A /* Repository */,
+				8151A1381C8A034F0070249A /* Model */,
 				813764E01B1A9CA60015EC12 /* Supporting Files */,
 			);
 			path = ApicTests;
@@ -350,6 +340,37 @@
 				813764E11B1A9CA60015EC12 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8151A1381C8A034F0070249A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				813764E21B1A9CA60015EC12 /* ApicTests.swift */,
+				8155ADAB1C545886005963AB /* BoolTests.swift */,
+				8155ADAF1C546153005963AB /* ColorTests.swift */,
+				8155ADA51C5451C8005963AB /* DateTests.swift */,
+				8155ADAD1C545B2C005963AB /* DecimalTests.swift */,
+				8155ADA91C545786005963AB /* DoubleTests.swift */,
+				8155ADA71C545610005963AB /* FloatTests.swift */,
+				810689381C543351008C3E9F /* IntTests.swift */,
+				81E685F61BA4A1E200FEBCF0 /* Movie.swift */,
+				8155ADB31C549A77005963AB /* NoClassTests.swift */,
+				811AAE6C1C52D77000A45017 /* StringTests.swift */,
+				8155ADB11C54664A005963AB /* ComplexModelTests.swift */,
+				8155ADB51C55196A005963AB /* UndefinedTypeTests.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		8151A1391C8A037B0070249A /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				810B798F1C84C819000FEE9A /* RepositoryStatusTests.swift */,
+				810D29641C66F44F0022AC57 /* RequestObjectsTest.swift */,
+				81B34C591C7D14370052F372 /* RequestObjectTests.swift */,
+				8151A1341C8A03490070249A /* HeadersTests.swift */,
+			);
+			name = Repository;
 			sourceTree = "<group>";
 		};
 		9DB161A45158A3639F61D3C6 /* Pods */ = {
@@ -820,6 +841,7 @@
 				811915661C7789220099CF99 /* FloatTests.swift in Sources */,
 				811915611C7789220099CF99 /* BoolTests.swift in Sources */,
 				811915691C7789220099CF99 /* NoClassTests.swift in Sources */,
+				8151A1371C8A03490070249A /* HeadersTests.swift in Sources */,
 				811915631C7789220099CF99 /* DateTests.swift in Sources */,
 				8119156A1C7789220099CF99 /* RequestObjectsTest.swift in Sources */,
 				811915641C7789220099CF99 /* DecimalTests.swift in Sources */,
@@ -859,6 +881,7 @@
 				813764E31B1A9CA60015EC12 /* ApicTests.swift in Sources */,
 				810689391C543351008C3E9F /* IntTests.swift in Sources */,
 				8155ADB01C546153005963AB /* ColorTests.swift in Sources */,
+				8151A1351C8A03490070249A /* HeadersTests.swift in Sources */,
 				8155ADA61C5451C8005963AB /* DateTests.swift in Sources */,
 				8155ADAE1C545B2C005963AB /* DecimalTests.swift in Sources */,
 				8155ADB41C549A77005963AB /* NoClassTests.swift in Sources */,
@@ -925,6 +948,7 @@
 				81528DDA1C76A90E00E20E8A /* BoolTests.swift in Sources */,
 				8109AC051C76DF1F00E10098 /* UndefinedTypeTests.swift in Sources */,
 				8109AC041C76DF1C00E10098 /* StringTests.swift in Sources */,
+				8151A1361C8A03490070249A /* HeadersTests.swift in Sources */,
 				8109AC011C76DF1300E10098 /* Movie.swift in Sources */,
 				8109ABF91C76DEFB00E10098 /* ApicTests.swift in Sources */,
 				8109AC021C76DF1600E10098 /* NoClassTests.swift in Sources */,

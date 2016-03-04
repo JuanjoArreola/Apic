@@ -76,8 +76,8 @@ public class AbstractRepository<StatusType: Equatable> {
         self.errorCodeKey = errorCodeKey
     }
     
-    public func requestSuccess(method method: HTTPMethod, url: URLConvertible, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, headers: [String: String]? = nil, completion: (getSuccess: () throws -> Bool) -> Void) -> Request<Bool> {
-        let request = URLRequest(completionHandler: completion)
+    public func requestSuccess(method method: HTTPMethod, url: URLConvertible, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, headers: [String: String]? = nil, completion: (getSuccess: () throws -> Bool) -> Void) -> ApicRequest<Bool> {
+        let request = ApicRequest(completionHandler: completion)
 #if os(iOS) || os(OSX) || os(tvOS)
         if checkReachability && !Reachability.isConnectedToNetwork() {
             request.completeWithError(RepositoryError.NetworkConnection)
@@ -119,8 +119,8 @@ public class AbstractRepository<StatusType: Equatable> {
         return request
     }
     
-    public func requestObject<T: InitializableWithDictionary>(method: HTTPMethod, url: URLConvertible, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, headers: [String: String]? = nil, completion: (getObject: () throws -> T) -> Void) -> Request<T> {
-        let request = URLRequest(completionHandler: completion)
+    public func requestObject<T: InitializableWithDictionary>(method: HTTPMethod, url: URLConvertible, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, headers: [String: String]? = nil, completion: (getObject: () throws -> T) -> Void) -> ApicRequest<T> {
+        let request = ApicRequest(completionHandler: completion)
 #if os(iOS) || os(OSX) || os(tvOS)
         if checkReachability && !Reachability.isConnectedToNetwork() {
             request.completeWithError(RepositoryError.NetworkConnection)
@@ -167,8 +167,8 @@ public class AbstractRepository<StatusType: Equatable> {
         return request
     }
     
-    public func requestObjects<T: InitializableWithDictionary>(method: HTTPMethod, url: URLConvertible, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, headers: [String: String]? = nil, completion: (getObjects: () throws -> [T]) -> Void) -> Request<[T]> {
-        let request = URLRequest(completionHandler: completion)
+    public func requestObjects<T: InitializableWithDictionary>(method: HTTPMethod, url: URLConvertible, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, headers: [String: String]? = nil, completion: (getObjects: () throws -> [T]) -> Void) -> ApicRequest<[T]> {
+        let request = ApicRequest(completionHandler: completion)
 #if os(iOS) || os(OSX) || os(tvOS)
         if checkReachability && !Reachability.isConnectedToNetwork() {
             request.completeWithError(RepositoryError.NetworkConnection)

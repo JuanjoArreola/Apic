@@ -85,9 +85,9 @@ private func sync(closure: () -> Void) {
 }
 
 
-public class URLRequest<T: Any>: Request<T> {
+public class ApicRequest<T: Any>: Request<T> {
     
-    public var dataTask: NSURLSessionDataTask?
+    public internal(set) var dataTask: NSURLSessionDataTask?
     
     public required init(completionHandler: (getObject: () throws -> T) -> Void) {
         super.init(completionHandler: completionHandler)
@@ -99,7 +99,7 @@ public class URLRequest<T: Any>: Request<T> {
     }
     
     override public var debugDescription: String {
-        var desc = "URLRequest<\(T.self)>"
+        var desc = "ApicRequest<\(T.self)>"
         if let url = dataTask?.originalRequest?.URL {
             desc += "(\(url))"
         }

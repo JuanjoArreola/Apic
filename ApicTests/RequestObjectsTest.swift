@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import Apic
+import Apic
 
 class RequestObjectsTest: XCTestCase {
 
