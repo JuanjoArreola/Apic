@@ -30,6 +30,7 @@ public enum RepositoryError: ErrorType {
     case RequestError(message: String?)
     case StatusFail(message: String?, code: String?)
     case NetworkConnection
+    case HTTPError(statusCode: Int)
 }
 
 public protocol URLConvertible {
@@ -94,6 +95,9 @@ public class AbstractRepository<StatusType: Equatable> {
                         if let error = error {
                             throw error
                         }
+                        if let response = response, error = self.getErrorFromResponse(response) {
+                            throw error
+                        }
                         guard let data = data else {
                             throw RepositoryError.BadJSON
                         }
@@ -130,9 +134,12 @@ public class AbstractRepository<StatusType: Equatable> {
         
         dispatch_async(processQueue) {
             do {
-                request.dataTask = try self.requestURL(URL, method: method, parameters: params, parameterEncoding: encoding, completion: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
+                request.dataTask = try self.requestURL(URL, method: method, parameters: params, parameterEncoding: encoding, headers: headers, completion: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
                     do {
                         if let error = error {
+                            throw error
+                        }
+                        if let response = response, error = self.getErrorFromResponse(response) {
                             throw error
                         }
                         guard let data = data else {
@@ -174,9 +181,12 @@ public class AbstractRepository<StatusType: Equatable> {
         }
         dispatch_async(processQueue) {
             do {
-                request.dataTask = try self.requestURL(URL, method: method, parameters: params, parameterEncoding: encoding, completion: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
+                request.dataTask = try self.requestURL(URL, method: method, parameters: params, parameterEncoding: encoding, headers: headers, completion: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
                     do {
                         if let error = error {
+                            throw error
+                        }
+                        if let response = response, error = self.getErrorFromResponse(response) {
                             throw error
                         }
                         guard let data = data else {
@@ -250,6 +260,17 @@ public class AbstractRepository<StatusType: Equatable> {
         let message = errorDescriptionKey != nil ? data[errorDescriptionKey!] as? String : nil
         let code = errorCodeKey != nil ? data[errorCodeKey!] as? String : nil
         throw RepositoryError.StatusFail(message: message, code: code)
+    }
+    
+    private func getErrorFromResponse(response: NSURLResponse) -> ErrorType? {
+        guard let httpResponse = response as? NSHTTPURLResponse else {
+            return nil
+        }
+        let code = httpResponse.statusCode
+        if code >= 400 && code < 600 {
+            return RepositoryError.HTTPError(statusCode: code)
+        }
+        return nil
     }
     
 }

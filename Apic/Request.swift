@@ -87,7 +87,7 @@ private func sync(closure: () -> Void) {
 
 public class URLRequest<T: Any>: Request<T> {
     
-    var dataTask: NSURLSessionDataTask?
+    public var dataTask: NSURLSessionDataTask?
     
     public required init(completionHandler: (getObject: () throws -> T) -> Void) {
         super.init(completionHandler: completionHandler)
