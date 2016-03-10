@@ -31,6 +31,7 @@ public enum RepositoryError: ErrorType {
     case StatusFail(message: String?, code: String?)
     case NetworkConnection
     case HTTPError(statusCode: Int)
+    case EncodingError
 }
 
 public protocol URLConvertible {

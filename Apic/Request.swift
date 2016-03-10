@@ -19,7 +19,7 @@ public class Request<T: Any>: CustomDebugStringConvertible {
     private var completionHandlers: [(getObject: () throws -> T) -> Void]? = []
     private var result: (() throws -> T)?
     
-    var subrequest: Request? {
+    public var subrequest: Request? {
         didSet {
             if canceled {
                 subrequest?.cancel()
@@ -31,12 +31,17 @@ public class Request<T: Any>: CustomDebugStringConvertible {
         return result != nil
     }
     
-    public var canceled = false
+    public private(set) var canceled = false
     
     required public init() {}
     
     public required init(completionHandler: (getObject: () throws -> T) -> Void) {
         completionHandlers!.append(completionHandler)
+    }
+    
+    public convenience init(subrequest: Request) {
+        self.init()
+        self.subrequest = subrequest
     }
     
     public func cancel() {
@@ -45,21 +50,21 @@ public class Request<T: Any>: CustomDebugStringConvertible {
         completeWithError(RequestError.Canceled)
     }
     
-    func completeWithObject(object: T) {
+    public func completeWithObject(object: T) {
         if result == nil {
             result = { return object }
             callHandlers()
         }
     }
     
-    func completeWithError(error: ErrorType) {
+    public func completeWithError(error: ErrorType) {
         if result == nil {
             result = { throw error }
             callHandlers()
         }
     }
     
-    func callHandlers() {
+    private func callHandlers() {
         guard let getClosure = result else { return }
         for handler in completionHandlers! {
             handler(getObject: getClosure)

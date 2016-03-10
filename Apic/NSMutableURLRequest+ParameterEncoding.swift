@@ -18,7 +18,7 @@ extension NSMutableURLRequest {
                     return
                 }
                 if let URLComponents = NSURLComponents(URL: self.URL!, resolvingAgainstBaseURL: false) {
-                    let parametersString = NSMutableURLRequest.encodeParameters(params)
+                    let parametersString = try NSMutableURLRequest.encodeParameters(params)
                     let percentEncodedQuery = (URLComponents.percentEncodedQuery.map { $0 + "&" } ?? "") + parametersString
                     URLComponents.percentEncodedQuery = percentEncodedQuery
                     self.URL = URLComponents.URL
@@ -26,7 +26,7 @@ extension NSMutableURLRequest {
             } else {
                 setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
                 if let params = parameters {
-                    let parametersString = NSMutableURLRequest.encodeParameters(params)
+                    let parametersString = try NSMutableURLRequest.encodeParameters(params)
                     self.HTTPBody = parametersString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
                 }
             }
@@ -48,11 +48,14 @@ extension NSMutableURLRequest {
         }
     }
     
-    static func encodeParameters(parameters: [String: AnyObject]) -> String {
+    static func encodeParameters(parameters: [String: AnyObject]) throws -> String {
         let array = parameters.map { (key, value) -> String in
             let string = String(value)
             return "\(key)=\(string)"
         }
-        return array.joinWithSeparator("&")
+        if let string = array.joinWithSeparator("&").stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet()) {
+            return string
+        }
+        throw RepositoryError.EncodingError
     }
 }
