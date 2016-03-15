@@ -3,14 +3,40 @@
 //  Apic
 //
 //  Created by Juan Jose Arreola on 1/24/16.
-// http://stackoverflow.com/questions/30743408/check-for-internet-connection-in-swift-2-ios-9
 //
 
 #if os(iOS) || os(OSX) || os(tvOS)
 import Foundation
 import SystemConfiguration
+    
+    private let reachabilityQueue: dispatch_queue_t = dispatch_queue_create("com.apic.ReachabilityQueue", DISPATCH_QUEUE_CONCURRENT)
+    
+    public enum ReachabilityError: ErrorType {
+        case InvalidURL
+        case InicializationError
+    }
+    
+    public class HostReachabilityInfo {
+        public let host: String
+        private let networkReachability: SCNetworkReachability
+        public private(set) var flags: SCNetworkReachabilityFlags?
+        
+        init(host: String, networkReachability: SCNetworkReachability) {
+            self.host = host
+            self.networkReachability = networkReachability
+        }
+        
+        public var isReachable: Bool? {
+            if let flags = flags {
+                return flags.rawValue & UInt32(kSCNetworkFlagsReachable) != 0
+            }
+            return nil
+        }
+    }
 
 public class Reachability {
+    
+    private static var reachabilityInfo = [String: HostReachabilityInfo]()
     
     class func isConnectedToNetwork() -> Bool {
         var zeroAddress = sockaddr_in()
@@ -27,5 +53,46 @@ public class Reachability {
         let needsConnection = (flags.rawValue & UInt32(kSCNetworkFlagsConnectionRequired)) != 0
         return (isReachable && !needsConnection)
     }
+    
+    public static func reachabilityInfoForURL(url: NSURL) throws -> HostReachabilityInfo {
+        guard let components = NSURLComponents(URL: url, resolvingAgainstBaseURL: false) else {
+            throw ReachabilityError.InvalidURL
+        }
+        guard let host = components.host else {
+            throw ReachabilityError.InvalidURL
+        }
+        if let info = Reachability.reachabilityInfo[host] {
+            return info
+        } else {
+            let info = try startTrackingHost(host)
+            Reachability.reachabilityInfo[host] = info
+            return info
+        }
+    }
+    
+    public static func startTrackingHost(host: String) throws -> HostReachabilityInfo {
+        guard let reachability = SCNetworkReachabilityCreateWithName(nil, (host as NSString).UTF8String) else {
+            throw ReachabilityError.InicializationError
+        }
+        let reachabilityInfo = HostReachabilityInfo(host: host, networkReachability: reachability)
+        let reachabilityInfoRef = bridge(reachabilityInfo)
+        var context = SCNetworkReachabilityContext(version: 0, info: reachabilityInfoRef, retain: nil, release: nil, copyDescription: nil)
+        if SCNetworkReachabilitySetCallback(reachability, { (reachability, flags, info) in
+            let reachabilityInfo = Unmanaged<HostReachabilityInfo>.fromOpaque(COpaquePointer(info)).takeUnretainedValue()
+            reachabilityInfo.flags = flags
+            }, &context) {
+                if !SCNetworkReachabilitySetDispatchQueue(reachability, reachabilityQueue) {
+                    throw ReachabilityError.InicializationError
+                }
+            return reachabilityInfo
+        } else {
+            throw ReachabilityError.InicializationError
+        }
+    }
+    
+    private static func bridge<T : AnyObject>(obj : T) -> UnsafeMutablePointer<Void> {
+        return UnsafeMutablePointer(Unmanaged.passUnretained(obj).toOpaque())
+    }
 }
+
 #endif

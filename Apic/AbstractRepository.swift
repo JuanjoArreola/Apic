@@ -79,18 +79,15 @@ public class AbstractRepository<StatusType: Equatable> {
     
     public func requestSuccess(method method: HTTPMethod, url: URLConvertible, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, headers: [String: String]? = nil, completion: (getSuccess: () throws -> Bool) -> Void) -> ApicRequest<Bool> {
         let request = ApicRequest(completionHandler: completion)
-#if os(iOS) || os(OSX) || os(tvOS)
-        if checkReachability && !Reachability.isConnectedToNetwork() {
-            request.completeWithError(RepositoryError.NetworkConnection)
-            return request
-        }
-#endif
         guard let URL = url.URL else {
             request.completeWithError(RepositoryError.InvalidURL)
             return request
         }
+        
         dispatch_async(processQueue) {
             do {
+                try self.checkURLReachability(URL)
+                
                 request.dataTask = try self.requestURL(URL, method: method, parameters: params, parameterEncoding: encoding, headers: headers) { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
                     do {
                         if let error = error {
@@ -122,19 +119,16 @@ public class AbstractRepository<StatusType: Equatable> {
     
     public func requestObject<T: InitializableWithDictionary>(method: HTTPMethod, url: URLConvertible, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, headers: [String: String]? = nil, completion: (getObject: () throws -> T) -> Void) -> ApicRequest<T> {
         let request = ApicRequest(completionHandler: completion)
-#if os(iOS) || os(OSX) || os(tvOS)
-        if checkReachability && !Reachability.isConnectedToNetwork() {
-            request.completeWithError(RepositoryError.NetworkConnection)
-            return request
-        }
-#endif
+        
         guard let URL = url.URL else {
             request.completeWithError(RepositoryError.InvalidURL)
             return request
         }
-        
+
         dispatch_async(processQueue) {
             do {
+                try self.checkURLReachability(URL)
+        
                 request.dataTask = try self.requestURL(URL, method: method, parameters: params, parameterEncoding: encoding, headers: headers, completion: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
                     do {
                         if let error = error {
@@ -170,18 +164,16 @@ public class AbstractRepository<StatusType: Equatable> {
     
     public func requestObjects<T: InitializableWithDictionary>(method: HTTPMethod, url: URLConvertible, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .URL, headers: [String: String]? = nil, completion: (getObjects: () throws -> [T]) -> Void) -> ApicRequest<[T]> {
         let request = ApicRequest(completionHandler: completion)
-#if os(iOS) || os(OSX) || os(tvOS)
-        if checkReachability && !Reachability.isConnectedToNetwork() {
-            request.completeWithError(RepositoryError.NetworkConnection)
-            return request
-        }
-#endif
+
         guard let URL = url.URL else {
             request.completeWithError(RepositoryError.InvalidURL)
             return request
         }
+        
         dispatch_async(processQueue) {
             do {
+                try self.checkURLReachability(URL)
+                
                 request.dataTask = try self.requestURL(URL, method: method, parameters: params, parameterEncoding: encoding, headers: headers, completion: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
                     do {
                         if let error = error {
@@ -220,7 +212,7 @@ public class AbstractRepository<StatusType: Equatable> {
         return request
     }
     
-    func requestURL(url: NSURL, method: HTTPMethod = .GET, parameters: [String: AnyObject]? = [:], parameterEncoding: ParameterEncoding = .URL, headers: [String: String]? = nil, completion: ((data: NSData?, response: NSURLResponse?, error:NSError?)) -> Void) throws -> NSURLSessionDataTask {
+    public func requestURL(url: NSURL, method: HTTPMethod = .GET, parameters: [String: AnyObject]? = [:], parameterEncoding: ParameterEncoding = .URL, headers: [String: String]? = nil, completion: ((data: NSData?, response: NSURLResponse?, error:NSError?)) -> Void) throws -> NSURLSessionDataTask {
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = method.rawValue
         if let cachePolicy = cachePolicy {
@@ -243,6 +235,23 @@ public class AbstractRepository<StatusType: Equatable> {
         let task = session.dataTaskWithRequest(request, completionHandler: completion)
         task.resume()
         return task
+    }
+    
+    @inline(__always) func checkURLReachability(url: NSURL) throws {
+        #if os(iOS) || os(OSX) || os(tvOS)
+            if !self.checkReachability {
+                return
+            }
+            guard let info = try? Reachability.reachabilityInfoForURL(url) else {
+                return
+            }
+            guard let reachable = info.isReachable else {
+                return
+            }
+            if !reachable {
+                throw RepositoryError.NetworkConnection
+            }
+        #endif
     }
 
     private func dictionaryFromJSON(JSON: AnyObject?) throws -> [String: AnyObject] {

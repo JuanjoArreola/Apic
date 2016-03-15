@@ -273,6 +273,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		8108FC791C9734D800F935F7 /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Reachability;
+			sourceTree = "<group>";
+		};
 		813764C61B1A9CA60015EC12 = {
 			isa = PBXGroup;
 			children = (
@@ -327,6 +334,7 @@
 		813764DF1B1A9CA60015EC12 /* ApicTests */ = {
 			isa = PBXGroup;
 			children = (
+				8108FC791C9734D800F935F7 /* Reachability */,
 				8151A1391C8A037B0070249A /* Repository */,
 				8151A1381C8A034F0070249A /* Model */,
 				813764E01B1A9CA60015EC12 /* Supporting Files */,
