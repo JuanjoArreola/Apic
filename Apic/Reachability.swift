@@ -10,6 +10,7 @@ import Foundation
 import SystemConfiguration
     
     private let reachabilityQueue: dispatch_queue_t = dispatch_queue_create("com.apic.ReachabilityQueue", DISPATCH_QUEUE_CONCURRENT)
+    private let syncQueue: dispatch_queue_t = dispatch_queue_create("com.apic.SyncQueue", DISPATCH_QUEUE_CONCURRENT)
     
     public enum ReachabilityError: ErrorType {
         case InvalidURL
@@ -31,6 +32,11 @@ import SystemConfiguration
                 return flags.rawValue & UInt32(kSCNetworkFlagsReachable) != 0
             }
             return nil
+        }
+        
+        deinit {
+            SCNetworkReachabilitySetCallback(networkReachability, nil, nil)
+            SCNetworkReachabilitySetDispatchQueue(networkReachability, nil)
         }
     }
 
@@ -61,13 +67,35 @@ public class Reachability {
         guard let host = components.host else {
             throw ReachabilityError.InvalidURL
         }
-        if let info = Reachability.reachabilityInfo[host] {
+        if let info = getReachabilityInfoForHost(host) {
             return info
         } else {
-            let info = try startTrackingHost(host)
-            Reachability.reachabilityInfo[host] = info
-            return info
+            var info: HostReachabilityInfo?
+            var trackingError: ErrorType?
+            dispatch_barrier_async(syncQueue) {
+                do {
+                    info = try startTrackingHost(host)
+                    Reachability.reachabilityInfo[host] = info
+                } catch {
+                    trackingError = error
+                }
+            }
+            if let error = trackingError {
+                throw error
+            }
+            if let info = getReachabilityInfoForHost(host) {
+                return info
+            }
+            throw ReachabilityError.InicializationError
         }
+    }
+    
+    private static func getReachabilityInfoForHost(host: String) -> HostReachabilityInfo? {
+        var info: HostReachabilityInfo?
+        dispatch_sync(syncQueue) {
+            info = Reachability.reachabilityInfo[host]
+        }
+        return info
     }
     
     public static func startTrackingHost(host: String) throws -> HostReachabilityInfo {
