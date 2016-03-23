@@ -101,6 +101,7 @@
 		81B34C5A1C7D14370052F372 /* RequestObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B34C591C7D14370052F372 /* RequestObjectTests.swift */; };
 		81B34C5E1C7D19B60052F372 /* RequestObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B34C591C7D14370052F372 /* RequestObjectTests.swift */; };
 		81B34C5F1C7D19B70052F372 /* RequestObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B34C591C7D14370052F372 /* RequestObjectTests.swift */; };
+		81B8479D1CA33C9F00B0CCC4 /* ReachabilityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B8479C1CA33C9F00B0CCC4 /* ReachabilityTests.swift */; };
 		81E685F71BA4A1E200FEBCF0 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E685F61BA4A1E200FEBCF0 /* Movie.swift */; };
 		81E9510F1BA248670044B4B1 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E9510E1BA248670044B4B1 /* Log.swift */; };
 		AC74C102D0645BEA362FD707 /* Pods_ApicTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301903321A3585B083F41F98 /* Pods_ApicTests.framework */; };
@@ -179,6 +180,7 @@
 		8155ADB51C55196A005963AB /* UndefinedTypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UndefinedTypeTests.swift; sourceTree = "<group>"; };
 		8155ADB71C5529A2005963AB /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		81B34C591C7D14370052F372 /* RequestObjectTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestObjectTests.swift; sourceTree = "<group>"; };
+		81B8479C1CA33C9F00B0CCC4 /* ReachabilityTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReachabilityTests.swift; sourceTree = "<group>"; };
 		81E685F61BA4A1E200FEBCF0 /* Movie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		81E9510E1BA248670044B4B1 /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		81F936FD1B911A2B007C5CA6 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Pods/../build/Debug-watchos/Pods-ApicWatchOS/Alamofire.framework"; sourceTree = "<group>"; };
@@ -276,6 +278,7 @@
 		8108FC791C9734D800F935F7 /* Reachability */ = {
 			isa = PBXGroup;
 			children = (
+				81B8479C1CA33C9F00B0CCC4 /* ReachabilityTests.swift */,
 			);
 			name = Reachability;
 			sourceTree = "<group>";
@@ -892,6 +895,7 @@
 				8151A1351C8A03490070249A /* HeadersTests.swift in Sources */,
 				8155ADA61C5451C8005963AB /* DateTests.swift in Sources */,
 				8155ADAE1C545B2C005963AB /* DecimalTests.swift in Sources */,
+				81B8479D1CA33C9F00B0CCC4 /* ReachabilityTests.swift in Sources */,
 				8155ADB41C549A77005963AB /* NoClassTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

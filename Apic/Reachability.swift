@@ -10,7 +10,7 @@ import Foundation
 import SystemConfiguration
     
     private let reachabilityQueue: dispatch_queue_t = dispatch_queue_create("com.apic.ReachabilityQueue", DISPATCH_QUEUE_SERIAL)
-    private let syncQueue: dispatch_queue_t = dispatch_queue_create("com.apic.SyncQueue", DISPATCH_QUEUE_CONCURRENT)
+    private let syncQueue: dispatch_queue_t = dispatch_queue_create("com.apic.SyncQueue", DISPATCH_QUEUE_SERIAL)
     
     public enum ReachabilityError: ErrorType {
         case InvalidURL
@@ -60,39 +60,80 @@ public class Reachability {
         return (isReachable && !needsConnection)
     }
     
+//    public static func reachabilityInfoForURL(url: NSURL) throws -> HostReachabilityInfo {
+//        guard let components = NSURLComponents(URL: url, resolvingAgainstBaseURL: false) else {
+//            throw ReachabilityError.InvalidURL
+//        }
+//        guard let host = components.host else {
+//            throw ReachabilityError.InvalidURL
+//        }
+//        if let info = getReachabilityInfoForHost(host) {
+//            return info
+//        } else {
+//            
+//            var info: HostReachabilityInfo?
+//            var trackingError: ErrorType?
+//            dispatch_sync(reachabilityQueue) {
+//                do {
+//                    info = try startTrackingHost(host)
+//                    Reachability.reachabilityInfo[host] = info
+//                } catch {
+//                    trackingError = error
+//                }
+//            }
+//            if let info = getReachabilityInfoForHost(host) {
+//                return info
+//            }
+//            if let error = trackingError {
+//                throw error
+//            }
+//            throw ReachabilityError.InicializationError
+//        }
+//    }
+    
     public static func reachabilityInfoForURL(url: NSURL) throws -> HostReachabilityInfo {
-        guard let components = NSURLComponents(URL: url, resolvingAgainstBaseURL: false) else {
-            throw ReachabilityError.InvalidURL
-        }
-        guard let host = components.host else {
-            throw ReachabilityError.InvalidURL
-        }
-        if let info = getReachabilityInfoForHost(host) {
-            return info
-        } else {
-            var info: HostReachabilityInfo?
-            var trackingError: ErrorType?
-            dispatch_barrier_async(syncQueue) {
+//        Log.debug("reachabilityInfoForURL: \(url.path!)")
+        
+        var reachabilityInfo: HostReachabilityInfo?
+        var trackingError: ErrorType?
+        
+        dispatch_sync(syncQueue, {
+//            Log.debug("begin: \(url.path!)")
+            guard let components = NSURLComponents(URL: url, resolvingAgainstBaseURL: false) else {
+                trackingError = ReachabilityError.InvalidURL
+                return
+            }
+            guard let host = components.host else {
+                trackingError = ReachabilityError.InvalidURL
+                return
+            }
+            if let info = Reachability.reachabilityInfo[host] {
+                reachabilityInfo = info
+//                Log.debug("found: \(info.host)")
+            } else {
                 do {
-                    info = try startTrackingHost(host)
-                    Reachability.reachabilityInfo[host] = info
+                    reachabilityInfo = try startTrackingHost(host)
+                    Reachability.reachabilityInfo[host] = reachabilityInfo
                 } catch {
                     trackingError = error
                 }
             }
-            if let info = getReachabilityInfoForHost(host) {
-                return info
-            }
-            if let error = trackingError {
-                throw error
-            }
-            throw ReachabilityError.InicializationError
+//            Log.debug("end: \(url.path!)")
+        })
+        
+        if let info = reachabilityInfo {
+            return info
         }
+        if let error = trackingError {
+            throw error
+        }
+        throw ReachabilityError.InicializationError
+        
     }
     
     private static func getReachabilityInfoForHost(host: String) -> HostReachabilityInfo? {
         var info: HostReachabilityInfo?
-        dispatch_sync(syncQueue) {
+        dispatch_sync(reachabilityQueue) {
             info = Reachability.reachabilityInfo[host]
         }
         return info
@@ -109,11 +150,15 @@ public class Reachability {
             let reachabilityInfo = Unmanaged<HostReachabilityInfo>.fromOpaque(COpaquePointer(info)).takeUnretainedValue()
             reachabilityInfo.flags = flags
             }, &context) {
+                Log.debug("set callback: OK")
                 if !SCNetworkReachabilitySetDispatchQueue(reachability, reachabilityQueue) {
+                    Log.debug("set dispatch queue: Fail")
                     throw ReachabilityError.InicializationError
                 }
+            Log.debug("set dispatch queue: OK")
             return reachabilityInfo
         } else {
+            Log.debug("set callback: Fail")
             throw ReachabilityError.InicializationError
         }
     }
