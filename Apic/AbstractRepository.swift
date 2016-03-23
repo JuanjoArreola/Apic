@@ -22,16 +22,37 @@ public enum ParameterEncoding {
     case JSON
 }
 
-public enum RepositoryError: ErrorType {
+public enum RepositoryError: ErrorType, CustomStringConvertible {
     case BadJSON
     case BadJSONContent
     case InvalidURL
     case InvalidParameters
-    case RequestError(message: String?)
+//    case RequestError(message: String?)
     case StatusFail(message: String?, code: String?)
     case NetworkConnection
-    case HTTPError(statusCode: Int)
+    case HTTPError(statusCode: Int, message: String?)
     case EncodingError
+    
+    public var description: String {
+        switch self {
+        case .HTTPError(let statusCode, _):
+            return "HTTP Error: \(statusCode)"
+        case BadJSON:
+            return "Bad JSON"
+        case .BadJSONContent:
+            return "Bad JOSN Content"
+        case InvalidURL:
+            return "Invalid URL"
+        case InvalidParameters:
+            return "Invalid parameters"
+        case StatusFail(let message, let code):
+            return "Status fail(\(code)): \(message)"
+        case NetworkConnection:
+            return "No network connection"
+        case EncodingError:
+            return "Encoding error"
+        }
+    }
 }
 
 public protocol URLConvertible {
@@ -64,6 +85,8 @@ public class AbstractRepository<StatusType: Equatable> {
     public var timeoutInterval: NSTimeInterval?
     public var allowsCellularAccess: Bool?
     
+    public var responseQueue = dispatch_get_main_queue()
+    
 #if os(iOS) || os(OSX) || os(tvOS)
     public var checkReachability = true
 #endif
@@ -93,7 +116,7 @@ public class AbstractRepository<StatusType: Equatable> {
                         if let error = error {
                             throw error
                         }
-                        if let response = response, error = self.getErrorFromResponse(response) {
+                        if let response = response, error = self.getErrorFromResponse(response, data: data) {
                             throw error
                         }
                         guard let data = data else {
@@ -101,17 +124,17 @@ public class AbstractRepository<StatusType: Equatable> {
                         }
                         let json = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
                         try self.dictionaryFromJSON(json)
-                        dispatch_async(dispatch_get_main_queue()) { request.completeWithObject(true) }
+                        dispatch_async(self.responseQueue) { request.completeWithObject(true) }
                     }
                     catch RepositoryError.StatusFail {
-                        dispatch_async(dispatch_get_main_queue()) { request.completeWithObject(false) }
+                        dispatch_async(self.responseQueue) { request.completeWithObject(false) }
                     }
                     catch {
-                        dispatch_async(dispatch_get_main_queue()) { request.completeWithError(error) }
+                        dispatch_async(self.responseQueue) { request.completeWithError(error) }
                     }
                 }
             } catch {
-                dispatch_async(dispatch_get_main_queue()) { request.completeWithError(error) }
+                dispatch_async(self.responseQueue) { request.completeWithError(error) }
             }
         }
         return request
@@ -134,7 +157,7 @@ public class AbstractRepository<StatusType: Equatable> {
                         if let error = error {
                             throw error
                         }
-                        if let response = response, error = self.getErrorFromResponse(response) {
+                        if let response = response, error = self.getErrorFromResponse(response, data: data) {
                             throw error
                         }
                         guard let data = data else {
@@ -150,13 +173,13 @@ public class AbstractRepository<StatusType: Equatable> {
                             }
                         }
                         let object = try T(dictionary: dictionary)
-                        dispatch_async(dispatch_get_main_queue()) { request.completeWithObject(object) }
+                        dispatch_async(self.responseQueue) { request.completeWithObject(object) }
                     } catch {
-                        dispatch_async(dispatch_get_main_queue()) { request.completeWithError(error) }
+                        dispatch_async(self.responseQueue) { request.completeWithError(error) }
                     }
                 })
             } catch {
-                dispatch_async(dispatch_get_main_queue()) { request.completeWithError(error) }
+                dispatch_async(self.responseQueue) { request.completeWithError(error) }
             }
         }
         return request
@@ -179,7 +202,7 @@ public class AbstractRepository<StatusType: Equatable> {
                         if let error = error {
                             throw error
                         }
-                        if let response = response, error = self.getErrorFromResponse(response) {
+                        if let response = response, error = self.getErrorFromResponse(response, data: data) {
                             throw error
                         }
                         guard let data = data else {
@@ -200,13 +223,13 @@ public class AbstractRepository<StatusType: Equatable> {
                         for object in array {
                             objects.append(try T(dictionary: object))
                         }
-                        dispatch_async(dispatch_get_main_queue()) { request.completeWithObject(objects) }
+                        dispatch_async(self.responseQueue) { request.completeWithObject(objects) }
                     } catch {
-                        dispatch_async(dispatch_get_main_queue()) { request.completeWithError(error) }
+                        dispatch_async(self.responseQueue) { request.completeWithError(error) }
                     }
                 })
             } catch {
-                dispatch_async(dispatch_get_main_queue()) { request.completeWithError(error) }
+                dispatch_async(self.responseQueue) { request.completeWithError(error) }
             }
         }
         return request
@@ -272,13 +295,17 @@ public class AbstractRepository<StatusType: Equatable> {
         throw RepositoryError.StatusFail(message: message, code: code)
     }
     
-    private func getErrorFromResponse(response: NSURLResponse) -> ErrorType? {
+    private func getErrorFromResponse(response: NSURLResponse, data: NSData?) -> RepositoryError? {
         guard let httpResponse = response as? NSHTTPURLResponse else {
             return nil
         }
         let code = httpResponse.statusCode
         if code >= 400 && code < 600 {
-            return RepositoryError.HTTPError(statusCode: code)
+            var message: String?
+            if let data = data {
+                message = String(data: data, encoding: NSISOLatin1StringEncoding)
+            }
+            return RepositoryError.HTTPError(statusCode: code, message: message)
         }
         return nil
     }
