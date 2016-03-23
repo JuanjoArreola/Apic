@@ -62,12 +62,10 @@ class RepositoryStatusTests: XCTestCase {
         let repository = StringStatusRepository()
         repository.requestTest { (getSuccess) -> Void in
             do {
-                let success = try getSuccess()
-                XCTAssertFalse(success)
-                expectation.fulfill()
-            } catch {
-                Log.error(error)
+                _ = try getSuccess()
                 XCTFail()
+            } catch {
+                expectation.fulfill()
             }
         }
         waitForExpectationsWithTimeout(1.0, handler: nil)
@@ -79,12 +77,10 @@ class RepositoryStatusTests: XCTestCase {
         let repository = BoolStatusRepository()
         repository.requestTest { (getSuccess) -> Void in
             do {
-                let success = try getSuccess()
-                XCTAssertFalse(success)
-                expectation.fulfill()
-            } catch {
-                Log.error(error)
+                _ = try getSuccess()
                 XCTFail()
+            } catch {
+                expectation.fulfill()
             }
         }
         waitForExpectationsWithTimeout(1.0, handler: nil)

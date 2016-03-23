@@ -126,9 +126,6 @@ public class AbstractRepository<StatusType: Equatable> {
                         try self.dictionaryFromJSON(json)
                         dispatch_async(self.responseQueue) { request.completeWithObject(true) }
                     }
-                    catch RepositoryError.StatusFail {
-                        dispatch_async(self.responseQueue) { request.completeWithObject(false) }
-                    }
                     catch {
                         dispatch_async(self.responseQueue) { request.completeWithError(error) }
                     }

@@ -9,7 +9,7 @@
 import Foundation
 import SystemConfiguration
     
-    private let reachabilityQueue: dispatch_queue_t = dispatch_queue_create("com.apic.ReachabilityQueue", DISPATCH_QUEUE_CONCURRENT)
+    private let reachabilityQueue: dispatch_queue_t = dispatch_queue_create("com.apic.ReachabilityQueue", DISPATCH_QUEUE_SERIAL)
     private let syncQueue: dispatch_queue_t = dispatch_queue_create("com.apic.SyncQueue", DISPATCH_QUEUE_CONCURRENT)
     
     public enum ReachabilityError: ErrorType {
@@ -80,11 +80,11 @@ public class Reachability {
                     trackingError = error
                 }
             }
-            if let error = trackingError {
-                throw error
-            }
             if let info = getReachabilityInfoForHost(host) {
                 return info
+            }
+            if let error = trackingError {
+                throw error
             }
             throw ReachabilityError.InicializationError
         }

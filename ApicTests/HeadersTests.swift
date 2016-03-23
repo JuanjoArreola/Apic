@@ -45,12 +45,10 @@ class HeadersTests: XCTestCase {
         let repository = WithHeaderRepository()
         repository.requestTest("otherId") { (getSuccess) -> Void in
             do {
-                let success = try getSuccess()
-                XCTAssertFalse(success)
-                expectation.fulfill()
-            } catch {
-                Log.error(error)
+                _ = try getSuccess()
                 XCTFail()
+            } catch {
+                expectation.fulfill()
             }
         }
         waitForExpectationsWithTimeout(1.0, handler: nil)
