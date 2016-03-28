@@ -12,14 +12,18 @@ enum RequestError: ErrorType {
     case Canceled
 }
 
+public protocol Cancellable {
+    func cancel()
+}
+
 private let syncQueue: dispatch_queue_t = dispatch_queue_create("com.apic.SyncQueue", DISPATCH_QUEUE_CONCURRENT)
 
-public class Request<T: Any>: CustomDebugStringConvertible {
+public class Request<T: Any>: CustomDebugStringConvertible, Cancellable {
     
     private var completionHandlers: [(getObject: () throws -> T) -> Void]? = []
     private var result: (() throws -> T)?
     
-    public var subrequest: Request? {
+    public var subrequest: Cancellable? {
         didSet {
             if canceled {
                 subrequest?.cancel()
@@ -39,7 +43,7 @@ public class Request<T: Any>: CustomDebugStringConvertible {
         completionHandlers!.append(completionHandler)
     }
     
-    public convenience init(subrequest: Request) {
+    public convenience init(subrequest: Cancellable) {
         self.init()
         self.subrequest = subrequest
     }
