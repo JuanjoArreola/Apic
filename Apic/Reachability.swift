@@ -60,45 +60,12 @@ public class Reachability {
         return (isReachable && !needsConnection)
     }
     
-//    public static func reachabilityInfoForURL(url: NSURL) throws -> HostReachabilityInfo {
-//        guard let components = NSURLComponents(URL: url, resolvingAgainstBaseURL: false) else {
-//            throw ReachabilityError.InvalidURL
-//        }
-//        guard let host = components.host else {
-//            throw ReachabilityError.InvalidURL
-//        }
-//        if let info = getReachabilityInfoForHost(host) {
-//            return info
-//        } else {
-//            
-//            var info: HostReachabilityInfo?
-//            var trackingError: ErrorType?
-//            dispatch_sync(reachabilityQueue) {
-//                do {
-//                    info = try startTrackingHost(host)
-//                    Reachability.reachabilityInfo[host] = info
-//                } catch {
-//                    trackingError = error
-//                }
-//            }
-//            if let info = getReachabilityInfoForHost(host) {
-//                return info
-//            }
-//            if let error = trackingError {
-//                throw error
-//            }
-//            throw ReachabilityError.InicializationError
-//        }
-//    }
-    
     public static func reachabilityInfoForURL(url: NSURL) throws -> HostReachabilityInfo {
-//        Log.debug("reachabilityInfoForURL: \(url.path!)")
         
         var reachabilityInfo: HostReachabilityInfo?
         var trackingError: ErrorType?
         
         dispatch_sync(syncQueue, {
-//            Log.debug("begin: \(url.path!)")
             guard let components = NSURLComponents(URL: url, resolvingAgainstBaseURL: false) else {
                 trackingError = ReachabilityError.InvalidURL
                 return
@@ -109,7 +76,6 @@ public class Reachability {
             }
             if let info = Reachability.reachabilityInfo[host] {
                 reachabilityInfo = info
-//                Log.debug("found: \(info.host)")
             } else {
                 do {
                     reachabilityInfo = try startTrackingHost(host)
@@ -118,7 +84,6 @@ public class Reachability {
                     trackingError = error
                 }
             }
-//            Log.debug("end: \(url.path!)")
         })
         
         if let info = reachabilityInfo {
@@ -150,15 +115,11 @@ public class Reachability {
             let reachabilityInfo = Unmanaged<HostReachabilityInfo>.fromOpaque(COpaquePointer(info)).takeUnretainedValue()
             reachabilityInfo.flags = flags
             }, &context) {
-                Log.debug("set callback: OK")
                 if !SCNetworkReachabilitySetDispatchQueue(reachability, reachabilityQueue) {
-                    Log.debug("set dispatch queue: Fail")
                     throw ReachabilityError.InicializationError
                 }
-            Log.debug("set dispatch queue: OK")
             return reachabilityInfo
         } else {
-            Log.debug("set callback: Fail")
             throw ReachabilityError.InicializationError
         }
     }
