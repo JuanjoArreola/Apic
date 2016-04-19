@@ -23,9 +23,10 @@ class NoClassTests: XCTestCase {
     
     func testMandatoryProperty() {
         do {
-            let container = try StateContainer(dictionary: ["state": "playing"])
+            let container = try StateContainer(dictionary: ["state": "playing", "mediaType": 1])
             XCTAssertNotNil(container)
             XCTAssertEqual(container.state, State.Playing)
+            XCTAssertEqual(container.mediaType, MediaType.Video)
         } catch {
             XCTFail()
         }
@@ -89,16 +90,29 @@ enum State: StringInitializable {
     }
 }
 
+enum MediaType: IntInitializable {
+    case Audio
+    case Video
+    
+    init?(rawValue: Int) {
+        if rawValue == 0 {
+            self = .Audio
+        } else if rawValue == 1 {
+            self = .Video
+        } else {
+            return nil
+        }
+    }
+}
+
 class StateResolver: TypeResolver {
     
     static let sharedInstance = StateResolver()
     
     func resolveType(type: Any) -> Any? {
-        if type is State?.Type {
-            return State.self
-        } else if type is Location?.Type {
-            return Location.self
-        }
+        if type is State?.Type { return State.self }
+        if type is Location?.Type { return Location.self }
+        if type is MediaType?.Type { return MediaType.self }
         return nil
     }
 }
@@ -108,14 +122,17 @@ class StateContainer: AbstractModel {
     
     var state: State!
     var nextState: State?
+    var mediaType: MediaType!
     
     override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool {
-        return ["state"].contains(property)
+        return ["state", "mediaType"].contains(property)
     }
     
     override func assignInstance(instance: Any, forProperty property: String) throws {
         if property == "state" {
             state = instance as! State
+        } else if property == "mediaType" {
+            mediaType = instance as! MediaType
         } else if property == "nextState" {
             nextState = instance as? State
         } else {

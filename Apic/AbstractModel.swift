@@ -22,12 +22,28 @@ public protocol StringInitializable {
     init?(rawValue: String)
 }
 
+public protocol IntInitializable {
+    init?(rawValue: Int)
+}
+
 protocol StringRepresentable: StringInitializable {
     var rawValue: String { get }
 }
 
 public protocol TypeResolver {
     func resolveType(type: Any) -> Any?
+    
+    func resolveTypeForName(typeName: String) -> Any?
+}
+
+public extension TypeResolver {
+    func resolveTypeForName(typeName: String) -> Any? {
+        return nil
+    }
+}
+
+public protocol DynamicTypeModel {
+    static var typeNameProperty: String { get }
 }
 
 public enum ModelError: ErrorType {
@@ -38,6 +54,7 @@ public enum ModelError: ErrorType {
     case InstanciationError
     case InvalidProperty(property: String)
     case UndefinedType(type: Any.Type)
+    case UndefinedTypeName(typeName: String)
     case UnasignedInstance(property: String)
 }
 
@@ -289,9 +306,30 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                 if let propertyType = modelType.resolver?.resolveType(propertyType) as? AbstractModel.Type {
                     do {
                         var newArray = [AbstractModel]()
-                        for item in array {
-                            newArray.append(try propertyType.init(dictionary: item))
+                        if let propertyType = propertyType as? DynamicTypeModel.Type {
+                            for item in array {
+                                if let typeName = item[propertyType.typeNameProperty] as? String {
+                                    if let itemType = modelType.resolver?.resolveTypeForName(typeName) as? AbstractModel.Type {
+                                        newArray.append(try itemType.init(dictionary: item))
+                                    } else {
+                                        Log.warn("Unresolved type <\(typeName)> for property <\(property)> of model <\(self.dynamicType)>")
+                                        if shouldFailWithInvalidValue(rawValue, forProperty: property) {
+                                            throw ModelError.UndefinedTypeName(typeName: typeName)
+                                        }
+                                    }
+                                } else {
+                                    Log.warn("Dynamic item has no type info")
+                                    if shouldFailWithInvalidValue(rawValue, forProperty: property) {
+                                        throw ModelError.InvalidProperty(property: property)
+                                    }
+                                }
+                            }
+                        } else {
+                            for item in array {
+                                newArray.append(try propertyType.init(dictionary: item))
+                            }
                         }
+                        
                         try assignValue(newArray, forProperty: property)
                     } catch {
                         if shouldFailWithInvalidValue(rawValue, forProperty: property) {
@@ -314,7 +352,20 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                 } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
                     throw ModelError.SourceValueError(property: property)
                 }
-            } else {
+            }
+            
+//          MARK: - IntInitializable
+            else if let propertyType = modelType.resolver?.resolveType(propertyType) as? IntInitializable.Type {
+                if let value: Int = convertValue(rawValue) {
+                    if let value = propertyType.init(rawValue: value) {
+                        try assignInstance(value, forProperty: property)
+                    }
+                } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
+                    throw ModelError.SourceValueError(property: property)
+                }
+            }
+            
+            else {
                 if let value = rawValue {
                     try assignUndefinedValue(value, forProperty: property)
                 }

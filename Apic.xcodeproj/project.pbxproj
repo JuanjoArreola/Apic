@@ -98,6 +98,9 @@
 		8155ADB61C55196A005963AB /* UndefinedTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155ADB51C55196A005963AB /* UndefinedTypeTests.swift */; };
 		8155ADB81C5529A2005963AB /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155ADB71C5529A2005963AB /* Reachability.swift */; };
 		8160D04D1C7E35E600A48387 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155ADB71C5529A2005963AB /* Reachability.swift */; };
+		818369F71CC6DA0A009D89F6 /* DynamicArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818369F61CC6DA0A009D89F6 /* DynamicArrayTests.swift */; };
+		818369F81CC6DA0A009D89F6 /* DynamicArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818369F61CC6DA0A009D89F6 /* DynamicArrayTests.swift */; };
+		818369F91CC6DA0A009D89F6 /* DynamicArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818369F61CC6DA0A009D89F6 /* DynamicArrayTests.swift */; };
 		81B34C5A1C7D14370052F372 /* RequestObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B34C591C7D14370052F372 /* RequestObjectTests.swift */; };
 		81B34C5E1C7D19B60052F372 /* RequestObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B34C591C7D14370052F372 /* RequestObjectTests.swift */; };
 		81B34C5F1C7D19B70052F372 /* RequestObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B34C591C7D14370052F372 /* RequestObjectTests.swift */; };
@@ -179,6 +182,7 @@
 		8155ADB31C549A77005963AB /* NoClassTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoClassTests.swift; sourceTree = "<group>"; };
 		8155ADB51C55196A005963AB /* UndefinedTypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UndefinedTypeTests.swift; sourceTree = "<group>"; };
 		8155ADB71C5529A2005963AB /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		818369F61CC6DA0A009D89F6 /* DynamicArrayTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicArrayTests.swift; sourceTree = "<group>"; };
 		81B34C591C7D14370052F372 /* RequestObjectTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestObjectTests.swift; sourceTree = "<group>"; };
 		81B8479C1CA33C9F00B0CCC4 /* ReachabilityTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReachabilityTests.swift; sourceTree = "<group>"; };
 		81E685F61BA4A1E200FEBCF0 /* Movie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
@@ -369,6 +373,7 @@
 				811AAE6C1C52D77000A45017 /* StringTests.swift */,
 				8155ADB11C54664A005963AB /* ComplexModelTests.swift */,
 				8155ADB51C55196A005963AB /* UndefinedTypeTests.swift */,
+				818369F61CC6DA0A009D89F6 /* DynamicArrayTests.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -850,6 +855,7 @@
 				811915651C7789220099CF99 /* DoubleTests.swift in Sources */,
 				810EDC331C87B9E500905061 /* ColorTests.swift in Sources */,
 				811915661C7789220099CF99 /* FloatTests.swift in Sources */,
+				818369F91CC6DA0A009D89F6 /* DynamicArrayTests.swift in Sources */,
 				811915611C7789220099CF99 /* BoolTests.swift in Sources */,
 				811915691C7789220099CF99 /* NoClassTests.swift in Sources */,
 				8151A1371C8A03490070249A /* HeadersTests.swift in Sources */,
@@ -882,6 +888,7 @@
 				810D29651C66F44F0022AC57 /* RequestObjectsTest.swift in Sources */,
 				810B79901C84C819000FEE9A /* RepositoryStatusTests.swift in Sources */,
 				8155ADAC1C545886005963AB /* BoolTests.swift in Sources */,
+				818369F71CC6DA0A009D89F6 /* DynamicArrayTests.swift in Sources */,
 				81B34C5A1C7D14370052F372 /* RequestObjectTests.swift in Sources */,
 				8155ADB61C55196A005963AB /* UndefinedTypeTests.swift in Sources */,
 				810B79861C84A4C8000FEE9A /* Log.swift in Sources */,
@@ -958,6 +965,7 @@
 				8109ABFF1C76DF0E00E10098 /* FloatTests.swift in Sources */,
 				810B798A1C84A4D0000FEE9A /* Configuration.swift in Sources */,
 				81528DDA1C76A90E00E20E8A /* BoolTests.swift in Sources */,
+				818369F81CC6DA0A009D89F6 /* DynamicArrayTests.swift in Sources */,
 				8109AC051C76DF1F00E10098 /* UndefinedTypeTests.swift in Sources */,
 				8109AC041C76DF1C00E10098 /* StringTests.swift in Sources */,
 				8151A1361C8A03490070249A /* HeadersTests.swift in Sources */,
