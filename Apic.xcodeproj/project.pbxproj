@@ -98,6 +98,12 @@
 		8155ADB61C55196A005963AB /* UndefinedTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155ADB51C55196A005963AB /* UndefinedTypeTests.swift */; };
 		8155ADB81C5529A2005963AB /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155ADB71C5529A2005963AB /* Reachability.swift */; };
 		8160D04D1C7E35E600A48387 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155ADB71C5529A2005963AB /* Reachability.swift */; };
+		816E740B1CC8046400690E0A /* SoftDictionaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816E740A1CC8046400690E0A /* SoftDictionaryTests.swift */; };
+		816E740C1CC8046400690E0A /* SoftDictionaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816E740A1CC8046400690E0A /* SoftDictionaryTests.swift */; };
+		816E740D1CC8046400690E0A /* SoftDictionaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816E740A1CC8046400690E0A /* SoftDictionaryTests.swift */; };
+		816E740F1CC80B9C00690E0A /* AbstractModel+SoftSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816E740E1CC80B9C00690E0A /* AbstractModel+SoftSerialization.swift */; };
+		816E74101CC80B9C00690E0A /* AbstractModel+SoftSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816E740E1CC80B9C00690E0A /* AbstractModel+SoftSerialization.swift */; };
+		816E74111CC80B9C00690E0A /* AbstractModel+SoftSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816E740E1CC80B9C00690E0A /* AbstractModel+SoftSerialization.swift */; };
 		818369F71CC6DA0A009D89F6 /* DynamicArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818369F61CC6DA0A009D89F6 /* DynamicArrayTests.swift */; };
 		818369F81CC6DA0A009D89F6 /* DynamicArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818369F61CC6DA0A009D89F6 /* DynamicArrayTests.swift */; };
 		818369F91CC6DA0A009D89F6 /* DynamicArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818369F61CC6DA0A009D89F6 /* DynamicArrayTests.swift */; };
@@ -182,6 +188,8 @@
 		8155ADB31C549A77005963AB /* NoClassTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoClassTests.swift; sourceTree = "<group>"; };
 		8155ADB51C55196A005963AB /* UndefinedTypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UndefinedTypeTests.swift; sourceTree = "<group>"; };
 		8155ADB71C5529A2005963AB /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		816E740A1CC8046400690E0A /* SoftDictionaryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoftDictionaryTests.swift; sourceTree = "<group>"; };
+		816E740E1CC80B9C00690E0A /* AbstractModel+SoftSerialization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AbstractModel+SoftSerialization.swift"; sourceTree = "<group>"; };
 		818369F61CC6DA0A009D89F6 /* DynamicArrayTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicArrayTests.swift; sourceTree = "<group>"; };
 		81B34C591C7D14370052F372 /* RequestObjectTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestObjectTests.swift; sourceTree = "<group>"; };
 		81B8479C1CA33C9F00B0CCC4 /* ReachabilityTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReachabilityTests.swift; sourceTree = "<group>"; };
@@ -324,6 +332,7 @@
 				810EDC291C877C8500905061 /* NSMutableURLRequest+ParameterEncoding.swift */,
 				810EDC2E1C87841C00905061 /* Request.swift */,
 				813764D31B1A9CA60015EC12 /* Supporting Files */,
+				816E740E1CC80B9C00690E0A /* AbstractModel+SoftSerialization.swift */,
 			);
 			path = Apic;
 			sourceTree = "<group>";
@@ -341,6 +350,7 @@
 		813764DF1B1A9CA60015EC12 /* ApicTests */ = {
 			isa = PBXGroup;
 			children = (
+				816E74091CC8044000690E0A /* Serialization */,
 				8108FC791C9734D800F935F7 /* Reachability */,
 				8151A1391C8A037B0070249A /* Repository */,
 				8151A1381C8A034F0070249A /* Model */,
@@ -387,6 +397,14 @@
 				8151A1341C8A03490070249A /* HeadersTests.swift */,
 			);
 			name = Repository;
+			sourceTree = "<group>";
+		};
+		816E74091CC8044000690E0A /* Serialization */ = {
+			isa = PBXGroup;
+			children = (
+				816E740A1CC8046400690E0A /* SoftDictionaryTests.swift */,
+			);
+			name = Serialization;
 			sourceTree = "<group>";
 		};
 		9DB161A45158A3639F61D3C6 /* Pods */ = {
@@ -862,6 +880,7 @@
 				811915631C7789220099CF99 /* DateTests.swift in Sources */,
 				8119156A1C7789220099CF99 /* RequestObjectsTest.swift in Sources */,
 				811915641C7789220099CF99 /* DecimalTests.swift in Sources */,
+				816E740D1CC8046400690E0A /* SoftDictionaryTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -871,6 +890,7 @@
 			files = (
 				813764F11B1AB9980015EC12 /* AbstractRepository.swift in Sources */,
 				813764F51B1ABAF10015EC12 /* Configuration.swift in Sources */,
+				816E740F1CC80B9C00690E0A /* AbstractModel+SoftSerialization.swift in Sources */,
 				810EDC2A1C877C8500905061 /* NSMutableURLRequest+ParameterEncoding.swift in Sources */,
 				81E9510F1BA248670044B4B1 /* Log.swift in Sources */,
 				810EDC2F1C87841C00905061 /* Request.swift in Sources */,
@@ -890,6 +910,7 @@
 				8155ADAC1C545886005963AB /* BoolTests.swift in Sources */,
 				818369F71CC6DA0A009D89F6 /* DynamicArrayTests.swift in Sources */,
 				81B34C5A1C7D14370052F372 /* RequestObjectTests.swift in Sources */,
+				816E740B1CC8046400690E0A /* SoftDictionaryTests.swift in Sources */,
 				8155ADB61C55196A005963AB /* UndefinedTypeTests.swift in Sources */,
 				810B79861C84A4C8000FEE9A /* Log.swift in Sources */,
 				81E685F71BA4A1E200FEBCF0 /* Movie.swift in Sources */,
@@ -911,6 +932,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				816E74101CC80B9C00690E0A /* AbstractModel+SoftSerialization.swift in Sources */,
 				81528D781C765AD800E20E8A /* Configuration.swift in Sources */,
 				810EDC301C87841C00905061 /* Request.swift in Sources */,
 				810EDC2B1C877C8500905061 /* NSMutableURLRequest+ParameterEncoding.swift in Sources */,
@@ -926,6 +948,7 @@
 			files = (
 				81528DB31C76623700E20E8A /* Configuration.swift in Sources */,
 				81528DAF1C76622D00E20E8A /* AbstractModel.swift in Sources */,
+				816E74111CC80B9C00690E0A /* AbstractModel+SoftSerialization.swift in Sources */,
 				810EDC2C1C877C8500905061 /* NSMutableURLRequest+ParameterEncoding.swift in Sources */,
 				81528DB51C76623A00E20E8A /* Log.swift in Sources */,
 				810EDC311C87841C00905061 /* Request.swift in Sources */,
@@ -972,6 +995,7 @@
 				8109AC011C76DF1300E10098 /* Movie.swift in Sources */,
 				8109ABF91C76DEFB00E10098 /* ApicTests.swift in Sources */,
 				8109AC021C76DF1600E10098 /* NoClassTests.swift in Sources */,
+				816E740C1CC8046400690E0A /* SoftDictionaryTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

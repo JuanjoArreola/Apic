@@ -496,6 +496,3 @@ extension Bool: StringInitializable {
         }
     }
 }
-
-
-
