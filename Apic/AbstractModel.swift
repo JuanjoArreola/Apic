@@ -307,9 +307,10 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                     do {
                         var newArray = [AbstractModel]()
                         if let propertyType = propertyType as? DynamicTypeModel.Type {
+                            let resolver = (propertyType as? AbstractModel.Type)?.resolver ?? modelType.resolver
                             for item in array {
                                 if let typeName = item[propertyType.typeNameProperty] as? String {
-                                    if let itemType = modelType.resolver?.resolveTypeForName(typeName) as? AbstractModel.Type {
+                                    if let itemType = resolver?.resolveTypeForName(typeName) as? AbstractModel.Type {
                                         newArray.append(try itemType.init(dictionary: item))
                                     } else {
                                         Log.warn("Unresolved type <\(typeName)> for property <\(property)> of model <\(self.dynamicType)>")
