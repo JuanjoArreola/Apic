@@ -85,7 +85,7 @@ public class Request<T: Any>: CustomDebugStringConvertible, Cancellable {
     }
     
     public var debugDescription: String {
-        return String(self)
+        return String(unsafeAddressOf(self))
     }
 }
 
