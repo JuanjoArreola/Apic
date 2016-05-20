@@ -33,7 +33,7 @@ class ComplexModelTests: XCTestCase {
     
     func testMandatoryPropertiesNil() {
         do {
-            try ComplexContainer(dictionary: ["id": "1"])
+            _ = try ComplexContainer(dictionary: ["id": "1"])
             XCTFail()
         } catch { }
     }
@@ -62,14 +62,14 @@ class ComplexModelTests: XCTestCase {
     
     func testInvalidPropertyValue() {
         do {
-            try ComplexContainer(dictionary: ["id": "1", "first": ["id": "1"], "second": ["name": "two"]])
+            _ = try ComplexContainer(dictionary: ["id": "1", "first": ["id": "1"], "second": ["name": "two"]])
             XCTFail()
         } catch { }
     }
     
     func testUnresolvedProperty() {
         do {
-            try WrongDefinitionComplexContainer(dictionary: ["first": ["id": "2"]])
+            _ = try WrongDefinitionComplexContainer(dictionary: ["first": ["id": "2"]])
             XCTFail()
         } catch { }
     }
@@ -88,7 +88,7 @@ class ComplexModelTests: XCTestCase {
     
     func testMandatoryPropertiesArrayNil() {
         do {
-            try ComplexArrayContainer(dictionary: ["id": "1"])
+            _ = try ComplexArrayContainer(dictionary: ["id": "1"])
             XCTFail()
         } catch { }
     }
@@ -115,14 +115,14 @@ class ComplexModelTests: XCTestCase {
     
     func testInvalidPropertyArrayValue() {
         do {
-            try ComplexArrayContainer(dictionary: ["models": [["ids": "2"]], "optionals": [["id": "3"], ["id": "4"]]])
+            _ = try ComplexArrayContainer(dictionary: ["models": [["ids": "2"]], "optionals": [["id": "3"], ["id": "4"]]])
             XCTFail()
         } catch { }
     }
     
     func testUnresolvedPropertyArray() {
         do {
-            try WrongDefinitionComplexArrayContainer(dictionary: ["models": [["id": "2"]]])
+            _ = try WrongDefinitionComplexArrayContainer(dictionary: ["models": [["id": "2"]]])
             XCTFail()
         } catch { }
     }

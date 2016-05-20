@@ -298,6 +298,11 @@ public class AbstractRepository<StatusType: Equatable> {
         }
         let code = httpResponse.statusCode
         if code >= 400 && code < 600 {
+            if let data = data, json = try? NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments) as? [String: AnyObject] {
+                if let key = errorDescriptionKey, message = json?[key] as? String, codeKey = errorCodeKey, code = json?[codeKey] as? String {
+                    return RepositoryError.StatusFail(message: message, code: code)
+                }
+            }
             var message: String?
             if let data = data {
                 message = String(data: data, encoding: NSISOLatin1StringEncoding)

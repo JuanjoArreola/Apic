@@ -69,8 +69,8 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
         super.init()
     }
     
-    public required convenience init(dictionary: [String: AnyObject]) throws {
-        self.init()
+    public required init(dictionary: [String: AnyObject]) throws {
+        super.init()
         
         let mirror = Mirror(reflecting: self)
         try initializePropertiesOfMirror(mirror, withDictionary: dictionary)

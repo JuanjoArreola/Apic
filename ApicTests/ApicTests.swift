@@ -45,7 +45,7 @@ class ApicTests: XCTestCase {
         let dictionary = ["id": "348798", "name": "Mad Max: Fury Road", "duration": 120, "releaseDate": "2015-05-14T 00:00:00z",
             "director": ["names": "George Miller"], "cast": [["name": " Tom Hardy"], ["name": "Charlize Theron"]]]
         do {
-            try Movie(dictionary: dictionary)
+            _ = try Movie(dictionary: dictionary)
             XCTFail()
         } catch {
             

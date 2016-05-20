@@ -37,14 +37,14 @@ class DoubleTests: XCTestCase {
     
     func testMandatoryDoubleNil() {
         do {
-            try DoubleContainer(dictionary: ["name": "1.0"])
+            _ = try DoubleContainer(dictionary: ["name": "1.0"])
             XCTFail()
         } catch { }
     }
     
     func testInvalidDouble() {
         do {
-            try DoubleContainer(dictionary: ["id": "one"])
+            _ = try DoubleContainer(dictionary: ["id": "one"])
             XCTFail()
         } catch { }
     }
@@ -86,7 +86,7 @@ class DoubleTests: XCTestCase {
     
     func testMandatoryDoubleArrayNil() {
         do {
-            try DoubleArrayContainer(dictionary: ["id": "1"])
+            _ = try DoubleArrayContainer(dictionary: ["id": "1"])
             XCTFail()
         } catch { }
     }
@@ -101,14 +101,14 @@ class DoubleTests: XCTestCase {
     
     func testInvalidDoubleArray() {
         do {
-            try DoubleArrayContainer(dictionary: ["ids": ["one", "two"]])
+            _ = try DoubleArrayContainer(dictionary: ["ids": ["one", "two"]])
             XCTFail()
         } catch { }
     }
     
     func testInvalidArray() {
         do {
-            try DoubleArrayContainer(dictionary: ["ids": "one"])
+            _ = try DoubleArrayContainer(dictionary: ["ids": "one"])
             XCTFail()
         } catch { }
     }

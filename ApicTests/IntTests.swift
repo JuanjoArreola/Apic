@@ -37,14 +37,14 @@ class IntTests: XCTestCase {
     
     func testMandatoryIntNil() {
         do {
-            try IntContainer(dictionary: ["name": "1"])
+            _ = try IntContainer(dictionary: ["name": "1"])
             XCTFail()
         } catch { }
     }
     
     func testInvalidInt() {
         do {
-            try IntContainer(dictionary: ["id": "one"])
+            _ = try IntContainer(dictionary: ["id": "one"])
             XCTFail()
         } catch { }
     }
@@ -94,7 +94,7 @@ class IntTests: XCTestCase {
     
     func testMandatoryIntArrayNil() {
         do {
-            try IntArrayContainer(dictionary: ["id": "1"])
+            _ = try IntArrayContainer(dictionary: ["id": "1"])
             XCTFail()
         } catch { }
     }
@@ -109,14 +109,14 @@ class IntTests: XCTestCase {
     
     func testInvalidIntArray() {
         do {
-            try IntArrayContainer(dictionary: ["ids": ["one", "two"]])
+            _ = try IntArrayContainer(dictionary: ["ids": ["one", "two"]])
             XCTFail()
         } catch { }
     }
     
     func testInvalidArray() {
         do {
-            try IntArrayContainer(dictionary: ["ids": "one"])
+            _ = try IntArrayContainer(dictionary: ["ids": "one"])
             XCTFail()
         } catch { }
     }

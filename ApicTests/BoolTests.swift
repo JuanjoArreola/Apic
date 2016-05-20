@@ -37,14 +37,14 @@ class BoolTests: XCTestCase {
     
     func testMandatoryBoolNil() {
         do {
-            try BoolContainer(dictionary: ["id": true])
+            _ = try BoolContainer(dictionary: ["id": true])
             XCTFail()
         } catch { }
     }
     
     func testInvalidBool() {
         do {
-            try BoolContainer(dictionary: ["hasId": "one"])
+            _ = try BoolContainer(dictionary: ["hasId": "one"])
             XCTFail()
         } catch { }
     }
@@ -86,7 +86,7 @@ class BoolTests: XCTestCase {
     
     func testMandatoryBoolArrayNil() {
         do {
-            try BoolArrayContainer(dictionary: ["ids": [true, true, false]])
+            _ = try BoolArrayContainer(dictionary: ["ids": [true, true, false]])
             XCTFail()
         } catch { }
     }
@@ -101,14 +101,14 @@ class BoolTests: XCTestCase {
     
     func testInvalidBoolArray() {
         do {
-            try BoolArrayContainer(dictionary: ["hasIds": ["one", "two"]])
+            _ = try BoolArrayContainer(dictionary: ["hasIds": ["one", "two"]])
             XCTFail()
         } catch { }
     }
     
     func testInvalidArray() {
         do {
-            try BoolArrayContainer(dictionary: ["hasIds": "one"])
+            _ = try BoolArrayContainer(dictionary: ["hasIds": "one"])
             XCTFail()
         } catch { }
     }

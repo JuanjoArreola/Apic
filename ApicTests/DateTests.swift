@@ -31,21 +31,21 @@ class DateTests: XCTestCase {
     
     func testMandatoryDateNil() {
         do {
-            try DateContainer(dictionary: [:])
+            _ = try DateContainer(dictionary: [:])
             XCTFail()
         } catch { }
     }
     
     func testInvalidDate() {
         do {
-            try DateContainer(dictionary: ["created": "2016-01-23_18:30:00Z"])
+            _ = try DateContainer(dictionary: ["created": "2016-01-23_18:30:00Z"])
             XCTFail()
         } catch { }
     }
     
     func testInvalidValue() {
         do {
-            try DateContainer(dictionary: ["created": 1])
+            _ = try DateContainer(dictionary: ["created": 1])
             XCTFail()
         } catch { }
     }

@@ -37,14 +37,14 @@ class FloatTests: XCTestCase {
     
     func testMandatoryFloatNil() {
         do {
-            try FloatContainer(dictionary: ["name": "1.0"])
+            _ = try FloatContainer(dictionary: ["name": "1.0"])
             XCTFail()
         } catch { }
     }
     
     func testInvalidFloat() {
         do {
-            try FloatContainer(dictionary: ["id": "one"])
+            _ = try FloatContainer(dictionary: ["id": "one"])
             XCTFail()
         } catch { }
     }
@@ -86,7 +86,7 @@ class FloatTests: XCTestCase {
     
     func testMandatoryFloatArrayNil() {
         do {
-            try FloatArrayContainer(dictionary: ["id": "1"])
+            _ = try FloatArrayContainer(dictionary: ["id": "1"])
             XCTFail()
         } catch { }
     }
@@ -101,14 +101,14 @@ class FloatTests: XCTestCase {
     
     func testInvalidFloatArray() {
         do {
-            try FloatArrayContainer(dictionary: ["ids": ["one", "two"]])
+            _ = try FloatArrayContainer(dictionary: ["ids": ["one", "two"]])
             XCTFail()
         } catch { }
     }
     
     func testInvalidArray() {
         do {
-            try FloatArrayContainer(dictionary: ["ids": "one"])
+            _ = try FloatArrayContainer(dictionary: ["ids": "one"])
             XCTFail()
         } catch { }
     }

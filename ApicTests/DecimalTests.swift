@@ -30,21 +30,21 @@ class DecimalTests: XCTestCase {
     
     func testMandatoryDecimalNil() {
         do {
-            try DecimalContainer(dictionary: [:])
+            _ = try DecimalContainer(dictionary: [:])
             XCTFail()
         } catch { }
     }
     
     func testInvalidDecimal() {
         do {
-            try DecimalContainer(dictionary: ["price": "_0"])
+            _ = try DecimalContainer(dictionary: ["price": "_0"])
             XCTFail()
         } catch { }
     }
     
     func testInvalidValue() {
         do {
-            try DecimalContainer(dictionary: ["price": NSDate()])
+            _ = try DecimalContainer(dictionary: ["price": NSDate()])
             XCTFail()
         } catch { }
     }

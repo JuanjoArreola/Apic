@@ -36,21 +36,21 @@ class ColorTests: XCTestCase {
     
     func testMandatoryColorNil() {
         do {
-            try ColorContainer(dictionary: [:])
+            _ = try ColorContainer(dictionary: [:])
             XCTFail()
         } catch { }
     }
     
     func testInvalidColor() {
         do {
-            try ColorContainer(dictionary: ["main": "00"])
+            _ = try ColorContainer(dictionary: ["main": "00"])
             XCTFail()
         } catch { }
     }
     
     func testInvalidValue() {
         do {
-            try ColorContainer(dictionary: ["main": 255])
+            _ = try ColorContainer(dictionary: ["main": 255])
             XCTFail()
         } catch { }
     }

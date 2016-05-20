@@ -30,14 +30,14 @@ class StringTests: XCTestCase {
     
     func testMandatoryStringNil() {
         do {
-            try StringContainer(dictionary: ["name": "1"])
+            _ = try StringContainer(dictionary: ["name": "1"])
             XCTFail()
         } catch { }
     }
     
     func testInvalidString() {
         do {
-            try StringContainer(dictionary: ["id": 1, "name": "1"])
+            _ = try StringContainer(dictionary: ["id": 1, "name": "1"])
             XCTFail()
         } catch { }
     }
@@ -93,7 +93,7 @@ class StringTests: XCTestCase {
     
     func testMandatoryStringArrayNil() {
         do {
-            try StringArrayContainer(dictionary: ["id": "1"])
+            _ = try StringArrayContainer(dictionary: ["id": "1"])
             XCTFail()
         } catch { }
     }
@@ -108,7 +108,7 @@ class StringTests: XCTestCase {
     
     func testInvalidStringArray() {
         do {
-            try StringArrayContainer(dictionary: ["ids": ["1", 2, 3]])
+            _ = try StringArrayContainer(dictionary: ["ids": ["1", 2, 3]])
             XCTFail()
         } catch { }
     }

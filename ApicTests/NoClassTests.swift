@@ -34,14 +34,14 @@ class NoClassTests: XCTestCase {
     
     func testMandatoryPropertyNil() {
         do {
-            try StateContainer(dictionary: ["nextState": "playing"])
+            _ = try StateContainer(dictionary: ["nextState": "playing"])
             XCTFail()
         } catch { }
     }
     
     func testOptionalPropertyNil() {
         do {
-            let container = try StateContainer(dictionary: ["state": "playing"])
+            let container = try StateContainer(dictionary: ["state": "playing", "mediaType": 1])
             XCTAssertNotNil(container)
             XCTAssertNil(container.nextState)
         } catch {
@@ -51,7 +51,7 @@ class NoClassTests: XCTestCase {
     
     func testOptionalPropertyNotNil() {
         do {
-            let container = try StateContainer(dictionary: ["state": "playing", "nextState": "paused"])
+            let container = try StateContainer(dictionary: ["state": "playing", "nextState": "paused", "mediaType": 1])
             XCTAssertNotNil(container)
             XCTAssertNotNil(container.nextState)
         } catch {
@@ -61,7 +61,7 @@ class NoClassTests: XCTestCase {
     
     func testInvalidValue() {
         do {
-            try StateContainer(dictionary: ["state": 1])
+            _ = try StateContainer(dictionary: ["state": 1])
             XCTFail()
         } catch { }
     }
