@@ -33,7 +33,8 @@ extension NSMutableURLRequest {
             
         case .JSON:
             self.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            if let params = parameters {
+            if var params = parameters {
+                makeParametersJSONConvertible(&params)
                 self.HTTPBody = try NSJSONSerialization.dataWithJSONObject(params, options: NSJSONWritingOptions())
             }
         }
@@ -57,5 +58,13 @@ extension NSMutableURLRequest {
             return string
         }
         throw RepositoryError.EncodingError
+    }
+}
+
+func makeParametersJSONConvertible(inout parameters: [String: AnyObject]) {
+    for (key, value) in parameters {
+        if let url = value as? NSURL {
+            parameters[key] = url.absoluteString
+        }
     }
 }
