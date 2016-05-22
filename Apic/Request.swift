@@ -93,10 +93,15 @@ private func sync(closure: () -> Void) {
     dispatch_barrier_async(syncQueue, closure)
 }
 
+public protocol ProgressReporter: AnyObject {
+    var dataTask: NSURLSessionDataTask? { get }
+    var progressHandler: ((progress: Double) -> Void)? { get }
+}
 
-public class ApicRequest<T: Any>: Request<T> {
+public class ApicRequest<T: Any>: Request<T>, ProgressReporter, Equatable {
     
     public internal(set) var dataTask: NSURLSessionDataTask?
+    public var progressHandler: ((progress: Double) -> Void)?
     
     public required init(completionHandler: (getObject: () throws -> T) -> Void) {
         super.init(completionHandler: completionHandler)
@@ -114,4 +119,8 @@ public class ApicRequest<T: Any>: Request<T> {
         }
         return desc
     }
+}
+
+public func ==<T>(lhs: ApicRequest<T>, rhs: ApicRequest<T>) -> Bool {
+    return lhs.dataTask == rhs.dataTask
 }

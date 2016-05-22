@@ -27,7 +27,6 @@ public enum RepositoryError: ErrorType, CustomStringConvertible {
     case BadJSONContent
     case InvalidURL
     case InvalidParameters
-//    case RequestError(message: String?)
     case StatusFail(message: String?, code: String?)
     case NetworkConnection
     case HTTPError(statusCode: Int, message: String?)
@@ -71,7 +70,7 @@ extension String: URLConvertible {
     }
 }
 
-public class AbstractRepository<StatusType: Equatable> {
+public class AbstractRepository<StatusType: Equatable>: NSObject, NSURLSessionDataDelegate {
     
     public var objectKey: String?
     public var objectsKey: String?
@@ -86,6 +85,10 @@ public class AbstractRepository<StatusType: Equatable> {
     public var allowsCellularAccess: Bool?
     
     public var responseQueue = dispatch_get_main_queue()
+    
+    private var completionHandlers: [NSURLSessionTask: (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void] = [:]
+    private var buffers: [NSURLSessionTask: NSMutableData] = [:]
+    private var progressReporters: [NSURLSessionTask: ProgressReporter] = [:]
     
 #if os(iOS) || os(OSX) || os(tvOS)
     public var checkReachability = true
@@ -129,6 +132,9 @@ public class AbstractRepository<StatusType: Equatable> {
                     catch {
                         dispatch_async(self.responseQueue) { request.completeWithError(error) }
                     }
+                }
+                if self.session?.delegate === self {
+                    self.progressReporters[request.dataTask!] = request
                 }
             } catch {
                 dispatch_async(self.responseQueue) { request.completeWithError(error) }
@@ -175,6 +181,9 @@ public class AbstractRepository<StatusType: Equatable> {
                         dispatch_async(self.responseQueue) { request.completeWithError(error) }
                     }
                 })
+                if self.session?.delegate === self {
+                    self.progressReporters[request.dataTask!] = request
+                }
             } catch {
                 dispatch_async(self.responseQueue) { request.completeWithError(error) }
             }
@@ -225,6 +234,9 @@ public class AbstractRepository<StatusType: Equatable> {
                         dispatch_async(self.responseQueue) { request.completeWithError(error) }
                     }
                 })
+                if self.session?.delegate === self {
+                    self.progressReporters[request.dataTask!] = request
+                }
             } catch {
                 dispatch_async(self.responseQueue) { request.completeWithError(error) }
             }
@@ -232,7 +244,7 @@ public class AbstractRepository<StatusType: Equatable> {
         return request
     }
     
-    public func requestURL(url: NSURL, method: HTTPMethod = .GET, parameters: [String: AnyObject]? = [:], parameterEncoding: ParameterEncoding = .URL, headers: [String: String]? = nil, completion: ((data: NSData?, response: NSURLResponse?, error:NSError?)) -> Void) throws -> NSURLSessionDataTask {
+    public func requestURL(url: NSURL, method: HTTPMethod = .GET, parameters: [String: AnyObject]? = [:], parameterEncoding: ParameterEncoding = .URL, headers: [String: String]? = nil, completion: (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void) throws -> NSURLSessionDataTask {
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = method.rawValue
         if let cachePolicy = cachePolicy {
@@ -252,7 +264,13 @@ public class AbstractRepository<StatusType: Equatable> {
         try request.encodeParameters(parameters, withEncoding: parameterEncoding)
         let session = self.session ?? NSURLSession.sharedSession()
         
-        let task = session.dataTaskWithRequest(request, completionHandler: completion)
+        var task: NSURLSessionDataTask!
+        if self.session?.delegate === self {
+            task = session.dataTaskWithRequest(request)
+            completionHandlers[task] = completion
+        } else {
+            task = session.dataTaskWithRequest(request, completionHandler: completion)
+        }
         task.resume()
         return task
     }
@@ -310,6 +328,29 @@ public class AbstractRepository<StatusType: Equatable> {
             return RepositoryError.HTTPError(statusCode: code, message: message)
         }
         return nil
+    }
+    
+    // MARK: - NSURLSessionDataDelegate
+    
+    public func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveResponse response: NSURLResponse, completionHandler: (NSURLSessionResponseDisposition) -> Void) {
+        progressReporters[dataTask]?.progressHandler?(progress: Double(dataTask.countOfBytesReceived) / Double(dataTask.countOfBytesExpectedToReceive))
+        completionHandler(NSURLSessionResponseDisposition.Allow)
+    }
+    
+    public func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveData data: NSData) {
+        if let data = buffers[dataTask] {
+            data.appendData(data)
+        } else {
+            buffers[dataTask] = NSMutableData(data: data)
+        }
+        progressReporters[dataTask]?.progressHandler?(progress: Double(dataTask.countOfBytesReceived) / Double(dataTask.countOfBytesExpectedToReceive))
+    }
+    
+    public func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
+        completionHandlers[task]?(data: buffers[task], response: task.response, error: error)
+        completionHandlers[task] = nil
+        progressReporters[task] = nil
+        buffers[task] = nil
     }
     
 }
