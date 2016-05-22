@@ -42,7 +42,7 @@ class Resolver: TypeResolver {
     static var sharedResolver = Resolver()
     
     func resolveType(type: Any) -> Any? {
-        if type is [Award]?.Type { return Award.self }
+        if type is [Award]?.Type || type is Award?.Type { return Award.self }
         return nil
     }
     

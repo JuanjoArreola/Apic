@@ -325,6 +325,7 @@
 			children = (
 				813764D51B1A9CA60015EC12 /* Apic.h */,
 				813764EE1B1AA0610015EC12 /* AbstractModel.swift */,
+				816E740E1CC80B9C00690E0A /* AbstractModel+SoftSerialization.swift */,
 				813764F01B1AB9980015EC12 /* AbstractRepository.swift */,
 				813764F41B1ABAF10015EC12 /* Configuration.swift */,
 				81E9510E1BA248670044B4B1 /* Log.swift */,
@@ -332,7 +333,6 @@
 				810EDC291C877C8500905061 /* NSMutableURLRequest+ParameterEncoding.swift */,
 				810EDC2E1C87841C00905061 /* Request.swift */,
 				813764D31B1A9CA60015EC12 /* Supporting Files */,
-				816E740E1CC80B9C00690E0A /* AbstractModel+SoftSerialization.swift */,
 			);
 			path = Apic;
 			sourceTree = "<group>";

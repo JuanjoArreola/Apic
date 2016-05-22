@@ -37,6 +37,10 @@ public protocol TypeResolver {
 }
 
 public extension TypeResolver {
+    func resolveType(type: Any) -> Any? {
+        return nil
+    }
+    
     func resolveTypeForName(typeName: String) -> Any? {
         return nil
     }
@@ -64,6 +68,7 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
     public class var descriptionProperty: String { return "" }
     public class var resolver: TypeResolver? { return nil }
     public class var ignoredProperties: [String] { return [] }
+    public class var dateFormats: [String] { return Configuration.dateFormats }
     
     public override init() {
         super.init()
@@ -406,7 +411,7 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
     private static var dateFormatter: NSDateFormatter = {
         let formatter = NSDateFormatter()
         formatter.locale = Configuration.locale
-        formatter.dateFormat = Configuration.dateFormats.first
+        formatter.dateFormat = dateFormats.first
         return formatter
     }()
     
@@ -414,7 +419,7 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
         if let date = dateFormatter.dateFromString(string) {
             return date
         }
-        for format in Configuration.dateFormats {
+        for format in dateFormats {
             dateFormatter.dateFormat = format
             if let date = dateFormatter.dateFromString(string) {
                 return date
