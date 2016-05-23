@@ -236,7 +236,7 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
 //          MARK: - NSDate
             else if propertyType is NSDate?.Type || propertyType is NSDate.Type {
                 if let value = rawValue as? String {
-                    if let date = AbstractModel.dateFromString(value) {
+                    if let date = self.dynamicType.dateFromString(value) {
                         try assignValue(date, forProperty: property)
                     } else if shouldFailWithInvalidValue(value, forProperty: property) {
                         throw ModelError.DateError(property: property, value: value)

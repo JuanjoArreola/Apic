@@ -53,7 +53,7 @@ In this case, the protocol is implemented by the `DefaultResolver` class and can
 class Gist: AbstractModel {
     // vars
     override class var resolver: TypeResolver? { 
-        return DefaultResolver 
+        return DefaultResolver.sharedResolver
     }
 }
 ```
@@ -103,6 +103,7 @@ class GistsController: UITableViewController {
     }
     
     func requestGists() {
+        gistsRequest?.cancel()
     	gistsRequest = gistsRepository.requestGistsOfUser("UserName", completion: { [weak self] (getGists) -> Void in
     	    do {
     	    	self?.gists = try getGists()
