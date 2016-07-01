@@ -275,6 +275,37 @@ public class AbstractRepository<StatusType: Equatable>: NSObject, NSURLSessionDa
         return task
     }
     
+    public func requestURL(url: NSURL, method: HTTPMethod = .GET, data: NSData, headers: [String: String]? = nil, completion: (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void) throws -> NSURLSessionDataTask {
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = method.rawValue
+        if let cachePolicy = cachePolicy {
+            request.cachePolicy = cachePolicy
+        }
+        if let timeoutInterval = timeoutInterval {
+            request.timeoutInterval = timeoutInterval
+        }
+        if let allowsCellularAccess = allowsCellularAccess {
+            request.allowsCellularAccess = allowsCellularAccess
+        }
+        if let headers = headers {
+            for (header, value) in headers {
+                request.addValue(value, forHTTPHeaderField: header)
+            }
+        }
+        request.HTTPBody = data
+        let session = self.session ?? NSURLSession.sharedSession()
+        
+        var task: NSURLSessionDataTask!
+        if self.session?.delegate === self {
+            task = session.dataTaskWithRequest(request)
+            completionHandlers[task] = completion
+        } else {
+            task = session.dataTaskWithRequest(request, completionHandler: completion)
+        }
+        task.resume()
+        return task
+    }
+    
     @inline(__always) func checkURLReachability(url: NSURL) throws {
         #if os(iOS) || os(OSX) || os(tvOS)
             if !self.checkReachability {

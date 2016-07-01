@@ -291,6 +291,15 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
             }
             
 //          MARK: - [:]
+            
+            else if propertyType is [String: String]?.Type {
+                if let value = rawValue as? [String: String] {
+                    try assignValue(value, forProperty: property)
+                } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
+                    throw ModelError.SourceValueError(property: property)
+                }
+            }
+                
             else if let value = rawValue as? [String: AnyObject] {
                 
 //              MARK: AbstractModel
