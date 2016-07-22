@@ -365,10 +365,6 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                         try assignInstance(value, forProperty: property)
                     }
                 }
-                else if let array = rawValue as? [String] {
-                    let newArray = array.map({ propertyType.init(rawValue: $0 ) })
-                    try assignInstance(newArray, forProperty: property)
-                }
                 else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
                     throw ModelError.SourceValueError(property: property)
                 }
