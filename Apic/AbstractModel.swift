@@ -364,6 +364,9 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                     if let value = propertyType.init(rawValue: string) {
                         try assignInstance(value, forProperty: property)
                     }
+                    else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
+                        throw ModelError.SourceValueError(property: property)
+                    }
                 }
                 else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
                     throw ModelError.SourceValueError(property: property)
@@ -375,6 +378,9 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                 if let value: Int = convertValue(rawValue) {
                     if let value = propertyType.init(rawValue: value) {
                         try assignInstance(value, forProperty: property)
+                    }
+                    else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
+                        throw ModelError.SourceValueError(property: property)
                     }
                 } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
                     throw ModelError.SourceValueError(property: property)
