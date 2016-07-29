@@ -341,7 +341,12 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                             }
                         } else {
                             for item in array {
-                                newArray.append(try propertyType.init(dictionary: item))
+                                do {
+                                    newArray.append(try propertyType.init(dictionary: item))
+                                } catch {
+                                    Log.warn("Couldn't append to \(property):  \(error)")
+                                    throw error
+                                }
                             }
                         }
                         
