@@ -51,7 +51,7 @@ public protocol DynamicTypeModel {
 }
 
 public enum ModelError: ErrorType {
-    case SourceValueError(property: String)
+    case SourceValueError(property: String, model: String)
     case ValueTypeError(property: String?)
     case DateError(property: String?, value: String?)
     case URLError(property: String?, value: String?)
@@ -103,7 +103,7 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
             
             if rawValue == nil {
                 if self.shouldFailWithInvalidValue(rawValue, forProperty: property) {
-                    throw ModelError.SourceValueError(property: property)
+                    throw ModelError.SourceValueError(property: property, model: String(modelType))
                 }
             }
 
@@ -112,7 +112,7 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                 if let value = rawValue as? String {
                     try assignValue(value, forProperty: property)
                 } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
-                    throw ModelError.SourceValueError(property: property)
+                    throw ModelError.SourceValueError(property: property, model: String(modelType))
                 }
             }
                 
@@ -121,7 +121,7 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                 if let array = rawValue as? [String] {
                     try assignValue(array, forProperty: property)
                 } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
-                    throw ModelError.SourceValueError(property: property)
+                    throw ModelError.SourceValueError(property: property, model: String(modelType))
                 }
             }
             
@@ -130,7 +130,7 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                 if let value: Int = convertValue(rawValue) {
                     try assignValue(value, forProperty: property)
                 } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
-                    throw ModelError.SourceValueError(property: property)
+                    throw ModelError.SourceValueError(property: property, model: String(modelType))
                 }
             }
                 
@@ -143,12 +143,12 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                         if let intValue: Int = convertValue(value) {
                             newArray.append(intValue)
                         } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
-                            throw ModelError.SourceValueError(property: property)
+                            throw ModelError.SourceValueError(property: property, model: String(modelType))
                         }
                     }
                     try assignValue(newArray, forProperty: property)
                 } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
-                    throw ModelError.SourceValueError(property: property)
+                    throw ModelError.SourceValueError(property: property, model: String(modelType))
                 }
             }
             
@@ -157,7 +157,7 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                 if let value: Float = convertValue(rawValue) {
                     try assignValue(value, forProperty: property)
                 } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
-                    throw ModelError.SourceValueError(property: property)
+                    throw ModelError.SourceValueError(property: property, model: String(modelType))
                 }
             }
                 
@@ -170,12 +170,12 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                         if let floatValue: Float = convertValue(value) {
                             newArray.append(floatValue)
                         } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
-                            throw ModelError.SourceValueError(property: property)
+                            throw ModelError.SourceValueError(property: property, model: String(modelType))
                         }
                     }
                     try assignValue(newArray, forProperty: property)
                 } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
-                    throw ModelError.SourceValueError(property: property)
+                    throw ModelError.SourceValueError(property: property, model: String(modelType))
                 }
             }
             
@@ -184,7 +184,7 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                 if let value: Double = convertValue(rawValue) {
                     try assignValue(value, forProperty: property)
                 } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
-                    throw ModelError.SourceValueError(property: property)
+                    throw ModelError.SourceValueError(property: property, model: String(modelType))
                 }
             }
                 
@@ -197,12 +197,12 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                         if let doubleValue: Double = convertValue(value) {
                             newArray.append(doubleValue)
                         } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
-                            throw ModelError.SourceValueError(property: property)
+                            throw ModelError.SourceValueError(property: property, model: String(modelType))
                         }
                     }
                     try assignValue(newArray, forProperty: property)
                 } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
-                    throw ModelError.SourceValueError(property: property)
+                    throw ModelError.SourceValueError(property: property, model: String(modelType))
                 }
             }
             
@@ -211,7 +211,7 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                 if let value: Bool = convertValue(rawValue) {
                     try assignValue(value, forProperty: property)
                 } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
-                    throw ModelError.SourceValueError(property: property)
+                    throw ModelError.SourceValueError(property: property, model: String(modelType))
                 }
             }
                 
@@ -224,12 +224,12 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                         if let boolValue: Bool = convertValue(value) {
                             newArray.append(boolValue)
                         } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
-                            throw ModelError.SourceValueError(property: property)
+                            throw ModelError.SourceValueError(property: property, model: String(modelType))
                         }
                     }
                     try assignValue(newArray, forProperty: property)
                 } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
-                    throw ModelError.SourceValueError(property: property)
+                    throw ModelError.SourceValueError(property: property, model: String(modelType))
                 }
             }
             
@@ -242,7 +242,7 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                         throw ModelError.DateError(property: property, value: value)
                     }
                 } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
-                    throw ModelError.SourceValueError(property: property)
+                    throw ModelError.SourceValueError(property: property, model: String(modelType))
                 }
             }
                 
@@ -256,10 +256,10 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                     if number != NSDecimalNumber.notANumber() {
                         try assignValue(number, forProperty: property)
                     } else if shouldFailWithInvalidValue(number, forProperty: property) {
-                        throw ModelError.SourceValueError(property: property)
+                        throw ModelError.SourceValueError(property: property, model: String(modelType))
                     }
                 } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
-                    throw ModelError.SourceValueError(property: property)
+                    throw ModelError.SourceValueError(property: property, model: String(modelType))
                 }
             }
                 
@@ -272,7 +272,7 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                         throw ModelError.URLError(property: property, value: value)
                     }
                 } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
-                    throw ModelError.SourceValueError(property: property)
+                    throw ModelError.SourceValueError(property: property, model: String(modelType))
                 }
             }
             
@@ -283,10 +283,10 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                     if let color = Color(hex: value) {
                         try assignValue(color, forProperty: property)
                     } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
-                        throw ModelError.SourceValueError(property: property)
+                        throw ModelError.SourceValueError(property: property, model: String(modelType))
                     }
                 } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
-                    throw ModelError.SourceValueError(property: property)
+                    throw ModelError.SourceValueError(property: property, model: String(modelType))
                 }
             }
             
@@ -296,7 +296,7 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                 if let value = rawValue as? [String: String] {
                     try assignValue(value, forProperty: property)
                 } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
-                    throw ModelError.SourceValueError(property: property)
+                    throw ModelError.SourceValueError(property: property, model: String(modelType))
                 }
             }
                 
@@ -370,11 +370,11 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                         try assignInstance(value, forProperty: property)
                     }
                     else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
-                        throw ModelError.SourceValueError(property: property)
+                        throw ModelError.SourceValueError(property: property, model: String(modelType))
                     }
                 }
                 else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
-                    throw ModelError.SourceValueError(property: property)
+                    throw ModelError.SourceValueError(property: property, model: String(modelType))
                 }
             }
             
@@ -385,10 +385,10 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                         try assignInstance(value, forProperty: property)
                     }
                     else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
-                        throw ModelError.SourceValueError(property: property)
+                        throw ModelError.SourceValueError(property: property, model: String(modelType))
                     }
                 } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {
-                    throw ModelError.SourceValueError(property: property)
+                    throw ModelError.SourceValueError(property: property, model: String(modelType))
                 }
             }
             
@@ -397,7 +397,7 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
                     try assignUndefinedValue(value, forProperty: property)
                 }
                 if shouldFailWithInvalidValue(rawValue, forProperty: property) {
-                    throw ModelError.SourceValueError(property: property)
+                    throw ModelError.SourceValueError(property: property, model: String(modelType))
                 }
             }
         }

@@ -275,7 +275,7 @@ public class AbstractRepository<StatusType: Equatable>: NSObject, NSURLSessionDa
         return task
     }
     
-    public func requestURL(url: NSURL, method: HTTPMethod = .GET, data: NSData, headers: [String: String]? = nil, completion: (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void) throws -> NSURLSessionDataTask {
+    public func requestURL(url: NSURL, method: HTTPMethod = .GET, data: NSData?, headers: [String: String]? = nil, completion: (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void) throws -> NSURLSessionDataTask {
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = method.rawValue
         if let cachePolicy = cachePolicy {

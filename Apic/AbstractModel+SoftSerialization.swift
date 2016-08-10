@@ -16,6 +16,11 @@ public extension AbstractModel {
             guard let property = child.label else {
                 continue
             }
+            let modelType = mirror.subjectType as! AbstractModel.Type
+            if property == modelType.descriptionProperty {
+                result["description"] = self.valueForKey(property)
+                continue
+            }
             if let value = self.valueForKey(property) {
                 if let model = value as? AbstractModel {
                     result[property] = model.softDictionary
@@ -27,6 +32,16 @@ public extension AbstractModel {
                     result[property] = value
                 }
             }
+        }
+        return result
+    }
+}
+
+public extension Array where Element: AbstractModel {
+    var softArray: [[String: AnyObject]] {
+        var result = [[String: AnyObject]]()
+        for element in self {
+            result.append(element.softDictionary)
         }
         return result
     }

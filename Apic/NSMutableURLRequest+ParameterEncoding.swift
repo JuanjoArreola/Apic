@@ -14,19 +14,11 @@ extension NSMutableURLRequest {
         switch encoding {
         case .URL:
             if NSMutableURLRequest.parametersInURLForMethod(self.HTTPMethod) {
-                guard let params = parameters else {
-                    return
-                }
-                if let URLComponents = NSURLComponents(URL: self.URL!, resolvingAgainstBaseURL: false) {
-                    let parametersString = try NSMutableURLRequest.encodeParameters(params)
-                    let percentEncodedQuery = (URLComponents.percentEncodedQuery.map { $0 + "&" } ?? "") + parametersString
-                    URLComponents.percentEncodedQuery = percentEncodedQuery
-                    self.URL = URLComponents.URL
-                }
+                self.URL = try self.URL?.urlByAppendingParameters(parameters)
             } else {
                 setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
                 if let params = parameters {
-                    let parametersString = try NSMutableURLRequest.encodeParameters(params)
+                    let parametersString = try urlStringForParameters(params)
                     self.HTTPBody = parametersString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
                 }
             }
@@ -48,17 +40,6 @@ extension NSMutableURLRequest {
             return false
         }
     }
-    
-    static func encodeParameters(parameters: [String: AnyObject]) throws -> String {
-        let array = parameters.map { (key, value) -> String in
-            let string = String(value)
-            return "\(key)=\(string)"
-        }
-        if let string = array.joinWithSeparator("&").stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet()) {
-            return string
-        }
-        throw RepositoryError.EncodingError
-    }
 }
 
 func makeParametersJSONConvertible(inout parameters: [String: AnyObject]) {
@@ -66,5 +47,29 @@ func makeParametersJSONConvertible(inout parameters: [String: AnyObject]) {
         if let url = value as? NSURL {
             parameters[key] = url.absoluteString
         }
+    }
+}
+
+func urlStringForParameters(parameters: [String: AnyObject]) throws -> String {
+    let array = parameters.map { (key, value) -> String in
+        return "\(key)=\(String(value))"
+    }
+    if let string = array.joinWithSeparator("&").stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet()) {
+        return string
+    }
+    throw RepositoryError.EncodingError
+}
+
+public extension NSURL {
+    func urlByAppendingParameters(parameters: [String: AnyObject]?) throws -> NSURL {
+        guard let params = parameters else { return self }
+        guard let components = NSURLComponents(URL: self, resolvingAgainstBaseURL: false) else { return self }
+        let parametersString = try urlStringForParameters(params)
+        let percentEncodedQuery = (components.percentEncodedQuery.map { $0 + "&" } ?? "") + parametersString
+        components.percentEncodedQuery = percentEncodedQuery
+        if let url = components.URL {
+            return url
+        }
+        throw RepositoryError.EncodingError
     }
 }
