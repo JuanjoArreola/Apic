@@ -23,9 +23,21 @@ class ErrorTests: XCTestCase {
     }
     
     func testCustomError() {
-        stubWithResponse(["status": "FAIL", "error": ["code": 404, "message": "Authorization error", "solution": "Login first"]])
+        stubWithResponse(["status": "FAIL", "error": ["code": 401, "message": "Authorization error", "solution": "Login first"]])
         let expectation: XCTestExpectation = expectationWithDescription("request")
-        let repository = BoolStatusRepository()
+        let repository = ModelErrorRepository()
+        repository.requestThatFails { (getSuccess) in
+            do {
+                _ = try getSuccess()
+                XCTFail()
+            } catch let httpError as HttpError {
+                XCTAssertNotNil(httpError.solution)
+                expectation.fulfill()
+            } catch {
+                XCTFail()
+            }
+        }
+        waitForExpectationsWithTimeout(1.0, handler: nil)
     }
     
     func stubWithResponse(response: [String: AnyObject]) {
@@ -37,10 +49,22 @@ class ErrorTests: XCTestCase {
     
 }
 
-class CustomError: AbstractErrorModel {
+class HttpError: AbstractErrorModel {
+    var code: Int = 0
+    var message: String!
+    var solution: String!
     
+    override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool {
+        return true
+    }
 }
 
-class ModelErrorRepository: AbstractCustomErrorRepository<String, CustomError> {
+class ModelErrorRepository: AbstractCustomErrorRepository<String, HttpError> {
+    init() {
+        super.init(objectKey: "object", objectsKey: "objects", statusKey: "status", statusOk: "OK", errorKey: "error")
+    }
     
+    func requestThatFails(completion: (getSuccess: () throws -> Bool) -> Void) -> Request<Bool> {
+        return requestSuccess(method: .GET, url: "http://mywebservice.com?stringStatus", completion: completion)
+    }
 }
