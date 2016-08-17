@@ -323,7 +323,7 @@ public class AbstractRepository<StatusType: Equatable>: NSObject, NSURLSessionDa
         #endif
     }
 
-    private func dictionaryFromJSON(JSON: AnyObject?) throws -> [String: AnyObject] {
+    func dictionaryFromJSON(JSON: AnyObject?) throws -> [String: AnyObject] {
         guard let data = JSON as? [String: AnyObject] else {
             throw RepositoryError.BadJSONContent
         }
@@ -341,7 +341,7 @@ public class AbstractRepository<StatusType: Equatable>: NSObject, NSURLSessionDa
         throw RepositoryError.StatusFail(message: message, code: code)
     }
     
-    private func getErrorFromResponse(response: NSURLResponse, data: NSData?) -> RepositoryError? {
+    private func getErrorFromResponse(response: NSURLResponse, data: NSData?) -> ErrorType? {
         guard let httpResponse = response as? NSHTTPURLResponse else {
             return nil
         }
