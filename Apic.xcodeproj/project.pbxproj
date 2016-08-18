@@ -69,6 +69,12 @@
 		813764F31B1ABAAA0015EC12 /* apic_properties.plist in Resources */ = {isa = PBXBuildFile; fileRef = 813764F21B1ABAAA0015EC12 /* apic_properties.plist */; };
 		813764F51B1ABAF10015EC12 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813764F41B1ABAF10015EC12 /* Configuration.swift */; };
 		813764F71B1B684B0015EC12 /* apic_strings.strings in Resources */ = {isa = PBXBuildFile; fileRef = 813764F61B1B684B0015EC12 /* apic_strings.strings */; };
+		8140AE771D6539A1008EB8BC /* AbstractCustomErrorRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BB4A4B1D63F7A30041FB6F /* AbstractCustomErrorRepository.swift */; };
+		8140AE781D6539A2008EB8BC /* AbstractCustomErrorRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BB4A4B1D63F7A30041FB6F /* AbstractCustomErrorRepository.swift */; };
+		8140AE791D6539A3008EB8BC /* AbstractCustomErrorRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BB4A4B1D63F7A30041FB6F /* AbstractCustomErrorRepository.swift */; };
+		8140AE7A1D6539BA008EB8BC /* ErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BB4A4E1D63FC1A0041FB6F /* ErrorTests.swift */; };
+		8140AE7B1D6539BB008EB8BC /* ErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BB4A4E1D63FC1A0041FB6F /* ErrorTests.swift */; };
+		8140AE7C1D653B0D008EB8BC /* AbstractModel+SoftSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816E740E1CC80B9C00690E0A /* AbstractModel+SoftSerialization.swift */; };
 		8151A1351C8A03490070249A /* HeadersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8151A1341C8A03490070249A /* HeadersTests.swift */; };
 		8151A1361C8A03490070249A /* HeadersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8151A1341C8A03490070249A /* HeadersTests.swift */; };
 		8151A1371C8A03490070249A /* HeadersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8151A1341C8A03490070249A /* HeadersTests.swift */; };
@@ -329,6 +335,7 @@
 			children = (
 				813764D51B1A9CA60015EC12 /* Apic.h */,
 				813764EE1B1AA0610015EC12 /* AbstractModel.swift */,
+				81BB4A4B1D63F7A30041FB6F /* AbstractCustomErrorRepository.swift */,
 				816E740E1CC80B9C00690E0A /* AbstractModel+SoftSerialization.swift */,
 				813764F01B1AB9980015EC12 /* AbstractRepository.swift */,
 				813764F41B1ABAF10015EC12 /* Configuration.swift */,
@@ -337,7 +344,6 @@
 				810EDC291C877C8500905061 /* NSMutableURLRequest+ParameterEncoding.swift */,
 				810EDC2E1C87841C00905061 /* Request.swift */,
 				813764D31B1A9CA60015EC12 /* Supporting Files */,
-				81BB4A4B1D63F7A30041FB6F /* AbstractCustomErrorRepository.swift */,
 			);
 			path = Apic;
 			sourceTree = "<group>";
@@ -880,6 +886,7 @@
 				810EDC351C87BDCF00905061 /* RepositoryStatusTests.swift in Sources */,
 				811915601C7789220099CF99 /* ApicTests.swift in Sources */,
 				8119156B1C7789220099CF99 /* StringTests.swift in Sources */,
+				8140AE7B1D6539BB008EB8BC /* ErrorTests.swift in Sources */,
 				81B34C5F1C7D19B70052F372 /* RequestObjectTests.swift in Sources */,
 				810B798B1C84A4D1000FEE9A /* Configuration.swift in Sources */,
 				811915621C7789220099CF99 /* ComplexModelTests.swift in Sources */,
@@ -955,6 +962,7 @@
 				81528D761C765A8A00E20E8A /* AbstractModel.swift in Sources */,
 				81528D791C765ADB00E20E8A /* Log.swift in Sources */,
 				81528D771C765A8E00E20E8A /* AbstractRepository.swift in Sources */,
+				8140AE771D6539A1008EB8BC /* AbstractCustomErrorRepository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -969,6 +977,7 @@
 				81528DB51C76623A00E20E8A /* Log.swift in Sources */,
 				810EDC311C87841C00905061 /* Request.swift in Sources */,
 				8160D04D1C7E35E600A48387 /* Reachability.swift in Sources */,
+				8140AE781D6539A2008EB8BC /* AbstractCustomErrorRepository.swift in Sources */,
 				81528DB11C76623300E20E8A /* AbstractRepository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -984,6 +993,8 @@
 				810EDC321C87841C00905061 /* Request.swift in Sources */,
 				81528DC91C7663FB00E20E8A /* Reachability.swift in Sources */,
 				81528DC61C7663F200E20E8A /* AbstractRepository.swift in Sources */,
+				8140AE7C1D653B0D008EB8BC /* AbstractModel+SoftSerialization.swift in Sources */,
+				8140AE791D6539A3008EB8BC /* AbstractCustomErrorRepository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -997,6 +1008,7 @@
 				810EDC341C87BDCF00905061 /* RepositoryStatusTests.swift in Sources */,
 				8109AC031C76DF1900E10098 /* RequestObjectsTest.swift in Sources */,
 				81B34C5E1C7D19B60052F372 /* RequestObjectTests.swift in Sources */,
+				8140AE7A1D6539BA008EB8BC /* ErrorTests.swift in Sources */,
 				8109ABFA1C76DF0000E10098 /* ColorTests.swift in Sources */,
 				810B79871C84A4C9000FEE9A /* Log.swift in Sources */,
 				8109AC001C76DF1000E10098 /* IntTests.swift in Sources */,
