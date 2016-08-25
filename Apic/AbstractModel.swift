@@ -100,7 +100,7 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
         }
     }
     
-    func assignRawValue(rawValue: AnyObject?, toProperty property: String, mirror: Mirror? = nil) throws {
+    public func assignRawValue(rawValue: AnyObject?, toProperty property: String, mirror: Mirror? = nil) throws {
         let mirror = mirror ?? Mirror(reflecting: self)
         if let child = mirror.findChildWithName(property) {
             let modelType = mirror.subjectType as! AbstractModel.Type
