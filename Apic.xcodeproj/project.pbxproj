@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D6C58A41D75DF238C3F4928 /* Pods_ApicTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D6217BFBF23DF57067F7AC2 /* Pods_ApicTests.framework */; };
+		60F1DCBB294B05BE5EE259AE /* Pods_Apic_tvOS_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC44FD0636C418B70C542896 /* Pods_Apic_tvOS_Tests.framework */; };
 		810689391C543351008C3E9F /* IntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810689381C543351008C3E9F /* IntTests.swift */; };
 		8109ABF91C76DEFB00E10098 /* ApicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813764E21B1A9CA60015EC12 /* ApicTests.swift */; };
 		8109ABFA1C76DF0000E10098 /* ColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155ADAF1C546153005963AB /* ColorTests.swift */; };
@@ -121,9 +123,7 @@
 		81BB4A4F1D63FC1A0041FB6F /* ErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BB4A4E1D63FC1A0041FB6F /* ErrorTests.swift */; };
 		81E685F71BA4A1E200FEBCF0 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E685F61BA4A1E200FEBCF0 /* Movie.swift */; };
 		81E9510F1BA248670044B4B1 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E9510E1BA248670044B4B1 /* Log.swift */; };
-		AC74C102D0645BEA362FD707 /* Pods_ApicTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301903321A3585B083F41F98 /* Pods_ApicTests.framework */; };
-		BCA8165D459C9C8EB81AF24D /* Pods_Apic_OSX_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5FF1150D67BB8EA3D34226D /* Pods_Apic_OSX_Tests.framework */; };
-		D51B490F377CB7BEAE9639E7 /* Pods_Apic_tvOS_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B49D9C8E3FF008DCDDDFD3CB /* Pods_Apic_tvOS_Tests.framework */; };
+		E7FF643B2002C88943ACD936 /* Pods_Apic_OSX_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8841DEB4E6F5FA82E0490697 /* Pods_Apic_OSX_Tests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -151,18 +151,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0BBA0E65F40C2E7C6769C01B /* Pods-Apic OSX Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Apic OSX Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Apic OSX Tests/Pods-Apic OSX Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		280B679CA95B574ADECBF3B1 /* Pods-Apic OSX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Apic OSX.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Apic OSX/Pods-Apic OSX.debug.xcconfig"; sourceTree = "<group>"; };
-		2E73B308F3AAA7EFC3AAC64E /* Pods-ApicTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ApicTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ApicTests/Pods-ApicTests.release.xcconfig"; sourceTree = "<group>"; };
-		301903321A3585B083F41F98 /* Pods_ApicTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ApicTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		525B0A6D788B12001AEAF70F /* Pods-Apic tvOS Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Apic tvOS Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Apic tvOS Tests/Pods-Apic tvOS Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		6271ACE2F936AE771273A51E /* Pods-Apic OSX Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Apic OSX Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Apic OSX Tests/Pods-Apic OSX Tests.release.xcconfig"; sourceTree = "<group>"; };
-		6369FF4FBAAF649B171DE02D /* Pods-ApicWatchOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ApicWatchOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ApicWatchOS/Pods-ApicWatchOS.debug.xcconfig"; sourceTree = "<group>"; };
-		6417ED1DE5F91C1E39B21C3A /* Pods_Apic_WatchOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Apic_WatchOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6779A9D05C7BA4C3D664EEAA /* Pods-Apic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Apic.release.xcconfig"; path = "Pods/Target Support Files/Pods-Apic/Pods-Apic.release.xcconfig"; sourceTree = "<group>"; };
-		69B5F6B9C6D790063E88B5A7 /* Pods-Apic tvOS Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Apic tvOS Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Apic tvOS Tests/Pods-Apic tvOS Tests.release.xcconfig"; sourceTree = "<group>"; };
-		741E10331472010BCDCF0AE3 /* Pods_Apic_OSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Apic_OSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7B02D1B68C017585566787E9 /* Pods-Apic OSX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Apic OSX.release.xcconfig"; path = "Pods/Target Support Files/Pods-Apic OSX/Pods-Apic OSX.release.xcconfig"; sourceTree = "<group>"; };
+		0246D37565FC77892F16CE67 /* Pods-Apic tvOS Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Apic tvOS Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Apic tvOS Tests/Pods-Apic tvOS Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		7D51705B325FD1B228843CA2 /* Pods-Apic OSX Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Apic OSX Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Apic OSX Tests/Pods-Apic OSX Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		810689381C543351008C3E9F /* IntTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntTests.swift; sourceTree = "<group>"; };
 		810B798F1C84C819000FEE9A /* RepositoryStatusTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryStatusTests.swift; sourceTree = "<group>"; };
 		810D29641C66F44F0022AC57 /* RequestObjectsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestObjectsTest.swift; sourceTree = "<group>"; };
@@ -207,18 +197,13 @@
 		81E9510E1BA248670044B4B1 /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		81F936FD1B911A2B007C5CA6 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Pods/../build/Debug-watchos/Pods-ApicWatchOS/Alamofire.framework"; sourceTree = "<group>"; };
 		81F936FF1B911AFB007C5CA6 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Pods/../build/Debug-watchos/Pods-ApicWatchOS/Alamofire.framework"; sourceTree = "<group>"; };
-		8CDB90E111EBBDCA595472AC /* Pods-Apic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Apic.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Apic/Pods-Apic.debug.xcconfig"; sourceTree = "<group>"; };
-		90D7310D4DFCF663F10917BD /* Pods-Apic WatchOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Apic WatchOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Apic WatchOS/Pods-Apic WatchOS.debug.xcconfig"; sourceTree = "<group>"; };
-		9474E96743B270377A01CBDD /* Pods-Apic tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Apic tvOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Apic tvOS/Pods-Apic tvOS.release.xcconfig"; sourceTree = "<group>"; };
-		9CB31436023A54B1C8C5ADEE /* Pods-Apic WatchOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Apic WatchOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Apic WatchOS/Pods-Apic WatchOS.release.xcconfig"; sourceTree = "<group>"; };
-		B483B651BBB43BF2A065F229 /* Pods_Apic_tvOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Apic_tvOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B49D9C8E3FF008DCDDDFD3CB /* Pods_Apic_tvOS_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Apic_tvOS_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		CDDA832B8A0F224797D82250 /* Pods-Apic tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Apic tvOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Apic tvOS/Pods-Apic tvOS.debug.xcconfig"; sourceTree = "<group>"; };
-		D5FF1150D67BB8EA3D34226D /* Pods_Apic_OSX_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Apic_OSX_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E011FEDB9742FA038B21B7FC /* Pods_Apic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Apic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		ECF96778CBD90817ABE7F15F /* Pods-ApicTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ApicTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ApicTests/Pods-ApicTests.debug.xcconfig"; sourceTree = "<group>"; };
-		FAE6337F07E3D420FA84F0A0 /* Pods-ApicWatchOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ApicWatchOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-ApicWatchOS/Pods-ApicWatchOS.release.xcconfig"; sourceTree = "<group>"; };
-		FE1E9D9A82F1A2DB56C0B573 /* Pods_ApicWatchOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ApicWatchOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8841DEB4E6F5FA82E0490697 /* Pods_Apic_OSX_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Apic_OSX_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D6217BFBF23DF57067F7AC2 /* Pods_ApicTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ApicTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC44FD0636C418B70C542896 /* Pods_Apic_tvOS_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Apic_tvOS_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BDE3860DD9CC33BFA9D938AB /* Pods-ApicTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ApicTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ApicTests/Pods-ApicTests.release.xcconfig"; sourceTree = "<group>"; };
+		CE508B99C96F683E662FD44B /* Pods-Apic OSX Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Apic OSX Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Apic OSX Tests/Pods-Apic OSX Tests.release.xcconfig"; sourceTree = "<group>"; };
+		D6E3C385F5A74E3D395FD9FF /* Pods-Apic tvOS Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Apic tvOS Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Apic tvOS Tests/Pods-Apic tvOS Tests.release.xcconfig"; sourceTree = "<group>"; };
+		F7C1D3D96D9D8E91CFAD283D /* Pods-ApicTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ApicTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ApicTests/Pods-ApicTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,7 +212,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8119155A1C77890D0099CF99 /* Apic.framework in Frameworks */,
-				BCA8165D459C9C8EB81AF24D /* Pods_Apic_OSX_Tests.framework in Frameworks */,
+				E7FF643B2002C88943ACD936 /* Pods_Apic_OSX_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,7 +228,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				813764DC1B1A9CA60015EC12 /* Apic.framework in Frameworks */,
-				AC74C102D0645BEA362FD707 /* Pods_ApicTests.framework in Frameworks */,
+				1D6C58A41D75DF238C3F4928 /* Pods_ApicTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,26 +258,34 @@
 			buildActionMask = 2147483647;
 			files = (
 				81528DD31C76A38300E20E8A /* Apic.framework in Frameworks */,
-				D51B490F377CB7BEAE9639E7 /* Pods_Apic_tvOS_Tests.framework in Frameworks */,
+				60F1DCBB294B05BE5EE259AE /* Pods_Apic_tvOS_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5BF7EACE8F2585E7A9211498 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7D51705B325FD1B228843CA2 /* Pods-Apic OSX Tests.debug.xcconfig */,
+				CE508B99C96F683E662FD44B /* Pods-Apic OSX Tests.release.xcconfig */,
+				0246D37565FC77892F16CE67 /* Pods-Apic tvOS Tests.debug.xcconfig */,
+				D6E3C385F5A74E3D395FD9FF /* Pods-Apic tvOS Tests.release.xcconfig */,
+				F7C1D3D96D9D8E91CFAD283D /* Pods-ApicTests.debug.xcconfig */,
+				BDE3860DD9CC33BFA9D938AB /* Pods-ApicTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		6CE2A50D38B2F9B6DA5C5711 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				81F936FF1B911AFB007C5CA6 /* Alamofire.framework */,
 				81F936FD1B911A2B007C5CA6 /* Alamofire.framework */,
-				E011FEDB9742FA038B21B7FC /* Pods_Apic.framework */,
-				301903321A3585B083F41F98 /* Pods_ApicTests.framework */,
-				FE1E9D9A82F1A2DB56C0B573 /* Pods_ApicWatchOS.framework */,
-				741E10331472010BCDCF0AE3 /* Pods_Apic_OSX.framework */,
-				6417ED1DE5F91C1E39B21C3A /* Pods_Apic_WatchOS.framework */,
-				B483B651BBB43BF2A065F229 /* Pods_Apic_tvOS.framework */,
-				B49D9C8E3FF008DCDDDFD3CB /* Pods_Apic_tvOS_Tests.framework */,
-				D5FF1150D67BB8EA3D34226D /* Pods_Apic_OSX_Tests.framework */,
+				8841DEB4E6F5FA82E0490697 /* Pods_Apic_OSX_Tests.framework */,
+				AC44FD0636C418B70C542896 /* Pods_Apic_tvOS_Tests.framework */,
+				9D6217BFBF23DF57067F7AC2 /* Pods_ApicTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -311,8 +304,8 @@
 				813764D21B1A9CA60015EC12 /* Apic */,
 				813764DF1B1A9CA60015EC12 /* ApicTests */,
 				813764D11B1A9CA60015EC12 /* Products */,
-				9DB161A45158A3639F61D3C6 /* Pods */,
 				6CE2A50D38B2F9B6DA5C5711 /* Frameworks */,
+				5BF7EACE8F2585E7A9211498 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -427,29 +420,6 @@
 			name = Error;
 			sourceTree = "<group>";
 		};
-		9DB161A45158A3639F61D3C6 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				8CDB90E111EBBDCA595472AC /* Pods-Apic.debug.xcconfig */,
-				6779A9D05C7BA4C3D664EEAA /* Pods-Apic.release.xcconfig */,
-				ECF96778CBD90817ABE7F15F /* Pods-ApicTests.debug.xcconfig */,
-				2E73B308F3AAA7EFC3AAC64E /* Pods-ApicTests.release.xcconfig */,
-				6369FF4FBAAF649B171DE02D /* Pods-ApicWatchOS.debug.xcconfig */,
-				FAE6337F07E3D420FA84F0A0 /* Pods-ApicWatchOS.release.xcconfig */,
-				280B679CA95B574ADECBF3B1 /* Pods-Apic OSX.debug.xcconfig */,
-				7B02D1B68C017585566787E9 /* Pods-Apic OSX.release.xcconfig */,
-				90D7310D4DFCF663F10917BD /* Pods-Apic WatchOS.debug.xcconfig */,
-				9CB31436023A54B1C8C5ADEE /* Pods-Apic WatchOS.release.xcconfig */,
-				CDDA832B8A0F224797D82250 /* Pods-Apic tvOS.debug.xcconfig */,
-				9474E96743B270377A01CBDD /* Pods-Apic tvOS.release.xcconfig */,
-				525B0A6D788B12001AEAF70F /* Pods-Apic tvOS Tests.debug.xcconfig */,
-				69B5F6B9C6D790063E88B5A7 /* Pods-Apic tvOS Tests.release.xcconfig */,
-				0BBA0E65F40C2E7C6769C01B /* Pods-Apic OSX Tests.debug.xcconfig */,
-				6271ACE2F936AE771273A51E /* Pods-Apic OSX Tests.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -489,12 +459,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8119155F1C77890D0099CF99 /* Build configuration list for PBXNativeTarget "Apic OSX Tests" */;
 			buildPhases = (
-				FEC21E5B050379D26D7FE068 /* Check Pods Manifest.lock */,
+				EE0C77FFE095F438A62D67CE /* [CP] Check Pods Manifest.lock */,
 				811915511C77890D0099CF99 /* Sources */,
 				811915521C77890D0099CF99 /* Frameworks */,
 				811915531C77890D0099CF99 /* Resources */,
-				8CA2709185621382FA1232AD /* Embed Pods Frameworks */,
-				EDC09A27B45F913BC3820BC0 /* Copy Pods Resources */,
+				D212CE74BEAE923BDC7417A7 /* [CP] Embed Pods Frameworks */,
+				7A44BE89890FCD2F06507CA5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -528,12 +498,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 813764E91B1A9CA60015EC12 /* Build configuration list for PBXNativeTarget "ApicTests" */;
 			buildPhases = (
-				BB1EBA3B540BAEE25A8127AC /* Check Pods Manifest.lock */,
+				185ADF2228BF68158638A61E /* [CP] Check Pods Manifest.lock */,
 				813764D71B1A9CA60015EC12 /* Sources */,
 				813764D81B1A9CA60015EC12 /* Frameworks */,
 				813764D91B1A9CA60015EC12 /* Resources */,
-				171D3E496B0051845391B3AD /* Embed Pods Frameworks */,
-				BA7CDCB9B68B3A8598C7FEC0 /* Copy Pods Resources */,
+				C097C6EAE72AF97DD81C40B0 /* [CP] Embed Pods Frameworks */,
+				E9287477E3CFAA3FED3AFC72 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -603,12 +573,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 81528DD61C76A38300E20E8A /* Build configuration list for PBXNativeTarget "Apic tvOS Tests" */;
 			buildPhases = (
-				68CEF681D5BDAD7908D7DA02 /* Check Pods Manifest.lock */,
+				2C3F38E8F8D58BB8F8E4E3BA /* [CP] Check Pods Manifest.lock */,
 				81528DCA1C76A38200E20E8A /* Sources */,
 				81528DCB1C76A38300E20E8A /* Frameworks */,
 				81528DCC1C76A38300E20E8A /* Resources */,
-				8FBD7AE33F04E75B273AC023 /* Embed Pods Frameworks */,
-				58395102857FC050F89D0AE4 /* Copy Pods Resources */,
+				616840E9AAA79C9662E0B9BF /* [CP] Embed Pods Frameworks */,
+				4687CC33A75F7C4A78D2468F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -738,29 +708,44 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		171D3E496B0051845391B3AD /* Embed Pods Frameworks */ = {
+		185ADF2228BF68158638A61E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ApicTests/Pods-ApicTests-frameworks.sh\"\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		58395102857FC050F89D0AE4 /* Copy Pods Resources */ = {
+		2C3F38E8F8D58BB8F8E4E3BA /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		4687CC33A75F7C4A78D2468F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -768,44 +753,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Apic tvOS Tests/Pods-Apic tvOS Tests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		68CEF681D5BDAD7908D7DA02 /* Check Pods Manifest.lock */ = {
+		616840E9AAA79C9662E0B9BF /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		8CA2709185621382FA1232AD /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Apic OSX Tests/Pods-Apic OSX Tests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8FBD7AE33F04E75B273AC023 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -813,44 +768,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Apic tvOS Tests/Pods-Apic tvOS Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		BA7CDCB9B68B3A8598C7FEC0 /* Copy Pods Resources */ = {
+		7A44BE89890FCD2F06507CA5 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ApicTests/Pods-ApicTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BB1EBA3B540BAEE25A8127AC /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		EDC09A27B45F913BC3820BC0 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -858,19 +783,64 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Apic OSX Tests/Pods-Apic OSX Tests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		FEC21E5B050379D26D7FE068 /* Check Pods Manifest.lock */ = {
+		C097C6EAE72AF97DD81C40B0 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ApicTests/Pods-ApicTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D212CE74BEAE923BDC7417A7 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Apic OSX Tests/Pods-Apic OSX Tests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E9287477E3CFAA3FED3AFC72 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ApicTests/Pods-ApicTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EE0C77FFE095F438A62D67CE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1050,7 +1020,7 @@
 /* Begin XCBuildConfiguration section */
 		8119155D1C77890D0099CF99 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0BBA0E65F40C2E7C6769C01B /* Pods-Apic OSX Tests.debug.xcconfig */;
+			baseConfigurationReference = 7D51705B325FD1B228843CA2 /* Pods-Apic OSX Tests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1066,7 +1036,7 @@
 		};
 		8119155E1C77890D0099CF99 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6271ACE2F936AE771273A51E /* Pods-Apic OSX Tests.release.xcconfig */;
+			baseConfigurationReference = CE508B99C96F683E662FD44B /* Pods-Apic OSX Tests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1224,7 +1194,7 @@
 		};
 		813764EA1B1A9CA60015EC12 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = ECF96778CBD90817ABE7F15F /* Pods-ApicTests.debug.xcconfig */;
+			baseConfigurationReference = F7C1D3D96D9D8E91CFAD283D /* Pods-ApicTests.debug.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -1243,7 +1213,7 @@
 		};
 		813764EB1B1A9CA60015EC12 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2E73B308F3AAA7EFC3AAC64E /* Pods-ApicTests.release.xcconfig */;
+			baseConfigurationReference = BDE3860DD9CC33BFA9D938AB /* Pods-ApicTests.release.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -1381,7 +1351,7 @@
 		};
 		81528DD71C76A38300E20E8A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 525B0A6D788B12001AEAF70F /* Pods-Apic tvOS Tests.debug.xcconfig */;
+			baseConfigurationReference = 0246D37565FC77892F16CE67 /* Pods-Apic tvOS Tests.debug.xcconfig */;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				INFOPLIST_FILE = ApicTests/Info.plist;
@@ -1396,7 +1366,7 @@
 		};
 		81528DD81C76A38300E20E8A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 69B5F6B9C6D790063E88B5A7 /* Pods-Apic tvOS Tests.release.xcconfig */;
+			baseConfigurationReference = D6E3C385F5A74E3D395FD9FF /* Pods-Apic tvOS Tests.release.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = ApicTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
