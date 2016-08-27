@@ -369,8 +369,8 @@ public class AbstractRepository<StatusType: Equatable>: NSObject, NSURLSessionDa
     }
     
     public func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveData data: NSData) {
-        if let data = buffers[dataTask] {
-            data.appendData(data)
+        if let bufferData = buffers[dataTask] {
+            bufferData.appendData(data)
         } else {
             buffers[dataTask] = NSMutableData(data: data)
         }
