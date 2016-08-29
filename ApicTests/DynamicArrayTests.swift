@@ -31,6 +31,7 @@ class DynamicArrayTests: XCTestCase {
             XCTAssertTrue(movie.awards[1] is GoldenGlobe)
         } catch {
             XCTFail()
+            Log.error(error)
         }
     }
     
@@ -41,12 +42,12 @@ class Resolver: TypeResolver {
     
     static var sharedResolver = Resolver()
     
-    func resolveType(type: Any) -> Any? {
-        if type is [Award]?.Type || type is Award?.Type { return Award.self }
+    func resolve(type: Any) -> Any? {
+        if type is [Award]?.Type || type is Award?.Type || type is ImplicitlyUnwrappedOptional<[Award]>.Type { return Award.self }
         return nil
     }
     
-    func resolveTypeForName(typeName: String) -> Any? {
+    func resolve(typeForName typeName: String) -> Any? {
         if typeName == "Oscar" { return Oscar.self }
         if typeName == "GoldenGlobe" { return GoldenGlobe.self }
         return nil
@@ -59,7 +60,7 @@ class Moview: AbstractModel {
     
     override class var resolver: TypeResolver? { return Resolver.sharedResolver }
     
-    override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool {
+    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
         return true
     }
 }

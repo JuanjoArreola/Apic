@@ -24,7 +24,7 @@ class ApicTests: XCTestCase {
     func testCreateMovie() {
         let dictionary = ["id": "348798", "name": "Mad Max: Fury Road", "year": 2015, "duration": 120, "releaseDate": "2015-05-14T 00:00:00z", "rating": 4.8,
             "country": ["Australia", "USA"],
-            "director": ["name": "George Miller"], "cast": [["name": " Tom Hardy"], ["name": "Charlize Theron"]], "nominations": [["name": "Teen Choice Awards"]], "synopsis": ["text": "A woman rebels against a tyrannical ruler in post apocalyptic Australia in search for her homeland with the help of a group of female prisoners, a psychotic worshiper, and a drifter named Max"]]
+            "director": ["name": "George Miller"], "cast": [["name": " Tom Hardy"], ["name": "Charlize Theron"]], "nominations": [["name": "Teen Choice Awards"]], "synopsis": ["text": "A woman rebels against a tyrannical ruler in post apocalyptic Australia in search for her homeland with the help of a group of female prisoners, a psychotic worshiper, and a drifter named Max"]] as [String : Any]
         do {
             let movie = try Movie(dictionary: dictionary)
             XCTAssertNotNil(movie)
@@ -42,7 +42,7 @@ class ApicTests: XCTestCase {
     }
     
     func testInvalidImplicitlyUnwrappedOptional() {
-        let dictionary = ["id": "348798", "name": "Mad Max: Fury Road", "duration": 120, "releaseDate": "2015-05-14T 00:00:00z",
+        let dictionary: [String : Any] = ["id": "348798", "name": "Mad Max: Fury Road", "duration": 120, "releaseDate": "2015-05-14T 00:00:00z",
             "director": ["names": "George Miller"], "cast": [["name": " Tom Hardy"], ["name": "Charlize Theron"]]]
         do {
             _ = try Movie(dictionary: dictionary)

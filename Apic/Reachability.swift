@@ -9,25 +9,25 @@
 import Foundation
 import SystemConfiguration
     
-    private let reachabilityQueue: dispatch_queue_t = dispatch_queue_create("com.apic.ReachabilityQueue", DISPATCH_QUEUE_SERIAL)
-    private let syncQueue: dispatch_queue_t = dispatch_queue_create("com.apic.SyncQueue", DISPATCH_QUEUE_SERIAL)
+    private let reachabilityQueue: DispatchQueue = DispatchQueue(label: "com.apic.ReachabilityQueue", attributes: [])
+    private let syncQueue: DispatchQueue = DispatchQueue(label: "com.apic.SyncQueue", attributes: [])
     
-    public enum ReachabilityError: ErrorType {
-        case InvalidURL
-        case InicializationError
+    public enum ReachabilityError: Error {
+        case invalidURL
+        case inicializationError
     }
     
-    public class HostReachabilityInfo {
-        public let host: String
-        private let networkReachability: SCNetworkReachability
-        public private(set) var flags: SCNetworkReachabilityFlags?
+    open class HostReachabilityInfo {
+        open let host: String
+        fileprivate let networkReachability: SCNetworkReachability
+        open fileprivate(set) var flags: SCNetworkReachabilityFlags?
         
         init(host: String, networkReachability: SCNetworkReachability) {
             self.host = host
             self.networkReachability = networkReachability
         }
         
-        public var isReachable: Bool? {
+        open var isReachable: Bool? {
             if let flags = flags {
                 return flags.rawValue & UInt32(kSCNetworkFlagsReachable) != 0
             }
@@ -40,16 +40,18 @@ import SystemConfiguration
         }
     }
 
-public class Reachability {
+open class Reachability {
     
-    private static var reachabilityInfo = [String: HostReachabilityInfo]()
+    fileprivate static var reachabilityInfo = [String: HostReachabilityInfo]()
     
-    public class func isConnectedToNetwork() -> Bool {
+    open class func isConnectedToNetwork() -> Bool {
         var zeroAddress = sockaddr_in()
-        zeroAddress.sin_len = UInt8(sizeofValue(zeroAddress))
+        zeroAddress.sin_len = UInt8(MemoryLayout<sockaddr_in>.size)
         zeroAddress.sin_family = sa_family_t(AF_INET)
-        let defaultRouteReachability = withUnsafePointer(&zeroAddress) {
-            SCNetworkReachabilityCreateWithAddress(nil, UnsafePointer($0))
+        let defaultRouteReachability = withUnsafePointer(to: &zeroAddress) {
+            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
+                SCNetworkReachabilityCreateWithAddress(nil, $0)
+            }
         }
         var flags = SCNetworkReachabilityFlags()
         if !SCNetworkReachabilityGetFlags(defaultRouteReachability!, &flags) {
@@ -60,25 +62,25 @@ public class Reachability {
         return (isReachable && !needsConnection)
     }
     
-    public static func reachabilityInfoForURL(url: NSURL) throws -> HostReachabilityInfo {
+    open static func reachabilityInfoForURL(_ url: URL) throws -> HostReachabilityInfo {
         
         var reachabilityInfo: HostReachabilityInfo?
-        var trackingError: ErrorType?
+        var trackingError: Error?
         
-        dispatch_sync(syncQueue, {
-            guard let components = NSURLComponents(URL: url, resolvingAgainstBaseURL: false) else {
-                trackingError = ReachabilityError.InvalidURL
+        syncQueue.sync(execute: {
+            guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
+                trackingError = ReachabilityError.invalidURL
                 return
             }
             guard let host = components.host else {
-                trackingError = ReachabilityError.InvalidURL
+                trackingError = ReachabilityError.invalidURL
                 return
             }
             if let info = Reachability.reachabilityInfo[host] {
                 reachabilityInfo = info
             } else {
                 do {
-                    reachabilityInfo = try startTrackingHost(host)
+                    //reachabilityInfo = try startTrackingHost(host)
                     Reachability.reachabilityInfo[host] = reachabilityInfo
                 } catch {
                     trackingError = error
@@ -92,41 +94,41 @@ public class Reachability {
         if let error = trackingError {
             throw error
         }
-        throw ReachabilityError.InicializationError
+        throw ReachabilityError.inicializationError
         
     }
     
-    private static func getReachabilityInfoForHost(host: String) -> HostReachabilityInfo? {
+    fileprivate static func getReachabilityInfoForHost(_ host: String) -> HostReachabilityInfo? {
         var info: HostReachabilityInfo?
-        dispatch_sync(reachabilityQueue) {
+        reachabilityQueue.sync {
             info = Reachability.reachabilityInfo[host]
         }
         return info
     }
     
-    public static func startTrackingHost(host: String) throws -> HostReachabilityInfo {
-        guard let reachability = SCNetworkReachabilityCreateWithName(nil, (host as NSString).UTF8String) else {
-            throw ReachabilityError.InicializationError
-        }
-        let reachabilityInfo = HostReachabilityInfo(host: host, networkReachability: reachability)
-        let reachabilityInfoRef = bridge(reachabilityInfo)
-        var context = SCNetworkReachabilityContext(version: 0, info: reachabilityInfoRef, retain: nil, release: nil, copyDescription: nil)
-        if SCNetworkReachabilitySetCallback(reachability, { (reachability, flags, info) in
-            let reachabilityInfo = Unmanaged<HostReachabilityInfo>.fromOpaque(COpaquePointer(info)).takeUnretainedValue()
-            reachabilityInfo.flags = flags
-            }, &context) {
-                if !SCNetworkReachabilitySetDispatchQueue(reachability, reachabilityQueue) {
-                    throw ReachabilityError.InicializationError
-                }
-            return reachabilityInfo
-        } else {
-            throw ReachabilityError.InicializationError
-        }
-    }
+    //open static func startTrackingHost(_ host: String) throws -> HostReachabilityInfo {
+        //guard let reachability = SCNetworkReachabilityCreateWithName(nil, (host as NSString).utf8String!) else {
+        //    throw ReachabilityError.inicializationError
+        //}
+        //let reachabilityInfo = HostReachabilityInfo(host: host, networkReachability: reachability)
+        //let reachabilityInfoRef = bridge(reachabilityInfo)
+        //var context = SCNetworkReachabilityContext(version: 0, info: reachabilityInfoRef, retain: nil, release: nil, copyDescription: nil)
+        //if SCNetworkReachabilitySetCallback(reachability, { (reachability, flags, info) in
+            //let reachabilityInfo = Unmanaged<HostReachabilityInfo>.fromOpaque(OpaquePointer(info)!).takeUnretainedValue()
+            //reachabilityInfo.flags = flags
+            //}, &context) {
+            //    if !SCNetworkReachabilitySetDispatchQueue(reachability, reachabilityQueue) {
+            //        throw ReachabilityError.inicializationError
+            //    }
+            //return reachabilityInfo
+        //} else {
+        //    throw ReachabilityError.inicializationError
+        //}
+    //}
     
-    private static func bridge<T : AnyObject>(obj : T) -> UnsafeMutablePointer<Void> {
-        return UnsafeMutablePointer(Unmanaged.passUnretained(obj).toOpaque())
-    }
+    //fileprivate static func bridge<T : AnyObject>(_ obj : T) -> UnsafeMutableRawPointer {
+    //    return UnsafeMutablePointer(Unmanaged.passUnretained(obj).toOpaque())
+    //}
 }
 
 #endif

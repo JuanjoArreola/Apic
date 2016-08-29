@@ -10,14 +10,14 @@ import Foundation
 
 public final class Configuration {
     
-    private static let defaultProperties: [String: AnyObject] = {
-        let bundle = NSBundle(forClass: Configuration.self)
-        let path = bundle.pathForResource("apic_properties", ofType: "plist")
+    fileprivate static let defaultProperties: [String: AnyObject] = {
+        let bundle = Bundle(for: Configuration.self)
+        let path = bundle.path(forResource: "apic_properties", ofType: "plist")
         return NSDictionary(contentsOfFile: path!) as! [String: AnyObject]
     }()
     
-    private static let properties: [String: AnyObject]? = {
-        if let path = NSBundle.mainBundle().pathForResource("ApicProperties", ofType: "plist") {
+    fileprivate static let properties: [String: AnyObject]? = {
+        if let path = Bundle.main.path(forResource: "ApicProperties", ofType: "plist") {
             return NSDictionary(contentsOfFile: path) as? [String: AnyObject]
         }
         return nil
@@ -55,11 +55,11 @@ public final class Configuration {
         return properties?["date_formats"] as? [String] ?? defaultProperties["date_formats"] as! [String]
     }()
     
-    static var locale: NSLocale = {
+    static var locale: Locale = {
         if let identifier = properties?["locale_identifier"] as? String {
-            return NSLocale(localeIdentifier: identifier)
+            return Locale(identifier: identifier)
         }
-        return NSLocale.currentLocale()
+        return Locale.current
     }()
     
     static var logLevel: Int = {
@@ -79,7 +79,7 @@ public final class Configuration {
     }()
     
     static let useDefaultStrings: Bool = {
-        return NSBundle.mainBundle().pathForResource("ApicStrings", ofType: "strings") == nil ? true : false
+        return Bundle.main.path(forResource: "ApicStrings", ofType: "strings") == nil ? true : false
     }()
     
     static let checkReachability: Bool = {

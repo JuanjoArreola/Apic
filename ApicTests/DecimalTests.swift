@@ -44,7 +44,7 @@ class DecimalTests: XCTestCase {
     
     func testInvalidValue() {
         do {
-            _ = try DecimalContainer(dictionary: ["price": NSDate()])
+            _ = try DecimalContainer(dictionary: ["price": Date()])
             XCTFail()
         } catch { }
     }
@@ -69,7 +69,7 @@ class DecimalTests: XCTestCase {
         do {
             let container = try DecimalContainer(dictionary: ["price": 100.0, "shipping": 16.0])
             XCTAssertNotNil(container)
-            XCTAssertEqual(container.shipping, NSDecimalNumber(float: 16.0))
+            XCTAssertEqual(container.shipping, NSDecimalNumber(value: 16.0))
         } catch { XCTFail() }
     }
     
@@ -77,9 +77,9 @@ class DecimalTests: XCTestCase {
         do {
             let container = try DecimalContainer(dictionary: ["price": "100.0", "tax": 20, "shipping": true])
             XCTAssertNotNil(container)
-            XCTAssertEqual(container.price, NSDecimalNumber(float: 100.0))
-            XCTAssertEqual(container.tax, NSDecimalNumber(float: 20.0))
-            XCTAssertEqual(container.shipping, NSDecimalNumber(float: 1.0))
+            XCTAssertEqual(container.price, NSDecimalNumber(value: 100.0))
+            XCTAssertEqual(container.tax, NSDecimalNumber(value: 20.0))
+            XCTAssertEqual(container.shipping, NSDecimalNumber(value: 1.0))
         } catch { XCTFail() }
     }
     
@@ -88,9 +88,9 @@ class DecimalTests: XCTestCase {
 class DecimalContainer: AbstractModel {
     var price: NSDecimalNumber!
     var tax: NSDecimalNumber?
-    var shipping = NSDecimalNumber(float: 8.0)
+    var shipping = NSDecimalNumber(value: 8.0)
     
-    override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool {
+    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
         return ["price"].contains(property)
     }
 }

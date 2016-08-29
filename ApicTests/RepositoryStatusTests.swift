@@ -23,10 +23,10 @@ class RepositoryStatusTests: XCTestCase {
     }
     
     func testStringStatus() {
-        stubWithResponse(["status": "OK"])
-        let expectation: XCTestExpectation = expectationWithDescription("fetch success")
+        stubWithResponse(["status": "OK" as AnyObject])
+        let expectation: XCTestExpectation = self.expectation(description: "fetch success")
         let repository = StringStatusRepository()
-        repository.requestTest { (getSuccess) -> Void in
+        _ = repository.requestTest { (getSuccess) -> Void in
             do {
                 let success = try getSuccess()
                 XCTAssertTrue(success)
@@ -36,14 +36,14 @@ class RepositoryStatusTests: XCTestCase {
                 XCTFail()
             }
         }
-        waitForExpectationsWithTimeout(1.0, handler: nil)
+        waitForExpectations(timeout: 1.0, handler: nil)
     }
     
     func testBoolStatus() {
-        stubWithResponse(["success": true])
-        let expectation: XCTestExpectation = expectationWithDescription("fetch success")
+        stubWithResponse(["success": true as AnyObject])
+        let expectation: XCTestExpectation = self.expectation(description: "fetch success")
         let repository = BoolStatusRepository()
-        repository.requestTest { (getSuccess) -> Void in
+        _ = repository.requestTest { (getSuccess) -> Void in
             do {
                 let success = try getSuccess()
                 XCTAssertTrue(success)
@@ -53,14 +53,14 @@ class RepositoryStatusTests: XCTestCase {
                 XCTFail()
             }
         }
-        waitForExpectationsWithTimeout(1.0, handler: nil)
+        waitForExpectations(timeout: 1.0, handler: nil)
     }
     
     func testStringStatusFail() {
-        stubWithResponse(["status": "FAIL"])
-        let expectation: XCTestExpectation = expectationWithDescription("fetch success")
+        stubWithResponse(["status": "FAIL" as AnyObject])
+        let expectation: XCTestExpectation = self.expectation(description: "fetch success")
         let repository = StringStatusRepository()
-        repository.requestTest { (getSuccess) -> Void in
+        _ = repository.requestTest { (getSuccess) -> Void in
             do {
                 _ = try getSuccess()
                 XCTFail()
@@ -68,14 +68,14 @@ class RepositoryStatusTests: XCTestCase {
                 expectation.fulfill()
             }
         }
-        waitForExpectationsWithTimeout(1.0, handler: nil)
+        waitForExpectations(timeout: 1.0, handler: nil)
     }
     
     func testBoolStatusFail() {
-        stubWithResponse(["success": false])
-        let expectation: XCTestExpectation = expectationWithDescription("fetch success")
+        stubWithResponse(["success": false as AnyObject])
+        let expectation: XCTestExpectation = self.expectation(description: "fetch success")
         let repository = BoolStatusRepository()
-        repository.requestTest { (getSuccess) -> Void in
+        _ = repository.requestTest { (getSuccess) -> Void in
             do {
                 _ = try getSuccess()
                 XCTFail()
@@ -83,13 +83,13 @@ class RepositoryStatusTests: XCTestCase {
                 expectation.fulfill()
             }
         }
-        waitForExpectationsWithTimeout(1.0, handler: nil)
+        waitForExpectations(timeout: 1.0, handler: nil)
     }
     
-    func stubWithResponse(response: [String: AnyObject]) {
-        OHHTTPStubs.stubRequestsPassingTest({ _ in return true }) {
-            (request: NSURLRequest) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(data: try! NSJSONSerialization.dataWithJSONObject(response, options: []), statusCode:200, headers: ["Content-Type": "application/json"])
+    func stubWithResponse(_ response: [String: AnyObject]) {
+        OHHTTPStubs.stubRequests(passingTest: { _ in return true }) {
+            (request: URLRequest) -> OHHTTPStubsResponse in
+            return OHHTTPStubsResponse(data: try! JSONSerialization.data(withJSONObject: response, options: []), statusCode:200, headers: ["Content-Type": "application/json"])
         }
     }
     
@@ -100,7 +100,7 @@ class StringStatusRepository: AbstractRepository<String> {
         super.init(statusKey: "status", statusOk: "OK")
     }
     
-    func requestTest(completion: (getSuccess: () throws -> Bool) -> Void) -> Request<Bool>? {
+    func requestTest(completion: @escaping (_ getSuccess: () throws -> Bool) -> Void) -> Request<Bool>? {
         return requestSuccess(method: .GET, url: "http://mywebservice.com?stringStatus", completion: completion)
     }
 }
@@ -110,7 +110,7 @@ class BoolStatusRepository: AbstractRepository<Bool> {
         super.init(statusKey: "success", statusOk: true)
     }
     
-    func requestTest(completion: (getSuccess: () throws -> Bool) -> Void) -> Request<Bool>? {
+    func requestTest(completion: @escaping (_ getSuccess: () throws -> Bool) -> Void) -> Request<Bool>? {
         return requestSuccess(method: .GET, url: "http://mywebservice.com?booleanStatus", completion: completion)
     }
 }

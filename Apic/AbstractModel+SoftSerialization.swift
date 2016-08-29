@@ -9,23 +9,23 @@
 import Foundation
 
 public extension AbstractModel {
-    var softDictionary: [String: AnyObject] {
+    var softDictionary: [String: Any] {
         let mirror = Mirror(reflecting: self)
-        var result = [String: AnyObject]()
+        var result = [String: Any]()
         for child in mirror.children {
             guard let property = child.label else {
                 continue
             }
             let modelType = mirror.subjectType as! AbstractModel.Type
             if property == modelType.descriptionProperty {
-                result["description"] = self.valueForKey(property)
+                result["description"] = self.value(forKey: property)
                 continue
             }
-            if let value = self.valueForKey(property) {
+            if let value = self.value(forKey: property) {
                 if let model = value as? AbstractModel {
                     result[property] = model.softDictionary
                 } else if let models = value as? [AbstractModel] {
-                    result[property] = models.map({ (model) -> [String: AnyObject] in
+                    result[property] = models.map({ (model) -> [String: Any] in
                         return model.softDictionary
                     })
                 } else {
@@ -38,8 +38,8 @@ public extension AbstractModel {
 }
 
 public extension Array where Element: AbstractModel {
-    var softArray: [[String: AnyObject]] {
-        var result = [[String: AnyObject]]()
+    var softArray: [[String: Any]] {
+        var result = [[String: Any]]()
         for element in self {
             result.append(element.softDictionary)
         }

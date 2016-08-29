@@ -23,10 +23,10 @@ class ErrorTests: XCTestCase {
     }
     
     func testCustomError() {
-        stubWithResponse(["status": "FAIL", "error": ["code": 401, "message": "Authorization error", "solution": "Login first"]])
-        let expectation: XCTestExpectation = expectationWithDescription("request")
+        stub(withResponse: ["status": "FAIL", "error": ["code": 401, "message": "Authorization error", "solution": "Login first"]])
+        let expectation: XCTestExpectation = self.expectation(description: "request")
         let repository = ModelErrorRepository()
-        repository.requestThatFails { (getSuccess) in
+        _ = repository.requestThatFails { (getSuccess) in
             do {
                 _ = try getSuccess()
                 XCTFail()
@@ -37,13 +37,13 @@ class ErrorTests: XCTestCase {
                 XCTFail()
             }
         }
-        waitForExpectationsWithTimeout(1.0, handler: nil)
+        waitForExpectations(timeout: 1.0, handler: nil)
     }
     
-    func stubWithResponse(response: [String: AnyObject]) {
-        OHHTTPStubs.stubRequestsPassingTest({ _ in return true }) {
-            (request: NSURLRequest) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(data: try! NSJSONSerialization.dataWithJSONObject(response, options: []), statusCode:200, headers: ["Content-Type": "application/json"])
+    func stub(withResponse response: [String: Any]) {
+        OHHTTPStubs.stubRequests(passingTest: { _ in return true }) {
+            (request: URLRequest) -> OHHTTPStubsResponse in
+            return OHHTTPStubsResponse(data: try! JSONSerialization.data(withJSONObject: response, options: []), statusCode:200, headers: ["Content-Type": "application/json"])
         }
     }
     
@@ -54,7 +54,7 @@ class HttpError: AbstractErrorModel {
     var message: String!
     var solution: String!
     
-    override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool {
+    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
         return true
     }
 }
@@ -64,7 +64,7 @@ class ModelErrorRepository: AbstractCustomErrorRepository<String, HttpError> {
         super.init(objectKey: "object", objectsKey: "objects", statusKey: "status", statusOk: "OK", errorKey: "error")
     }
     
-    func requestThatFails(completion: (getSuccess: () throws -> Bool) -> Void) -> Request<Bool> {
+    func requestThatFails(_ completion: @escaping (_ getSuccess: () throws -> Bool) -> Void) -> Request<Bool> {
         return requestSuccess(method: .GET, url: "http://mywebservice.com?stringStatus", completion: completion)
     }
 }

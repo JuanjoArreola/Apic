@@ -35,7 +35,9 @@ class ComplexModelTests: XCTestCase {
         do {
             _ = try ComplexContainer(dictionary: ["id": "1"])
             XCTFail()
-        } catch { }
+        } catch {
+            Log.debug(error)
+        }
     }
     
     func testOptionalPropertyNil() {
@@ -139,7 +141,9 @@ class ComplexContainer: ComplexModel {
     var first: SimpleModel!
     var second: SimpleModel?
     
-    override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool {
+    
+    
+    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
         return ["id", "first"].contains(property)
     }
 }
@@ -148,7 +152,7 @@ class ComplexArrayContainer: ComplexModel {
     var models: [SimpleModel]!
     var optionals: [SimpleModel]?
     
-    override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool {
+    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
         return ["models"].contains(property)
     }
 }
@@ -157,7 +161,7 @@ class WrongDefinitionComplexContainer: ComplexModel {
     var option: UnresolvedModel?
     var first: UnresolvedModel!
     
-    override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool {
+    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
         return ["first"].contains(property)
     }
 }
@@ -165,7 +169,7 @@ class WrongDefinitionComplexContainer: ComplexModel {
 class WrongDefinitionComplexArrayContainer: ComplexModel {
     var models: [UnresolvedModel]!
     
-    override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool {
+    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
         return ["models"].contains(property)
     }
 }
@@ -174,7 +178,7 @@ class SimpleModel: AbstractModel {
     var id: String!
     var name: String?
     
-    override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool {
+    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
         return property == "id"
     }
 }
@@ -184,9 +188,12 @@ class UnresolvedModel: AbstractModel {
 }
 
 class ComplexTypeResolver: TypeResolver {
+    public func resolve(typeForName typeName: String) -> Any? {
+        return nil
+    }
     
-    func resolveType(type: Any) -> Any? {
-        if type is SimpleModel.Type || type is SimpleModel?.Type || type is [SimpleModel]?.Type {
+    func resolve(type: Any) -> Any? {
+        if type is SimpleModel.Type || type is SimpleModel?.Type || type is [SimpleModel]?.Type || type is ImplicitlyUnwrappedOptional<SimpleModel>.Type || type is ImplicitlyUnwrappedOptional<[SimpleModel]>.Type {
             return SimpleModel.self
         }
         return nil

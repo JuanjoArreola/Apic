@@ -147,14 +147,14 @@ class DoubleContainer: AbstractModel {
     var option: Double?
     var value: Double = 1.0
     
-    override func assignValue(value: AnyObject, forProperty property: String) throws {
+    override func assign(value: Any?, forProperty property: String) throws {
         if property == "option" { option = value as? Double}
         else {
-            try super.assignValue(value, forProperty: property)
+            try super.assign(value: value, forProperty: property)
         }
     }
     
-    override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool {
+    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
         return ["id"].contains(property)
     }
 }
@@ -164,7 +164,7 @@ class DoubleArrayContainer: AbstractModel {
     var values: [Double]?
     var options: [Double] = [1.0, 2.0]
     
-    override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool {
+    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
         return ["ids"].contains(property)
     }
 }

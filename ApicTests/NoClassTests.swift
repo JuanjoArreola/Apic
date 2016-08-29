@@ -25,8 +25,8 @@ class NoClassTests: XCTestCase {
         do {
             let container = try StateContainer(dictionary: ["state": "playing", "mediaType": 1])
             XCTAssertNotNil(container)
-            XCTAssertEqual(container.state, State.Playing)
-            XCTAssertEqual(container.mediaType, MediaType.Video)
+            XCTAssertEqual(container.state, State.playing)
+            XCTAssertEqual(container.mediaType, MediaType.video)
         } catch {
             XCTFail()
         }
@@ -76,14 +76,14 @@ class NoClassTests: XCTestCase {
 }
 
 enum State: StringInitializable {
-    case Playing
-    case Paused
+    case playing
+    case paused
     
     init?(rawValue: String) {
         if rawValue == "playing" {
-            self = .Playing
+            self = .playing
         } else if rawValue == "paused" {
-            self = .Paused
+            self = .paused
         } else {
             return nil
         }
@@ -91,14 +91,14 @@ enum State: StringInitializable {
 }
 
 enum MediaType: IntInitializable {
-    case Audio
-    case Video
+    case audio
+    case video
     
     init?(rawValue: Int) {
         if rawValue == 0 {
-            self = .Audio
+            self = .audio
         } else if rawValue == 1 {
-            self = .Video
+            self = .video
         } else {
             return nil
         }
@@ -106,15 +106,18 @@ enum MediaType: IntInitializable {
 }
 
 class StateResolver: TypeResolver {
-    
-    static let sharedInstance = StateResolver()
-    
-    func resolveType(type: Any) -> Any? {
+    public func resolve(type: Any) -> Any? {
         if type is State?.Type { return State.self }
         if type is Location?.Type { return Location.self }
         if type is MediaType?.Type { return MediaType.self }
         return nil
     }
+
+    func resolve(typeForName typeName: String) -> Any? {
+        return nil
+    }
+    
+    static let sharedInstance = StateResolver()
 }
 
 class StateContainer: AbstractModel {
@@ -124,19 +127,19 @@ class StateContainer: AbstractModel {
     var nextState: State?
     var mediaType: MediaType!
     
-    override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool {
+    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
         return ["state", "mediaType"].contains(property)
     }
     
-    override func assignInstance(instance: Any, forProperty property: String) throws {
+    override func assign(value: Any?, forProperty property: String) throws {
         if property == "state" {
-            state = instance as! State
+            state = value as! State
         } else if property == "mediaType" {
-            mediaType = instance as! MediaType
+            mediaType = value as! MediaType
         } else if property == "nextState" {
-            nextState = instance as? State
+            nextState = value as? State
         } else {
-            try super.assignInstance(instance, forProperty: property)
+            try super.assign(value: value, forProperty: property)
         }
     }
 }
@@ -146,15 +149,15 @@ class PositionContainer: AbstractModel {
     
     var location: Location!
     
-    override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool {
+    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
         return ["location"].contains(property)
     }
     
-    override func assignInstance(instance: Any, forProperty property: String) throws {
+    override func assign(value: Any?, forProperty property: String) throws {
         if property == "location" {
-            location = instance as! Location
+            location = value as! Location
         } else {
-            try super.assignInstance(instance, forProperty: property)
+            try super.assign(value: value, forProperty: property)
         }
     }
 }
@@ -163,7 +166,7 @@ struct Location: InitializableWithDictionary {
     var latitude: Double
     var longitude: Double
     
-    init(dictionary: [String : AnyObject]) throws {
+    init(dictionary: [String : Any]) throws {
         guard let latitude = dictionary["latitude"] as? Double else {
             throw ModelError.SourceValueError(property: "latitude", model: "Location")
         }

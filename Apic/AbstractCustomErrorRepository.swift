@@ -8,34 +8,34 @@
 
 import Foundation
 
-public class AbstractErrorModel: AbstractModel, ErrorType { }
+open class AbstractErrorModel: AbstractModel, Error { }
 
-public class AbstractCustomErrorRepository<StatusType: Equatable, ErrorModelType: AbstractErrorModel>: AbstractRepository<StatusType> {
-    public var errorKey: String?
+open class AbstractCustomErrorRepository<StatusType: Equatable, ErrorModelType: AbstractErrorModel>: AbstractRepository<StatusType> {
+    open var errorKey: String?
     
     public init(objectKey: String? = nil, objectsKey: String? = nil, statusKey: String? = nil, statusOk: StatusType? = nil, errorDescriptionKey: String? = nil, errorCodeKey: String? = nil, errorKey: String? = nil) {
         super.init(objectKey: objectKey, objectsKey: objectsKey, statusKey: statusKey, statusOk: statusOk, errorDescriptionKey: errorDescriptionKey, errorCodeKey: errorCodeKey)
         self.errorKey = errorKey
     }
     
-    override func dictionaryFromJSON(JSON: AnyObject?) throws -> [String: AnyObject] {
-        guard let data = JSON as? [String: AnyObject] else {
-            throw RepositoryError.BadJSONContent
+    override func dictionary(fromJSON JSON: Any?) throws -> [String: Any] {
+        guard let data = JSON as? [String: Any] else {
+            throw RepositoryError.badJSONContent
         }
-        guard let statusKey = statusKey, statusOk = statusOk else {
+        guard let statusKey = statusKey, let statusOk = statusOk else {
             return data
         }
         guard let status = data[statusKey] as? StatusType else {
-            throw RepositoryError.BadJSONContent
+            throw RepositoryError.badJSONContent
         }
         if status == statusOk {
             return data
         }
-        if let errorDictionary = errorKey != nil ? data[errorKey!] as? [String: AnyObject] : nil {
+        if let errorDictionary = errorKey != nil ? data[errorKey!] as? [String: Any] : nil {
             throw try ErrorModelType(dictionary: errorDictionary)
         }
         let message = errorDescriptionKey != nil ? data[errorDescriptionKey!] as? String : nil
         let code = errorCodeKey != nil ? data[errorCodeKey!] as? String : nil
-        throw RepositoryError.StatusFail(message: message, code: code)
+        throw RepositoryError.statusFail(message: message, code: code)
     }
 }

@@ -22,10 +22,10 @@ class RequestObjectsTest: XCTestCase {
     }
 
     func testGetList() {
-        let expectation: XCTestExpectation = expectationWithDescription("fetch list")
+        let expectation: XCTestExpectation = self.expectation(description: "fetch list")
         
         let repository = GistsRepository()
-        repository.requestGistsOfUser("JuanjoArreola") { (getGists) -> Void in
+        _ = repository.requestGists(ofUser: "JuanjoArreola") { (getGists) -> Void in
             do {
                 let gists = try getGists()
                 XCTAssertGreaterThan(gists.count, 0)
@@ -35,53 +35,53 @@ class RequestObjectsTest: XCTestCase {
                 XCTFail()
             }
         }
-        waitForExpectationsWithTimeout(60.0, handler: nil)
+        waitForExpectations(timeout: 60.0, handler: nil)
     }
     
     func testGetInnerList() {
-        let expectation: XCTestExpectation = expectationWithDescription("fetch list")
+        let expectation: XCTestExpectation = self.expectation(description: "fetch list")
         
         let repository = HistoryRepository()
-        repository.requestHistoryOfGist("30f7b1a56a61c71631a6") { getHistory in
+        _ = repository.requestHistoryOfGist("30f7b1a56a61c71631a6") { getHistory in
             do {
-                try getHistory()
+                _ = try getHistory()
                 expectation.fulfill()
             } catch {
                 Log.error(error)
                 XCTFail()
             }
         }
-        waitForExpectationsWithTimeout(60.0, handler: nil)
+        waitForExpectations(timeout: 60.0, handler: nil)
     }
     
     func testWrongList() {
-        let expectation: XCTestExpectation = expectationWithDescription("fetch list")
+        let expectation: XCTestExpectation = self.expectation(description: "fetch list")
         
         let repository = WrongGistsRepository()
-        repository.requestGistsOfUser("JuanjoArreola") { (getGists) -> Void in
+        _ = repository.requestGists(ofUser: "JuanjoArreola") { (getGists) -> Void in
             do {
-                try getGists()
+                _ = try getGists()
                 XCTFail()
             } catch {
                 expectation.fulfill()
             }
         }
-        waitForExpectationsWithTimeout(60.0, handler: nil)
+        waitForExpectations(timeout: 60.0, handler: nil)
     }
     
     func testWrongInnerList() {
-        let expectation: XCTestExpectation = expectationWithDescription("fetch list")
+        let expectation: XCTestExpectation = self.expectation(description: "fetch list")
         
         let repository = WrongHistoryRepository()
-        repository.requestHistoryOfGist("30f7b1a56a61c71631a6") { getHistory in
+        _ = repository.requestHistory(ofGist: "30f7b1a56a61c71631a6") { getHistory in
             do {
-                try getHistory()
+                _ = try getHistory()
                 XCTFail()
             } catch {
                 expectation.fulfill()
             }
         }
-        waitForExpectationsWithTimeout(60.0, handler: nil)
+        waitForExpectations(timeout: 60.0, handler: nil)
     }
 
 }
@@ -91,8 +91,8 @@ class GistsRepository: AbstractRepository<String> {
     
     init() { super.init() }
     
-    func requestGistsOfUser(user: String, completion: (getGists: () throws -> [Gist]) -> Void) -> Request<[Gist]>? {
-        return requestObjects(.GET, url: "https://api.github.com/users/\(user)/gists", completion: completion)
+    func requestGists(ofUser user: String, completion: @escaping (_ getGists: () throws -> [Gist]) -> Void) -> Request<[Gist]>? {
+        return requestObjects(method: .GET, url: "https://api.github.com/users/\(user)/gists", completion: completion)
     }
 }
 
@@ -102,8 +102,8 @@ class WrongGistsRepository: AbstractRepository<String> {
         super.init(objectsKey: "gists")
     }
     
-    func requestGistsOfUser(user: String, completion: (getGists: () throws -> [Gist]) -> Void) -> Request<[Gist]>? {
-        return requestObjects(.GET, url: "https://api.github.com/users/\(user)/gists", completion: completion)
+    func requestGists(ofUser user: String, completion: @escaping (_ getGists: () throws -> [Gist]) -> Void) -> Request<[Gist]>? {
+        return requestObjects(method: .GET, url: "https://api.github.com/users/\(user)/gists", completion: completion)
     }
 }
 
@@ -113,8 +113,8 @@ class HistoryRepository: AbstractRepository<String> {
         super.init(objectsKey: "history")
     }
     
-    func requestHistoryOfGist(gist: String, completion: (getHistory: () throws -> [HistoryEntry]) -> Void) -> Request<[HistoryEntry]>? {
-        return requestObjects(.GET, url: "https://api.github.com/gists/\(gist)", completion: completion)
+    func requestHistoryOfGist(_ gist: String, completion: @escaping (_ getHistory: () throws -> [HistoryEntry]) -> Void) -> Request<[HistoryEntry]>? {
+        return requestObjects(method: .GET, url: "https://api.github.com/gists/\(gist)", completion: completion)
     }
 }
 
@@ -122,25 +122,25 @@ class WrongHistoryRepository: AbstractRepository<String> {
     
     init() { super.init() }
     
-    func requestHistoryOfGist(gist: String, completion: (getHistory: () throws -> [HistoryEntry]) -> Void) -> Request<[HistoryEntry]>? {
-        return requestObjects(.GET, url: "https://api.github.com/gists/\(gist)", completion: completion)
+    func requestHistory(ofGist gist: String, completion: @escaping (_ getHistory: () throws -> [HistoryEntry]) -> Void) -> Request<[HistoryEntry]>? {
+        return requestObjects(method: .GET, url: "https://api.github.com/gists/\(gist)", completion: completion)
     }
 }
 
 class Gist: AbstractModel {
     var id: String!
-    var url: NSURL!
+    var url: URL!
     
-    override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool {
+    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
         return true
     }
 }
 
 class HistoryEntry: AbstractModel {
     var version: String!
-    var url: NSURL!
+    var url: URL!
     
-    override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool {
+    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
         return true
     }
 }

@@ -24,63 +24,63 @@ class RequestObjectTests: XCTestCase {
     func testRequestUser() {
         let userRepository = UserRepository()
         
-        let expectation: XCTestExpectation = expectationWithDescription("fetch list")
-        userRepository.requestUserWithName("JuanjoArreola") { (getUser) -> Void in
+        let expectation: XCTestExpectation = self.expectation(description: "fetch list")
+        userRepository.requestUser(withName: "JuanjoArreola") { (getUser) -> Void in
             do {
-                try getUser()
+                _ = try getUser()
                 expectation.fulfill()
             } catch {
                 Log.error(error)
                 XCTFail()
             }
         }
-        waitForExpectationsWithTimeout(60.0, handler: nil)
+        waitForExpectations(timeout: 60.0, handler: nil)
     }
     
     func testRequestInnerUser() {
         let gistRepository = GistRepository()
         
-        let expectation: XCTestExpectation = expectationWithDescription("fetch list")
-        gistRepository.requestUserFromGist("30f7b1a56a61c71631a6") { (getUser) -> Void in
+        let expectation: XCTestExpectation = self.expectation(description: "fetch list")
+        gistRepository.requestUser(fromGist: "30f7b1a56a61c71631a6") { (getUser) -> Void in
             do {
-                try getUser()
+                _ = try getUser()
                 expectation.fulfill()
             } catch {
                 Log.error(error)
                 XCTFail()
             }
         }
-        waitForExpectationsWithTimeout(60.0, handler: nil)
+        waitForExpectations(timeout: 60.0, handler: nil)
     }
     
     func testRequestInnerUserWrong() {
         let gistRepository = WrongGistRepository()
         
-        let expectation: XCTestExpectation = expectationWithDescription("fetch list")
-        gistRepository.requestUserFromGist("30f7b1a56a61c71631a6") { (getUser) -> Void in
+        let expectation: XCTestExpectation = self.expectation(description: "fetch list")
+        gistRepository.requestUser(fromGist: "30f7b1a56a61c71631a6") { (getUser) -> Void in
             do {
-                try getUser()
+                _ = try getUser()
                 XCTFail()
             } catch {
                 expectation.fulfill()
             }
         }
-        waitForExpectationsWithTimeout(60.0, handler: nil)
+        waitForExpectations(timeout: 60.0, handler: nil)
     }
     
     func testRequestUserWrong() {
         let repository = WrongUserRepository()
         
-        let expectation: XCTestExpectation = expectationWithDescription("fetch list")
-        repository.requestUserWithName("JuanjoArreola") { (getUser) -> Void in
+        let expectation: XCTestExpectation = self.expectation(description: "fetch list")
+        repository.requestUser(withName: "JuanjoArreola") { (getUser) -> Void in
             do {
-                try getUser()
+                _ = try getUser()
                 XCTFail()
             } catch {
                 expectation.fulfill()
             }
         }
-        waitForExpectationsWithTimeout(60.0, handler: nil)
+        waitForExpectations(timeout: 60.0, handler: nil)
     }
     
 }
@@ -88,9 +88,9 @@ class RequestObjectTests: XCTestCase {
 class User: AbstractModel {
     var id: Int = 0
     var login: String!
-    var avatar_url: NSURL!
+    var avatar_url: URL!
     
-    override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool {
+    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
         return true
     }
 }
@@ -99,8 +99,8 @@ class UserRepository: AbstractRepository<String> {
     
     init() { super.init() }
     
-    func requestUserWithName(name: String, completion: (getUser: () throws -> User) -> Void) -> Request<User>? {
-        return requestObject(.GET, url: "https://api.github.com/users/\(name)", completion: completion)
+    @discardableResult func requestUser(withName name: String, completion: @escaping (_ getUser: () throws -> User) -> Void) -> Request<User>? {
+        return requestObject(method: .GET, url: "https://api.github.com/users/\(name)", completion: completion)
     }
 }
 
@@ -110,8 +110,8 @@ class WrongUserRepository: AbstractRepository<String> {
         super.init(objectKey: "user")
     }
     
-    func requestUserWithName(name: String, completion: (getUser: () throws -> User) -> Void) -> Request<User>? {
-        return requestObject(.GET, url: "https://api.github.com/users/\(name)", completion: completion)
+    @discardableResult func requestUser(withName name: String, completion: @escaping (_ getUser: () throws -> User) -> Void) -> Request<User>? {
+        return requestObject(method: .GET, url: "https://api.github.com/users/\(name)", completion: completion)
     }
 }
 
@@ -121,8 +121,8 @@ class GistRepository: AbstractRepository<String> {
         super.init(objectKey: "owner")
     }
     
-    func requestUserFromGist(gist: String, completion: (getUser: () throws -> User) -> Void) -> Request<User>? {
-        return requestObject(.GET, url: "https://api.github.com/gists/\(gist)", completion: completion)
+    @discardableResult func requestUser(fromGist gist: String, completion: @escaping (_ getUser: () throws -> User) -> Void) -> Request<User>? {
+        return requestObject(method: .GET, url: "https://api.github.com/gists/\(gist)", completion: completion)
     }
 }
 
@@ -130,7 +130,7 @@ class WrongGistRepository: AbstractRepository<String> {
     
     init() { super.init() }
     
-    func requestUserFromGist(gist: String, completion: (getUser: () throws -> User) -> Void) -> Request<User>? {
-        return requestObject(.GET, url: "https://api.github.com/gists/\(gist)", completion: completion)
+    @discardableResult func requestUser(fromGist gist: String, completion: @escaping (_ getUser: () throws -> User) -> Void) -> Request<User>? {
+        return requestObject(method: .GET, url: "https://api.github.com/gists/\(gist)", completion: completion)
     }
 }

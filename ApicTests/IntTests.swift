@@ -147,15 +147,15 @@ class IntContainer: AbstractModel {
     var level: Int!
     var value: Int = 1
     
-    override func assignValue(value: AnyObject, forProperty property: String) throws {
+    override func assign(value: Any?, forProperty property: String) throws {
         if property == "option" { option = value as? Int}
         else if property == "level" { level = value as! Int}
         else {
-            try super.assignValue(value, forProperty: property)
+            try super.assign(value: value, forProperty: property)
         }
     }
     
-    override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool {
+    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
         return ["id"].contains(property)
     }
 }
@@ -165,7 +165,7 @@ class IntArrayContainer: AbstractModel {
     var values: [Int]?
     var options: [Int] = [1, 2]
     
-    override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool {
+    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
         return ["ids"].contains(property)
     }
 }

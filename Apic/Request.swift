@@ -8,22 +8,22 @@
 
 import Foundation
 
-public enum RequestError: ErrorType {
-    case Canceled
+public enum RequestError: Error {
+    case canceled
 }
 
 public protocol Cancellable {
     func cancel()
 }
 
-private let syncQueue: dispatch_queue_t = dispatch_queue_create("com.apic.SyncQueue", DISPATCH_QUEUE_CONCURRENT)
+private let syncQueue: DispatchQueue = DispatchQueue(label: "com.apic.SyncQueue", attributes: DispatchQueue.Attributes.concurrent)
 
-public class Request<T: Any>: CustomDebugStringConvertible, Cancellable {
+open class Request<T: Any>: CustomDebugStringConvertible, Cancellable {
     
-    private var completionHandlers: [(getObject: () throws -> T) -> Void]? = []
-    private var result: (() throws -> T)?
+    fileprivate var completionHandlers: [(_ getObject: () throws -> T) -> Void]? = []
+    fileprivate var result: (() throws -> T)?
     
-    public var subrequest: Cancellable? {
+    open var subrequest: Cancellable? {
         didSet {
             if canceled {
                 subrequest?.cancel()
@@ -31,15 +31,15 @@ public class Request<T: Any>: CustomDebugStringConvertible, Cancellable {
         }
     }
     
-    public var completed: Bool {
+    open var completed: Bool {
         return result != nil
     }
     
-    public private(set) var canceled = false
+    open fileprivate(set) var canceled = false
     
     required public init() {}
     
-    public required init(completionHandler: (getObject: () throws -> T) -> Void) {
+    public required init(completionHandler: @escaping (_ getObject: () throws -> T) -> Void) {
         completionHandlers!.append(completionHandler)
     }
     
@@ -48,73 +48,77 @@ public class Request<T: Any>: CustomDebugStringConvertible, Cancellable {
         self.subrequest = subrequest
     }
     
-    public func cancel() {
+    open func cancel() {
         sync() { self.canceled = true }
         subrequest?.cancel()
-        completeWithError(RequestError.Canceled)
+        completeWithError(RequestError.canceled)
     }
     
-    public func completeWithObject(object: T) {
+    open func completeWithObject(_ object: T) {
         if result == nil {
             result = { return object }
             callHandlers()
         }
     }
     
-    public func completeWithError(error: ErrorType) {
+    open func completeWithError(_ error: Error) {
         if result == nil {
             result = { throw error }
             callHandlers()
         }
     }
     
-    private func callHandlers() {
+    fileprivate func callHandlers() {
         guard let getClosure = result else { return }
         for handler in completionHandlers! {
-            handler(getObject: getClosure)
+            handler(getClosure)
         }
         sync() { self.completionHandlers = nil }
     }
     
-    public func addCompletionHandler(completion: (getObject: () throws -> T) -> Void) {
+    open func addCompletionHandler(_ completion: @escaping (_ getObject: () throws -> T) -> Void) {
         if let getClosure = result {
-            completion(getObject: getClosure)
+            completion(getClosure)
         } else {
             sync() { self.completionHandlers?.append(completion) }
         }
     }
     
-    public var debugDescription: String {
-        return String(unsafeAddressOf(self))
+    open var debugDescription: String {
+        return String(describing: Unmanaged.passUnretained(self).toOpaque())
     }
 }
 
-private func sync(closure: () -> Void) {
-    dispatch_barrier_async(syncQueue, closure)
+private func sync(_ closure: @escaping () -> Void) {
+    syncQueue.async(flags: .barrier, execute: closure)
 }
 
 public protocol ProgressReporter: AnyObject {
-    var dataTask: NSURLSessionDataTask? { get }
-    var progressHandler: ((progress: Double) -> Void)? { get }
+    var dataTask: URLSessionDataTask? { get }
+    var progressHandler: ((_ progress: Double) -> Void)? { get }
 }
 
-public class ApicRequest<T: Any>: Request<T>, ProgressReporter, Equatable {
+open class ApicRequest<T: Any>: Request<T>, ProgressReporter, Equatable {
     
-    public internal(set) var dataTask: NSURLSessionDataTask?
-    public var progressHandler: ((progress: Double) -> Void)?
+    open internal(set) var dataTask: URLSessionDataTask?
+    open var progressHandler: ((_ progress: Double) -> Void)?
     
-    public required init(completionHandler: (getObject: () throws -> T) -> Void) {
+    public required init(completionHandler: @escaping (_ getObject: () throws -> T) -> Void) {
         super.init(completionHandler: completionHandler)
     }
+
+    required public init() {
+        fatalError("init() has not been implemented")
+    }
     
-    override public func cancel() {
+    override open func cancel() {
         dataTask?.cancel()
         super.cancel()
     }
     
-    override public var debugDescription: String {
+    override open var debugDescription: String {
         var desc = "ApicRequest<\(T.self)>"
-        if let url = dataTask?.originalRequest?.URL {
+        if let url = dataTask?.originalRequest?.url {
             desc += "(\(url))"
         }
         return desc

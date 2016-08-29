@@ -147,14 +147,14 @@ class BoolContainer: AbstractModel {
     var option: Bool?
     var value: Bool = false
     
-    override func assignValue(value: AnyObject, forProperty property: String) throws {
+    override func assign(value: Any?, forProperty property: String) throws {
         if property == "option" { option = value as? Bool}
         else {
-            try super.assignValue(value, forProperty: property)
+            try super.assign(value: value, forProperty: property)
         }
     }
     
-    override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool {
+    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
         return ["hasId"].contains(property)
     }
 }
@@ -164,7 +164,7 @@ class BoolArrayContainer: AbstractModel {
     var values: [Bool]?
     var options: [Bool] = [true, false]
     
-    override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool {
+    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
         return ["hasIds"].contains(property)
     }
 }

@@ -23,8 +23,8 @@ class HeadersTests: XCTestCase {
     }
     
     func testExpectHeader() {
-        stubWithResponse(["status": "OK"], expectingHeader: "Authorization", withValue: "myId")
-        let expectation: XCTestExpectation = expectationWithDescription("fetch success")
+        stubWithResponse(["status": "OK" as AnyObject], expectingHeader: "Authorization", withValue: "myId")
+        let expectation: XCTestExpectation = self.expectation(description: "fetch success")
         let repository = WithHeaderRepository()
         repository.requestTest("myId") { (getSuccess) -> Void in
             do {
@@ -36,12 +36,12 @@ class HeadersTests: XCTestCase {
                 XCTFail()
             }
         }
-        waitForExpectationsWithTimeout(1.0, handler: nil)
+        waitForExpectations(timeout: 1.0, handler: nil)
     }
     
     func testExpectWrongHeaderValue() {
-        stubWithResponse(["status": "OK"], expectingHeader: "Authorization", withValue: "myId")
-        let expectation: XCTestExpectation = expectationWithDescription("fetch success")
+        stubWithResponse(["status": "OK" as AnyObject], expectingHeader: "Authorization", withValue: "myId")
+        let expectation: XCTestExpectation = self.expectation(description: "fetch success")
         let repository = WithHeaderRepository()
         repository.requestTest("otherId") { (getSuccess) -> Void in
             do {
@@ -51,12 +51,12 @@ class HeadersTests: XCTestCase {
                 expectation.fulfill()
             }
         }
-        waitForExpectationsWithTimeout(1.0, handler: nil)
+        waitForExpectations(timeout: 1.0, handler: nil)
     }
     
-    private func stubWithResponse(response: [String: AnyObject], expectingHeader header: String, withValue value: String) {
-        OHHTTPStubs.stubRequestsPassingTest({ _ in return true }) {
-            (request: NSURLRequest) -> OHHTTPStubsResponse in
+    fileprivate func stubWithResponse(_ response: [String: AnyObject], expectingHeader header: String, withValue value: String) {
+        OHHTTPStubs.stubRequests(passingTest: { _ in return true }) {
+            (request: URLRequest) -> OHHTTPStubsResponse in
             guard let headers = request.allHTTPHeaderFields else {
                 return self.responseError()
             }
@@ -70,12 +70,12 @@ class HeadersTests: XCTestCase {
         }
     }
     
-    private func responseError() -> OHHTTPStubsResponse {
+    fileprivate func responseError() -> OHHTTPStubsResponse {
         return OHHTTPStubsResponse(data: self.jsonWithDictionary(["status": "Fail"]), statusCode:200, headers: ["Content-Type": "application/json"])
     }
     
-    private func jsonWithDictionary(dictionary: [String: AnyObject]) -> NSData {
-        return try! NSJSONSerialization.dataWithJSONObject(dictionary, options: [])
+    fileprivate func jsonWithDictionary(_ dictionary: [String: Any]) -> Data {
+        return try! JSONSerialization.data(withJSONObject: dictionary, options: [])
     }
     
 }
@@ -85,7 +85,7 @@ class WithHeaderRepository: AbstractRepository<String> {
         super.init(statusKey: "status", statusOk: "OK")
     }
     
-    func requestTest(token: String, completion: (getSuccess: () throws -> Bool) -> Void) -> Request<Bool>? {
+    @discardableResult func requestTest(_ token: String, completion: @escaping (_ getSuccess: () throws -> Bool) -> Void) -> Request<Bool>? {
         return requestSuccess(method: .GET, url: "http://test.com", headers: ["Authorization": token], completion: completion)
     }
 }

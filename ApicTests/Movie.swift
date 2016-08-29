@@ -15,23 +15,23 @@ class DefaultModel: AbstractModel {
 }
 
 enum MovieFormat: RawRepresentable, StringInitializable {
-    case Widescreen
-    case Standard
+    case widescreen
+    case standard
     
     init?(rawValue: String) {
         if rawValue == "16:9" {
-            self = .Widescreen
+            self = .widescreen
         } else if rawValue == "4:3" {
-            self = .Standard
+            self = .standard
         }
         return nil
     }
     
     var rawValue: String {
         switch self {
-        case .Standard:
+        case .standard:
             return "4:3"
-        case .Widescreen:
+        case .widescreen:
             return "16:9"
         }
     }
@@ -51,7 +51,7 @@ class Movie: DefaultModel {
     var duration: Int = 0
     var format: MovieFormat!
     
-    var releaseDate: NSDate?
+    var releaseDate: Date?
     
     var budget: NSDecimalNumber?
     var gross: NSDecimalNumber?
@@ -65,14 +65,14 @@ class Movie: DefaultModel {
     
     override class var ignoredProperties: [String] { return ["reproductions"] }
     
-    override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool {
+    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
         return ["id", "name", "year", "rating", "duration", "format", "country"].contains(property)
     }
     
-    override func assignValue(value: AnyObject, forProperty property: String) throws {
+    override func assign(value: Any?, forProperty property: String) throws {
         switch property {
         case "rating": rating = value as? Float
-        default: try super.assignValue(value, forProperty: property)
+        default: try super.assign(value: value, forProperty: property)
         }
     }
 }
@@ -100,12 +100,16 @@ class Synopsis: DefaultModel {
 
 class DefaultTypeResolver: TypeResolver {
     
-    func resolveType(type: Any) -> Any? {
+    func resolve(type: Any) -> Any? {
         if type is Actor.Type || type is Actor?.Type || type is [Actor]?.Type {
             return Actor.self
         } else if type is Director.Type || type is Director?.Type {
             return Director.self
         }
+        return nil
+    }
+    
+    func resolve(typeForName typeName: String) -> Any? {
         return nil
     }
 }

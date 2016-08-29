@@ -147,14 +147,14 @@ class FloatContainer: AbstractModel {
     var option: Float?
     var value: Float = 1.0
     
-    override func assignValue(value: AnyObject, forProperty property: String) throws {
+    override func assign(value: Any?, forProperty property: String) throws {
         if property == "option" { option = value as? Float}
         else {
-            try super.assignValue(value, forProperty: property)
+            try super.assign(value: value, forProperty: property)
         }
     }
     
-    override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool {
+    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
         return ["id"].contains(property)
     }
 }
@@ -164,7 +164,7 @@ class FloatArrayContainer: AbstractModel {
     var values: [Float]?
     var options: [Float] = [1.0, 2.0]
     
-    override func shouldFailWithInvalidValue(value: AnyObject?, forProperty property: String) -> Bool {
+    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
         return ["ids"].contains(property)
     }
 }

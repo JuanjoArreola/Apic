@@ -9,7 +9,7 @@
 import XCTest
 import Apic
 
-private let testQueue: dispatch_queue_t = dispatch_queue_create("com.apic.TestQueue", DISPATCH_QUEUE_CONCURRENT)
+private let testQueue: DispatchQueue = DispatchQueue(label: "com.apic.TestQueue", attributes: DispatchQueue.Attributes.concurrent)
 
 class ReachabilityTests: XCTestCase {
     
@@ -26,10 +26,10 @@ class ReachabilityTests: XCTestCase {
     func testExample() {
         var count = 0
         var fulfilled = false
-        let expectation: XCTestExpectation = expectationWithDescription("fetch list")
+        let expectation: XCTestExpectation = self.expectation(description: "fetch list")
         for i in 0...20 {
-            dispatch_async(testQueue) { do {
-                let info = try Reachability.reachabilityInfoForURL(NSURL(string: "http://github.com/\(i)")!)
+            testQueue.async { do {
+                let info = try Reachability.reachabilityInfoForURL(URL(string: "http://github.com/\(i)")!)
                 Log.debug("info: \(info)")
                 count += 1
                 if count >= 19 && !fulfilled {
@@ -41,7 +41,7 @@ class ReachabilityTests: XCTestCase {
                 } }
         }
         
-        waitForExpectationsWithTimeout(3, handler: nil)
+        waitForExpectations(timeout: 3, handler: nil)
     }
     
 }
