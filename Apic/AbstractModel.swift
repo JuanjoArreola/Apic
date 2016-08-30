@@ -287,7 +287,7 @@ public class AbstractModel: NSObject, InitializableWithDictionary {
             if let value = rawValue as? String {
                 if let url = NSURL(string: value) {
                     try assignValue(url, forProperty: property)
-                } else {
+                } else if shouldFailWithInvalidValue(value, forProperty: property) {
                     throw ModelError.URLError(property: property, value: value)
                 }
             } else if shouldFailWithInvalidValue(rawValue, forProperty: property) {

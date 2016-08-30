@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum RequestError: ErrorType {
+public enum RequestError: ErrorType {
     case Canceled
 }
 
