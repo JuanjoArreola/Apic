@@ -40,24 +40,24 @@ public protocol DynamicTypeModel {
 }
 
 public enum ModelError: Error {
-    case SourceValueError(property: String, model: String)
-    case ValueTypeError(property: String?)
-    case DateError(property: String?, value: String?)
-    case URLError(property: String?, value: String?)
-    case InstanciationError
-    case InvalidProperty(property: String)
-    case UndefinedType(type: Any.Type)
-    case UndefinedTypeName(typeName: String)
-    case UnasignedInstance(property: String)
+    case sourceValueError(property: String, model: String)
+    case valueTypeError(property: String?)
+    case dateError(property: String?, value: String?)
+    case urlError(property: String?, value: String?)
+    case instanciationError
+    case invalidProperty(property: String)
+    case undefinedType(type: Any.Type)
+    case undefinedTypeName(typeName: String)
+    case unasignedInstance(property: String)
 }
 
 /// Abstract model that provides the parsing functionality for subclasses
 open class AbstractModel: NSObject, InitializableWithDictionary {
     
-    public class var descriptionProperty: String { return "" }
-    public class var resolver: TypeResolver? { return nil }
-    public class var ignoredProperties: [String] { return [] }
-    public class var dateFormats: [String] { return Configuration.dateFormats }
+    open class var descriptionProperty: String { return "" }
+    open class var resolver: TypeResolver? { return nil }
+    open class var ignoredProperties: [String] { return [] }
+    open class var dateFormats: [String] { return Configuration.dateFormats }
     
     public override init() {
         super.init()
@@ -70,7 +70,7 @@ open class AbstractModel: NSObject, InitializableWithDictionary {
         try initializePropertiesOf(mirror: mirror, withDictionary: dictionary)
     }
     
-    func initializePropertiesOf(mirror: Mirror, withDictionary dictionary: [String: Any]) throws {
+    private func initializePropertiesOf(mirror: Mirror, withDictionary dictionary: [String: Any]) throws {
         if String(describing: mirror.subjectType) == String(describing: AbstractModel.self) {
             return
         }
@@ -96,7 +96,7 @@ open class AbstractModel: NSObject, InitializableWithDictionary {
             try assign(rawValue: rawValue, toChild: child, modelType: modelType)
         } else {
             if String(describing: mirror.subjectType) == String(describing: AbstractModel.self) {
-                throw ModelError.InvalidProperty(property: property)
+                throw ModelError.invalidProperty(property: property)
             }
             if let superclassMirror = mirror.superclassMirror {
                 try assign(rawValue: rawValue, toProperty: property, mirror: superclassMirror)
@@ -104,7 +104,7 @@ open class AbstractModel: NSObject, InitializableWithDictionary {
         }
     }
     
-    func assign(rawValue optionalRawValue: Any?, toChild child: Mirror.Child, modelType: AbstractModel.Type) throws {
+    private func assign(rawValue optionalRawValue: Any?, toChild child: Mirror.Child, modelType: AbstractModel.Type) throws {
         guard let property = child.label else {
             return
         }
@@ -116,7 +116,7 @@ open class AbstractModel: NSObject, InitializableWithDictionary {
         
         guard let rawValue = optionalRawValue else {
             if self.shouldFail(withInvalidValue: nil, forProperty: property) {
-                throw ModelError.SourceValueError(property: property, model: modelName)
+                throw ModelError.sourceValueError(property: property, model: modelName)
             } else {
                 return
             }
@@ -283,7 +283,7 @@ open class AbstractModel: NSObject, InitializableWithDictionary {
                 if let date = type(of: self).date(from: value) {
                     setValue(date, forKey: property)
                 } else {
-                    throw ModelError.DateError(property: property, value: value)
+                    throw ModelError.dateError(property: property, value: value)
                 }
             } else {
                 try assign(undefinedValue: rawValue, forProperty: property)
@@ -319,7 +319,7 @@ open class AbstractModel: NSObject, InitializableWithDictionary {
                 if let url = URL(string: value) {
                     setValue(url, forKey: property)
                 } else {
-                    throw ModelError.URLError(property: property, value: value)
+                    throw ModelError.urlError(property: property, value: value)
                 }
             } else {
                 try assign(undefinedValue: rawValue, forProperty: property)
@@ -376,13 +376,13 @@ open class AbstractModel: NSObject, InitializableWithDictionary {
                                 } else {
                                     Log.warn("Unresolved type <\(typeName)> for property <\(property)> of model <\(type(of: self))>")
                                     if shouldFail(withInvalidValue: rawValue, forProperty: property) {
-                                        throw ModelError.UndefinedTypeName(typeName: typeName)
+                                        throw ModelError.undefinedTypeName(typeName: typeName)
                                     }
                                 }
                             } else {
                                 Log.warn("Dynamic item has no type info")
                                 if shouldFail(withInvalidValue: rawValue, forProperty: property) {
-                                    throw ModelError.InvalidProperty(property: property)
+                                    throw ModelError.invalidProperty(property: property)
                                 }
                             }
                         }
@@ -439,17 +439,17 @@ open class AbstractModel: NSObject, InitializableWithDictionary {
         }
     }
     
-    public func assign(value: Any, forProperty property: String) throws {
-        throw ModelError.UnasignedInstance(property: property)
+    open func assign(value: Any, forProperty property: String) throws {
+        throw ModelError.unasignedInstance(property: property)
     }
     
     /// Override this method in subclasses to assign a value of an undefined type to a property
     /// - parameter value: the value to be assigned
     /// - parameter key: the name of the property to assign
-    public func assign(undefinedValue: Any, forProperty property: String) throws {
+    open func assign(undefinedValue: Any, forProperty property: String) throws {
         Log.warn("Could no parse value: <\(undefinedValue)> for property: <\(property)> of model: \(type(of: self))")
         if shouldFail(withInvalidValue: undefinedValue, forProperty: property) {
-            throw ModelError.SourceValueError(property: property, model: String(describing: type(of: self)))
+            throw ModelError.sourceValueError(property: property, model: String(describing: type(of: self)))
         }
     }
     

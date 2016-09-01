@@ -40,11 +40,11 @@ import SystemConfiguration
         }
     }
 
-open class Reachability {
+public class Reachability {
     
     fileprivate static var reachabilityInfo = [String: HostReachabilityInfo]()
     
-    open class func isConnectedToNetwork() -> Bool {
+    public class func isConnectedToNetwork() -> Bool {
         var zeroAddress = sockaddr_in()
         zeroAddress.sin_len = UInt8(MemoryLayout<sockaddr_in>.size)
         zeroAddress.sin_family = sa_family_t(AF_INET)
@@ -62,7 +62,7 @@ open class Reachability {
         return (isReachable && !needsConnection)
     }
     
-    open static func reachabilityInfoForURL(_ url: URL) throws -> HostReachabilityInfo {
+    public static func reachabilityInfoForURL(_ url: URL) throws -> HostReachabilityInfo {
         
         var reachabilityInfo: HostReachabilityInfo?
         var trackingError: Error?
@@ -98,7 +98,7 @@ open class Reachability {
         
     }
     
-    fileprivate static func getReachabilityInfoForHost(_ host: String) -> HostReachabilityInfo? {
+    public static func getReachabilityInfoForHost(_ host: String) -> HostReachabilityInfo? {
         var info: HostReachabilityInfo?
         reachabilityQueue.sync {
             info = Reachability.reachabilityInfo[host]
@@ -106,7 +106,7 @@ open class Reachability {
         return info
     }
     
-    open static func startTrackingHost(_ host: String) throws -> HostReachabilityInfo {
+    public static func startTrackingHost(_ host: String) throws -> HostReachabilityInfo {
         guard let reachability = SCNetworkReachabilityCreateWithName(nil, (host as NSString).utf8String!) else {
             throw ReachabilityError.inicializationError
         }
@@ -125,7 +125,7 @@ open class Reachability {
         }
     }
     
-    fileprivate static func bridge<T : AnyObject>(_ obj : T) -> UnsafeMutableRawPointer {
+    private static func bridge<T : AnyObject>(_ obj : T) -> UnsafeMutableRawPointer {
         return UnsafeMutableRawPointer(Unmanaged.passRetained(obj).toOpaque())
     }
 }

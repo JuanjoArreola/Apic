@@ -32,7 +32,15 @@ open class AbstractCustomErrorRepository<StatusType: Equatable, ErrorModelType: 
             return data
         }
         if let errorDictionary = errorKey != nil ? data[errorKey!] as? [String: Any] : nil {
-            throw try ErrorModelType(dictionary: errorDictionary)
+            var modelError: ErrorModelType?
+            do {
+                modelError = try ErrorModelType(dictionary: errorDictionary)
+            } catch {
+                Log.error("Error parsing error dictionary")
+            }
+            if let error = modelError {
+                throw error
+            }
         }
         let message = errorDescriptionKey != nil ? data[errorDescriptionKey!] as? String : nil
         let code = errorCodeKey != nil ? data[errorCodeKey!] as? String : nil

@@ -24,7 +24,7 @@ class ErrorTests: XCTestCase {
     
     func testCustomError() {
         stub(withResponse: ["status": "FAIL", "error": ["code": 401, "message": "Authorization error", "solution": "Login first"]])
-        let expectation: XCTestExpectation = self.expectation(description: "request")
+        let expectation: XCTestExpectation = self.expectation(description: "error")
         let repository = ModelErrorRepository()
         _ = repository.requestThatFails { (getSuccess) in
             do {
