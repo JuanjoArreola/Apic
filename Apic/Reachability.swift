@@ -80,7 +80,7 @@ open class Reachability {
                 reachabilityInfo = info
             } else {
                 do {
-                    //reachabilityInfo = try startTrackingHost(host)
+                    reachabilityInfo = try startTrackingHost(host)
                     Reachability.reachabilityInfo[host] = reachabilityInfo
                 } catch {
                     trackingError = error
@@ -106,29 +106,28 @@ open class Reachability {
         return info
     }
     
-    //open static func startTrackingHost(_ host: String) throws -> HostReachabilityInfo {
-        //guard let reachability = SCNetworkReachabilityCreateWithName(nil, (host as NSString).utf8String!) else {
-        //    throw ReachabilityError.inicializationError
-        //}
-        //let reachabilityInfo = HostReachabilityInfo(host: host, networkReachability: reachability)
-        //let reachabilityInfoRef = bridge(reachabilityInfo)
-        //var context = SCNetworkReachabilityContext(version: 0, info: reachabilityInfoRef, retain: nil, release: nil, copyDescription: nil)
-        //if SCNetworkReachabilitySetCallback(reachability, { (reachability, flags, info) in
-            //let reachabilityInfo = Unmanaged<HostReachabilityInfo>.fromOpaque(OpaquePointer(info)!).takeUnretainedValue()
-            //reachabilityInfo.flags = flags
-            //}, &context) {
-            //    if !SCNetworkReachabilitySetDispatchQueue(reachability, reachabilityQueue) {
-            //        throw ReachabilityError.inicializationError
-            //    }
-            //return reachabilityInfo
-        //} else {
-        //    throw ReachabilityError.inicializationError
-        //}
-    //}
+    open static func startTrackingHost(_ host: String) throws -> HostReachabilityInfo {
+        guard let reachability = SCNetworkReachabilityCreateWithName(nil, (host as NSString).utf8String!) else {
+            throw ReachabilityError.inicializationError
+        }
+        let reachabilityInfo = HostReachabilityInfo(host: host, networkReachability: reachability)
+        let reachabilityInfoRef = bridge(reachabilityInfo)
+        var context = SCNetworkReachabilityContext(version: 0, info: reachabilityInfoRef, retain: nil, release: nil, copyDescription: nil)
+        if SCNetworkReachabilitySetCallback(reachability, { (reachability, flags, info) in
+            if let info = info {
+                let reachabilityInfo = Unmanaged<HostReachabilityInfo>.fromOpaque(info).takeUnretainedValue()
+                reachabilityInfo.flags = flags
+            }
+        }, &context) {
+            return reachabilityInfo
+        } else {
+            throw ReachabilityError.inicializationError
+        }
+    }
     
-    //fileprivate static func bridge<T : AnyObject>(_ obj : T) -> UnsafeMutableRawPointer {
-    //    return UnsafeMutablePointer(Unmanaged.passUnretained(obj).toOpaque())
-    //}
+    fileprivate static func bridge<T : AnyObject>(_ obj : T) -> UnsafeMutableRawPointer {
+        return UnsafeMutableRawPointer(Unmanaged.passRetained(obj).toOpaque())
+    }
 }
 
 #endif

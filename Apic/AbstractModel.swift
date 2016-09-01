@@ -295,6 +295,12 @@ open class AbstractModel: NSObject, InitializableWithDictionary {
             if let value = rawValue as? Double {
                 setValue(NSDecimalNumber(value: value), forKey: property)
             }
+            else if let value = rawValue as? Int {
+                setValue(NSDecimalNumber(value: value), forKey: property)
+            }
+            else if let value = rawValue as? Bool {
+                setValue(NSDecimalNumber(value: value), forKey: property)
+            }
             else if let value = rawValue as? String {
                 let number = NSDecimalNumber(string: value)
                 if number != NSDecimalNumber.notANumber {

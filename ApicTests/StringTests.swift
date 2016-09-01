@@ -25,7 +25,10 @@ class StringTests: XCTestCase {
         do {
             let container = try StringContainer(dictionary: ["id": "1"])
             XCTAssertNotNil(container.id)
-        } catch { XCTFail() }
+        } catch {
+            Log.error(error)
+            XCTFail()
+        }
     }
     
     func testMandatoryStringNil() {
@@ -88,7 +91,10 @@ class StringTests: XCTestCase {
         do {
             let container = try StringArrayContainer(dictionary: ["ids": ["1", "2", "3"]])
             XCTAssertNotNil(container.ids)
-        } catch { XCTFail() }
+        } catch {
+            Log.error(error)
+            XCTFail()
+        }
     }
     
     func testMandatoryStringArrayNil() {
@@ -134,9 +140,17 @@ class StringContainer: AbstractModel {
     override class var ignoredProperties: [String] { return ["ignored"] }
     
     override class var descriptionProperty: String { return "_description" }
+    
+    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
+        return ["id", "ignored"].contains(property)
+    }
 }
 
 class StringArrayContainer: AbstractModel {
     var ids: [String]!
     var names: [String]?
+    
+    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
+        return ["ids"].contains(property)
+    }
 }

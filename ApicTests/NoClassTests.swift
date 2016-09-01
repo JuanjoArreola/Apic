@@ -29,6 +29,7 @@ class NoClassTests: XCTestCase {
             XCTAssertEqual(container.mediaType, MediaType.video)
         } catch {
             XCTFail()
+            Log.error(error)
         }
     }
     
@@ -108,8 +109,10 @@ enum MediaType: IntInitializable {
 class StateResolver: TypeResolver {
     public func resolve(type: Any) -> Any? {
         if type is State?.Type { return State.self }
+        if type is ImplicitlyUnwrappedOptional<State>.Type { return State.self }
         if type is Location?.Type { return Location.self }
         if type is MediaType?.Type { return MediaType.self }
+        if type is ImplicitlyUnwrappedOptional<MediaType>.Type { return MediaType.self }
         return nil
     }
 

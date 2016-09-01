@@ -28,19 +28,21 @@ class ReachabilityTests: XCTestCase {
         var fulfilled = false
         let expectation: XCTestExpectation = self.expectation(description: "fetch list")
         for i in 0...20 {
-            testQueue.async { do {
-                let info = try Reachability.reachabilityInfoForURL(URL(string: "http://github.com/\(i)")!)
-                Log.debug("info: \(info)")
-                count += 1
-                if count >= 19 && !fulfilled {
-                    expectation.fulfill()
-                    fulfilled = true
+            testQueue.async {
+                do {
+                    let info = try Reachability.reachabilityInfoForURL(URL(string: "http://github.com/\(i)")!)
+                    Log.debug("info: \(info)")
+                    count += 1
+                    if count >= 19 && !fulfilled {
+                        expectation.fulfill()
+                        fulfilled = true
+                    }
+                } catch {
+                    Log.error(error)
+                    XCTFail()
                 }
-            } catch { Log.error(error)
-                XCTFail()
-                } }
+            }
         }
-        
         waitForExpectations(timeout: 3, handler: nil)
     }
     
