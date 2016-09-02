@@ -18,7 +18,7 @@ extension URLRequest {
         guard let method = httpMethod else { throw EncodeError.invalidMethod }
         switch encoding {
         case .url:
-            if URLRequest.parametersInURLForMethod(method) {
+            if URLRequest.parametersInURL(forMethod: method) {
                 self.url = try self.url?.url(appendingParameters: parameters)
             } else {
                 setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
@@ -37,7 +37,7 @@ extension URLRequest {
         }
     }
     
-    static func parametersInURLForMethod(_ method: String) -> Bool {
+    static func parametersInURL(forMethod method: String) -> Bool {
         switch method {
         case "GET", "HEAD", "DELETE":
             return true
