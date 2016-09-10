@@ -38,7 +38,7 @@ open class AbstractCustomErrorRepository<StatusType: Equatable, ErrorModelType: 
             } catch {
                 Log.error("Error parsing error dictionary")
             }
-            if let error = modelError {
+            if let error = modelError as? Error {
                 throw error
             }
         }
