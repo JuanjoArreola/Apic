@@ -20,8 +20,8 @@ private let syncQueue: DispatchQueue = DispatchQueue(label: "com.apic.SyncQueue"
 
 open class Request<T: Any>: CustomDebugStringConvertible, Cancellable {
     
-    fileprivate var completionHandlers: [(_ getObject: () throws -> T) -> Void]? = []
-    fileprivate var result: (() throws -> T)?
+    private var completionHandlers: [(_ getObject: () throws -> T) -> Void]? = []
+    private var result: (() throws -> T)?
     
     open var subrequest: Cancellable? {
         didSet {
@@ -51,17 +51,17 @@ open class Request<T: Any>: CustomDebugStringConvertible, Cancellable {
     open func cancel() {
         sync() { self.canceled = true }
         subrequest?.cancel()
-        completeWithError(RequestError.canceled)
+        complete(withError: RequestError.canceled)
     }
     
-    open func completeWithObject(_ object: T) {
+    open func complete(withObject object: T) {
         if result == nil {
             result = { return object }
             callHandlers()
         }
     }
     
-    open func completeWithError(_ error: Error) {
+    open func complete(withError error: Error) {
         if result == nil {
             result = { throw error }
             callHandlers()
@@ -76,7 +76,7 @@ open class Request<T: Any>: CustomDebugStringConvertible, Cancellable {
         sync() { self.completionHandlers = nil }
     }
     
-    open func addCompletionHandler(_ completion: @escaping (_ getObject: () throws -> T) -> Void) {
+    open func add(completionHandler completion: @escaping (_ getObject: () throws -> T) -> Void) {
         if let getClosure = result {
             completion(getClosure)
         } else {

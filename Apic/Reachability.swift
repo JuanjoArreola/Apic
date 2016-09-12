@@ -62,7 +62,7 @@ public class Reachability {
         return (isReachable && !needsConnection)
     }
     
-    public static func reachabilityInfoForURL(_ url: URL) throws -> HostReachabilityInfo {
+    public static func reachabilityInfo(forURL url: URL) throws -> HostReachabilityInfo {
         
         var reachabilityInfo: HostReachabilityInfo?
         var trackingError: Error?
@@ -80,7 +80,7 @@ public class Reachability {
                 reachabilityInfo = info
             } else {
                 do {
-                    reachabilityInfo = try startTrackingHost(host)
+                    reachabilityInfo = try startTracking(host: host)
                     Reachability.reachabilityInfo[host] = reachabilityInfo
                 } catch {
                     trackingError = error
@@ -106,7 +106,7 @@ public class Reachability {
         return info
     }
     
-    public static func startTrackingHost(_ host: String) throws -> HostReachabilityInfo {
+    public static func startTracking(host: String) throws -> HostReachabilityInfo {
         guard let reachability = SCNetworkReachabilityCreateWithName(nil, (host as NSString).utf8String!) else {
             throw ReachabilityError.inicializationError
         }

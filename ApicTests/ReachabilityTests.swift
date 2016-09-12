@@ -30,7 +30,7 @@ class ReachabilityTests: XCTestCase {
         for i in 0...20 {
             testQueue.async {
                 do {
-                    let info = try Reachability.reachabilityInfoForURL(URL(string: "http://github.com/\(i)")!)
+                    let info = try Reachability.reachabilityInfo(forURL: URL(string: "http://github.com/\(i)")!)
                     Log.debug("info: \(info)")
                     count += 1
                     if count >= 19 && !fulfilled {

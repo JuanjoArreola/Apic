@@ -67,15 +67,15 @@ open class AbstractModel: NSObject, InitializableWithDictionary {
         super.init()
         
         let mirror = Mirror(reflecting: self)
-        try initializePropertiesOf(mirror: mirror, withDictionary: dictionary)
+        try initializeProperties(of: mirror, with: dictionary)
     }
     
-    private func initializePropertiesOf(mirror: Mirror, withDictionary dictionary: [String: Any]) throws {
+    private func initializeProperties(of mirror: Mirror, with dictionary: [String: Any]) throws {
         if String(describing: mirror.subjectType) == String(describing: AbstractModel.self) {
             return
         }
         if let superclassMirror = mirror.superclassMirror {
-            try initializePropertiesOf(mirror: superclassMirror, withDictionary: dictionary)
+            try initializeProperties(of: superclassMirror, with: dictionary)
         }
         
         let modelType = mirror.subjectType as! AbstractModel.Type

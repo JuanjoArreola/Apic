@@ -106,20 +106,20 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
     open func requestSuccess(method: HTTPMethod, url: URLConvertible, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .url, headers: [String: String]? = nil, completion: @escaping (_ getSuccess: () throws -> Bool) -> Void) -> ApicRequest<Bool> {
         let request = ApicRequest(completionHandler: completion)
         guard let URL = url.URL else {
-            request.completeWithError(RepositoryError.invalidURL)
+            request.complete(withError: RepositoryError.invalidURL)
             return request
         }
         
         processQueue.async {
             do {
-                try self.checkURLReachability(URL)
+                try self.checkURLReachability(url: URL)
                 
                 request.dataTask = try self.request(url: URL, method: method, parameters: params, parameterEncoding: encoding, headers: headers) { (data: Data?, response: URLResponse?, error: Error?) -> Void in
                     do {
                         if let error = error {
                             throw error
                         }
-                        if let response = response, let error = self.getErrorFromResponse(response, data: data) {
+                        if let response = response, let error = self.getError(fromResponse: response, data: data) {
                             throw error
                         }
                         guard let data = data else {
@@ -127,17 +127,17 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
                         }
                         let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
                         _ = try self.dictionary(fromJSON: json)
-                        self.responseQueue.async { request.completeWithObject(true) }
+                        self.responseQueue.async { request.complete(withObject: true) }
                     }
                     catch {
-                        self.responseQueue.async { request.completeWithError(error) }
+                        self.responseQueue.async { request.complete(withError: error) }
                     }
                 }
                 if self.session?.delegate === self {
                     self.progressReporters[request.dataTask!] = request
                 }
             } catch {
-                self.responseQueue.async { request.completeWithError(error) }
+                self.responseQueue.async { request.complete(withError: error) }
             }
         }
         return request
@@ -147,20 +147,20 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
         let request = ApicRequest(completionHandler: completion)
         
         guard let URL = url.URL else {
-            request.completeWithError(RepositoryError.invalidURL)
+            request.complete(withError: RepositoryError.invalidURL)
             return request
         }
 
         processQueue.async {
             do {
-                try self.checkURLReachability(URL)
+                try self.checkURLReachability(url: URL)
         
                 request.dataTask = try self.request(url: URL, method: method, parameters: params, parameterEncoding: encoding, headers: headers, completion: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
                     do {
                         if let error = error {
                             throw error
                         }
-                        if let response = response, let error = self.getErrorFromResponse(response, data: data) {
+                        if let response = response, let error = self.getError(fromResponse: response, data: data) {
                             throw error
                         }
                         guard let data = data else {
@@ -176,16 +176,16 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
                             }
                         }
                         let object = try T(dictionary: dictionary)
-                        self.responseQueue.async { request.completeWithObject(object) }
+                        self.responseQueue.async { request.complete(withObject: object) }
                     } catch {
-                        self.responseQueue.async { request.completeWithError(error) }
+                        self.responseQueue.async { request.complete(withError: error) }
                     }
                 })
                 if self.session?.delegate === self {
                     self.progressReporters[request.dataTask!] = request
                 }
             } catch {
-                self.responseQueue.async { request.completeWithError(error) }
+                self.responseQueue.async { request.complete(withError: error) }
             }
         }
         return request
@@ -195,20 +195,20 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
         let request = ApicRequest(completionHandler: completion)
 
         guard let URL = url.URL else {
-            request.completeWithError(RepositoryError.invalidURL)
+            request.complete(withError: RepositoryError.invalidURL)
             return request
         }
         
         processQueue.async {
             do {
-                try self.checkURLReachability(URL)
+                try self.checkURLReachability(url: URL)
                 
                 request.dataTask = try self.request(url: URL, method: method, parameters: params, parameterEncoding: encoding, headers: headers, completion: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
                     do {
                         if let error = error {
                             throw error
                         }
-                        if let response = response, let error = self.getErrorFromResponse(response, data: data) {
+                        if let response = response, let error = self.getError(fromResponse: response, data: data) {
                             throw error
                         }
                         guard let data = data else {
@@ -229,16 +229,16 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
                         for object in array {
                             objects.append(try T(dictionary: object))
                         }
-                        self.responseQueue.async { request.completeWithObject(objects) }
+                        self.responseQueue.async { request.complete(withObject: objects) }
                     } catch {
-                        self.responseQueue.async { request.completeWithError(error) }
+                        self.responseQueue.async { request.complete(withError: error) }
                     }
                 })
                 if self.session?.delegate === self {
                     self.progressReporters[request.dataTask!] = request
                 }
             } catch {
-                self.responseQueue.async { request.completeWithError(error) }
+                self.responseQueue.async { request.complete(withError: error) }
             }
         }
         return request
@@ -306,12 +306,12 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
         return task
     }
     
-    @inline(__always) func checkURLReachability(_ url: URL) throws {
+    @inline(__always) func checkURLReachability(url: URL) throws {
         #if os(iOS) || os(OSX) || os(tvOS)
             if !self.checkReachability {
                 return
             }
-            guard let info = try? Reachability.reachabilityInfoForURL(url) else {
+            guard let info = try? Reachability.reachabilityInfo(forURL: url) else {
                 return
             }
             guard let reachable = info.isReachable else {
@@ -341,7 +341,7 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
         throw RepositoryError.statusFail(message: message, code: code)
     }
     
-    fileprivate func getErrorFromResponse(_ response: URLResponse, data: Data?) -> Error? {
+    fileprivate func getError(fromResponse response: URLResponse, data: Data?) -> Error? {
         guard let httpResponse = response as? HTTPURLResponse else {
             return nil
         }
