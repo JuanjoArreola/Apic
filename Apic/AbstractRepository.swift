@@ -103,7 +103,7 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
         self.errorCodeKey = errorCodeKey
     }
     
-    open func requestSuccess(method: HTTPMethod, url: URLConvertible, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .url, headers: [String: String]? = nil, completion: @escaping (_ getSuccess: () throws -> Bool) -> Void) -> ApicRequest<Bool> {
+    open func requestSuccess(method: HTTPMethod, url: URLConvertible, params: [String: Any]? = [:], encoding: ParameterEncoding = .url, headers: [String: String]? = nil, completion: @escaping (_ getSuccess: () throws -> Bool) -> Void) -> ApicRequest<Bool> {
         let request = ApicRequest(completionHandler: completion)
         guard let URL = url.URL else {
             request.complete(withError: RepositoryError.invalidURL)
@@ -143,7 +143,7 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
         return request
     }
     
-    open func requestObject<T: InitializableWithDictionary>(method: HTTPMethod, url: URLConvertible, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .url, headers: [String: String]? = nil, completion: @escaping (_ getObject: () throws -> T) -> Void) -> ApicRequest<T> {
+    open func requestObject<T: InitializableWithDictionary>(method: HTTPMethod, url: URLConvertible, params: [String: Any]? = [:], encoding: ParameterEncoding = .url, headers: [String: String]? = nil, completion: @escaping (_ getObject: () throws -> T) -> Void) -> ApicRequest<T> {
         let request = ApicRequest(completionHandler: completion)
         
         guard let URL = url.URL else {
@@ -191,7 +191,7 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
         return request
     }
     
-    open func requestObjects<T: InitializableWithDictionary>(method: HTTPMethod, url: URLConvertible, params: [String: AnyObject]? = [:], encoding: ParameterEncoding = .url, headers: [String: String]? = nil, completion: @escaping (_ getObjects: () throws -> [T]) -> Void) -> ApicRequest<[T]> {
+    open func requestObjects<T: InitializableWithDictionary>(method: HTTPMethod, url: URLConvertible, params: [String: Any]? = [:], encoding: ParameterEncoding = .url, headers: [String: String]? = nil, completion: @escaping (_ getObjects: () throws -> [T]) -> Void) -> ApicRequest<[T]> {
         let request = ApicRequest(completionHandler: completion)
 
         guard let URL = url.URL else {
@@ -244,7 +244,7 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
         return request
     }
     
-    open func request(url: URL, method: HTTPMethod = .GET, parameters: [String: AnyObject]? = [:], parameterEncoding: ParameterEncoding = .url, headers: [String: String]? = nil, completion: @escaping (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void) throws -> URLSessionDataTask {
+    open func request(url: URL, method: HTTPMethod = .GET, parameters: [String: Any]? = [:], parameterEncoding: ParameterEncoding = .url, headers: [String: String]? = nil, completion: @escaping (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void) throws -> URLSessionDataTask {
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         if let cachePolicy = cachePolicy {
