@@ -283,7 +283,7 @@ open class AbstractModel: NSObject, InitializableWithDictionary {
                 if let date = type(of: self).date(from: value) {
                     setValue(date, forKey: property)
                 } else {
-                    throw ModelError.dateError(property: property, value: value)
+                    try assign(undefinedValue: rawValue, forProperty: property)
                 }
             } else {
                 try assign(undefinedValue: rawValue, forProperty: property)
@@ -314,12 +314,12 @@ open class AbstractModel: NSObject, InitializableWithDictionary {
         }
             
 //      MARK: - URL
-        else if propertyType is URL?.Type || propertyType is NSURL.Type || propertyType is ImplicitlyUnwrappedOptional<URL>.Type {
+        else if propertyType is URL?.Type || propertyType is URL.Type || propertyType is ImplicitlyUnwrappedOptional<URL>.Type {
             if let value = rawValue as? String {
                 if let url = URL(string: value) {
                     setValue(url, forKey: property)
                 } else {
-                    throw ModelError.urlError(property: property, value: value)
+                    try assign(undefinedValue: rawValue, forProperty: property)
                 }
             } else {
                 try assign(undefinedValue: rawValue, forProperty: property)
