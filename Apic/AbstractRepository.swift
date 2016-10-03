@@ -55,18 +55,18 @@ public enum RepositoryError: Error, CustomStringConvertible {
 }
 
 public protocol URLConvertible {
-    var URL: Foundation.URL? { get }
+    var url: URL? { get }
 }
 
-extension Foundation.URL: URLConvertible {
-    public var URL: Foundation.URL? {
+extension URL: URLConvertible {
+    public var url: URL? {
         return self
     }
 }
 
 extension String: URLConvertible {
-    public var URL: Foundation.URL? {
-        return Foundation.URL(string: self)
+    public var url: URL? {
+        return URL(string: self)
     }
 }
 
@@ -105,7 +105,7 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
     
     open func requestSuccess(method: HTTPMethod, url: URLConvertible, params: [String: Any]? = [:], encoding: ParameterEncoding = .url, headers: [String: String]? = nil, completion: @escaping (_ getSuccess: () throws -> Bool) -> Void) -> ApicRequest<Bool> {
         let request = ApicRequest(completionHandler: completion)
-        guard let URL = url.URL else {
+        guard let URL = url.url else {
             request.complete(withError: RepositoryError.invalidURL)
             return request
         }
@@ -146,7 +146,7 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
     open func requestObject<T: InitializableWithDictionary>(method: HTTPMethod, url: URLConvertible, params: [String: Any]? = [:], encoding: ParameterEncoding = .url, headers: [String: String]? = nil, completion: @escaping (_ getObject: () throws -> T) -> Void) -> ApicRequest<T> {
         let request = ApicRequest(completionHandler: completion)
         
-        guard let URL = url.URL else {
+        guard let URL = url.url else {
             request.complete(withError: RepositoryError.invalidURL)
             return request
         }
@@ -194,7 +194,7 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
     open func requestObjects<T: InitializableWithDictionary>(method: HTTPMethod, url: URLConvertible, params: [String: Any]? = [:], encoding: ParameterEncoding = .url, headers: [String: String]? = nil, completion: @escaping (_ getObjects: () throws -> [T]) -> Void) -> ApicRequest<[T]> {
         let request = ApicRequest(completionHandler: completion)
 
-        guard let URL = url.URL else {
+        guard let URL = url.url else {
             request.complete(withError: RepositoryError.invalidURL)
             return request
         }
