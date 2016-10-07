@@ -59,14 +59,14 @@ func urlString(forParameters parameters: [String: Any]) throws -> String {
     let array = parameters.map { (key, value) -> String in
         return "\(key)=\(String(describing: value))"
     }
-    if let string = array.joined(separator: "&").addingPercentEncoding(withAllowedCharacters: CharacterSet.urlHostAllowed) {
+    if let string = array.joined(separator: "&").addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
         return string
     }
     throw RepositoryError.encodingError
 }
 
-public extension Foundation.URL {
-    func url(appendingParameters parameters: [String: Any]?) throws -> Foundation.URL {
+public extension URL {
+    func url(appendingParameters parameters: [String: Any]?) throws -> URL {
         guard let params = parameters else { return self }
         guard var components = URLComponents(url: self, resolvingAgainstBaseURL: false) else { return self }
         let parametersString = try urlString(forParameters: params)
