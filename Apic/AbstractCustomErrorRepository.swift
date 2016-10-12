@@ -18,7 +18,7 @@ open class AbstractCustomErrorRepository<StatusType: Equatable, ErrorModelType: 
         self.errorKey = errorKey
     }
     
-    override func dictionary(fromJSON JSON: Any?) throws -> [String: Any] {
+    override public func dictionary(fromJSON JSON: Any?) throws -> [String: Any] {
         guard let data = JSON as? [String: Any] else {
             throw RepositoryError.badJSONContent
         }

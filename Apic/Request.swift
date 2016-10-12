@@ -94,13 +94,13 @@ private func sync(_ closure: @escaping () -> Void) {
 }
 
 public protocol ProgressReporter: AnyObject {
-    var dataTask: URLSessionDataTask? { get }
+    var dataTask: URLSessionTask? { get }
     var progressHandler: ((_ progress: Double) -> Void)? { get }
 }
 
 open class ApicRequest<T: Any>: Request<T>, ProgressReporter, Equatable {
     
-    open internal(set) var dataTask: URLSessionDataTask?
+    open var dataTask: URLSessionTask?
     open var progressHandler: ((_ progress: Double) -> Void)?
     
     public required init(completionHandler: @escaping (_ getObject: () throws -> T) -> Void) {

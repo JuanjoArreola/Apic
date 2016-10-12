@@ -12,7 +12,7 @@ enum EncodeError: Error {
     case invalidMethod
 }
 
-extension URLRequest {
+public extension URLRequest {
     
     mutating func encode(parameters: [String: Any]?, withEncoding encoding: ParameterEncoding) throws {
         guard let method = httpMethod else { throw EncodeError.invalidMethod }

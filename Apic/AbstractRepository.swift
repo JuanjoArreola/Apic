@@ -86,9 +86,9 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
     
     open var responseQueue = DispatchQueue.main
     
-    fileprivate var completionHandlers: [URLSessionTask: (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void] = [:]
-    fileprivate var buffers: [URLSessionTask: NSMutableData] = [:]
-    fileprivate var progressReporters: [URLSessionTask: ProgressReporter] = [:]
+    private var completionHandlers: [URLSessionTask: (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void] = [:]
+    private var buffers: [URLSessionTask: NSMutableData] = [:]
+    private var progressReporters: [URLSessionTask: ProgressReporter] = [:]
     
 #if os(iOS) || os(OSX) || os(tvOS)
     open var checkReachability = true
@@ -146,16 +146,16 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
     open func requestObject<T: InitializableWithDictionary>(method: HTTPMethod, url: URLConvertible, params: [String: Any]? = [:], encoding: ParameterEncoding = .url, headers: [String: String]? = nil, completion: @escaping (_ getObject: () throws -> T) -> Void) -> ApicRequest<T> {
         let request = ApicRequest(completionHandler: completion)
         
-        guard let URL = url.url else {
+        guard let url = url.url else {
             request.complete(withError: RepositoryError.invalidURL)
             return request
         }
 
         processQueue.async {
             do {
-                try self.checkURLReachability(url: URL)
+                try self.checkURLReachability(url: url)
         
-                request.dataTask = try self.request(url: URL, method: method, parameters: params, parameterEncoding: encoding, headers: headers, completion: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
+                request.dataTask = try self.request(url: url, method: method, parameters: params, parameterEncoding: encoding, headers: headers, completion: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
                     do {
                         if let error = error {
                             throw error
@@ -323,7 +323,7 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
         #endif
     }
 
-    func dictionary(fromJSON JSON: Any?) throws -> [String: Any] {
+    public func dictionary(fromJSON JSON: Any?) throws -> [String: Any] {
         guard let data = JSON as? [String: AnyObject] else {
             throw RepositoryError.badJSONContent
         }
@@ -341,7 +341,7 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
         throw RepositoryError.statusFail(message: message, code: code)
     }
     
-    fileprivate func getError(fromResponse response: URLResponse, data: Data?) -> Error? {
+    public func getError(fromResponse response: URLResponse, data: Data?) -> Error? {
         guard let httpResponse = response as? HTTPURLResponse else {
             return nil
         }
