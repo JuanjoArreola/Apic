@@ -104,7 +104,7 @@ open class AbstractModel: NSObject, InitializableWithDictionary {
         }
     }
     
-    private func assign(rawValue optionalRawValue: Any?, toChild child: Mirror.Child, modelType: AbstractModel.Type) throws {
+    open func assign(rawValue optionalRawValue: Any?, toChild child: Mirror.Child, modelType: AbstractModel.Type) throws {
         guard let property = child.label else {
             return
         }
