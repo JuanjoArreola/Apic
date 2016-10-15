@@ -70,7 +70,7 @@ open class AbstractModel: NSObject, InitializableWithDictionary {
         try initializeProperties(of: mirror, with: dictionary)
     }
     
-    private func initializeProperties(of mirror: Mirror, with dictionary: [String: Any]) throws {
+    open func initializeProperties(of mirror: Mirror, with dictionary: [String: Any]) throws {
         if String(describing: mirror.subjectType) == String(describing: AbstractModel.self) {
             return
         }
