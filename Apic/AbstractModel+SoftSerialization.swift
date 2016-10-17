@@ -9,7 +9,8 @@
 import Foundation
 
 public extension AbstractModel {
-    open var softDictionary: [String: Any] {
+    
+    public var softDictionary: [String: Any] {
         let mirror = Mirror(reflecting: self)
         var result = [String: Any]()
         for child in mirror.children {
