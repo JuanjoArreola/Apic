@@ -23,7 +23,7 @@ class RepositoryStatusTests: XCTestCase {
     }
     
     func testStringStatus() {
-        stubWithResponse(["status": "OK" as AnyObject])
+        stubWithResponse(["status": "OK"])
         let expectation: XCTestExpectation = self.expectation(description: "fetch success")
         let repository = StringStatusRepository()
         _ = repository.requestTest { (getSuccess) -> Void in
@@ -40,7 +40,7 @@ class RepositoryStatusTests: XCTestCase {
     }
     
     func testBoolStatus() {
-        stubWithResponse(["success": true as AnyObject])
+        stubWithResponse(["success": true])
         let expectation: XCTestExpectation = self.expectation(description: "fetch success")
         let repository = BoolStatusRepository()
         _ = repository.requestTest { (getSuccess) -> Void in
@@ -57,7 +57,7 @@ class RepositoryStatusTests: XCTestCase {
     }
     
     func testStringStatusFail() {
-        stubWithResponse(["status": "FAIL" as AnyObject])
+        stubWithResponse(["status": "FAIL"])
         let expectation: XCTestExpectation = self.expectation(description: "fetch success")
         let repository = StringStatusRepository()
         _ = repository.requestTest { (getSuccess) -> Void in
@@ -72,7 +72,7 @@ class RepositoryStatusTests: XCTestCase {
     }
     
     func testBoolStatusFail() {
-        stubWithResponse(["success": false as AnyObject])
+        stubWithResponse(["success": false])
         let expectation: XCTestExpectation = self.expectation(description: "fetch success")
         let repository = BoolStatusRepository()
         _ = repository.requestTest { (getSuccess) -> Void in
@@ -86,7 +86,7 @@ class RepositoryStatusTests: XCTestCase {
         waitForExpectations(timeout: 1.0, handler: nil)
     }
     
-    func stubWithResponse(_ response: [String: AnyObject]) {
+    func stubWithResponse(_ response: [String: Any]) {
         OHHTTPStubs.stubRequests(passingTest: { _ in return true }) {
             (request: URLRequest) -> OHHTTPStubsResponse in
             return OHHTTPStubsResponse(data: try! JSONSerialization.data(withJSONObject: response, options: []), statusCode:200, headers: ["Content-Type": "application/json"])

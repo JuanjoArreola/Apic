@@ -134,7 +134,7 @@ class StateContainer: AbstractModel {
         return ["state", "mediaType"].contains(property)
     }
     
-    override func assign(value: Any?, forProperty property: String) throws {
+    override func assign(value: Any, forProperty property: String) throws {
         if property == "state" {
             state = value as! State
         } else if property == "mediaType" {
@@ -156,7 +156,7 @@ class PositionContainer: AbstractModel {
         return ["location"].contains(property)
     }
     
-    override func assign(value: Any?, forProperty property: String) throws {
+    override func assign(value: Any, forProperty property: String) throws {
         if property == "location" {
             location = value as! Location
         } else {
@@ -171,10 +171,10 @@ struct Location: InitializableWithDictionary {
     
     init(dictionary: [String : Any]) throws {
         guard let latitude = dictionary["latitude"] as? Double else {
-            throw ModelError.sourceValueError(property: "latitude", model: "Location")
+            throw ModelError.sourceValueError(property: "latitude", model: "Location", value: String(describing: dictionary["latitude"]))
         }
         guard let longitude = dictionary["longitude"] as? Double else {
-            throw ModelError.sourceValueError(property: "longitude", model: "Location")
+            throw ModelError.sourceValueError(property: "longitude", model: "Location", value: String(describing: dictionary["longitude"]))
         }
         self.latitude = latitude
         self.longitude = longitude

@@ -147,7 +147,7 @@ class IntContainer: AbstractModel {
     var level: Int!
     var value: Int = 1
     
-    override func assign(value: Any?, forProperty property: String) throws {
+    override func assign(value: Any, forProperty property: String) throws {
         if property == "option" { option = value as? Int}
         else if property == "level" { level = value as! Int}
         else {

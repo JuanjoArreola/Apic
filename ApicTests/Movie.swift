@@ -69,7 +69,7 @@ class Movie: DefaultModel {
         return ["id", "name", "year", "rating", "duration", "format", "country"].contains(property)
     }
     
-    override func assign(value: Any?, forProperty property: String) throws {
+    override func assign(value: Any, forProperty property: String) throws {
         switch property {
         case "rating": rating = value as? Float
         default: try super.assign(value: value, forProperty: property)

@@ -40,7 +40,7 @@ public protocol DynamicTypeModel {
 }
 
 public enum ModelError: Error {
-    case sourceValueError(property: String, model: String)
+    case sourceValueError(property: String, model: String, value: String?)
     case valueTypeError(property: String?)
     case dateError(property: String?, value: String?)
     case urlError(property: String?, value: String?)
@@ -116,7 +116,7 @@ open class AbstractModel: NSObject, InitializableWithDictionary {
         
         guard let rawValue = optionalRawValue else {
             if self.shouldFail(withInvalidValue: nil, forProperty: property) {
-                throw ModelError.sourceValueError(property: property, model: modelName)
+                throw ModelError.sourceValueError(property: property, model: modelName, value: nil)
             } else {
                 return
             }
@@ -283,7 +283,11 @@ open class AbstractModel: NSObject, InitializableWithDictionary {
                 if let date = type(of: self).date(from: value) {
                     setValue(date, forKey: property)
                 } else {
-                    try assign(undefinedValue: rawValue, forProperty: property)
+                    do {
+                        try assign(undefinedValue: rawValue, forProperty: property)
+                    } catch {
+                        throw ModelError.dateError(property: property, value: value)
+                    }
                 }
             } else {
                 try assign(undefinedValue: rawValue, forProperty: property)
@@ -449,7 +453,7 @@ open class AbstractModel: NSObject, InitializableWithDictionary {
     open func assign(undefinedValue: Any, forProperty property: String) throws {
         Log.warn("Could no parse value: <\(undefinedValue)> for property: <\(property)> of model: \(type(of: self))")
         if shouldFail(withInvalidValue: undefinedValue, forProperty: property) {
-            throw ModelError.sourceValueError(property: property, model: String(describing: type(of: self)))
+            throw ModelError.sourceValueError(property: property, model: String(describing: type(of: self)), value: String(describing: undefinedValue))
         }
     }
     
@@ -478,7 +482,7 @@ open class AbstractModel: NSObject, InitializableWithDictionary {
         return nil
     }
     
-    /// This function tries to convert a value of type `AnyObject?` to a value of type `T: StringInitializable`
+    /// This function tries to convert a value of type `Any?` to a value of type `T: StringInitializable`
     /// - parameter value: the value to be converted
     /// - returns: a value of type T or nil if the original value couln't be cenverted
     private func convert<T: StringInitializable>(value: Any?) -> T? {
@@ -493,7 +497,6 @@ open class AbstractModel: NSObject, InitializableWithDictionary {
         }
         return nil
     }
-
 }
 
 extension Int: StringInitializable {

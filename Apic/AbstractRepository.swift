@@ -169,7 +169,7 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
                         let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
                         var dictionary = try self.dictionary(fromJSON: json)
                         if let objectKey = self.objectKey {
-                            if let objectDictionary = dictionary[objectKey] as? [String: AnyObject] {
+                            if let objectDictionary = dictionary[objectKey] as? [String: Any] {
                                 dictionary = objectDictionary
                             } else {
                                 throw RepositoryError.badJSONContent
@@ -215,12 +215,12 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
                             throw RepositoryError.badJSON
                         }
                         let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                        var array: [[String: AnyObject]]!
+                        var array: [[String: Any]]!
                         if let objectsKey = self.objectsKey {
                             let data = try self.dictionary(fromJSON: json)
-                            array = data[objectsKey] as? [[String: AnyObject]]
+                            array = data[objectsKey] as? [[String: Any]]
                         } else {
-                            array = json as? [[String: AnyObject]]
+                            array = json as? [[String: Any]]
                         }
                         if array == nil {
                             throw RepositoryError.badJSONContent
@@ -324,7 +324,7 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
     }
 
     public func dictionary(fromJSON JSON: Any?) throws -> [String: Any] {
-        guard let data = JSON as? [String: AnyObject] else {
+        guard let data = JSON as? [String: Any] else {
             throw RepositoryError.badJSONContent
         }
         guard let statusKey = statusKey, let statusOk = statusOk else {
@@ -347,7 +347,7 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
         }
         let code = httpResponse.statusCode
         if code >= 400 && code < 600 {
-            if let data = data, let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: AnyObject] {
+            if let data = data, let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] {
                 if let key = errorDescriptionKey, let message = json?[key] as? String, let codeKey = errorCodeKey, let code = json?[codeKey] as? String {
                     return RepositoryError.statusFail(message: message, code: code)
                 }

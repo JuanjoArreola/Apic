@@ -147,8 +147,10 @@ class FloatContainer: AbstractModel {
     var option: Float?
     var value: Float = 1.0
     
-    override func assign(value: Any?, forProperty property: String) throws {
-        if property == "option" { option = value as? Float}
+    override func assign(value: Any, forProperty property: String) throws {
+        if property == "option" {
+            option = value as? Float
+        }
         else {
             try super.assign(value: value, forProperty: property)
         }

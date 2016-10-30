@@ -147,7 +147,7 @@ class DoubleContainer: AbstractModel {
     var option: Double?
     var value: Double = 1.0
     
-    override func assign(value: Any?, forProperty property: String) throws {
+    override func assign(value: Any, forProperty property: String) throws {
         if property == "option" { option = value as? Double}
         else {
             try super.assign(value: value, forProperty: property)

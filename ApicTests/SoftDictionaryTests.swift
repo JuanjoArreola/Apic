@@ -28,7 +28,7 @@ class SoftDictionaryTests: XCTestCase {
         let dictionary = playlist.softDictionary
         XCTAssertEqual(dictionary.count, 2)
         XCTAssertNotNil(dictionary["songs"])
-        XCTAssertTrue(dictionary["songs"] is [[String: AnyObject]])
+        XCTAssertTrue(dictionary["songs"] is [[String: Any]])
     }
     
 }

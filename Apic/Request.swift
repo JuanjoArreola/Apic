@@ -93,7 +93,7 @@ private func sync(_ closure: @escaping () -> Void) {
     syncQueue.async(flags: .barrier, execute: closure)
 }
 
-public protocol ProgressReporter: AnyObject {
+public protocol ProgressReporter: Any {
     var dataTask: URLSessionTask? { get }
     var progressHandler: ((_ progress: Double) -> Void)? { get }
 }

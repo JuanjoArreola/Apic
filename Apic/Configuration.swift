@@ -10,15 +10,15 @@ import Foundation
 
 public final class Configuration {
     
-    fileprivate static let defaultProperties: [String: AnyObject] = {
+    private static let defaultProperties: [String: Any] = {
         let bundle = Bundle(for: Configuration.self)
         let path = bundle.path(forResource: "apic_properties", ofType: "plist")
-        return NSDictionary(contentsOfFile: path!) as! [String: AnyObject]
+        return NSDictionary(contentsOfFile: path!) as! [String: Any]
     }()
     
-    fileprivate static let properties: [String: AnyObject]? = {
+    private static let properties: [String: Any]? = {
         if let path = Bundle.main.path(forResource: "ApicProperties", ofType: "plist") {
-            return NSDictionary(contentsOfFile: path) as? [String: AnyObject]
+            return NSDictionary(contentsOfFile: path) as? [String: Any]
         }
         return nil
     }()
@@ -56,7 +56,7 @@ public final class Configuration {
     }()
     
     static var locale: Locale = {
-        if let identifier = properties?["locale_identifier"] as? String {
+        if let identifier = properties?["locale_identifier"] as? String ?? defaultProperties["locale_identifier"] as? String {
             return Locale(identifier: identifier)
         }
         return Locale.current

@@ -147,8 +147,10 @@ class BoolContainer: AbstractModel {
     var option: Bool?
     var value: Bool = false
     
-    override func assign(value: Any?, forProperty property: String) throws {
-        if property == "option" { option = value as? Bool}
+    override func assign(value: Any, forProperty property: String) throws {
+        if property == "option" {
+            option = value as? Bool
+        }
         else {
             try super.assign(value: value, forProperty: property)
         }
