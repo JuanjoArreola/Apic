@@ -40,7 +40,7 @@ open class Request<T: Any>: CustomDebugStringConvertible, Cancellable {
     required public init() {}
     
     public required init(completionHandler: @escaping (_ getObject: () throws -> T) -> Void) {
-        completionHandlers!.append(completionHandler)
+        completionHandlers?.append(completionHandler)
     }
     
     public convenience init(subrequest: Cancellable) {
@@ -70,9 +70,7 @@ open class Request<T: Any>: CustomDebugStringConvertible, Cancellable {
     
     fileprivate func callHandlers() {
         guard let getClosure = result else { return }
-        for handler in completionHandlers! {
-            handler(getClosure)
-        }
+        completionHandlers?.forEach({ $0(getClosure) })
         sync() { self.completionHandlers = nil }
     }
     
