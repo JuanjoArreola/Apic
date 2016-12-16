@@ -45,21 +45,53 @@ public class Reachability {
     fileprivate static var reachabilityInfo = [String: HostReachabilityInfo]()
     
     public class func isConnectedToNetwork() -> Bool {
+        guard let flags = getFlags() else { return false }
+        let isReachable = flags.contains(.reachable)
+        let needsConnection = flags.contains(.connectionRequired)
+        return (isReachable && !needsConnection)
+    }
+    
+    public class func isConnectedToWiFi() -> Bool {
+        guard let flags = getFlags() else { return false }
+        let isReachable = flags.contains(.reachable)
+        let needsConnection = flags.contains(.connectionRequired)
+        let isWiFi = !flags.contains(.isWWAN)
+        return (isReachable && !needsConnection && isWiFi)
+    }
+    
+    private class func getFlags() -> SCNetworkReachabilityFlags? {
+        guard let reachability = ipv4Reachability() ?? ipv6Reachability() else {
+            return nil
+        }
+        var flags = SCNetworkReachabilityFlags()
+        if !SCNetworkReachabilityGetFlags(reachability, &flags) {
+            return nil
+        }
+        return flags
+    }
+    
+    private class func ipv6Reachability() -> SCNetworkReachability? {
         var zeroAddress = sockaddr_in6()
         zeroAddress.sin6_len = UInt8(MemoryLayout<sockaddr_in>.size)
         zeroAddress.sin6_family = sa_family_t(AF_INET6)
-        let defaultRouteReachability = withUnsafePointer(to: &zeroAddress) {
+        
+        return withUnsafePointer(to: &zeroAddress, {
             $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
                 SCNetworkReachabilityCreateWithAddress(nil, $0)
             }
-        }
-        var flags = SCNetworkReachabilityFlags()
-        if !SCNetworkReachabilityGetFlags(defaultRouteReachability!, &flags) {
-            return false
-        }
-        let isReachable = (flags.rawValue & UInt32(kSCNetworkFlagsReachable)) != 0
-        let needsConnection = (flags.rawValue & UInt32(kSCNetworkFlagsConnectionRequired)) != 0
-        return (isReachable && !needsConnection)
+        })
+    }
+    
+    private class func ipv4Reachability() -> SCNetworkReachability? {
+        var zeroAddress = sockaddr_in()
+        zeroAddress.sin_len = UInt8(MemoryLayout<sockaddr_in>.size)
+        zeroAddress.sin_family = sa_family_t(AF_INET)
+        
+        return withUnsafePointer(to: &zeroAddress, {
+            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
+                SCNetworkReachabilityCreateWithAddress(nil, $0)
+            }
+        })
     }
     
     public static func reachabilityInfo(forURL url: URL) throws -> HostReachabilityInfo {
