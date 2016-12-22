@@ -384,4 +384,8 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
         buffers[task] = nil
     }
     
+    open func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        completionHandler(.performDefaultHandling, nil)
+    }
+    
 }

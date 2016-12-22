@@ -55,7 +55,7 @@ public class Reachability {
         guard let flags = getFlags() else { return false }
         let isReachable = flags.contains(.reachable)
         let needsConnection = flags.contains(.connectionRequired)
-        let isWiFi = !flags.contains(.isWWAN)
+        let isWiFi = !flags.contains(SCNetworkReachabilityFlags.isWWAN)
         return (isReachable && !needsConnection && isWiFi)
     }
     
