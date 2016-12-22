@@ -51,11 +51,12 @@ public class Reachability {
         return (isReachable && !needsConnection)
     }
     
+    @available(iOS 9.0, OSX 10.11, *)
     public class func isConnectedToWiFi() -> Bool {
         guard let flags = getFlags() else { return false }
         let isReachable = flags.contains(.reachable)
         let needsConnection = flags.contains(.connectionRequired)
-        let isWiFi = !flags.contains(SCNetworkReachabilityFlags.isWWAN)
+        let isWiFi = !flags.contains(.isWWAN)
         return (isReachable && !needsConnection && isWiFi)
     }
     
