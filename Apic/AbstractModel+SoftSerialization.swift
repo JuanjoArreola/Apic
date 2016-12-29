@@ -13,28 +13,36 @@ public extension AbstractModel {
     var softDictionary: [String: Any] {
         let mirror = Mirror(reflecting: self)
         var result = [String: Any]()
+        softAddProperties(to: &result, mirror: mirror)
+        
+        return result
+    }
+    
+    private func softAddProperties(to dictionary: inout [String: Any], mirror: Mirror) {
+        if let superMirror = mirror.superclassMirror, String(describing: superMirror.subjectType) != String(describing: AbstractModel.self) {
+            softAddProperties(to: &dictionary, mirror: superMirror)
+        }
         for child in mirror.children {
             guard let property = child.label else {
                 continue
             }
             let modelType = mirror.subjectType as! AbstractModel.Type
             if property == modelType.descriptionProperty {
-                result["description"] = self.value(forKey: property)
+                dictionary["description"] = self.value(forKey: property)
                 continue
             }
             if let value = self.value(forKey: property) {
                 if let model = value as? AbstractModel {
-                    result[property] = model.softDictionary
+                    dictionary[property] = model.softDictionary
                 } else if let models = value as? [AbstractModel] {
-                    result[property] = models.map({ (model) -> [String: Any] in
+                    dictionary[property] = models.map({ (model) -> [String: Any] in
                         return model.softDictionary
                     })
                 } else {
-                    result[property] = value
+                    dictionary[property] = value
                 }
             }
         }
-        return result
     }
 }
 
