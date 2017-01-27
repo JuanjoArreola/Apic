@@ -27,19 +27,16 @@ public extension AbstractModel {
                 continue
             }
             let modelType = mirror.subjectType as! AbstractModel.Type
-            if property == modelType.descriptionProperty {
-                dictionary["description"] = self.value(forKey: property)
-                continue
-            }
+            let resultKey = modelType.propertyKeys[property] ?? property
             if let value = self.value(forKey: property) {
                 if let model = value as? AbstractModel {
-                    dictionary[property] = model.softDictionary
+                    dictionary[resultKey] = model.softDictionary
                 } else if let models = value as? [AbstractModel] {
-                    dictionary[property] = models.map({ (model) -> [String: Any] in
+                    dictionary[resultKey] = models.map({ (model) -> [String: Any] in
                         return model.softDictionary
                     })
                 } else {
-                    dictionary[property] = value
+                    dictionary[resultKey] = value
                 }
             }
         }

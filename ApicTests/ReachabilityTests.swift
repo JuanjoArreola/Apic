@@ -34,8 +34,8 @@ class ReachabilityTests: XCTestCase {
                     Log.debug("info: \(info)")
                     count += 1
                     if count >= 19 && !fulfilled {
-                        expectation.fulfill()
                         fulfilled = true
+                        expectation.fulfill()
                     }
                 } catch {
                     Log.error(error)
