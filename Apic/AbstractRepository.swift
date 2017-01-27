@@ -79,7 +79,7 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
     open var errorDescriptionKey: String?
     open var errorCodeKey: String?
     
-    open var session: Foundation.URLSession?
+    open var session: URLSession?
     open var cachePolicy: NSURLRequest.CachePolicy?
     open var timeoutInterval: TimeInterval?
     open var allowsCellularAccess: Bool?
@@ -87,7 +87,7 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
     open var responseQueue = DispatchQueue.main
     
     private var completionHandlers: [URLSessionTask: (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void] = [:]
-    private var buffers: [URLSessionTask: NSMutableData] = [:]
+    private var buffers: [URLSessionTask: Data] = [:]
     private var progressReporters: [URLSessionTask: ProgressReporter] = [:]
     
 #if os(iOS) || os(OSX) || os(tvOS)
@@ -262,7 +262,7 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
             }
         }
         try request.encode(parameters: parameters, withEncoding: parameterEncoding)
-        let session = self.session ?? Foundation.URLSession.shared
+        let session = self.session ?? URLSession.shared
         
         var task: URLSessionDataTask!
         if self.session?.delegate === self {
@@ -293,7 +293,7 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
             }
         }
         request.httpBody = data
-        let session = self.session ?? Foundation.URLSession.shared
+        let session = self.session ?? URLSession.shared
         
         var task: URLSessionDataTask!
         if self.session?.delegate === self {
@@ -365,20 +365,20 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
     
     public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: (URLSession.ResponseDisposition) -> Void) {
         progressReporters[dataTask]?.progressHandler?(Double(dataTask.countOfBytesReceived) / Double(dataTask.countOfBytesExpectedToReceive))
-        completionHandler(Foundation.URLSession.ResponseDisposition.allow)
+        completionHandler(URLSession.ResponseDisposition.allow)
     }
     
     open func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
-        if let bufferData = buffers[dataTask] {
+        if var bufferData = buffers[dataTask] {
             bufferData.append(data)
         } else {
-            buffers[dataTask] = NSMutableData(data: data)
+            buffers[dataTask] = data
         }
         progressReporters[dataTask]?.progressHandler?(Double(dataTask.countOfBytesReceived) / Double(dataTask.countOfBytesExpectedToReceive))
     }
     
     open func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        completionHandlers[task]?(buffers[task] as Data?, task.response, error as NSError?)
+        completionHandlers[task]?(buffers[task], task.response, error)
         completionHandlers[task] = nil
         progressReporters[task] = nil
         buffers[task] = nil

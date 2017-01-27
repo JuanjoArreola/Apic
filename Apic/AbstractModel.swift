@@ -63,6 +63,14 @@ open class AbstractModel: NSObject, InitializableWithDictionary {
         super.init()
     }
     
+    public static func initFrom<T: AbstractModel>(list: [[String: Any]]) throws -> [T] {
+        var result = [T]()
+        for dictionary in list {
+            result.append(try T(dictionary: dictionary))
+        }
+        return result
+    }
+    
     public required init(dictionary: [String: Any]) throws {
         super.init()
         
