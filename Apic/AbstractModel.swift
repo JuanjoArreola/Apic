@@ -54,7 +54,7 @@ public enum ModelError: Error {
 /// Abstract model that provides the parsing functionality for subclasses
 open class AbstractModel: NSObject, InitializableWithDictionary {
     
-    open class var descriptionProperty: String { return "" }
+    open class var propertyKeys: [String: String] { return [:] }
     open class var resolver: TypeResolver? { return nil }
     open class var ignoredProperties: [String] { return [] }
     open class var dateFormats: [String] { return Configuration.dateFormats }
@@ -92,8 +92,8 @@ open class AbstractModel: NSObject, InitializableWithDictionary {
             guard let property = child.label else {
                 continue
             }
-            let rawValue = property == modelType.descriptionProperty ? dictionary["description"] : dictionary[property]
-            try assign(rawValue: rawValue, toChild: child, modelType: modelType)
+            let key = modelType.propertyKeys[property] ?? property
+            try assign(rawValue: dictionary[key], toChild: child, modelType: modelType)
         }
     }
     
