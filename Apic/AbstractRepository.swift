@@ -80,7 +80,7 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
     open var errorCodeKey: String?
     
     open var session: URLSession?
-    open var cachePolicy: NSURLRequest.CachePolicy?
+    open var cachePolicy: URLRequest.CachePolicy?
     open var timeoutInterval: TimeInterval?
     open var allowsCellularAccess: Bool?
     
@@ -361,7 +361,7 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
         return nil
     }
     
-    // MARK: - NSURLSessionDataDelegate
+    // MARK: - URLSessionDataDelegate
     
     public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: (URLSession.ResponseDisposition) -> Void) {
         progressReporters[dataTask]?.progressHandler?(Double(dataTask.countOfBytesReceived) / Double(dataTask.countOfBytesExpectedToReceive))

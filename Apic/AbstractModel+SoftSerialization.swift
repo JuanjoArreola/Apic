@@ -8,6 +8,12 @@
 
 import Foundation
 
+private var formatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.dateFormat = Configuration.dateFormats.first
+    return formatter
+}()
+
 public extension AbstractModel {
     
     var softDictionary: [String: Any] {
@@ -29,7 +35,10 @@ public extension AbstractModel {
             let modelType = mirror.subjectType as! AbstractModel.Type
             let resultKey = modelType.propertyKeys[property] ?? property
             if let value = self.value(forKey: property) {
-                if let model = value as? AbstractModel {
+                if let date = value as? Date {
+                    dictionary[resultKey] = formatter.string(from: date)
+                }
+                else if let model = value as? AbstractModel {
                     dictionary[resultKey] = model.softDictionary
                 } else if let models = value as? [AbstractModel] {
                     dictionary[resultKey] = models.map({ (model) -> [String: Any] in
