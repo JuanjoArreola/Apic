@@ -18,17 +18,27 @@ public protocol InitializableWithDictionary {
     init(dictionary: [String: Any]) throws
 }
 
+// MARK: - String
+
 public protocol StringInitializable {
     init?(rawValue: String)
 }
+
+public protocol StringRepresentable: StringInitializable {
+    var rawValue: String { get }
+}
+
+// MARK: - Int
 
 public protocol IntInitializable {
     init?(rawValue: Int)
 }
 
-protocol StringRepresentable: StringInitializable {
-    var rawValue: String { get }
+protocol IntRepresentable: IntInitializable {
+    var rawValue: Int { get }
 }
+
+// MARK: -
 
 public protocol TypeResolver {
     func resolve(type: Any) -> Any?
@@ -38,6 +48,8 @@ public protocol TypeResolver {
 public protocol DynamicTypeModel {
     static var typeNameProperty: String { get }
 }
+
+// MARK: -
 
 public enum ModelError: Error {
     case sourceValueError(property: String, model: String, value: String?)
@@ -52,7 +64,7 @@ public enum ModelError: Error {
 }
 
 /// Abstract model that provides the parsing functionality for subclasses
-open class AbstractModel: NSObject, InitializableWithDictionary {
+open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
     
     open class var propertyKeys: [String: String] { return [:] }
     open class var resolver: TypeResolver? { return nil }
@@ -455,6 +467,14 @@ open class AbstractModel: NSObject, InitializableWithDictionary {
         throw ModelError.unasignedInstance(property: property)
     }
     
+    open func assign(value: Any, from decoder: NSCoder, forProperty property: String) {
+        do {
+            try assign(value: value, forProperty: property)
+        } catch {
+            setValue(value, forKey: property)
+        }
+    }
+    
     /// Override this method in subclasses to assign a value of an undefined type to a property
     /// - parameter value: the value to be assigned
     /// - parameter key: the name of the property to assign
@@ -504,6 +524,63 @@ open class AbstractModel: NSObject, InitializableWithDictionary {
             Log.warn("\(type(of: self)): value: \(val) couldn't be converted to \(T.self)")
         }
         return nil
+    }
+    
+    // MARK: - NSCoding
+    
+    public required init?(coder aDecoder: NSCoder) {
+        super.init()
+        do {
+            try initializeProperties(of: Mirror(reflecting: self), with: aDecoder)
+        } catch {
+            return nil
+        }
+    }
+    
+    open func initializeProperties(of mirror: Mirror, with decoder: NSCoder) throws {
+        if String(describing: mirror.subjectType) == String(describing: AbstractModel.self) {
+            return
+        }
+        if let superclassMirror = mirror.superclassMirror {
+            try initializeProperties(of: superclassMirror, with: decoder)
+        }
+        let modelType = mirror.subjectType as! AbstractModel.Type
+        for child in mirror.children {
+            guard let property = child.label else { continue }
+            let propertyType = Mirror(reflecting: child.value).subjectType
+            if let value = decoder.decodeObject(forKey: property), !(value is NSNull) {
+                if let type = modelType.resolver?.resolve(type: propertyType) as? StringRepresentable.Type, let string = value as? String, let representable = type.init(rawValue: string) {
+                    assign(value: representable, from: decoder, forProperty: property)
+                } else {
+                    assign(value: value, from: decoder, forProperty: property)
+                }
+            }
+        }
+    }
+    
+    public func encode(with aCoder: NSCoder) {
+        encodeProperties(of: Mirror(reflecting: self), with: aCoder)
+    }
+    
+    func encodeProperties(of mirror: Mirror, with coder: NSCoder) {
+        if String(describing: mirror.subjectType) == String(describing: AbstractModel.self) {
+            return
+        }
+        if let superclassMirror = mirror.superclassMirror {
+            encodeProperties(of: superclassMirror, with: coder)
+        }
+        let modelType = mirror.subjectType as! AbstractModel.Type
+        for child in mirror.children {
+            guard let property = child.label else { continue }
+            let propertyType = Mirror(reflecting: child.value).subjectType
+            if let value = child.value as? StringRepresentable {
+                coder.encode(value.rawValue, forKey: property)
+            } else if let _ = modelType.resolver?.resolve(type: propertyType) as? StringRepresentable.Type {
+                Log.debug("representable")
+            } else {
+                coder.encode(child.value, forKey: property)
+            }
+        }
     }
 }
 

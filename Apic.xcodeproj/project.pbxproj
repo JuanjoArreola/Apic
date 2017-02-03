@@ -10,6 +10,7 @@
 		07F9877B3469E883B3C0A82E /* Pods_Apic_OSX_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CA70292AC532B947CCEFE05 /* Pods_Apic_OSX_Tests.framework */; };
 		24FD0E0DF646BA8EB57F56AF /* Pods_Apic_tvOS_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0871FFEF8BD729AF1D1908D5 /* Pods_Apic_tvOS_Tests.framework */; };
 		5F7FB3FD8ACF1A2A20308C9A /* Pods_ApicTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC5653488347A6962F8296BD /* Pods_ApicTests.framework */; };
+		81026DAE1E42ED9900F2261B /* InheritanceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81026DAD1E42ED9900F2261B /* InheritanceTest.swift */; };
 		810689391C543351008C3E9F /* IntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810689381C543351008C3E9F /* IntTests.swift */; };
 		8109ABF91C76DEFB00E10098 /* ApicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813764E21B1A9CA60015EC12 /* ApicTests.swift */; };
 		8109ABFA1C76DF0000E10098 /* ColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155ADAF1C546153005963AB /* ColorTests.swift */; };
@@ -156,6 +157,7 @@
 		1E84B772A25C23AC9B24469D /* Pods-ApicTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ApicTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ApicTests/Pods-ApicTests.release.xcconfig"; sourceTree = "<group>"; };
 		5C980BD85B9A167EF7956401 /* Pods-Apic OSX Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Apic OSX Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Apic OSX Tests/Pods-Apic OSX Tests.release.xcconfig"; sourceTree = "<group>"; };
 		5CA70292AC532B947CCEFE05 /* Pods_Apic_OSX_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Apic_OSX_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		81026DAD1E42ED9900F2261B /* InheritanceTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InheritanceTest.swift; sourceTree = "<group>"; };
 		810689381C543351008C3E9F /* IntTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntTests.swift; sourceTree = "<group>"; };
 		810B798F1C84C819000FEE9A /* RepositoryStatusTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryStatusTests.swift; sourceTree = "<group>"; };
 		810D29641C66F44F0022AC57 /* RequestObjectsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestObjectsTest.swift; sourceTree = "<group>"; };
@@ -389,6 +391,7 @@
 				8155ADB11C54664A005963AB /* ComplexModelTests.swift */,
 				8155ADB51C55196A005963AB /* UndefinedTypeTests.swift */,
 				818369F61CC6DA0A009D89F6 /* DynamicArrayTests.swift */,
+				81026DAD1E42ED9900F2261B /* InheritanceTest.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -899,6 +902,7 @@
 			files = (
 				8155ADB21C54664A005963AB /* ComplexModelTests.swift in Sources */,
 				8155ADA81C545610005963AB /* FloatTests.swift in Sources */,
+				81026DAE1E42ED9900F2261B /* InheritanceTest.swift in Sources */,
 				810D29651C66F44F0022AC57 /* RequestObjectsTest.swift in Sources */,
 				810B79901C84C819000FEE9A /* RepositoryStatusTests.swift in Sources */,
 				81BB4A4F1D63FC1A0041FB6F /* ErrorTests.swift in Sources */,
