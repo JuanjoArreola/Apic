@@ -15,6 +15,15 @@ public enum HTTPMethod: String {
     case POST
     case PUT
     case DELETE
+    
+    var preferredParameterEncoding: ParameterEncoding {
+        switch self {
+        case .GET: return .url
+        case .POST: return .json
+        case .PUT: return .json
+        case .DELETE: return .url
+        }
+    }
 }
 
 public enum ParameterEncoding {
@@ -45,7 +54,7 @@ public enum RepositoryError: Error, CustomStringConvertible {
         case .invalidParameters:
             return "Invalid parameters"
         case .statusFail(let message, let code):
-            return "Status fail(\(code)): \(message)"
+            return "Status fail [\(code)]: \(message)"
         case .networkConnection:
             return "No network connection"
         case .encodingError:
@@ -103,29 +112,21 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
         self.errorCodeKey = errorCodeKey
     }
     
-    open func requestSuccess(method: HTTPMethod, url: URLConvertible, params: [String: Any]? = [:], encoding: ParameterEncoding = .url, headers: [String: String]? = nil, completion: @escaping (_ getSuccess: () throws -> Bool) -> Void) -> ApicRequest<Bool> {
+    open func requestSuccess(method: HTTPMethod, url: URLConvertible, params: [String: Any]? = [:], encoding: ParameterEncoding? = nil, headers: [String: String]? = nil, completion: @escaping (_ getSuccess: () throws -> Bool) -> Void) -> ApicRequest<Bool> {
         let request = ApicRequest(completionHandler: completion)
-        guard let URL = url.url else {
-            request.complete(withError: RepositoryError.invalidURL)
+        guard let url = url.url else {
+            responseQueue.async { request.complete(withError: RepositoryError.invalidURL) }
             return request
         }
         
         processQueue.async {
             do {
-                try self.checkURLReachability(url: URL)
+                try self.checkURLReachability(url: url)
+                let parameterEncoding = encoding ?? method.preferredParameterEncoding
                 
-                request.dataTask = try self.request(url: URL, method: method, parameters: params, parameterEncoding: encoding, headers: headers) { (data: Data?, response: URLResponse?, error: Error?) -> Void in
+                request.dataTask = try self.request(url: url, method: method, parameters: params, parameterEncoding: parameterEncoding, headers: headers) { (data: Data?, response: URLResponse?, error: Error?) -> Void in
                     do {
-                        if let error = error {
-                            throw error
-                        }
-                        if let response = response, let error = self.getError(fromResponse: response, data: data) {
-                            throw error
-                        }
-                        guard let data = data else {
-                            throw RepositoryError.badJSON
-                        }
-                        let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                        let json = try self.getJSON(data: data, response: response, error: error)
                         _ = try self.dictionary(fromJSON: json)
                         self.responseQueue.async { request.complete(withObject: true) }
                     }
@@ -133,8 +134,8 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
                         self.responseQueue.async { request.complete(withError: error) }
                     }
                 }
-                if self.session?.delegate === self {
-                    self.progressReporters[request.dataTask!] = request
+                if self.session?.delegate === self, let task = request.dataTask {
+                    self.progressReporters[task] = request
                 }
             } catch {
                 self.responseQueue.async { request.complete(withError: error) }
@@ -143,30 +144,21 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
         return request
     }
     
-    open func requestObject<T: InitializableWithDictionary>(method: HTTPMethod, url: URLConvertible, params: [String: Any]? = [:], encoding: ParameterEncoding = .url, headers: [String: String]? = nil, completion: @escaping (_ getObject: () throws -> T) -> Void) -> ApicRequest<T> {
+    open func requestObject<T: InitializableWithDictionary>(method: HTTPMethod, url: URLConvertible, params: [String: Any]? = [:], encoding: ParameterEncoding? = nil, headers: [String: String]? = nil, completion: @escaping (_ getObject: () throws -> T) -> Void) -> ApicRequest<T> {
         let request = ApicRequest(completionHandler: completion)
-        
         guard let url = url.url else {
-            request.complete(withError: RepositoryError.invalidURL)
+            responseQueue.async { request.complete(withError: RepositoryError.invalidURL) }
             return request
         }
 
         processQueue.async {
             do {
                 try self.checkURLReachability(url: url)
-        
-                request.dataTask = try self.request(url: url, method: method, parameters: params, parameterEncoding: encoding, headers: headers, completion: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
+                let parameterEncoding = encoding ?? method.preferredParameterEncoding
+                
+                request.dataTask = try self.request(url: url, method: method, parameters: params, parameterEncoding: parameterEncoding, headers: headers, completion: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
                     do {
-                        if let error = error {
-                            throw error
-                        }
-                        if let response = response, let error = self.getError(fromResponse: response, data: data) {
-                            throw error
-                        }
-                        guard let data = data else {
-                            throw RepositoryError.badJSON
-                        }
-                        let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                        let json = try self.getJSON(data: data, response: response, error: error)
                         var dictionary = try self.dictionary(fromJSON: json)
                         if let objectKey = self.objectKey {
                             if let objectDictionary = dictionary[objectKey] as? [String: Any] {
@@ -191,30 +183,21 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
         return request
     }
     
-    open func requestObjects<T: InitializableWithDictionary>(method: HTTPMethod, url: URLConvertible, params: [String: Any]? = [:], encoding: ParameterEncoding = .url, headers: [String: String]? = nil, completion: @escaping (_ getObjects: () throws -> [T]) -> Void) -> ApicRequest<[T]> {
+    open func requestObjects<T: InitializableWithDictionary>(method: HTTPMethod, url: URLConvertible, params: [String: Any]? = [:], encoding: ParameterEncoding? = nil, headers: [String: String]? = nil, completion: @escaping (_ getObjects: () throws -> [T]) -> Void) -> ApicRequest<[T]> {
         let request = ApicRequest(completionHandler: completion)
-
         guard let URL = url.url else {
-            request.complete(withError: RepositoryError.invalidURL)
+            responseQueue.async { request.complete(withError: RepositoryError.invalidURL) }
             return request
         }
         
         processQueue.async {
             do {
                 try self.checkURLReachability(url: URL)
+                let parameterEncoding = encoding ?? method.preferredParameterEncoding
                 
-                request.dataTask = try self.request(url: URL, method: method, parameters: params, parameterEncoding: encoding, headers: headers, completion: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
+                request.dataTask = try self.request(url: URL, method: method, parameters: params, parameterEncoding: parameterEncoding, headers: headers, completion: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
                     do {
-                        if let error = error {
-                            throw error
-                        }
-                        if let response = response, let error = self.getError(fromResponse: response, data: data) {
-                            throw error
-                        }
-                        guard let data = data else {
-                            throw RepositoryError.badJSON
-                        }
-                        let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                        let json = try self.getJSON(data: data, response: response, error: error)
                         var array: [[String: Any]]!
                         if let objectsKey = self.objectsKey {
                             let data = try self.dictionary(fromJSON: json)
@@ -244,6 +227,21 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
         return request
     }
     
+    @inline(__always) private func getJSON(data: Data?, response: URLResponse?, error: Error?) throws -> Any {
+        if let error = error {
+            throw error
+        }
+        if let response = response, let error = self.getError(from: response, data: data) {
+            throw error
+        }
+        guard let data = data else {
+            throw RepositoryError.badJSON
+        }
+        return try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+    }
+    
+    // MARK: -
+    
     open func request(url: URL, method: HTTPMethod = .GET, parameters: [String: Any]? = [:], parameterEncoding: ParameterEncoding = .url, headers: [String: String]? = nil, completion: @escaping (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void) throws -> URLSessionDataTask {
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
@@ -261,7 +259,7 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
                 request.addValue(value, forHTTPHeaderField: header)
             }
         }
-        try request.encode(parameters: parameters, withEncoding: parameterEncoding)
+        try request.encode(parameters: parameters, with: parameterEncoding)
         let session = self.session ?? URLSession.shared
         
         var task: URLSessionDataTask!
@@ -341,7 +339,7 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
         throw RepositoryError.statusFail(message: message, code: code)
     }
     
-    public func getError(fromResponse response: URLResponse, data: Data?) -> Error? {
+    public func getError(from response: URLResponse, data: Data?) -> Error? {
         guard let httpResponse = response as? HTTPURLResponse else {
             return nil
         }

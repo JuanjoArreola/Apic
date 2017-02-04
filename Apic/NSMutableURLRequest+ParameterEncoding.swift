@@ -14,63 +14,49 @@ enum EncodeError: Error {
 
 public extension URLRequest {
     
-    mutating func encode(parameters: [String: Any]?, withEncoding encoding: ParameterEncoding) throws {
+    mutating func encode(parameters: [String: Any]?, with encoding: ParameterEncoding) throws {
         guard let method = httpMethod else { throw EncodeError.invalidMethod }
         switch encoding {
         case .url:
-            if URLRequest.parametersInURL(forMethod: method) {
-                self.url = try self.url?.url(appendingParameters: parameters)
+            if ["GET", "HEAD", "DELETE"].contains(method) {
+                self.url = try self.url?.appending(parameters: parameters)
             } else {
                 setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
                 if let params = parameters {
-                    let parametersString = try urlString(forParameters: params)
-                    self.httpBody = parametersString.data(using: String.Encoding.utf8, allowLossyConversion: false)
+                    guard let queryString = params.urlQueryString else { throw RepositoryError.encodingError }
+                    self.httpBody = queryString.data(using: String.Encoding.utf8, allowLossyConversion: false)
                 }
             }
             
         case .json:
             self.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            if var params = parameters {
-                makeJSONConvertible(parameters: &params)
-                self.httpBody = try JSONSerialization.data(withJSONObject: params, options: JSONSerialization.WritingOptions())
+            if let params = parameters {
+                self.httpBody = try JSONSerialization.data(withJSONObject: params.jsonValid, options: [])
             }
         }
     }
+}
+
+public extension Dictionary where Key: ExpressibleByStringLiteral {
     
-    static func parametersInURL(forMethod method: String) -> Bool {
-        switch method {
-        case "GET", "HEAD", "DELETE":
-            return true
-        default:
-            return false
-        }
+    public var urlQueryString: String? {
+        let string = self.map({ "\($0)=\(String(describing: $1))" }).joined(separator: "&")
+        return string.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
     }
-}
-
-func makeJSONConvertible(parameters: inout [String: Any]) {
-    for (key, value) in parameters {
-        if let url = value as? URL {
-            parameters[key] = url.absoluteString
-        }
+    
+    public var jsonValid: [Key: Any] {
+        var result = [Key: Any]()
+        self.forEach({ result[$0] = JSONSerialization.isValidJSONObject($1) ? $1 : String(describing: $1) })
+        return result
     }
-}
-
-func urlString(forParameters parameters: [String: Any]) throws -> String {
-    let array = parameters.map { (key, value) -> String in
-        return "\(key)=\(String(describing: value))"
-    }
-    if let string = array.joined(separator: "&").addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
-        return string
-    }
-    throw RepositoryError.encodingError
 }
 
 public extension URL {
-    func url(appendingParameters parameters: [String: Any]?) throws -> URL {
+    func appending(parameters: [String: Any]?) throws -> URL {
         guard let params = parameters else { return self }
         guard var components = URLComponents(url: self, resolvingAgainstBaseURL: false) else { return self }
-        let parametersString = try urlString(forParameters: params)
-        let percentEncodedQuery = (components.percentEncodedQuery.map { $0 + "&" } ?? "") + parametersString
+        guard let queryString = params.urlQueryString else { throw RepositoryError.encodingError }
+        let percentEncodedQuery = (components.percentEncodedQuery.map { $0 + "&" } ?? "") + queryString
         components.percentEncodedQuery = percentEncodedQuery
         if let url = components.url {
             return url
