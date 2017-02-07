@@ -105,7 +105,7 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
                 continue
             }
             let key = modelType.propertyKeys[property] ?? property
-            try assign(rawValue: dictionary[key], toChild: child, modelType: modelType)
+            try assign(rawValue: dictionary[key], to: child, modelType: modelType)
         }
     }
     
@@ -113,7 +113,7 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
         let mirror = mirror ?? Mirror(reflecting: self)
         if let child = mirror.findChild(withName: property) {
             let modelType = mirror.subjectType as! AbstractModel.Type
-            try assign(rawValue: rawValue, toChild: child, modelType: modelType)
+            try assign(rawValue: rawValue, to: child, modelType: modelType)
         } else {
             if String(describing: mirror.subjectType) == String(describing: AbstractModel.self) {
                 throw ModelError.invalidProperty(property: property)
@@ -124,7 +124,7 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
         }
     }
     
-    open func assign(rawValue optionalRawValue: Any?, toChild child: Mirror.Child, modelType: AbstractModel.Type) throws {
+    open func assign(rawValue optionalRawValue: Any?, to child: Mirror.Child, modelType: AbstractModel.Type) throws {
         guard let property = child.label else {
             return
         }
@@ -440,7 +440,19 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
                 } else {
                     try assign(undefinedValue: rawValue, forProperty: property)
                 }
-            } else {
+            } else if let array = rawValue as? [String] {
+                var newArray: [StringInitializable] = []
+                for value in array {
+                    if let value = propertyType.init(rawValue: value) {
+                        newArray.append(value)
+                    } else {
+                        try assign(undefinedValue: array, forProperty: property)
+                        return
+                    }
+                }
+                try assign(value: newArray, forProperty: property)
+            }
+            else {
                 try assign(undefinedValue: rawValue, forProperty: property)
             }
         }
@@ -453,6 +465,17 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
                 } else {
                     try assign(undefinedValue: rawValue, forProperty: property)
                 }
+            } else if let array = rawValue as? [Any] {
+                var newArray: [IntInitializable] = []
+                for value in array {
+                    if let int: Int = convert(value: value), let initializable = propertyType.init(rawValue: int) {
+                        newArray.append(initializable)
+                    } else {
+                        try assign(undefinedValue: array, forProperty: property)
+                        return
+                    }
+                }
+                try assign(value: newArray, forProperty: property)
             } else {
                 try assign(undefinedValue: rawValue, forProperty: property)
             }
