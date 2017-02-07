@@ -43,16 +43,18 @@ protocol IntRepresentable: IntInitializable {
 public protocol TypeResolver {
     func resolve(type: Any) -> Any?
     func resolve(typeForName typeName: String) -> Any?
+    func resolveDictionary(type: Any) -> Any?
 }
 
 public protocol DynamicTypeModel {
     static var typeNameProperty: String { get }
 }
 
-// MARK: -
+// MARK: - Error
 
 public enum ModelError: Error {
     case sourceValueError(property: String, model: String, value: String?)
+    case serializationError(property: String, model: String)
     case valueTypeError(property: String?)
     case dateError(property: String?, value: String?)
     case urlError(property: String?, value: String?)
@@ -67,6 +69,8 @@ public enum ModelError: Error {
 open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
     
     open class var propertyKeys: [String: String] { return [:] }
+    open class var propertyDateFormats: [String: String] { return [:] }
+    
     open class var resolver: TypeResolver? { return nil }
     open class var ignoredProperties: [String] { return [] }
     open class var dateFormats: [String] { return Configuration.dateFormats }
@@ -91,7 +95,7 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
     }
     
     open func initializeProperties(of mirror: Mirror, with dictionary: [String: Any]) throws {
-        if String(describing: mirror.subjectType) == String(describing: AbstractModel.self) {
+        if mirror.isAbstractModelMirror {
             return
         }
         if let superclassMirror = mirror.superclassMirror {
@@ -115,7 +119,7 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
             let modelType = mirror.subjectType as! AbstractModel.Type
             try assign(rawValue: rawValue, to: child, modelType: modelType)
         } else {
-            if String(describing: mirror.subjectType) == String(describing: AbstractModel.self) {
+            if mirror.isAbstractModelMirror {
                 throw ModelError.invalidProperty(property: property)
             }
             if let superclassMirror = mirror.superclassMirror {
@@ -364,7 +368,7 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
         }
             
 //      MARK: - [:]
-        else if propertyType is [String: String]?.Type || propertyType is ImplicitlyUnwrappedOptional<[String: String]>.Type {
+        else if propertyType is [String: String].Type || propertyType is [String: String]?.Type || propertyType is ImplicitlyUnwrappedOptional<[String: String]>.Type {
             if let value = rawValue as? [String: String] {
                 setValue(value, forKey: property)
             } else {
@@ -375,7 +379,34 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
         else if let value = rawValue as? [String: Any] {
             
 //          MARK: AbstractModel
-            if let propertyType = modelType.resolver?.resolve(type: propertyType) as? InitializableWithDictionary.Type {
+            if let dictionary = rawValue as? [String: [String: Any]], let propertyType = modelType.resolver?.resolveDictionary(type: propertyType) as? InitializableWithDictionary.Type {
+                var newDictionary = [String: InitializableWithDictionary]()
+                if let propertyType = propertyType as? DynamicTypeModel.Type {
+                    let resolver = (propertyType as? AbstractModel.Type)?.resolver ?? modelType.resolver
+                    for (key, item) in dictionary {
+                        if let typeName = item[propertyType.typeNameProperty] as? String {
+                            if let itemType = resolver?.resolve(typeForName: typeName) as? AbstractModel.Type {
+                                newDictionary[key] = try itemType.init(dictionary: item)
+                            } else {
+                                Log.warn("Unresolved type <\(typeName)> for property <\(property)> of model <\(type(of: self))>")
+                                if shouldFail(withInvalidValue: rawValue, forProperty: property) {
+                                    throw ModelError.undefinedTypeName(typeName: typeName)
+                                }
+                            }
+                        } else {
+                            Log.warn("Dynamic item has no type info")
+                            if shouldFail(withInvalidValue: rawValue, forProperty: property) {
+                                throw ModelError.invalidProperty(property: property)
+                            }
+                        }
+                    }
+                } else {
+                    for (key, item) in dictionary {
+                        newDictionary[key] = try propertyType.init(dictionary: item)
+                    }
+                }
+                setValue(newDictionary, forKey: property)
+            } else if let propertyType = modelType.resolver?.resolve(type: propertyType) as? InitializableWithDictionary.Type {
                 let obj = try propertyType.init(dictionary: value)
                 setValue(obj, forKey: property)
             } else {
@@ -513,12 +544,21 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
         return true
     }
     
+    // MARK: - Date
+    
     private static var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Configuration.locale
         formatter.dateFormat = dateFormats.first
         return formatter
     }()
+    
+    internal class func date(from string: String, property: String) -> Date? {
+        if let format = propertyDateFormats[property] {
+            dateFormatter.dateFormat = format
+        }
+        return date(from: string)
+    }
     
     public class func date(from string: String) -> Date? {
         if let date = dateFormatter.date(from: string) {
@@ -529,6 +569,14 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
             if let date = dateFormatter.date(from: string) {
                 return date
             }
+        }
+        return nil
+    }
+    
+    internal class func string(from date: Date, property: String) -> String? {
+        if let format = propertyDateFormats[property] ?? dateFormats.first {
+            dateFormatter.dateFormat = format
+            return dateFormatter.string(from: date)
         }
         return nil
     }
@@ -604,6 +652,12 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
                 coder.encode(child.value, forKey: property)
             }
         }
+    }
+}
+
+extension Mirror {
+    var isAbstractModelMirror: Bool {
+        return String(describing: self.subjectType) == String(describing: AbstractModel.self)
     }
 }
 

@@ -52,6 +52,10 @@ class Resolver: TypeResolver {
         if typeName == "GoldenGlobe" { return GoldenGlobe.self }
         return nil
     }
+    
+    public func resolveDictionary(type: Any) -> Any? {
+        return nil
+    }
 }
 
 class Moview: AbstractModel {

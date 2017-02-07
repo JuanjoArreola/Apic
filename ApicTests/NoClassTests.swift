@@ -107,6 +107,9 @@ enum MediaType: IntInitializable {
 }
 
 class StateResolver: TypeResolver {
+    
+    static let sharedInstance = StateResolver()
+    
     public func resolve(type: Any) -> Any? {
         if type is State?.Type { return State.self }
         if type is ImplicitlyUnwrappedOptional<State>.Type { return State.self }
@@ -120,7 +123,9 @@ class StateResolver: TypeResolver {
         return nil
     }
     
-    static let sharedInstance = StateResolver()
+    public func resolveDictionary(type: Any) -> Any? {
+        return nil
+    }
 }
 
 class StateContainer: AbstractModel {

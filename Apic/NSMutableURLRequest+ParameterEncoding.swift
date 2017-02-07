@@ -24,7 +24,7 @@ public extension URLRequest {
                 setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
                 if let params = parameters {
                     guard let queryString = params.urlQueryString else { throw RepositoryError.encodingError }
-                    self.httpBody = queryString.data(using: String.Encoding.utf8, allowLossyConversion: false)
+                    self.httpBody = queryString.data(using: .utf8, allowLossyConversion: false)
                 }
             }
             

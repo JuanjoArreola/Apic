@@ -16,7 +16,7 @@ public protocol Cancellable {
     func cancel()
 }
 
-private let syncQueue: DispatchQueue = DispatchQueue(label: "com.apic.SyncQueue", attributes: DispatchQueue.Attributes.concurrent)
+private let syncQueue: DispatchQueue = DispatchQueue(label: "com.apic.SyncQueue", attributes: .concurrent)
 
 open class Request<T: Any>: CustomDebugStringConvertible, Cancellable {
     
@@ -35,11 +35,11 @@ open class Request<T: Any>: CustomDebugStringConvertible, Cancellable {
         return result != nil
     }
     
-    open fileprivate(set) var canceled = false
+    open private(set) var canceled = false
     
     required public init() {}
     
-    public required init(completionHandler: @escaping (_ getObject: () throws -> T) -> Void) {
+    required public init(completionHandler: @escaping (_ getObject: () throws -> T) -> Void) {
         completionHandlers?.append(completionHandler)
     }
     
@@ -68,7 +68,7 @@ open class Request<T: Any>: CustomDebugStringConvertible, Cancellable {
         }
     }
     
-    fileprivate func callHandlers() {
+    private func callHandlers() {
         guard let getClosure = result else { return }
         completionHandlers?.forEach({ $0(getClosure) })
         sync() { self.completionHandlers = nil }

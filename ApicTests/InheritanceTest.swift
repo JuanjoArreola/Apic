@@ -35,10 +35,16 @@ class InheritanceTest: XCTestCase {
     }
 }
 
-class GeometricFigure: AbstractModel {
+class GeometricFigure: AbstractModel, DynamicTypeModel {
     var sides: Int = 0
+    
+    static var typeNameProperty: String { return "type" }
 }
 
 class Triangle: GeometricFigure {
     var color: String = ""
+}
+
+class Rectangle: GeometricFigure {
+    
 }

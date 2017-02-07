@@ -38,6 +38,12 @@ class Playlist: AbstractModel {
     var name: String!
     
     var songs: [Song]!
+    
+    override open class var resolver: TypeResolver? { return PlaylistResolver.shared }
+    
+    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
+        return true
+    }
 }
 
 class Song: AbstractModel {
@@ -48,5 +54,19 @@ class Song: AbstractModel {
         self.init()
         self.id = id
         self.name = name
+    }
+}
+
+fileprivate class PlaylistResolver: Resolver {
+    
+    static var shared = PlaylistResolver()
+    
+    fileprivate override func resolve(type: Any) -> Any? {
+        if type is ImplicitlyUnwrappedOptional<[Song]>.Type { return Song.self }
+        return nil
+    }
+    
+    fileprivate override func resolve(typeForName typeName: String) -> Any? {
+        return nil
     }
 }

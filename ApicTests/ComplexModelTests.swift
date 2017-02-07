@@ -198,4 +198,8 @@ class ComplexTypeResolver: TypeResolver {
         }
         return nil
     }
+    
+    public func resolveDictionary(type: Any) -> Any? {
+        return nil
+    }
 }

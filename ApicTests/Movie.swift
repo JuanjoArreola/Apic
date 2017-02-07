@@ -132,5 +132,9 @@ class DefaultTypeResolver: TypeResolver {
     func resolve(typeForName typeName: String) -> Any? {
         return nil
     }
+    
+    public func resolveDictionary(type: Any) -> Any? {
+        return nil
+    }
 }
 
