@@ -23,9 +23,10 @@ class DictionaryTests: XCTestCase {
     
     func testStringDictionary() {
         do {
-            let world = try World(dictionary: ["capitals": ["England": "London", "France": "Paris"]])
+            let world = try World(dictionary: ["capitals": ["England": "London", "France": "Paris"], "countries": [:]])
             XCTAssertEqual(world.capitals.count, 2)
         } catch {
+            Log.error(error)
             XCTFail()
         }
     }

@@ -253,9 +253,8 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
                         }
                         var objects = [String: T]()
                         for (key, value) in dictionary {
-//                            self.assign(object: try T(dictionary: value), to: &objects, withKey: key)
                             objects[key] = try T(dictionary: value)
-                            self.didAssign(object: objects[key]!, withKey: key)
+                            self.didAssign(object: objects[key]!, to: &objects, withKey: key)
                         }
                         self.responseQueue.async { request.complete(withObject: objects) }
                     } catch {
@@ -272,8 +271,7 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
         return request
     }
     
-    open func didAssign<T: InitializableWithDictionary>(object: T, withKey key: String) {
-        
+    open func didAssign<T: InitializableWithDictionary>(object: T, to dictionary: inout [String: T], withKey key: String) {
     }
     
     @inline(__always) private func getJSON(data: Data?, response: URLResponse?, error: Error?) throws -> Any {
@@ -294,52 +292,28 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
     open func request(url: URL, method: HTTPMethod = .GET, parameters: [String: Any]? = [:], parameterEncoding: ParameterEncoding = .url, headers: [String: String]? = nil, completion: @escaping (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void) throws -> URLSessionDataTask {
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
-        if let cachePolicy = cachePolicy {
-            request.cachePolicy = cachePolicy
-        }
-        if let timeoutInterval = timeoutInterval {
-            request.timeoutInterval = timeoutInterval
-        }
-        if let allowsCellularAccess = allowsCellularAccess {
-            request.allowsCellularAccess = allowsCellularAccess
-        }
-        if let headers = headers {
-            for (header, value) in headers {
-                request.addValue(value, forHTTPHeaderField: header)
-            }
-        }
+        request.cachePolicy = cachePolicy ?? request.cachePolicy
+        request.timeoutInterval = timeoutInterval ?? request.timeoutInterval
+        request.allowsCellularAccess = allowsCellularAccess ?? request.allowsCellularAccess
+        headers?.forEach({ request.addValue($0.value, forHTTPHeaderField: $0.key) })
         try request.encode(parameters: parameters, with: parameterEncoding)
-        let session = self.session ?? URLSession.shared
         
-        var task: URLSessionDataTask!
-        if self.session?.delegate === self {
-            task = session.dataTask(with: request)
-            completionHandlers[task] = completion
-        } else {
-            task = session.dataTask(with: request, completionHandler: completion)
-        }
-        task.resume()
-        return task
+        return dataTask(with: request, completion: completion)
     }
     
-    open func request(url: URL, method: HTTPMethod = .GET, data: Data?, headers: [String: String]? = nil, completion: @escaping (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void) throws -> URLSessionDataTask {
+    open func request(url: URL, method: HTTPMethod = .GET, data: Data?, headers: [String: String]? = nil, completion: @escaping (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void) -> URLSessionDataTask {
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
-        if let cachePolicy = cachePolicy {
-            request.cachePolicy = cachePolicy
-        }
-        if let timeoutInterval = timeoutInterval {
-            request.timeoutInterval = timeoutInterval
-        }
-        if let allowsCellularAccess = allowsCellularAccess {
-            request.allowsCellularAccess = allowsCellularAccess
-        }
-        if let headers = headers {
-            for (header, value) in headers {
-                request.addValue(value, forHTTPHeaderField: header)
-            }
-        }
+        request.cachePolicy = cachePolicy ?? request.cachePolicy
+        request.timeoutInterval = timeoutInterval ?? request.timeoutInterval
+        request.allowsCellularAccess = allowsCellularAccess ?? request.allowsCellularAccess
+        headers?.forEach({ request.addValue($0.value, forHTTPHeaderField: $0.key) })
         request.httpBody = data
+        
+        return dataTask(with: request, completion: completion)
+    }
+    
+    @inline(__always) private func dataTask(with request: URLRequest, completion: @escaping (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void) -> URLSessionDataTask {
         let session = self.session ?? URLSession.shared
         
         var task: URLSessionDataTask!
