@@ -73,6 +73,8 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
     
     open class var resolver: TypeResolver? { return nil }
     open class var ignoredProperties: [String] { return [] }
+    
+    @available(*, deprecated: 3.2.0, message: "use propertyDateFormats instead")
     open class var dateFormats: [String] { return Configuration.dateFormats }
     
     public override init() {
@@ -304,7 +306,7 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
 //      MARK: - Date
         else if propertyType is Date?.Type || propertyType is Date.Type || propertyType is ImplicitlyUnwrappedOptional<Date>.Type {
             if let value = rawValue as? String {
-                if let date = type(of: self).date(from: value) {
+                if let date = type(of: self).date(from: value, property: property) {
                     setValue(date, forKey: property)
                 } else {
                     do {
@@ -549,7 +551,7 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
     private static var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Configuration.locale
-        formatter.dateFormat = dateFormats.first
+        formatter.dateFormat = Configuration.dateFormats.first
         return formatter
     }()
     
@@ -564,7 +566,7 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
         if let date = dateFormatter.date(from: string) {
             return date
         }
-        for format in dateFormats {
+        for format in Configuration.dateFormats {
             dateFormatter.dateFormat = format
             if let date = dateFormatter.date(from: string) {
                 return date
@@ -574,7 +576,7 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
     }
     
     internal class func string(from date: Date, property: String) -> String? {
-        if let format = propertyDateFormats[property] ?? dateFormats.first {
+        if let format = propertyDateFormats[property] ?? Configuration.dateFormats.first {
             dateFormatter.dateFormat = format
             return dateFormatter.string(from: date)
         }
