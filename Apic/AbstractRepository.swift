@@ -185,17 +185,17 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
     
     open func requestObjects<T: InitializableWithDictionary>(method: HTTPMethod, url: URLConvertible, params: [String: Any]? = [:], encoding: ParameterEncoding? = nil, headers: [String: String]? = nil, completion: @escaping (_ getObjects: () throws -> [T]) -> Void) -> ApicRequest<[T]> {
         let request = ApicRequest(completionHandler: completion)
-        guard let URL = url.url else {
+        guard let url = url.url else {
             responseQueue.async { request.complete(withError: RepositoryError.invalidURL) }
             return request
         }
         
         processQueue.async {
             do {
-                try self.checkURLReachability(url: URL)
+                try self.checkURLReachability(url: url)
                 let parameterEncoding = encoding ?? method.preferredParameterEncoding
                 
-                request.dataTask = try self.request(url: URL, method: method, parameters: params, parameterEncoding: parameterEncoding, headers: headers, completion: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
+                request.dataTask = try self.request(url: url, method: method, parameters: params, parameterEncoding: parameterEncoding, headers: headers, completion: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
                     do {
                         let json = try self.getJSON(data: data, response: response, error: error)
                         var array: [[String: Any]]!
@@ -225,6 +225,55 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
             }
         }
         return request
+    }
+    
+    open func requestDictionaryOfObjects<T: InitializableWithDictionary>(method: HTTPMethod, url: URLConvertible, params: [String: Any]? = [:], encoding: ParameterEncoding? = nil, headers: [String: String]? = nil, completion: @escaping (_ getDictionary: () throws -> [String: T]) -> Void) -> ApicRequest<[String: T]> {
+        let request = ApicRequest(completionHandler: completion)
+        guard let url = url.url else {
+            responseQueue.async { request.complete(withError: RepositoryError.invalidURL) }
+            return request
+        }
+        processQueue.async {
+            do {
+                try self.checkURLReachability(url: url)
+                let parameterEncoding = encoding ?? method.preferredParameterEncoding
+                
+                request.dataTask = try self.request(url: url, method: method, parameters: params, parameterEncoding: parameterEncoding, headers: headers, completion: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
+                    do {
+                        let json = try self.getJSON(data: data, response: response, error: error)
+                        var dictionary: [String: [String: Any]]!
+                        if let objectsKey = self.objectsKey {
+                            let data = try self.dictionary(fromJSON: json)
+                            dictionary = data[objectsKey] as? [String: [String: Any]]
+                        } else {
+                            dictionary = json as? [String: [String: Any]]
+                        }
+                        if dictionary == nil {
+                            throw RepositoryError.badJSONContent
+                        }
+                        var objects = [String: T]()
+                        for (key, value) in dictionary {
+//                            self.assign(object: try T(dictionary: value), to: &objects, withKey: key)
+                            objects[key] = try T(dictionary: value)
+                            self.didAssign(object: objects[key]!, withKey: key)
+                        }
+                        self.responseQueue.async { request.complete(withObject: objects) }
+                    } catch {
+                        self.responseQueue.async { request.complete(withError: error) }
+                    }
+                })
+                if self.session?.delegate === self {
+                    self.progressReporters[request.dataTask!] = request
+                }
+            } catch {
+                self.responseQueue.async { request.complete(withError: error) }
+            }
+        }
+        return request
+    }
+    
+    open func didAssign<T: InitializableWithDictionary>(object: T, withKey key: String) {
+        
     }
     
     @inline(__always) private func getJSON(data: Data?, response: URLResponse?, error: Error?) throws -> Any {
