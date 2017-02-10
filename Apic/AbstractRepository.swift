@@ -390,8 +390,8 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
     }
     
     open func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
-        if var bufferData = buffers[dataTask] {
-            bufferData.append(data)
+        if let _ = buffers[dataTask] {
+            buffers[dataTask]?.append(data)
         } else {
             buffers[dataTask] = data
         }
