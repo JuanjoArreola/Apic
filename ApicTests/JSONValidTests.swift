@@ -34,12 +34,14 @@ class JSONValidTests: XCTestCase {
     func testSerializeStrictJSON() {
         do {
             let playlist = Playlist()
+            playlist.created = Date()
             playlist.id = "1"
             playlist.name = "Favourites"
             playlist.songs = [Song(id: "1", name: "No one knows"), Song(id: "2", name: "Symmetry")]
             let dictionary = try playlist.jsonValidStrictDictionary()
-            XCTAssertEqual(dictionary.count, 3)
+            XCTAssertEqual(dictionary.count, 4)
             XCTAssertNotNil(dictionary["songs"])
+            XCTAssertNotNil(dictionary["created"])
             XCTAssertTrue(dictionary["songs"] is [[String: Any]])
         } catch {
             XCTFail()

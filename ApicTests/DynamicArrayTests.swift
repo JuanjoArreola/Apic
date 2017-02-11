@@ -37,23 +37,18 @@ class DynamicArrayTests: XCTestCase {
     
 }
 
-
-class Resolver: TypeResolver {
+class Resolver: GenericTypeResolver {
     
     static var sharedResolver = Resolver()
     
-    func resolve(type: Any) -> Any? {
-        if type is [Award]?.Type || type is Award?.Type || type is ImplicitlyUnwrappedOptional<[Award]>.Type { return Award.self }
+    override func resolve(type: Any) -> Any? {
+        if let match: Award.Type = matchesAny(type: type) { return match }
         return nil
     }
     
-    func resolve(typeForName typeName: String) -> Any? {
+    override func resolve(typeForName typeName: String) -> Any? {
         if typeName == "Oscar" { return Oscar.self }
         if typeName == "GoldenGlobe" { return GoldenGlobe.self }
-        return nil
-    }
-    
-    public func resolveDictionary(type: Any) -> Any? {
         return nil
     }
 }

@@ -38,11 +38,14 @@ class Playlist: AbstractModel {
     var name: String!
     
     var songs: [Song]!
+    var created: Date?
+    
+    override open class var propertyDateFormats: [String: String] { return ["created": "y-MM-dd HH:mm:ss"] }
     
     override open class var resolver: TypeResolver? { return PlaylistResolver.shared }
     
     override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
-        return true
+        return ["id", "name", "songs"].contains(property)
     }
 }
 

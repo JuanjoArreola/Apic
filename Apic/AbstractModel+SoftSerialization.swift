@@ -30,6 +30,7 @@ public extension AbstractModel {
         return result
     }
     
+    @available(*, deprecated: 3.2.2, message: "Use jsonValidDictionary() instead")
     var softDictionary: [String: Any] {
         return jsonValidDictionary()
     }
@@ -59,7 +60,7 @@ public extension AbstractModel {
             } else if let model = value as? AbstractModel {
                 dictionary[resultKey] = strict ? try model.jsonValidStrictDictionary() : model.jsonValidDictionary()
             } else if let models = value as? [AbstractModel] {
-                dictionary[resultKey] = strict ? try models.jsonValidStrictDictionary() : models.jsonValidDictionary()
+                dictionary[resultKey] = strict ? try models.jsonValidStrict() : models.jsonValid()
             } else {
                 dictionary[resultKey] = String(describing: value)
             }
@@ -68,14 +69,16 @@ public extension AbstractModel {
 }
 
 public extension Array where Element: AbstractModel {
-    func jsonValidDictionary() -> [[String: Any]] {
+    
+    func jsonValid() -> [[String: Any]] {
         return self.map({ $0.jsonValidDictionary() })
     }
     
-    func jsonValidStrictDictionary() throws -> [[String: Any]] {
+    func jsonValidStrict() throws -> [[String: Any]] {
         return try self.map({ try $0.jsonValidStrictDictionary() })
     }
     
+    @available(*, deprecated: 3.2.2, message: "Use jsonValid() instead")
     var softArray: [[String: Any]] {
         return self.map({ $0.softDictionary })
     }

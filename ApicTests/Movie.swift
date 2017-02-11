@@ -63,7 +63,7 @@ class Movie: DefaultModel {
     
     override class var ignoredProperties: [String] { return ["reproductions"] }
     
-    override class var dateFormats: [String] { return Configuration.dateFormats + ["y-MM-dd HH:mm:ss"] }
+    override class var propertyDateFormats: [String: String] { return ["releaseDate": "y-MM-dd HH:mm:ss"] }
     
     override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
         return ["id", "name", "year", "rating", "duration", "format", "country", "cast"].contains(property)
@@ -111,29 +111,15 @@ class Synopsis: DefaultModel {
     }
 }
 
-class DefaultTypeResolver: TypeResolver {
+class DefaultTypeResolver: GenericTypeResolver {
     
-    func resolve(type: Any) -> Any? {
-        if type is Actor.Type || type is Actor?.Type || type is [Actor]?.Type || type is ImplicitlyUnwrappedOptional<[Actor]>.Type {
-            return Actor.self
-        }
-        if type is Director.Type || type is Director?.Type || type is ImplicitlyUnwrappedOptional<Director>.Type {
-            return Director.self
-        }
-        if type is [Movie]?.Type {
-            return Movie.self
-        }
-        if type is MovieFormat.Type || type is ImplicitlyUnwrappedOptional<MovieFormat>.Type { return MovieFormat.self }
-        if type is [Nomination]?.Type { return Nomination.self }
-        if type is Synopsis?.Type { return Synopsis.self }
-        return nil
-    }
-    
-    func resolve(typeForName typeName: String) -> Any? {
-        return nil
-    }
-    
-    public func resolveDictionary(type: Any) -> Any? {
+    override func resolve(type: Any) -> Any? {
+        if let match: Actor.Type = matchesAny(type: type) { return match }
+        if let match: Director.Type = matchesAny(type: type) { return match}
+        if let match: Movie.Type = matchesAny(type: type) { return match }
+        if let match: MovieFormat.Type = matchesAny(type: type) { return match }
+        if let match: Nomination.Type = matchesAny(type: type) { return match }
+        if let match: Synopsis.Type = matchesAny(type: type) { return match }
         return nil
     }
 }

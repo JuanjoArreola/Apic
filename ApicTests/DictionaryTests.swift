@@ -33,7 +33,7 @@ class DictionaryTests: XCTestCase {
     
     func testModelsDictionary() {
         do {
-            let world = try World(dictionary: ["capitals": [:], "countries": ["England": ["capital": "London"], "France": ["capital": "Paris"]]])
+            let world = try World(dictionary: ["capitals": [:], "countries": ["england": ["name": "England", "capital": "London"], "france": ["name": "France", "capital": "Paris"]]])
             XCTAssertEqual(world.countries.count, 2)
         } catch {
             XCTFail()
@@ -55,6 +55,7 @@ class World: AbstractModel {
 
 class Country: AbstractModel {
     var capital: String = ""
+    var name: String = ""
     
     override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
         return true
