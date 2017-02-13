@@ -49,7 +49,7 @@ public extension AbstractModel {
                 continue
             }
             let resultKey = modelType.propertyKeys[property] ?? property
-            if JSONSerialization.isValidJSONObject(value) {
+            if JSONSerialization.isValidJSONObject(["value": value]) {
                 dictionary[resultKey] = value
             } else if let date = value as? Date {
                 if let string = modelType.string(from: date, property: property) {
