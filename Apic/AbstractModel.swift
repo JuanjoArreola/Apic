@@ -53,7 +53,7 @@ public protocol DynamicTypeModel {
 // MARK: - Error
 
 public enum ModelError: Error {
-    case sourceValueError(property: String, model: String, value: String?)
+    case sourceValueError(property: String, model: String, value: Any?)
     case serializationError(property: String, model: String)
     case valueTypeError(property: String?)
     case dateError(property: String?, value: String?)
@@ -535,10 +535,11 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
     /// - parameter value: the value to be assigned
     /// - parameter key: the name of the property to assign
     open func assign(undefinedValue: Any, forProperty property: String) throws {
-        Log.warn("Could no parse value: <\(undefinedValue)> for property: <\(property)> of model: \(type(of: self))")
         if shouldFail(withInvalidValue: undefinedValue, forProperty: property) {
-            throw ModelError.sourceValueError(property: property, model: String(describing: type(of: self)), value: String(describing: undefinedValue))
+            throw ModelError.sourceValueError(property: property, model: String(describing: type(of: self)), value: undefinedValue)
         }
+        if let string = undefinedValue as? String, string.isEmpty { return }
+        Log.warn("Could no parse value: <\(undefinedValue)> for property: <\(property)> of model: \(type(of: self))")
     }
     
     /// Override this method in subclasses and return true if the object is invalid if a value couln't be parsed for a property
