@@ -359,7 +359,14 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
         }
         let message = errorDescriptionKey != nil ? data[errorDescriptionKey!] as? String : nil
         let code = errorCodeKey != nil ? data[errorCodeKey!] as? String : nil
+        if let code = code, let error = error(forCode: code, message: message) {
+            throw error
+        }
         throw RepositoryError.statusFail(message: message, code: code)
+    }
+    
+    open func error(forCode code: String, message: String?) -> Error? {
+        return nil
     }
     
     public func getError(from response: URLResponse, data: Data?) -> Error? {
