@@ -10,6 +10,9 @@ import Foundation
 
 open class GenericTypeResolver: TypeResolver {
     
+    public init() {
+    }
+    
     open func resolve(type: Any) -> Any? {
         return nil
     }
