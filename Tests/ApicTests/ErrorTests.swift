@@ -8,7 +8,6 @@
 
 import XCTest
 import Apic
-import OHHTTPStubs
 
 class ErrorTests: XCTestCase {
     
