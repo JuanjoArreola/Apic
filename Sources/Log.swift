@@ -1,18 +1,16 @@
 //
 //  Log.swift
-//  MiCava
 //
 //  Created by Juanjo on 09/05/15.
-//  Copyright (c) 2015 Crayon. All rights reserved.
 //
 
 import Foundation
 
-enum LogLevel: Int {
+public enum LogLevel: Int {
     case debug = 1, warning, error, severe
 }
 
-class Log {
+public class Log {
     
     static var logLevel = LogLevel(rawValue: Configuration.logLevel) ?? LogLevel.debug
     static var showDate = true
@@ -26,25 +24,25 @@ class Log {
         return f
         }()
     
-    class func debug(_ message: @autoclosure () -> Any, file: String = #file, function: StaticString = #function, line: Int = #line) {
+    public class func debug(_ message: @autoclosure () -> Any, file: String = #file, function: StaticString = #function, line: Int = #line) {
         if LogLevel.debug.rawValue >= logLevel.rawValue {
             log("Debug", message: String(describing: message()), file: file, function: function, line: line)
         }
     }
     
-    class func warn(_ message: @autoclosure () -> Any, file: String = #file, function: StaticString = #function, line: Int = #line) {
+    public class func warn(_ message: @autoclosure () -> Any, file: String = #file, function: StaticString = #function, line: Int = #line) {
         if LogLevel.warning.rawValue >= logLevel.rawValue {
             log("Warning", message: String(describing: message()), file: file, function: function, line: line)
         }
     }
     
-    class func error(_ message: @autoclosure () -> Any, file: String = #file, function: StaticString = #function, line: Int = #line) {
+    public class func error(_ message: @autoclosure () -> Any, file: String = #file, function: StaticString = #function, line: Int = #line) {
         if LogLevel.error.rawValue >= logLevel.rawValue {
             log("Error", message: String(describing: message()), file: file, function: function, line: line)
         }
     }
     
-    class func severe(_ message: @autoclosure () -> Any, file: String = #file, function: StaticString = #function, line: Int = #line) {
+    public class func severe(_ message: @autoclosure () -> Any, file: String = #file, function: StaticString = #function, line: Int = #line) {
         if LogLevel.severe.rawValue >= logLevel.rawValue {
             log("Severe", message: String(describing: message()), file: file, function: function, line: line)
         }

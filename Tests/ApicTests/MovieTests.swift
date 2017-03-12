@@ -9,7 +9,7 @@
 import XCTest
 @testable import Apic
 
-class ApicTests: XCTestCase {
+class MovieTests: XCTestCase {
     
     let dictionary = ["id": "348798", "name": "Mad Max: Fury Road", "year": 2015, "duration": 120, "releaseDate": "2015-05-14 00:00:00", "rating": 4.8, "country": ["Australia", "USA"], "format": "16:9",
         "director": ["name": "George Miller"], "cast": [["name": " Tom Hardy"], ["name": "Charlize Theron"]], "nominations": [["name": "Teen Choice Awards"]], "synopsis": ["text": "A woman rebels against a tyrannical ruler in post apocalyptic Australia in search for her homeland with the help of a group of female prisoners, a psychotic worshiper, and a drifter named Max"]] as [String : Any]

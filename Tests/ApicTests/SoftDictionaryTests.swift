@@ -25,7 +25,7 @@ class SoftDictionaryTests: XCTestCase {
         let playlist = Playlist()
         playlist.name = "Favourites"
         playlist.songs = [Song(id: "1", name: "No one knows"), Song(id: "2", name: "Symmetry")]
-        let dictionary = playlist.softDictionary
+        let dictionary = playlist.jsonValidDictionary()
         XCTAssertEqual(dictionary.count, 2)
         XCTAssertNotNil(dictionary["songs"])
         XCTAssertTrue(dictionary["songs"] is [[String: Any]])
