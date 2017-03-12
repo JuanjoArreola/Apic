@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "Apic"
-  s.version      = "3.2.6"
+  s.version      = "3.3.0"
   s.summary      = "Apic is a library that parses JSON API responses into swift objects"
   s.homepage     = "https://github.com/JuanjoArreola/Apic"
   s.license      = { :type => "MIT", :file => "LICENSE" }
@@ -11,9 +11,8 @@ Pod::Spec.new do |s|
   s.watchos.deployment_target = "2.0"
   s.tvos.deployment_target = "9.0"
 
-  s.source       = { :git => "https://github.com/JuanjoArreola/Apic.git", :tag => "version_#{s.version}" }
-  s.source_files = "Apic/*.swift"
-  s.resources    = "Apic/apic_properties.plist"
+  s.source       = { :git => "https://github.com/JuanjoArreola/Apic.git", :tag => "#{s.version}" }
+  s.source_files = "Sources/*.swift"
 
   s.requires_arc = true
   s.framework    = "SystemConfiguration"
