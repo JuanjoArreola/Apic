@@ -8,12 +8,6 @@
 
 import Foundation
 
-private var formatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateFormat = Configuration.dateFormats.first
-    return formatter
-}()
-
 public extension AbstractModel {
     
     func jsonValidDictionary() -> [String: Any] {
@@ -53,14 +47,8 @@ public extension AbstractModel {
             if JSONSerialization.isValidJSONObject(["value": value]) {
                 dictionary[resultKey] = value
             } else if let date = value as? Date {
-                if let string = modelType.string(from: date, property: property) {
-                    dictionary[resultKey] = string
-                } else if strict {
-                    let propertyType = Mirror(reflecting:child.value).subjectType
-                    if shouldFail(withInvalidValue: date, forProperty: property, type: propertyType) {
-                        throw ModelError.serializationError(property: property, model: String(describing: modelType))
-                    }
-                }
+                let format = modelType.propertyDateFormats[property] ?? Configuration.dateFormat
+                dictionary[resultKey] = date.toString(format: format)
             } else if let model = value as? AbstractModel {
                 dictionary[resultKey] = strict ? try model.jsonValidStrictDictionary() : model.jsonValidDictionary()
             } else if let models = value as? [AbstractModel] {

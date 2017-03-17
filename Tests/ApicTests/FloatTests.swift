@@ -156,7 +156,7 @@ class FloatContainer: AbstractModel {
         }
     }
     
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
+    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool? {
         return ["id"].contains(property)
     }
 }

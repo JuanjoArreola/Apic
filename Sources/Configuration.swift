@@ -51,8 +51,8 @@ public final class Configuration {
         return properties?["objects_key"] as? String ?? "objects"
     }()
     
-    static var dateFormats: [String] = {
-        return properties?["date_formats"] as? [String] ?? ["y-MM-dd HH:mm:ssZ"]
+    static var dateFormat: String = {
+        return properties?["date_format"] as? String ?? "y-MM-dd HH:mm:ssZ"
     }()
     
     static var locale: Locale = {

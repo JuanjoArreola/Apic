@@ -167,10 +167,10 @@ struct Location: InitializableWithDictionary {
     
     init(dictionary: [String : Any]) throws {
         guard let latitude = dictionary["latitude"] as? Double else {
-            throw ModelError.sourceValueError(property: "latitude", model: "Location", value: String(describing: dictionary["latitude"]))
+            throw ModelError.sourceValueError(property: "latitude", model: Location.self, value: String(describing: dictionary["latitude"]))
         }
         guard let longitude = dictionary["longitude"] as? Double else {
-            throw ModelError.sourceValueError(property: "longitude", model: "Location", value: String(describing: dictionary["longitude"]))
+            throw ModelError.sourceValueError(property: "longitude", model: Location.self, value: String(describing: dictionary["longitude"]))
         }
         self.latitude = latitude
         self.longitude = longitude

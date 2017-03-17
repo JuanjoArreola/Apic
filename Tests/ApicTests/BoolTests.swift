@@ -62,7 +62,10 @@ class BoolTests: XCTestCase {
             let container = try BoolContainer(dictionary: ["hasId": 1.0, "option": true])
             XCTAssertNotNil(container)
             XCTAssertNotNil(container.option)
-        } catch { XCTFail() }
+        } catch {
+            Log.error(error)
+            XCTFail()
+        }
     }
     
     func testChangeBool() {
