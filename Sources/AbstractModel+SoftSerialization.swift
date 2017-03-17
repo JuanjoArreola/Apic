@@ -43,7 +43,8 @@ public extension AbstractModel {
         for child in mirror.children {
             guard let property = child.label else { continue }
             guard let value = self.value(forKey: property) else {
-                if strict && shouldFail(withInvalidValue: self.value(forKey: property), forProperty: property) {
+                let propertyType = Mirror(reflecting:child.value).subjectType
+                if strict && shouldFail(withInvalidValue: self.value(forKey: property), forProperty: property, type: propertyType) {
                     throw ModelError.serializationError(property: property, model: String(describing: modelType))
                 }
                 continue
@@ -54,8 +55,11 @@ public extension AbstractModel {
             } else if let date = value as? Date {
                 if let string = modelType.string(from: date, property: property) {
                     dictionary[resultKey] = string
-                } else if strict && shouldFail(withInvalidValue: date, forProperty: property) {
-                    throw ModelError.serializationError(property: property, model: String(describing: modelType))
+                } else if strict {
+                    let propertyType = Mirror(reflecting:child.value).subjectType
+                    if shouldFail(withInvalidValue: date, forProperty: property, type: propertyType) {
+                        throw ModelError.serializationError(property: property, model: String(describing: modelType))
+                    }
                 }
             } else if let model = value as? AbstractModel {
                 dictionary[resultKey] = strict ? try model.jsonValidStrictDictionary() : model.jsonValidDictionary()

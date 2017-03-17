@@ -9,10 +9,6 @@
 import Foundation
 @testable import Apic
 
-class DefaultModel: AbstractModel {
-    static var defaultResolver = DefaultTypeResolver()
-    override class var resolver: TypeResolver! { return defaultResolver }
-}
 
 enum MovieFormat: StringRepresentable {
     case widescreen
@@ -35,7 +31,7 @@ enum MovieFormat: StringRepresentable {
     }
 }
 
-class Movie: DefaultModel {
+class Movie: AbstractModel {
     var id: String = ""
     var name: String = ""
     var year: Int = 0
@@ -44,6 +40,12 @@ class Movie: DefaultModel {
     var cast: [Actor]!
     
     var rating: Float?
+    
+    override class func initialize() {
+        super.initialize()
+        
+        DefaultTypeResolver.shared.register(type: MovieFormat.self)
+    }
     
 //    MARK: - Specifications
     var duration: Int = 0
@@ -78,7 +80,7 @@ class Movie: DefaultModel {
     }
 }
 
-class Person: DefaultModel {
+class Person: AbstractModel {
     var name: String!
 }
 
@@ -90,7 +92,7 @@ class Director: Person {
     }
 }
 
-class Nomination: DefaultModel {
+class Nomination: AbstractModel {
     var name: String = ""
 }
 
@@ -102,7 +104,7 @@ class Actor: Person {
     }
 }
 
-class Synopsis: DefaultModel {
+class Synopsis: AbstractModel {
     var text: String = ""
     var author: Person?
     
@@ -110,17 +112,3 @@ class Synopsis: DefaultModel {
         return ["text"].contains(property)
     }
 }
-
-class DefaultTypeResolver: GenericTypeResolver {
-    
-    override func resolve(type: Any) -> Any? {
-        if let match: Actor.Type = matchesAny(type: type) { return match }
-        if let match: Director.Type = matchesAny(type: type) { return match}
-        if let match: Movie.Type = matchesAny(type: type) { return match }
-        if let match: MovieFormat.Type = matchesAny(type: type) { return match }
-        if let match: Nomination.Type = matchesAny(type: type) { return match }
-        if let match: Synopsis.Type = matchesAny(type: type) { return match }
-        return nil
-    }
-}
-

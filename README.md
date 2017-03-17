@@ -11,7 +11,7 @@ Apic communicates with **RESTful services**, parses the **JSON** HTTP response a
 ####  Swift < 2.3:
   pod 'Apic' '~> 2.2.4'
 ####  Swift >= 3:
-  pod 'Apic' '~> 3.0.3'
+   pod 'Apic' '~> 3.3'
 
 ## Models
 

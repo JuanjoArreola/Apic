@@ -140,47 +140,25 @@ class ComplexContainer: ComplexModel {
     var id: String!
     var first: SimpleModel!
     var second: SimpleModel?
-    
-    
-    
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
-        return ["id", "first"].contains(property)
-    }
 }
 
 class ComplexArrayContainer: ComplexModel {
     var models: [SimpleModel]!
     var optionals: [SimpleModel]?
-    
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
-        return ["models"].contains(property)
-    }
 }
 
 class WrongDefinitionComplexContainer: ComplexModel {
     var option: UnresolvedModel?
     var first: UnresolvedModel!
-    
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
-        return ["first"].contains(property)
-    }
 }
 
 class WrongDefinitionComplexArrayContainer: ComplexModel {
     var models: [UnresolvedModel]!
-    
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
-        return ["models"].contains(property)
-    }
 }
 
 class SimpleModel: AbstractModel {
     var id: String!
     var name: String?
-    
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
-        return property == "id"
-    }
 }
 
 class UnresolvedModel: AbstractModel {
@@ -192,7 +170,7 @@ class ComplexTypeResolver: TypeResolver {
         return nil
     }
     
-    func resolve(type: Any) -> Any? {
+    func resolve(type: Any.Type) -> Any.Type? {
         if type is SimpleModel.Type || type is SimpleModel?.Type || type is [SimpleModel]?.Type || type is ImplicitlyUnwrappedOptional<SimpleModel>.Type || type is ImplicitlyUnwrappedOptional<[SimpleModel]>.Type {
             return SimpleModel.self
         }

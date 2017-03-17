@@ -37,27 +37,9 @@ class DynamicArrayTests: XCTestCase {
     
 }
 
-class Resolver: GenericTypeResolver {
-    
-    static var sharedResolver = Resolver()
-    
-    override func resolve(type: Any) -> Any? {
-        if let match: Award.Type = matchesAny(type: type) { return match }
-        return nil
-    }
-    
-    override func resolve(typeForName typeName: String) -> Any? {
-        if typeName == "Oscar" { return Oscar.self }
-        if typeName == "GoldenGlobe" { return GoldenGlobe.self }
-        return nil
-    }
-}
-
 class Moview: AbstractModel {
     var name: String!
     var awards: [Award]!
-    
-    override class var resolver: TypeResolver? { return Resolver.sharedResolver }
     
     override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
         return true
@@ -66,6 +48,13 @@ class Moview: AbstractModel {
 
 class Award: AbstractModel, DynamicTypeModel {
     var name: String!
+    
+    override class func initialize() {
+        super.initialize()
+        
+        DefaultTypeResolver.shared.register(type: Oscar.self, forName: "Oscar")
+        DefaultTypeResolver.shared.register(type: GoldenGlobe.self, forName: "GoldenGlobe")
+    }
     
     static var typeNameProperty: String {
         return "type"

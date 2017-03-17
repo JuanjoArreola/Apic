@@ -62,11 +62,11 @@ class Country: AbstractModel {
     }
 }
 
-fileprivate class WorldResolver: Resolver {
+fileprivate class WorldResolver: GenericTypeResolver {
     
     static var shared = WorldResolver()
     
-    fileprivate override func resolve(type: Any) -> Any? {
+    fileprivate override func resolve(type: Any.Type) -> Any.Type? {
         return nil
     }
     

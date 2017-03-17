@@ -13,7 +13,7 @@ open class GenericTypeResolver: TypeResolver {
     public init() {
     }
     
-    open func resolve(type: Any) -> Any? {
+    open func resolve(type: Any.Type) -> Any.Type? {
         return nil
     }
     

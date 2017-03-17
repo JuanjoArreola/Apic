@@ -71,7 +71,9 @@ class NoClassTests: XCTestCase {
         do {
             let container = try PositionContainer(dictionary: ["location": ["latitude": 19.0, "longitude": -18.1]])
             XCTAssertNotNil(container)
-        } catch { }
+        } catch {
+            XCTFail()
+        }
     }
     
 }
@@ -106,30 +108,14 @@ enum MediaType: IntInitializable {
     }
 }
 
-class StateResolver: TypeResolver {
-    
-    static let sharedInstance = StateResolver()
-    
-    public func resolve(type: Any) -> Any? {
-        if type is State?.Type { return State.self }
-        if type is ImplicitlyUnwrappedOptional<State>.Type { return State.self }
-        if type is Location?.Type { return Location.self }
-        if type is MediaType?.Type { return MediaType.self }
-        if type is ImplicitlyUnwrappedOptional<MediaType>.Type { return MediaType.self }
-        return nil
-    }
-
-    func resolve(typeForName typeName: String) -> Any? {
-        return nil
-    }
-    
-    public func resolveDictionary(type: Any) -> Any? {
-        return nil
-    }
-}
-
 class StateContainer: AbstractModel {
-    override class var resolver: TypeResolver { return StateResolver.sharedInstance }
+    
+    open override class func initialize() {
+        super.initialize()
+        
+        DefaultTypeResolver.shared.register(type: State.self)
+        DefaultTypeResolver.shared.register(type: MediaType.self)
+    }
     
     var state: State!
     var nextState: State?
@@ -153,7 +139,12 @@ class StateContainer: AbstractModel {
 }
 
 class PositionContainer: AbstractModel {
-    override class var resolver: TypeResolver { return StateResolver.sharedInstance }
+    
+    open override class func initialize() {
+        super.initialize()
+        
+        DefaultTypeResolver.shared.register(type: Location.self)
+    }
     
     var location: Location!
     

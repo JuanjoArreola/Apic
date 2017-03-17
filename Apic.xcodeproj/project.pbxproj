@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		811C4A9A1E7B0F000049D8A3 /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C4A991E7B0F000049D8A3 /* Color+Hex.swift */; };
+		811C4A9C1E7B43130049D8A3 /* TypeResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C4A9B1E7B43130049D8A3 /* TypeResolver.swift */; };
+		811C4A9E1E7B43BD0049D8A3 /* DefaultTypeResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C4A9D1E7B43BD0049D8A3 /* DefaultTypeResolver.swift */; };
+		811C4AA01E7B45960049D8A3 /* Float+FromAny.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C4A9F1E7B45960049D8A3 /* Float+FromAny.swift */; };
+		811C4AA21E7B45B90049D8A3 /* Mirror+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C4AA11E7B45B90049D8A3 /* Mirror+Util.swift */; };
+		811C4AA41E7B466E0049D8A3 /* Bool+FromAny.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C4AA31E7B466E0049D8A3 /* Bool+FromAny.swift */; };
 		OBJ_100 /* Apic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = OBJ_49 /* Apic.framework */; };
 		OBJ_56 /* AbstractCustomErrorRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* AbstractCustomErrorRepository.swift */; };
 		OBJ_57 /* AbstractModel+SoftSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* AbstractModel+SoftSerialization.swift */; };
@@ -48,7 +54,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		814D76201E75CFE40061F55D /* PBXContainerItemProxy */ = {
+		81649C3B1E77234E006BD3D6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
@@ -58,6 +64,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		811C4A991E7B0F000049D8A3 /* Color+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
+		811C4A9B1E7B43130049D8A3 /* TypeResolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeResolver.swift; sourceTree = "<group>"; };
+		811C4A9D1E7B43BD0049D8A3 /* DefaultTypeResolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultTypeResolver.swift; sourceTree = "<group>"; };
+		811C4A9F1E7B45960049D8A3 /* Float+FromAny.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Float+FromAny.swift"; sourceTree = "<group>"; };
+		811C4AA11E7B45B90049D8A3 /* Mirror+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Mirror+Util.swift"; sourceTree = "<group>"; };
+		811C4AA31E7B466E0049D8A3 /* Bool+FromAny.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bool+FromAny.swift"; sourceTree = "<group>"; };
 		OBJ_10 /* AbstractModel+SoftSerialization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AbstractModel+SoftSerialization.swift"; sourceTree = "<group>"; };
 		OBJ_11 /* AbstractModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractModel.swift; sourceTree = "<group>"; };
 		OBJ_12 /* AbstractRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractRepository.swift; sourceTree = "<group>"; };
@@ -171,7 +183,7 @@
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -179,7 +191,6 @@
 				OBJ_19 /* Tests */,
 				OBJ_48 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_7 /* Sources */ = {
@@ -203,6 +214,12 @@
 				OBJ_16 /* NSMutableURLRequest+ParameterEncoding.swift */,
 				OBJ_17 /* Reachability.swift */,
 				OBJ_18 /* Request.swift */,
+				811C4A991E7B0F000049D8A3 /* Color+Hex.swift */,
+				811C4A9B1E7B43130049D8A3 /* TypeResolver.swift */,
+				811C4A9F1E7B45960049D8A3 /* Float+FromAny.swift */,
+				811C4AA11E7B45B90049D8A3 /* Mirror+Util.swift */,
+				811C4AA31E7B466E0049D8A3 /* Bool+FromAny.swift */,
+				811C4A9D1E7B43BD0049D8A3 /* DefaultTypeResolver.swift */,
 			);
 			name = Apic;
 			path = Sources;
@@ -259,7 +276,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_48 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -275,15 +292,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				811C4AA41E7B466E0049D8A3 /* Bool+FromAny.swift in Sources */,
 				OBJ_56 /* AbstractCustomErrorRepository.swift in Sources */,
+				811C4A9C1E7B43130049D8A3 /* TypeResolver.swift in Sources */,
 				OBJ_57 /* AbstractModel+SoftSerialization.swift in Sources */,
+				811C4AA01E7B45960049D8A3 /* Float+FromAny.swift in Sources */,
+				811C4AA21E7B45B90049D8A3 /* Mirror+Util.swift in Sources */,
 				OBJ_58 /* AbstractModel.swift in Sources */,
 				OBJ_59 /* AbstractRepository.swift in Sources */,
 				OBJ_60 /* Configuration.swift in Sources */,
 				OBJ_61 /* GenericTypeResolver.swift in Sources */,
+				811C4A9E1E7B43BD0049D8A3 /* DefaultTypeResolver.swift in Sources */,
 				OBJ_62 /* Log.swift in Sources */,
 				OBJ_63 /* NSMutableURLRequest+ParameterEncoding.swift in Sources */,
 				OBJ_64 /* Reachability.swift in Sources */,
+				811C4A9A1E7B0F000049D8A3 /* Color+Hex.swift in Sources */,
 				OBJ_65 /* Request.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -328,7 +351,7 @@
 		OBJ_101 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_51 /* Apic */;
-			targetProxy = 814D76201E75CFE40061F55D /* PBXContainerItemProxy */;
+			targetProxy = 81649C3B1E77234E006BD3D6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
