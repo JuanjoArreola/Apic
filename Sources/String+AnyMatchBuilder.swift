@@ -1,5 +1,5 @@
 //
-//  String+AnyMatchInitialize.swift
+//  String+AnyMatchBuilder.swift
 //  Apic
 //
 //  Created by Juan Jose Arreola on 17/03/17.
@@ -8,9 +8,13 @@
 
 import Foundation
 
-extension String: AnyInitializable {
+extension String: AnyInitializable, FromAnyBuilder {
     
-    init?(value: Any?) {
+    static func build(value: Any) -> String? {
+        return String(value: value)
+    }
+    
+    init?(value: Any) {
         if let string = value as? String {
             self = string
         } else {
@@ -37,4 +41,4 @@ extension String: TypeMatchable {
     }
 }
 
-extension String: AnyMatchInitialize {}
+extension String: AnyMatchBuilder {}

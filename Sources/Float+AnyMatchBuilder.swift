@@ -1,5 +1,5 @@
 //
-//  Float+FromAny.swift
+//  Float+AnyMatchBuilder.swift
 //  Apic
 //
 //  Created by Juan Jose Arreola on 16/03/17.
@@ -8,9 +8,13 @@
 
 import Foundation
 
-extension Float: AnyInitializable {
+extension Float: AnyInitializable, FromAnyBuilder {
     
-    init?(value: Any?) {
+    static func build(value: Any) -> Float? {
+        return Float(value: value)
+    }
+    
+    init?(value: Any) {
         if let float = value as? Float {
             self = float
         }
@@ -47,4 +51,4 @@ extension Float: TypeMatchable {
     }
 }
 
-extension Float: AnyMatchInitialize {}
+extension Float: AnyMatchBuilder {}

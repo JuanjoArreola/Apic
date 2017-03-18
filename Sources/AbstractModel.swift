@@ -44,21 +44,6 @@ public protocol DynamicTypeModel {
     static var typeNameProperty: String { get }
 }
 
-// MARK: - Error
-
-public enum ModelError: Error {
-    case sourceValueError(property: String, model: Any.Type, value: Any?)
-    case serializationError(property: String, model: String)
-    case valueTypeError(property: String?)
-    case dateError(property: String?, value: String?)
-    case urlError(property: String?, value: String?)
-    case instanciationError
-    case invalidProperty(property: String)
-    case undefinedType(type: Any.Type)
-    case undefinedTypeName(typeName: String)
-    case unasignedInstance(property: String)
-}
-
 /// Abstract model that provides the parsing functionality for subclasses
 open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
     
@@ -71,9 +56,6 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
     open override class func initialize() {
         DefaultTypeResolver.shared.register(type: self)
     }
-    
-    @available(*, deprecated: 3.2.0, message: "use propertyDateFormats instead")
-    open class var dateFormats: [String] { return [] }
     
     public override init() {
         super.init()
@@ -146,87 +128,68 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
         }
         
 //      MARK: - String
-        if try parsed(rawValue: rawValue, property: property, type: propertyType, compareType: String.self) {}
+        if try parsed(rawValue: rawValue, property: property, type: propertyType, target: String.self) {}
             
-        else if try parsedArray(rawValue: rawValue, property: property, type: propertyType, compareType: String.self) {}
+        else if try parsedArray(rawValue: rawValue, property: property, type: propertyType, target: String.self) {}
             
 //      MARK: - Int
-        else if try safeParsed(rawValue: rawValue, property: property, type: propertyType, compareType: Int.self) {}
+        else if try safeParsed(rawValue: rawValue, property: property, type: propertyType, target: Int.self) {}
             
-        else if try parsedArray(rawValue: rawValue, property: property, type: propertyType, compareType: Int.self) {}
+        else if try parsedArray(rawValue: rawValue, property: property, type: propertyType, target: Int.self) {}
 
 //      MARK: - Float
-        else if try safeParsed(rawValue: rawValue, property: property, type: propertyType, compareType: Float.self) {}
+        else if try safeParsed(rawValue: rawValue, property: property, type: propertyType, target: Float.self) {}
             
-        else if try parsedArray(rawValue: rawValue, property: property, type: propertyType, compareType: Float.self) {}
+        else if try parsedArray(rawValue: rawValue, property: property, type: propertyType, target: Float.self) {}
             
 //      MARK: - Double
-        else if try safeParsed(rawValue: rawValue, property: property, type: propertyType, compareType: Double.self) {}
+        else if try safeParsed(rawValue: rawValue, property: property, type: propertyType, target: Double.self) {}
             
-        else if try parsedArray(rawValue: rawValue, property: property, type: propertyType, compareType: Double.self) {}
+        else if try parsedArray(rawValue: rawValue, property: property, type: propertyType, target: Double.self) {}
             
 //      MARK: - Bool
-        else if try safeParsed(rawValue: rawValue, property: property, type: propertyType, compareType: Bool.self) {}
+        else if try safeParsed(rawValue: rawValue, property: property, type: propertyType, target: Bool.self) {}
             
-        else if try parsedArray(rawValue: rawValue, property: property, type: propertyType, compareType: Bool.self) {}
+        else if try parsedArray(rawValue: rawValue, property: property, type: propertyType, target: Bool.self) {}
             
 //      MARK: - Date
         else if Date.match(type: propertyType) {
             let format = modelType.propertyDateFormats[property] ?? Configuration.dateFormat
-            guard let value = Date(value: rawValue, format: format) else {
+            guard let date = Date(value: rawValue, format: format) else {
                 throw ModelError.dateError(property: property, value: String(describing: rawValue))
             }
-            setValue(value, forKey: property)
+            setValue(date, forKey: property)
+        }
+            
+        else if Date.matchArray(type: propertyType) {
+            let format = modelType.propertyDateFormats[property] ?? Configuration.dateFormat
+            guard let array = rawValue as? [Any] else {
+                return
+            }
+            var dates = [Date]()
+            for value in array {
+                guard let date = Date(value: value, format: format) else {
+                    throw ModelError.dateError(property: property, value: String(describing: value))
+                }
+                dates.append(date)
+            }
+            setValue(dates, forKey: property)
         }
             
 //      MARK: - NSDecimalNumber
-        else if propertyType is NSDecimalNumber?.Type || propertyType is NSDecimalNumber.Type || propertyType is ImplicitlyUnwrappedOptional<NSDecimalNumber>.Type {
-            if let value = rawValue as? Double {
-                setValue(NSDecimalNumber(value: value), forKey: property)
-            }
-            else if let value = rawValue as? Int {
-                setValue(NSDecimalNumber(value: value), forKey: property)
-            }
-            else if let value = rawValue as? Bool {
-                setValue(NSDecimalNumber(value: value), forKey: property)
-            }
-            else if let value = rawValue as? String {
-                let number = NSDecimalNumber(string: value)
-                if number != NSDecimalNumber.notANumber {
-                    setValue(number, forKey: property)
-                } else {
-                    try assign(undefinedValue: rawValue, forProperty: property, type: propertyType)
-                }
-            } else {
-                try assign(undefinedValue: rawValue, forProperty: property, type: propertyType)
-            }
-        }
+        else if try parsed(rawValue: rawValue, property: property, type: propertyType, target: NSDecimalNumber.self) {}
+            
+        else if try parsedArray(rawValue: rawValue, property: property, type: propertyType, target: NSDecimalNumber.self) {}
             
 //      MARK: - URL
-        else if propertyType is URL?.Type || propertyType is URL.Type || propertyType is ImplicitlyUnwrappedOptional<URL>.Type {
-            if let value = rawValue as? String {
-                if let url = URL(string: value) {
-                    setValue(url, forKey: property)
-                } else {
-                    try assign(undefinedValue: rawValue, forProperty: property, type: propertyType)
-                }
-            } else {
-                try assign(undefinedValue: rawValue, forProperty: property, type: propertyType)
-            }
-        }
+        else if try parsed(rawValue: rawValue, property: property, type: propertyType, target: URL.self) {}
+            
+        else if try parsedArray(rawValue: rawValue, property: property, type: propertyType, target: URL.self) {}
             
 //      MARK: - Color
-        else if propertyType is Color?.Type || propertyType is Color.Type || propertyType is ImplicitlyUnwrappedOptional<Color>.Type {
-            if let value = rawValue as? String {
-                if let color = Color(hex: value) {
-                    setValue(color, forKey: property)
-                } else {
-                    try assign(undefinedValue: rawValue, forProperty: property, type: propertyType)
-                }
-            } else {
-                try assign(undefinedValue: rawValue, forProperty: property, type: propertyType)
-            }
-        }
+        else if try parsed(rawValue: rawValue, property: property, type: propertyType, target: Color.self) {}
+            
+        else if try parsedArray(rawValue: rawValue, property: property, type: propertyType, target: Color.self) {}
             
 //      MARK: - [:]
         else if propertyType is [String: String].Type || propertyType is [String: String]?.Type || propertyType is ImplicitlyUnwrappedOptional<[String: String]>.Type {
@@ -396,9 +359,9 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
     
     // MARK: -
     
-    private func parsed<T: AnyMatchInitialize>(rawValue: Any, property: String, type: Any.Type, compareType: T.Type) throws -> Bool {
+    private func parsed<T: AnyMatchBuilder>(rawValue: Any, property: String, type: Any.Type, target: T.Type) throws -> Bool {
         if T.match(type: type) {
-            guard let value = T(value: rawValue) else {
+            guard let value = T.build(value: rawValue) else {
                 throw ModelError.sourceValueError(property: property, model: type(of: self), value: rawValue)
             }
             setValue(value, forKey: property)
@@ -407,9 +370,9 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
         return false
     }
     
-    private func safeParsed<T: AnyMatchInitialize>(rawValue: Any, property: String, type: Any.Type, compareType: T.Type) throws -> Bool {
+    private func safeParsed<T: AnyMatchBuilder>(rawValue: Any, property: String, type: Any.Type, target: T.Type) throws -> Bool {
         if let optionality = T.optionalityMatch(type: type) {
-            guard let value = T(value: rawValue) else {
+            guard let value = T.build(value: rawValue) else {
                 throw ModelError.sourceValueError(property: property, model: type(of: self), value: rawValue)
             }
             if optionality == .notOptional {
@@ -422,17 +385,17 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
         return false
     }
     
-    private func parsedArray<T: AnyMatchInitialize>(rawValue: Any, property: String, type: Any.Type, compareType: T.Type) throws -> Bool {
+    private func parsedArray<T: AnyMatchBuilder>(rawValue: Any, property: String, type: Any.Type, target: T.Type) throws -> Bool {
         if T.matchArray(type: type) {
             if let array = rawValue as? [Any] {
-                var newArray = [T]()
-                for value in array {
-                    if let element = T(value: value) {
-                        newArray.append(element)
-                    } else {
-                        throw ModelError.sourceValueError(property: property, model: T.self, value: value)
+                let newArray: [T] = try array.map({
+                    if let element = T.build(value: $0) as? T {
+                        return element
                     }
-                }
+                    else {
+                        throw ModelError.sourceValueError(property: property, model: T.self, value: $0)
+                    }
+                })
                 setValue(newArray, forKey: property)
             } else {
                 throw ModelError.sourceValueError(property: property, model: type(of: self), value: rawValue)
@@ -521,9 +484,3 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
         }
     }
 }
-
-protocol AnyInitializable {
-    init?(value: Any?)
-}
-
-protocol AnyMatchInitialize: AnyInitializable, TypeMatchable {}

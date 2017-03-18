@@ -1,5 +1,5 @@
 //
-//  Double+AnyMatchInitialize.swift
+//  Double+AnyMatchBuilder.swift
 //  Apic
 //
 //  Created by Juan Jose Arreola on 17/03/17.
@@ -8,9 +8,13 @@
 
 import Foundation
 
-extension Double: AnyInitializable {
+extension Double: AnyInitializable, FromAnyBuilder {
     
-    init?(value: Any?) {
+    static func build(value: Any) -> Double? {
+        return Double(value: value)
+    }
+    
+    init?(value: Any) {
         if let double = value as? Double {
             self = double
         }
@@ -44,4 +48,4 @@ extension Double: TypeMatchable {
     }
 }
 
-extension Double: AnyMatchInitialize {}
+extension Double: AnyMatchBuilder {}

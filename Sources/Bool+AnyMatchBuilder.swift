@@ -1,5 +1,5 @@
 //
-//  Bool+AnyMatchInitialize.swift
+//  Bool+AnyMatchBuilder.swift
 //  Apic
 //
 //  Created by Juan Jose Arreola on 16/03/17.
@@ -8,9 +8,13 @@
 
 import Foundation
 
-extension Bool: AnyInitializable {
+extension Bool: AnyInitializable, FromAnyBuilder {
     
-    init?(value: Any?) {
+    static func build(value: Any) -> Bool? {
+        return Bool(value: value)
+    }
+    
+    init?(value: Any) {
         if let bool = value as? Bool {
             self = bool
         }
@@ -51,4 +55,4 @@ extension Bool: TypeMatchable {
     }
 }
 
-extension Bool: AnyMatchInitialize {}
+extension Bool: AnyMatchBuilder {}

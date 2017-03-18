@@ -6,17 +6,30 @@
 
 import Foundation
 
-public enum LogLevel: Int {
+public enum LogLevel: Int, Comparable {
     case debug = 1, warning, error, severe
+    
+    var name: String {
+        switch self {
+        case .debug: return "Debug"
+        case .warning: return "Warning"
+        case .error: return "Error"
+        case .severe: return "Severe"
+        }
+    }
+}
+
+public func <(left: LogLevel, right: LogLevel) -> Bool {
+    return left.rawValue < right.rawValue
 }
 
 public class Log {
     
-    static var logLevel = LogLevel(rawValue: Configuration.logLevel) ?? LogLevel.debug
-    static var showDate = true
-    static var showFile = Configuration.showFile
-    static var showFunc = Configuration.showFunc
-    static var showLine = Configuration.showLine
+    public static var logLevel = LogLevel.debug
+    public static var showDate = true
+    public static var showFile = true
+    public static var showFunc = true
+    public static var showLine = true
     
     static var formatter: DateFormatter = {
         let f = DateFormatter()
@@ -25,37 +38,29 @@ public class Log {
         }()
     
     public class func debug(_ message: @autoclosure () -> Any, file: String = #file, function: StaticString = #function, line: Int = #line) {
-        if LogLevel.debug.rawValue >= logLevel.rawValue {
-            log("Debug", message: String(describing: message()), file: file, function: function, line: line)
-        }
+        log(message, level: .debug, file: file, function: function, line: line)
     }
     
     public class func warn(_ message: @autoclosure () -> Any, file: String = #file, function: StaticString = #function, line: Int = #line) {
-        if LogLevel.warning.rawValue >= logLevel.rawValue {
-            log("Warning", message: String(describing: message()), file: file, function: function, line: line)
-        }
+        log(message, level: .warning, file: file, function: function, line: line)
     }
     
     public class func error(_ message: @autoclosure () -> Any, file: String = #file, function: StaticString = #function, line: Int = #line) {
-        if LogLevel.error.rawValue >= logLevel.rawValue {
-            log("Error", message: String(describing: message()), file: file, function: function, line: line)
-        }
+        log(message, level: .error, file: file, function: function, line: line)
     }
     
     public class func severe(_ message: @autoclosure () -> Any, file: String = #file, function: StaticString = #function, line: Int = #line) {
-        if LogLevel.severe.rawValue >= logLevel.rawValue {
-            log("Severe", message: String(describing: message()), file: file, function: function, line: line)
-        }
+        log(message, level: .severe, file: file, function: function, line: line)
     }
     
-    fileprivate class func log(_ level: String, message: String, file: String, function: StaticString, line: Int) {
+    private class func log(_ message: () -> Any, level: LogLevel, file: String, function: StaticString, line: Int) {
+        if level < logLevel { return }
         var s = ""
         s += showDate ? formatter.string(from: Date()) + " " : ""
         s += showFile ? file.components(separatedBy: "/").last ?? "" : ""
         s += showFunc ? " \(function)" : ""
         s += showLine ? " [\(line)] " : ""
-        s += level + ": "
-        s += message
+        s += level.name + ": " + String(describing: message())
         print(s)
     }
     

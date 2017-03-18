@@ -83,12 +83,25 @@ class DecimalTests: XCTestCase {
         } catch { XCTFail() }
     }
     
+    func testArrayOfDecimals() {
+        do {
+            let container = try DecimalContainer(dictionary: ["price": 100.0, "prices": [1.1, 2.2, 4.4]])
+            XCTAssertNotNil(container)
+            XCTAssertNotNil(container.prices)
+            XCTAssertEqual(container.prices?.count, 3)
+        } catch {
+            XCTFail()
+        }
+    }
+    
 }
 
 class DecimalContainer: AbstractModel {
     var price: NSDecimalNumber!
     var tax: NSDecimalNumber?
     var shipping = NSDecimalNumber(value: 8.0)
+    
+    var prices: [NSDecimalNumber]?
     
     override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
         return ["price"].contains(property)
