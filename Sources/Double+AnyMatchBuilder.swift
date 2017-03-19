@@ -14,7 +14,7 @@ extension Double: AnyInitializable, FromAnyBuilder {
         return Double(value: value)
     }
     
-    init?(value: Any) {
+    public init?(value: Any) {
         if let double = value as? Double {
             self = double
         }

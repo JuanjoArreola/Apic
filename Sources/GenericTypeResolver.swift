@@ -17,11 +17,15 @@ open class GenericTypeResolver: TypeResolver {
         return nil
     }
     
+    public func resolveArray(type: Any.Type) -> Any.Type? {
+        return nil
+    }
+    
     open func resolve(typeForName typeName: String) -> Any? {
         return nil
     }
     
-    open func resolveDictionary(type: Any) -> Any? {
+    open func resolveDictionary(type: Any.Type) -> Any.Type? {
         return nil
     }
     

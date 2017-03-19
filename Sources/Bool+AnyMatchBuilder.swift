@@ -14,7 +14,7 @@ extension Bool: AnyInitializable, FromAnyBuilder {
         return Bool(value: value)
     }
     
-    init?(value: Any) {
+    public init?(value: Any) {
         if let bool = value as? Bool {
             self = bool
         }

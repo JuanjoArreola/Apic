@@ -17,6 +17,7 @@ public enum ModelError: Error {
     case instanciationError
     case invalidProperty(property: String)
     case undefinedType(type: Any.Type)
-    case undefinedTypeName(typeName: String)
+    case undefinedTypeName(name: String)
     case unasignedInstance(property: String)
+    case dynamicTypeInfo(key: String)
 }

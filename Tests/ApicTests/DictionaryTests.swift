@@ -46,7 +46,7 @@ class World: AbstractModel {
     var capitals: [String: String]!
     var countries: [String: Country]!
     
-    override open class var resolver: TypeResolver? { return WorldResolver.shared }
+    override open class var resolver: TypeResolver { return WorldResolver.shared }
     
     override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
         return true
@@ -74,7 +74,7 @@ fileprivate class WorldResolver: GenericTypeResolver {
         return nil
     }
     
-    fileprivate override func resolveDictionary(type: Any) -> Any? {
+    fileprivate override func resolveDictionary(type: Any.Type) -> Any.Type? {
         if type is ImplicitlyUnwrappedOptional<Dictionary<String, Country>>.Type { return Country.self }
         return nil
     }

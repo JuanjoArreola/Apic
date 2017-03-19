@@ -14,7 +14,7 @@ extension String: AnyInitializable, FromAnyBuilder {
         return String(value: value)
     }
     
-    init?(value: Any) {
+    public init?(value: Any) {
         if let string = value as? String {
             self = string
         } else {

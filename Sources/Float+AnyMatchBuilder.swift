@@ -14,7 +14,7 @@ extension Float: AnyInitializable, FromAnyBuilder {
         return Float(value: value)
     }
     
-    init?(value: Any) {
+    public init?(value: Any) {
         if let float = value as? Float {
             self = float
         }

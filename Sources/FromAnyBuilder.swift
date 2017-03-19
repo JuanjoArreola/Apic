@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol AnyInitializable {
+public protocol AnyInitializable {
     init?(value: Any)
 }
 

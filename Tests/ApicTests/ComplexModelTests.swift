@@ -133,7 +133,7 @@ class ComplexModelTests: XCTestCase {
 
 class ComplexModel: AbstractModel {
     static let _resolver = ComplexTypeResolver()
-    override class var resolver: TypeResolver? { return _resolver }
+    override class var resolver: TypeResolver { return _resolver }
 }
 
 class ComplexContainer: ComplexModel {
@@ -171,13 +171,20 @@ class ComplexTypeResolver: TypeResolver {
     }
     
     func resolve(type: Any.Type) -> Any.Type? {
-        if type is SimpleModel.Type || type is SimpleModel?.Type || type is [SimpleModel]?.Type || type is ImplicitlyUnwrappedOptional<SimpleModel>.Type || type is ImplicitlyUnwrappedOptional<[SimpleModel]>.Type {
+        if type is SimpleModel.Type || type is SimpleModel?.Type || type is ImplicitlyUnwrappedOptional<SimpleModel>.Type {
             return SimpleModel.self
         }
         return nil
     }
     
-    public func resolveDictionary(type: Any) -> Any? {
+    func resolveArray(type: Any.Type) -> Any.Type? {
+        if type is [SimpleModel]?.Type || type is ImplicitlyUnwrappedOptional<[SimpleModel]>.Type {
+            return SimpleModel.self
+        }
+        return nil
+    }
+    
+    public func resolveDictionary(type: Any.Type) -> Any.Type? {
         return nil
     }
 }

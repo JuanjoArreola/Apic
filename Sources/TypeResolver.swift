@@ -10,6 +10,7 @@ import Foundation
 
 public protocol TypeResolver {
     func resolve(type: Any.Type) -> Any.Type?
+    func resolveArray(type: Any.Type) -> Any.Type?
+    func resolveDictionary(type: Any.Type) -> Any.Type?
     func resolve(typeForName typeName: String) -> Any?
-    func resolveDictionary(type: Any) -> Any?
 }

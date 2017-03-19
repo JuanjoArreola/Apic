@@ -14,7 +14,7 @@ extension Int: FromAnyBuilder, AnyInitializable {
         return Int(value: value)
     }
     
-    init?(value: Any) {
+    public init?(value: Any) {
         if let int = value as? Int {
             self = int
         }

@@ -13,6 +13,8 @@
 		811C4AA01E7B45960049D8A3 /* Float+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C4A9F1E7B45960049D8A3 /* Float+AnyMatchBuilder.swift */; };
 		811C4AA21E7B45B90049D8A3 /* Mirror+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C4AA11E7B45B90049D8A3 /* Mirror+Util.swift */; };
 		811C4AA41E7B466E0049D8A3 /* Bool+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C4AA31E7B466E0049D8A3 /* Bool+AnyMatchBuilder.swift */; };
+		814702651E7F1D9300A2B874 /* StringInitializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814702641E7F1D9300A2B874 /* StringInitializable.swift */; };
+		814702671E7F1DBE00A2B874 /* IntInitializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814702661E7F1DBE00A2B874 /* IntInitializable.swift */; };
 		814D76441E7CDA1E0061F55D /* ModelError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D76431E7CDA1E0061F55D /* ModelError.swift */; };
 		814D76461E7D1AB10061F55D /* NSDecimalNumber+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D76451E7D1AB10061F55D /* NSDecimalNumber+AnyMatchBuilder.swift */; };
 		814D76491E7DC4F70061F55D /* URL+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D76481E7DC4F70061F55D /* URL+AnyMatchBuilder.swift */; };
@@ -81,6 +83,8 @@
 		811C4A9F1E7B45960049D8A3 /* Float+AnyMatchBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Float+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
 		811C4AA11E7B45B90049D8A3 /* Mirror+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Mirror+Util.swift"; sourceTree = "<group>"; };
 		811C4AA31E7B466E0049D8A3 /* Bool+AnyMatchBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bool+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
+		814702641E7F1D9300A2B874 /* StringInitializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringInitializable.swift; sourceTree = "<group>"; };
+		814702661E7F1DBE00A2B874 /* IntInitializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntInitializable.swift; sourceTree = "<group>"; };
 		814D76431E7CDA1E0061F55D /* ModelError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelError.swift; sourceTree = "<group>"; };
 		814D76451E7D1AB10061F55D /* NSDecimalNumber+AnyMatchBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDecimalNumber+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
 		814D76481E7DC4F70061F55D /* URL+AnyMatchBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URL+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
@@ -261,6 +265,8 @@
 				816A00761E7C7CF30098630A /* TypeMatchable.swift */,
 				81C6E6501E7C82B1006105D1 /* Date+Parse.swift */,
 				814D76431E7CDA1E0061F55D /* ModelError.swift */,
+				814702641E7F1D9300A2B874 /* StringInitializable.swift */,
+				814702661E7F1DBE00A2B874 /* IntInitializable.swift */,
 			);
 			name = Apic;
 			path = Sources;
@@ -355,6 +361,8 @@
 				81C6E64D1E7C7E4B006105D1 /* String+AnyMatchBuilder.swift in Sources */,
 				OBJ_63 /* NSMutableURLRequest+ParameterEncoding.swift in Sources */,
 				81C6E64F1E7C8153006105D1 /* Date+TypeMatchable.swift in Sources */,
+				814702651E7F1D9300A2B874 /* StringInitializable.swift in Sources */,
+				814702671E7F1DBE00A2B874 /* IntInitializable.swift in Sources */,
 				OBJ_64 /* Reachability.swift in Sources */,
 				81C6E6511E7C82B1006105D1 /* Date+Parse.swift in Sources */,
 				811C4A9A1E7B0F000049D8A3 /* Color+Hex.swift in Sources */,

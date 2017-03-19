@@ -18,26 +18,6 @@ public protocol InitializableWithDictionary {
     init(dictionary: [String: Any]) throws
 }
 
-// MARK: - String
-
-public protocol StringInitializable {
-    init?(rawValue: String)
-}
-
-public protocol StringRepresentable: StringInitializable {
-    var rawValue: String { get }
-}
-
-// MARK: - Int
-
-public protocol IntInitializable {
-    init?(rawValue: Int)
-}
-
-protocol IntRepresentable: IntInitializable {
-    var rawValue: Int { get }
-}
-
 // MARK: -
 
 public protocol DynamicTypeModel {
@@ -50,12 +30,14 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
     open class var propertyKeys: [String: String] { return [:] }
     open class var propertyDateFormats: [String: String] { return [:] }
     
-    open class var resolver: TypeResolver? { return DefaultTypeResolver.shared }
+    open class var resolver: TypeResolver { return DefaultTypeResolver.shared }
     open class var ignoredProperties: [String] { return [] }
     
     open override class func initialize() {
         DefaultTypeResolver.shared.register(type: self)
     }
+    
+    private lazy var modelType: AbstractModel.Type = type(of: self)
     
     public override init() {
         super.init()
@@ -84,22 +66,19 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
             try initializeProperties(of: superclassMirror, with: dictionary)
         }
         
-        let modelType = mirror.subjectType as! AbstractModel.Type
-        
         for child in mirror.children {
             guard let property = child.label else {
                 continue
             }
             let key = modelType.propertyKeys[property] ?? property
-            try assign(rawValue: dictionary[key], to: child, modelType: modelType)
+            try assign(rawValue: dictionary[key], to: child)
         }
     }
     
     public func assign(rawValue: Any?, toProperty property: String, mirror: Mirror? = nil) throws {
         let mirror = mirror ?? Mirror(reflecting: self)
         if let child = mirror.findChild(withName: property) {
-            let modelType = mirror.subjectType as! AbstractModel.Type
-            try assign(rawValue: rawValue, to: child, modelType: modelType)
+            try assign(rawValue: rawValue, to: child)
         } else {
             if mirror.isAbstractModelMirror {
                 throw ModelError.invalidProperty(property: property)
@@ -110,7 +89,7 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
         }
     }
     
-    open func assign(rawValue optionalRawValue: Any?, to child: Mirror.Child, modelType: AbstractModel.Type) throws {
+    open func assign(rawValue optionalRawValue: Any?, to child: Mirror.Child) throws {
         guard let property = child.label else {
             return
         }
@@ -153,28 +132,9 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
         else if try parsedArray(rawValue: rawValue, property: property, type: propertyType, target: Bool.self) {}
             
 //      MARK: - Date
-        else if Date.match(type: propertyType) {
-            let format = modelType.propertyDateFormats[property] ?? Configuration.dateFormat
-            guard let date = Date(value: rawValue, format: format) else {
-                throw ModelError.dateError(property: property, value: String(describing: rawValue))
-            }
-            setValue(date, forKey: property)
-        }
+        else if try parsedDate(rawValue: rawValue, property: property, type: propertyType, modelType: modelType) {}
             
-        else if Date.matchArray(type: propertyType) {
-            let format = modelType.propertyDateFormats[property] ?? Configuration.dateFormat
-            guard let array = rawValue as? [Any] else {
-                return
-            }
-            var dates = [Date]()
-            for value in array {
-                guard let date = Date(value: value, format: format) else {
-                    throw ModelError.dateError(property: property, value: String(describing: value))
-                }
-                dates.append(date)
-            }
-            setValue(dates, forKey: property)
-        }
+        else if try parsedDateArray(rawValue: rawValue, property: property, type: propertyType, modelType: modelType) {}
             
 //      MARK: - NSDecimalNumber
         else if try parsed(rawValue: rawValue, property: property, type: propertyType, target: NSDecimalNumber.self) {}
@@ -200,144 +160,27 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
             }
         }
             
-        else if let value = rawValue as? [String: Any] {
+//      MARK: AbstractModel
             
-//          MARK: AbstractModel
-            if let dictionary = rawValue as? [String: [String: Any]], let propertyType = modelType.resolver?.resolveDictionary(type: propertyType) as? InitializableWithDictionary.Type {
-                var newDictionary = [String: InitializableWithDictionary]()
-                if let propertyType = propertyType as? DynamicTypeModel.Type {
-                    let resolver = (propertyType as? AbstractModel.Type)?.resolver ?? modelType.resolver
-                    for (key, item) in dictionary {
-                        if let typeName = item[propertyType.typeNameProperty] as? String {
-                            if let itemType = resolver?.resolve(typeForName: typeName) as? AbstractModel.Type {
-                                newDictionary[key] = try itemType.init(dictionary: item)
-                            } else {
-                                Log.warn("Unresolved type |\(typeName)| for property |\(property)| of model |\(type(of: self))|")
-                                if shouldFail(withInvalidValue: rawValue, forProperty: property, type: propertyType) {
-                                    throw ModelError.undefinedTypeName(typeName: typeName)
-                                }
-                            }
-                        } else {
-                            Log.warn("Dynamic item has no type info")
-                            if shouldFail(withInvalidValue: rawValue, forProperty: property, type: propertyType) {
-                                throw ModelError.invalidProperty(property: property)
-                            }
-                        }
-                    }
-                } else {
-                    for (key, item) in dictionary {
-                        newDictionary[key] = try propertyType.init(dictionary: item)
-                    }
-                }
-                setValue(newDictionary, forKey: property)
-            } else if let propertyType = modelType.resolver?.resolve(type: propertyType) as? InitializableWithDictionary.Type {
-                let obj = try propertyType.init(dictionary: value)
-                if obj is NSObject {
-                    setValue(obj, forKey: property)
-                } else {
-                    try assign(value: obj, forProperty: property)
-                }
-            } else {
-                Log.warn("Unresolved type <\(propertyType)> for property <\(property)> of model <\(type(of: self))>")
-                try assign(undefinedValue: rawValue, forProperty: property, type: propertyType)
-            }
+        else if let propertyType = modelType.resolver.resolve(type: propertyType) as? InitializableWithDictionary.Type {
+            try parsedInitializable(rawValue: rawValue, property: property, type: propertyType)
         }
             
-//      MARK: - [[:]]
-        else if let array = rawValue as? [[String: Any]] {
-            
-//          MARK: [AbstractModel]
-            if let propertyType = modelType.resolver?.resolve(type: propertyType) as? AbstractModel.Type {
-                do {
-                    var newArray = [AbstractModel]()
-                    if let propertyType = propertyType as? DynamicTypeModel.Type {
-                        let resolver = (propertyType as? AbstractModel.Type)?.resolver ?? modelType.resolver
-                        for item in array {
-                            if let typeName = item[propertyType.typeNameProperty] as? String {
-                                if let itemType = resolver?.resolve(typeForName: typeName) as? AbstractModel.Type {
-                                    newArray.append(try itemType.init(dictionary: item))
-                                } else {
-                                    Log.warn("Unresolved type <\(typeName)> for property <\(property)> of model <\(type(of: self))>")
-                                    if shouldFail(withInvalidValue: rawValue, forProperty: property, type: propertyType) {
-                                        throw ModelError.undefinedTypeName(typeName: typeName)
-                                    }
-                                }
-                            } else {
-                                Log.warn("Dynamic item has no type info")
-                                if shouldFail(withInvalidValue: rawValue, forProperty: property, type: propertyType) {
-                                    throw ModelError.invalidProperty(property: property)
-                                }
-                            }
-                        }
-                    } else {
-                        for item in array {
-                            do {
-                                newArray.append(try propertyType.init(dictionary: item))
-                            } catch {
-                                Log.warn("Couldn't append to \(property):  \(error)")
-                                throw error
-                            }
-                        }
-                    }
-                    setValue(newArray, forKey: property)
-                } catch {
-                    if shouldFail(withInvalidValue: rawValue, forProperty: property, type: propertyType) {
-                        throw error
-                    }
-                }
-            } else {
-                Log.warn("Unresolved type |\(propertyType)| for property |\(property)| of model |\(type(of: self))|")
-                try assign(undefinedValue: rawValue, forProperty: property, type: propertyType)
-            }
+        else if let propertyType = modelType.resolver.resolveArray(type: propertyType) as? InitializableWithDictionary.Type {
+            try parsedInitializableArray(rawValue: rawValue, property: property, type: propertyType)
         }
             
-//      MARK: - StringInitializable
-        else if let propertyType = modelType.resolver?.resolve(type: propertyType) as? StringInitializable.Type {
-            if let string = rawValue as? String {
-                if let value = propertyType.init(rawValue: string) {
-                    try assign(value: value, forProperty: property)
-                } else {
-                    try assign(undefinedValue: rawValue, forProperty: property, type: propertyType)
-                }
-            } else if let array = rawValue as? [String] {
-                var newArray: [StringInitializable] = []
-                for value in array {
-                    if let value = propertyType.init(rawValue: value) {
-                        newArray.append(value)
-                    } else {
-                        try assign(undefinedValue: array, forProperty: property, type: propertyType)
-                        return
-                    }
-                }
-                try assign(value: newArray, forProperty: property)
-            }
-            else {
-                try assign(undefinedValue: rawValue, forProperty: property, type: propertyType)
-            }
+        else if let propertyType = modelType.resolver.resolveDictionary(type: propertyType) as? InitializableWithDictionary.Type {
+            try parsedDictionary(rawValue: rawValue, property: property, type: propertyType)
         }
             
-//      MARK: - IntInitializable
-        else if let propertyType = modelType.resolver?.resolve(type: propertyType) as? IntInitializable.Type {
-            if let value = Int(value: rawValue) {
-                if let value = propertyType.init(rawValue: value) {
-                    try assign(value: value, forProperty: property)
-                } else {
-                    try assign(undefinedValue: rawValue, forProperty: property, type: propertyType)
-                }
-            } else if let array = rawValue as? [Any] {
-                var newArray: [IntInitializable] = []
-                for value in array {
-                    if let int = Int(value: value), let initializable = propertyType.init(rawValue: int) {
-                        newArray.append(initializable)
-                    } else {
-                        try assign(undefinedValue: array, forProperty: property, type: propertyType)
-                        return
-                    }
-                }
-                try assign(value: newArray, forProperty: property)
-            } else {
-                try assign(undefinedValue: rawValue, forProperty: property, type: propertyType)
-            }
+//      MARK: - AnyInitializable
+        else if let propertyType = modelType.resolver.resolve(type: propertyType) as? AnyInitializable.Type {
+            try parsedAnyInitializable(rawValue: rawValue, property: property, type: propertyType)
+        }
+            
+        else if let propertyType = modelType.resolver.resolveArray(type: propertyType) as? AnyInitializable.Type {
+            try parsedAnyInitializableArray(rawValue: rawValue, property: property, type: propertyType)
         }
             
         else {
@@ -357,7 +200,7 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
         }
     }
     
-    // MARK: -
+    // MARK: - Parse
     
     private func parsed<T: AnyMatchBuilder>(rawValue: Any, property: String, type: Any.Type, target: T.Type) throws -> Bool {
         if T.match(type: type) {
@@ -405,6 +248,127 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
         return false
     }
     
+    private func parsedDate(rawValue: Any, property: String, type: Any.Type, modelType: AbstractModel.Type) throws -> Bool {
+        if Date.match(type: type) {
+            let format = modelType.propertyDateFormats[property] ?? Configuration.dateFormat
+            guard let date = Date(value: rawValue, format: format) else {
+                throw ModelError.dateError(property: property, value: String(describing: rawValue))
+            }
+            setValue(date, forKey: property)
+            return true
+        }
+        return false
+    }
+    
+    private func parsedDateArray(rawValue: Any, property: String, type: Any.Type, modelType: AbstractModel.Type) throws -> Bool {
+        if Date.matchArray(type: type) {
+            let format = modelType.propertyDateFormats[property] ?? Configuration.dateFormat
+            guard let array = rawValue as? [Any] else {
+                throw ModelError.dateError(property: property, value: String(describing: rawValue))
+            }
+            var dates = [Date]()
+            for value in array {
+                guard let date = Date(value: value, format: format) else {
+                    throw ModelError.dateError(property: property, value: String(describing: value))
+                }
+                dates.append(date)
+            }
+            setValue(dates, forKey: property)
+            return true
+        }
+        return false
+    }
+    
+    private func parsedDictionary(rawValue: Any, property: String, type: InitializableWithDictionary.Type) throws {
+        guard let dictionary = rawValue as? [String: [String: Any]] else {
+            throw ModelError.sourceValueError(property: property, model: type(of: self), value: rawValue)
+        }
+        var newDictionary = [String: InitializableWithDictionary]()
+        if let propertyType = type as? DynamicTypeModel.Type {
+            let resolver = (propertyType as? AbstractModel.Type)?.resolver ?? modelType.resolver
+            for (key, value) in dictionary {
+                newDictionary[key] = try dynamicItem(from: value, typeNameKey: propertyType.typeNameProperty, resolver: resolver)
+            }
+        } else {
+            for (key, item) in dictionary {
+                newDictionary[key] = try type.init(dictionary: item)
+            }
+        }
+        setValue(newDictionary, forKey: property)
+    }
+    
+    private func dynamicItem(from dictionary: [String: Any], typeNameKey: String, resolver: TypeResolver) throws -> InitializableWithDictionary {
+        if let typeName = dictionary[typeNameKey] as? String {
+            if let type = resolver.resolve(typeForName: typeName) as? InitializableWithDictionary.Type {
+                return try type.init(dictionary: dictionary)
+            }
+            throw ModelError.undefinedTypeName(name: typeName)
+        }
+        Log.warn("Dynamic item has no type info")
+        throw ModelError.dynamicTypeInfo(key: typeNameKey)
+    }
+    
+    private func parsedInitializable(rawValue: Any, property: String, type: InitializableWithDictionary.Type) throws {
+        guard let dictionary = rawValue as? [String: Any] else {
+            throw ModelError.sourceValueError(property: property, model: modelType, value: rawValue)
+        }
+        let value: InitializableWithDictionary
+        if let propertyType = type as? DynamicTypeModel.Type {
+            let resolver = (propertyType as? AbstractModel.Type)?.resolver ?? modelType.resolver
+            value = try dynamicItem(from: dictionary, typeNameKey: propertyType.typeNameProperty, resolver: resolver)
+        } else {
+            value = try type.init(dictionary: dictionary)
+        }
+        if value is NSObject {
+            setValue(value, forKey: property)
+        } else {
+            try assign(value: value, forProperty: property)
+        }
+    }
+    
+    private func parsedInitializableArray(rawValue: Any, property: String, type: InitializableWithDictionary.Type) throws {
+        guard let array = rawValue as? [[String: Any]] else {
+            throw ModelError.sourceValueError(property: property, model: modelType, value: rawValue)
+        }
+        var newArray = [InitializableWithDictionary]()
+        if let propertyType = type as? DynamicTypeModel.Type {
+            let resolver = (propertyType as? AbstractModel.Type)?.resolver ?? modelType.resolver
+            for value in array {
+                newArray.append(try dynamicItem(from: value, typeNameKey: propertyType.typeNameProperty, resolver: resolver))
+            }
+        } else {
+            for value in array {
+                newArray.append(try type.init(dictionary: value))
+            }
+        }
+        setValue(newArray, forKey: property)
+    }
+    
+    private func parsedAnyInitializable(rawValue: Any, property: String, type: AnyInitializable.Type) throws {
+        guard let value = type.init(value: rawValue) else {
+            throw ModelError.sourceValueError(property: property, model: modelType, value: rawValue)
+        }
+        if value is NSObject {
+            setValue(value, forKey: property)
+        } else {
+            try assign(value: value, forProperty: property)
+        }
+    }
+    
+    private func parsedAnyInitializableArray(rawValue: Any, property: String, type: AnyInitializable.Type) throws {
+        guard let array = rawValue as? [Any] else {
+            throw ModelError.sourceValueError(property: property, model: modelType, value: rawValue)
+        }
+        var newArray: [AnyInitializable] = []
+        for element in array {
+            guard let value = type.init(value: element) else {
+                throw ModelError.sourceValueError(property: property, model: modelType, value: element)
+            }
+            newArray.append(value)
+        }
+        setValue(newArray, forKey: property)
+    }
+    
     /// Override this method in subclasses to assign a value of an undefined type to a property
     /// - parameter value: the value to be assigned
     /// - parameter key: the name of the property to assign
@@ -423,7 +387,12 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
     
     internal func shouldFail(withInvalidValue value: Any?, forProperty property: String, type: Any.Type) -> Bool {
         if let fail = shouldFail(withInvalidValue: value, forProperty: property) { return fail }
-        if "\(type)".hasPrefix("Optional<") { return false }
+        if "\(type)".hasPrefix("Optional<") {
+            if let value = value {
+                Log.warn("The value: \(value) could not be parsed to type: |\(type)|, the property: \(property) might have an incorrect value")
+            }
+            return false
+        }
         return true
     }
     
@@ -439,7 +408,7 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
     }
     
     open func initializeProperties(of mirror: Mirror, with decoder: NSCoder) throws {
-        if String(describing: mirror.subjectType) == String(describing: AbstractModel.self) {
+        if mirror.isAbstractModelMirror {
             return
         }
         if let superclassMirror = mirror.superclassMirror {
@@ -450,7 +419,7 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
             guard let property = child.label else { continue }
             let propertyType = Mirror(reflecting: child.value).subjectType
             if let value = decoder.decodeObject(forKey: property), !(value is NSNull) {
-                if let type = modelType.resolver?.resolve(type: propertyType) as? StringRepresentable.Type, let string = value as? String, let representable = type.init(rawValue: string) {
+                if let type = modelType.resolver.resolve(type: propertyType) as? StringRepresentable.Type, let string = value as? String, let representable = type.init(rawValue: string) {
                     assign(value: representable, from: decoder, forProperty: property)
                 } else {
                     assign(value: value, from: decoder, forProperty: property)
@@ -464,7 +433,7 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
     }
     
     func encodeProperties(of mirror: Mirror, with coder: NSCoder) {
-        if String(describing: mirror.subjectType) == String(describing: AbstractModel.self) {
+        if mirror.isAbstractModelMirror {
             return
         }
         if let superclassMirror = mirror.superclassMirror {
@@ -476,7 +445,7 @@ open class AbstractModel: NSObject, InitializableWithDictionary, NSCoding {
             let propertyType = Mirror(reflecting: child.value).subjectType
             if let value = child.value as? StringRepresentable {
                 coder.encode(value.rawValue, forKey: property)
-            } else if let _ = modelType.resolver?.resolve(type: propertyType) as? StringRepresentable.Type {
+            } else if let _ = modelType.resolver.resolve(type: propertyType) as? StringRepresentable.Type {
                 Log.debug("representable")
             } else {
                 coder.encode(child.value, forKey: property)
