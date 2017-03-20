@@ -27,15 +27,13 @@ public class Log {
     
     public static var logLevel = LogLevel.debug
     public static var showDate = true
-    public static var showFile = true
-    public static var showFunc = true
-    public static var showLine = true
+    public static var showLocation = true
     
-    static var formatter: DateFormatter = {
-        let f = DateFormatter()
-        f.dateFormat = "MM-dd HH:mm:ss.SSS"
-        return f
-        }()
+    private static var formatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM-dd HH:mm:ss.SSS"
+        return formatter
+    }()
     
     public class func debug(_ message: @autoclosure () -> Any, file: String = #file, function: StaticString = #function, line: Int = #line) {
         log(message, level: .debug, file: file, function: function, line: line)
@@ -55,13 +53,14 @@ public class Log {
     
     private class func log(_ message: () -> Any, level: LogLevel, file: String, function: StaticString, line: Int) {
         if level < logLevel { return }
-        var s = ""
-        s += showDate ? formatter.string(from: Date()) + " " : ""
-        s += showFile ? file.components(separatedBy: "/").last ?? "" : ""
-        s += showFunc ? " \(function)" : ""
-        s += showLine ? " [\(line)] " : ""
-        s += level.name + ": " + String(describing: message())
-        print(s)
+        var string = ""
+        string += showDate ? formatter.string(from: Date()) + " " : ""
+        if showLocation {
+            let file = file.components(separatedBy: "/").last ?? ""
+            string += "\(file) \(function) [\(line)] "
+        }
+        string += level.name + ": " + String(describing: message())
+        print(string)
     }
     
 }

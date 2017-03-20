@@ -160,10 +160,7 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
                         if array == nil {
                             throw RepositoryError.badJSONContent
                         }
-                        var objects = [T]()
-                        for object in array {
-                            objects.append(try T(dictionary: object))
-                        }
+                        let objects = try array.map({ try T(dictionary: $0) })
                         self.responseQueue.async { request.complete(withObject: objects) }
                     } catch {
                         self.responseQueue.async { request.complete(withError: error) }
@@ -268,7 +265,7 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
     @inline(__always) private func dataTask(with request: URLRequest, completion: @escaping (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void) -> URLSessionDataTask {
         let session = self.session ?? URLSession.shared
         
-        var task: URLSessionDataTask!
+        var task: URLSessionDataTask
         if self.session?.delegate === self {
             task = session.dataTask(with: request)
             completionHandlers[task] = completion
