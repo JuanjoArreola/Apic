@@ -8,59 +8,11 @@
 
 import Foundation
 
-private let processQueue: DispatchQueue = DispatchQueue(label: "com.apic.ProcessQueue", attributes: DispatchQueue.Attributes.concurrent)
-
-public enum HTTPMethod: String {
-    case GET
-    case POST
-    case PUT
-    case DELETE
-    
-    var preferredParameterEncoding: ParameterEncoding {
-        switch self {
-        case .GET: return .url
-        case .POST: return .json
-        case .PUT: return .json
-        case .DELETE: return .url
-        }
-    }
-}
+private let processQueue = DispatchQueue(label: "com.apic.ProcessQueue", attributes: DispatchQueue.Attributes.concurrent)
 
 public enum ParameterEncoding {
     case url
     case json
-}
-
-public enum RepositoryError: Error, CustomStringConvertible {
-    case badJSON
-    case badJSONContent
-    case invalidURL
-    case invalidParameters
-    case statusFail(message: String?, code: String?)
-    case networkConnection
-    case httpError(statusCode: Int, message: String?)
-    case encodingError
-    
-    public var description: String {
-        switch self {
-        case .httpError(let statusCode, _):
-            return "HTTP Error: \(statusCode)"
-        case .badJSON:
-            return "Bad JSON"
-        case .badJSONContent:
-            return "Bad JOSN Content"
-        case .invalidURL:
-            return "Invalid URL"
-        case .invalidParameters:
-            return "Invalid parameters"
-        case .statusFail(let message, let code):
-            return "Status fail [\(code)]: \(message)"
-        case .networkConnection:
-            return "No network connection"
-        case .encodingError:
-            return "Encoding error"
-        }
-    }
 }
 
 public protocol URLConvertible {

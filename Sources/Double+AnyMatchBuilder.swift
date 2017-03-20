@@ -10,7 +10,7 @@ import Foundation
 
 extension Double: AnyInitializable, FromAnyBuilder {
     
-    static func build(value: Any) -> Double? {
+    public static func build(value: Any) -> Double? {
         return Double(value: value)
     }
     
@@ -32,15 +32,15 @@ extension Double: AnyInitializable, FromAnyBuilder {
 
 extension Double: TypeMatchable {
     
-    static func match(type: Any.Type) -> Bool {
+    public static func match(type: Any.Type) -> Bool {
         return type is Double.Type || type is Double?.Type || type is ImplicitlyUnwrappedOptional<Double>.Type
     }
     
-    static func matchArray(type: Any.Type) -> Bool {
+    public static func matchArray(type: Any.Type) -> Bool {
         return type is [Double].Type || type is [Double]?.Type || type is ImplicitlyUnwrappedOptional<[Double]>.Type
     }
     
-    static func optionalityMatch(type: Any.Type) -> OptionalityType? {
+    public static func optionalityMatch(type: Any.Type) -> OptionalityType? {
         if type is Double.Type { return .notOptional }
         if type is Double?.Type { return .optional }
         if type is ImplicitlyUnwrappedOptional<Double>.Type { return .implicitlyUnwrapped }

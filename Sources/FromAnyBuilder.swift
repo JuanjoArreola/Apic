@@ -12,11 +12,11 @@ public protocol AnyInitializable {
     init?(value: Any)
 }
 
-protocol FromAnyBuilder {
+public protocol FromAnyBuilder {
     
     associatedtype Buildable
     
     static func build(value: Any) -> Buildable?
 }
 
-protocol AnyMatchBuilder: FromAnyBuilder, TypeMatchable {}
+public protocol AnyMatchBuilder: FromAnyBuilder, TypeMatchable {}

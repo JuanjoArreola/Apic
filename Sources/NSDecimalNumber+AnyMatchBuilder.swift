@@ -1,3 +1,4 @@
+
 //
 //  NSDecimalNumber+AnyMatchBuilder.swift
 //  Apic
@@ -10,7 +11,7 @@ import Foundation
 
 extension NSDecimalNumber: FromAnyBuilder {
     
-    static func build(value: Any) -> NSDecimalNumber? {
+    public static func build(value: Any) -> NSDecimalNumber? {
         if let double = value as? Double {
             return NSDecimalNumber(value: double)
         }
@@ -33,15 +34,15 @@ extension NSDecimalNumber: FromAnyBuilder {
 
 extension NSDecimalNumber: TypeMatchable {
     
-    static func match(type: Any.Type) -> Bool {
+    public static func match(type: Any.Type) -> Bool {
         return type is NSDecimalNumber.Type || type is NSDecimalNumber?.Type || type is ImplicitlyUnwrappedOptional<NSDecimalNumber>.Type
     }
     
-    static func matchArray(type: Any.Type) -> Bool {
+    public static func matchArray(type: Any.Type) -> Bool {
         return type is [NSDecimalNumber].Type || type is [NSDecimalNumber]?.Type || type is ImplicitlyUnwrappedOptional<[NSDecimalNumber]>.Type
     }
     
-    static func optionalityMatch(type: Any.Type) -> OptionalityType? {
+    public static func optionalityMatch(type: Any.Type) -> OptionalityType? {
         if type is NSDecimalNumber.Type { return .notOptional }
         if type is NSDecimalNumber?.Type { return .optional }
         if type is ImplicitlyUnwrappedOptional<NSDecimalNumber>.Type { return .implicitlyUnwrapped }

@@ -10,7 +10,7 @@ import Foundation
 
 extension Int: FromAnyBuilder, AnyInitializable {
     
-    static func build(value: Any) -> Int? {
+    public static func build(value: Any) -> Int? {
         return Int(value: value)
     }
     
@@ -32,15 +32,16 @@ extension Int: FromAnyBuilder, AnyInitializable {
 
 extension Int: TypeMatchable {
     
-    static func match(type: Any.Type) -> Bool {
+    public static func
+        match(type: Any.Type) -> Bool {
         return type is Int.Type || type is Int?.Type || type is ImplicitlyUnwrappedOptional<Int>.Type
     }
     
-    static func matchArray(type: Any.Type) -> Bool {
+    public static func matchArray(type: Any.Type) -> Bool {
         return type is [Int].Type || type is [Int]?.Type || type is ImplicitlyUnwrappedOptional<[Int]>.Type
     }
     
-    static func optionalityMatch(type: Any.Type) -> OptionalityType? {
+    public static func optionalityMatch(type: Any.Type) -> OptionalityType? {
         if type is Int.Type { return .notOptional }
         if type is Int?.Type { return .optional }
         if type is ImplicitlyUnwrappedOptional<Int>.Type { return .implicitlyUnwrapped }

@@ -41,14 +41,15 @@ class LocationContainer: AbstractModel {
     var location: SimpleLocation!
     var previousLocation: SimpleLocation?
     
-    override func assign(undefinedValue: Any, forProperty property: String, type: Any.Type) throws {
+    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool? {
         if property == "previousLocation" {
             let location = SimpleLocation()
             location.lat = 19.0
             location.long = -22.4
             previousLocation = location
+            return false
         } else {
-            try super.assign(undefinedValue: undefinedValue, forProperty: property, type: type)
+            return super.shouldFail(withInvalidValue: value, forProperty: property)
         }
     }
 }

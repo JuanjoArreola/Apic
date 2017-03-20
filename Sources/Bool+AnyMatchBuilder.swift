@@ -10,7 +10,7 @@ import Foundation
 
 extension Bool: AnyInitializable, FromAnyBuilder {
     
-    static func build(value: Any) -> Bool? {
+    public static func build(value: Any) -> Bool? {
         return Bool(value: value)
     }
     
@@ -39,15 +39,15 @@ extension Bool: AnyInitializable, FromAnyBuilder {
 
 extension Bool: TypeMatchable {
     
-    static func match(type: Any.Type) -> Bool {
+    public static func match(type: Any.Type) -> Bool {
         return type is Bool.Type || type is Bool?.Type || type is ImplicitlyUnwrappedOptional<Bool>.Type
     }
     
-    static func matchArray(type: Any.Type) -> Bool {
+    public static func matchArray(type: Any.Type) -> Bool {
         return type is [Bool].Type || type is [Bool]?.Type || type is ImplicitlyUnwrappedOptional<[Bool]>.Type
     }
     
-    static func optionalityMatch(type: Any.Type) -> OptionalityType? {
+    public static func optionalityMatch(type: Any.Type) -> OptionalityType? {
         if type is Bool.Type { return .notOptional }
         if type is Bool?.Type { return .optional }
         if type is ImplicitlyUnwrappedOptional<Bool>.Type { return .implicitlyUnwrapped }

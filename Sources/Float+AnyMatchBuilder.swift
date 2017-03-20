@@ -10,7 +10,7 @@ import Foundation
 
 extension Float: AnyInitializable, FromAnyBuilder {
     
-    static func build(value: Any) -> Float? {
+    public static func build(value: Any) -> Float? {
         return Float(value: value)
     }
     
@@ -35,15 +35,15 @@ extension Float: AnyInitializable, FromAnyBuilder {
 
 extension Float: TypeMatchable {
     
-    static func match(type: Any.Type) -> Bool {
+    public static func match(type: Any.Type) -> Bool {
         return type is Float.Type || type is Float?.Type || type is ImplicitlyUnwrappedOptional<Float>.Type
     }
     
-    static func matchArray(type: Any.Type) -> Bool {
+    public static func matchArray(type: Any.Type) -> Bool {
         return type is [Float].Type || type is [Float]?.Type || type is ImplicitlyUnwrappedOptional<[Float]>.Type
     }
     
-    static func optionalityMatch(type: Any.Type) -> OptionalityType? {
+    public static func optionalityMatch(type: Any.Type) -> OptionalityType? {
         if type is Float.Type { return .notOptional }
         if type is Float?.Type { return .optional }
         if type is ImplicitlyUnwrappedOptional<Float>.Type { return .implicitlyUnwrapped }
