@@ -14,8 +14,6 @@
     public typealias Color = UIColor
 #endif
 
-import CoreGraphics
-
 extension Color {
     convenience init?(hex: String) {
         var format = hex.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).uppercased()

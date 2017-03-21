@@ -16,7 +16,7 @@ protocol IntRepresentable {
     var rawValue: Int { get }
 }
 
-extension IntInitializable {
+public extension IntInitializable {
     init?(value: Any) {
         if let int = value as? Int {
             self.init(rawValue: int)
@@ -25,5 +25,3 @@ extension IntInitializable {
         }
     }
 }
-
-

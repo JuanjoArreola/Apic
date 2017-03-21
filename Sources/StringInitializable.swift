@@ -16,7 +16,7 @@ public protocol StringRepresentable: StringInitializable {
     var rawValue: String { get }
 }
 
-extension StringInitializable {
+public extension StringInitializable {
     
     init?(value: Any) {
         if let string = value as? String {
