@@ -175,7 +175,7 @@ extension AbstractModel: PropertyParser {
             }
             newArray.append(value)
         }
-        setValue(newArray, forKey: property)
+        try assign(value: newArray, forProperty: property)
     }
     
     private func dynamicItem(from dictionary: [String: Any], typeNameKey: String, resolver: TypeResolver) throws -> InitializableWithDictionary {

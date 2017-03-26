@@ -62,5 +62,4 @@ public class Log {
         string += level.name + ": " + String(describing: message())
         print(string)
     }
-    
 }
