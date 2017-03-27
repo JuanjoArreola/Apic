@@ -34,9 +34,7 @@ Currently the model can parse values of type `String, [String], Int, [Int], Floa
 
 Properties can also be subclasses of `AbstractModel` as in the case of `user` above, `User` `User?`, `User!`, `[User]`, `[User]?`, `[User]!` are all valid types if you provide a `TypeResolver` for the model as described below.
 
-#### TypeResolver
-
-For some types that inherit from `AbstractModel`, as in the case of `User?` above, it is not possible to determine the model to use to initialize the object, the **Reflection** limitations of the language do not permit to know that the type `User` should be used to initialize the model from a type declared as `Optional<User>` in this case. For this cases a `TypeResolver` most be implemented.
+#### Type Resolution
 
 A type resolver can be any class that implements the `TypeResolver` protocol:
 

@@ -1,5 +1,5 @@
 //
-//  NSMutableURLRequest+ParameterEncoding.swift
+//  URLRequest+ParameterEncoding.swift
 //  Apic
 //
 //  Created by Juan Jose Arreola on 3/2/16.

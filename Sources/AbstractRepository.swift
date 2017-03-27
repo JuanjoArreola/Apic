@@ -355,10 +355,12 @@ open class AbstractRepository<StatusType: Equatable>: NSObject, URLSessionDataDe
     }
     
     open func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        completionHandlers[task]?(buffers[task], task.response, error)
-        completionHandlers[task] = nil
-        progressReporters[task] = nil
-        buffers[task] = nil
+        if let handler = completionHandlers[task] {
+            handler(buffers[task], task.response, error)
+            completionHandlers[task] = nil
+            progressReporters[task] = nil
+            buffers[task] = nil
+        }
     }
     
     open func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {

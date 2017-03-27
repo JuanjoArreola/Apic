@@ -41,7 +41,7 @@
 		OBJ_60 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* Configuration.swift */; };
 		OBJ_61 /* GenericTypeResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* GenericTypeResolver.swift */; };
 		OBJ_62 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* Log.swift */; };
-		OBJ_63 /* NSMutableURLRequest+ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* NSMutableURLRequest+ParameterEncoding.swift */; };
+		OBJ_63 /* URLRequest+ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* URLRequest+ParameterEncoding.swift */; };
 		OBJ_64 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* Reachability.swift */; };
 		OBJ_65 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_18 /* Request.swift */; };
 		OBJ_72 /* ApicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_21 /* ApicTests.swift */; };
@@ -116,7 +116,7 @@
 		OBJ_13 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		OBJ_14 /* GenericTypeResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericTypeResolver.swift; sourceTree = "<group>"; };
 		OBJ_15 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
-		OBJ_16 /* NSMutableURLRequest+ParameterEncoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableURLRequest+ParameterEncoding.swift"; sourceTree = "<group>"; };
+		OBJ_16 /* URLRequest+ParameterEncoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+ParameterEncoding.swift"; sourceTree = "<group>"; };
 		OBJ_17 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		OBJ_18 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		OBJ_21 /* ApicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApicTests.swift; sourceTree = "<group>"; };
@@ -269,7 +269,7 @@
 				OBJ_13 /* Configuration.swift */,
 				OBJ_14 /* GenericTypeResolver.swift */,
 				OBJ_15 /* Log.swift */,
-				OBJ_16 /* NSMutableURLRequest+ParameterEncoding.swift */,
+				OBJ_16 /* URLRequest+ParameterEncoding.swift */,
 				OBJ_17 /* Reachability.swift */,
 				OBJ_18 /* Request.swift */,
 				811C4A991E7B0F000049D8A3 /* Color+Hex.swift */,
@@ -386,7 +386,7 @@
 				814D76461E7D1AB10061F55D /* NSDecimalNumber+AnyMatchBuilder.swift in Sources */,
 				8147026B1E7F205600A2B874 /* HTTPMethod.swift in Sources */,
 				81C6E64D1E7C7E4B006105D1 /* String+AnyMatchBuilder.swift in Sources */,
-				OBJ_63 /* NSMutableURLRequest+ParameterEncoding.swift in Sources */,
+				OBJ_63 /* URLRequest+ParameterEncoding.swift in Sources */,
 				81C6E64F1E7C8153006105D1 /* Date+TypeMatchable.swift in Sources */,
 				814702651E7F1D9300A2B874 /* StringInitializable.swift in Sources */,
 				814702671E7F1DBE00A2B874 /* IntInitializable.swift in Sources */,
