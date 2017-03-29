@@ -32,7 +32,7 @@ open class AbstractCustomErrorRepository<StatusType: Equatable, ErrorModelType: 
             return data
         }
         if let errorDictionary = errorKey != nil ? data[errorKey!] as? [String: Any] : nil {
-            var modelError: ErrorModelType?
+            var modelError: Any?
             do {
                 modelError = try ErrorModelType(dictionary: errorDictionary)
             } catch {

@@ -6,19 +6,16 @@
 //
 //
 
-import Foundation
+//import Foundation
 
-extension Color: FromAnyBuilder {
-    
-    public static func build(value: Any) -> Color? {
-        if let string = value as? String, let color = Color(hex: string) {
-            return color
-        }
-        return nil
-    }
-}
+#if os(OSX)
+    import AppKit
+//    public typealias Color = NSColor
+#elseif os(iOS) || os(tvOS) || os(watchOS)
+    import UIKit
+#endif
 
-extension Color: TypeMatchable {
+extension Color: AnyMatchBuilder {
     
     public static func match(type: Any.Type) -> Bool {
         return type is Color.Type || type is Color?.Type || type is ImplicitlyUnwrappedOptional<Color>.Type
@@ -34,6 +31,13 @@ extension Color: TypeMatchable {
         if type is ImplicitlyUnwrappedOptional<Color>.Type { return .implicitlyUnwrapped }
         return nil
     }
+    
+    // MARK: - 
+    
+    public static func build(value: Any) -> Color? {
+        if let string = value as? String, let color = Color(hex: string) {
+            return color
+        }
+        return nil
+    }
 }
-
-extension Color: AnyMatchBuilder {}

@@ -31,7 +31,7 @@ public enum RepositoryError: Error, CustomStringConvertible {
         case .invalidParameters:
             return "Invalid parameters"
         case .statusFail(let message, let code):
-            return "Status fail [\(code)]: \(message)"
+            return "Status fail [\(code ?? "")]: \(message ?? "")"
         case .networkConnection:
             return "No network connection"
         case .encodingError:

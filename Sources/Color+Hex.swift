@@ -9,7 +9,7 @@
 #if os(OSX)
     import AppKit
     public typealias Color = NSColor
-#else
+#elseif os(iOS) || os(tvOS) || os(watchOS)
     import UIKit
     public typealias Color = UIColor
 #endif
