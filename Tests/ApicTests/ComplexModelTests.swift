@@ -131,29 +131,24 @@ class ComplexModelTests: XCTestCase {
     
 }
 
-class ComplexModel: AbstractModel {
-    static let _resolver = ComplexTypeResolver()
-    override class var resolver: TypeResolver { return _resolver }
-}
-
-class ComplexContainer: ComplexModel {
+class ComplexContainer: AbstractModel {
     var id: String!
     var first: SimpleModel!
     var second: SimpleModel?
 }
 
-class ComplexArrayContainer: ComplexModel {
+class ComplexArrayContainer: AbstractModel {
     var models: [SimpleModel]!
     var optionals: [SimpleModel]?
 }
 
-class WrongDefinitionComplexContainer: ComplexModel {
-    var option: UnresolvedModel?
-    var first: UnresolvedModel!
+class WrongDefinitionComplexContainer: AbstractModel {
+    var option: UnresolvedType?
+    var first: UnresolvedType!
 }
 
-class WrongDefinitionComplexArrayContainer: ComplexModel {
-    var models: [UnresolvedModel]!
+class WrongDefinitionComplexArrayContainer: AbstractModel {
+    var models: [UnresolvedType]!
 }
 
 class SimpleModel: AbstractModel {
@@ -161,30 +156,14 @@ class SimpleModel: AbstractModel {
     var name: String?
 }
 
-class UnresolvedModel: AbstractModel {
-    var id: String!
-}
-
-class ComplexTypeResolver: TypeResolver {
-    public func resolve(typeForName typeName: String) -> Any? {
-        return nil
-    }
+enum UnresolvedType: StringInitializable {
+    case test
     
-    func resolve(type: Any.Type) -> Any.Type? {
-        if type is SimpleModel.Type || type is SimpleModel?.Type || type is ImplicitlyUnwrappedOptional<SimpleModel>.Type {
-            return SimpleModel.self
+    init?(rawValue: String) {
+        if rawValue.lowercased() == "test" {
+            self = .test
+        } else {
+            return nil
         }
-        return nil
-    }
-    
-    func resolveArray(type: Any.Type) -> Any.Type? {
-        if type is [SimpleModel]?.Type || type is ImplicitlyUnwrappedOptional<[SimpleModel]>.Type {
-            return SimpleModel.self
-        }
-        return nil
-    }
-    
-    public func resolveDictionary(type: Any.Type) -> Any.Type? {
-        return nil
     }
 }

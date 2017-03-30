@@ -140,17 +140,9 @@ class StringContainer: AbstractModel {
     override class var ignoredProperties: [String] { return ["ignored"] }
     
     override class var propertyKeys: [String: String] { return ["_description": "description"] }
-    
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
-        return ["id", "ignored"].contains(property)
-    }
 }
 
 class StringArrayContainer: AbstractModel {
     var ids: [String]!
     var names: [String]?
-    
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
-        return ["ids"].contains(property)
-    }
 }

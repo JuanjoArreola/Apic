@@ -89,10 +89,6 @@ class User: AbstractModel {
     var id: Int = 0
     var login: String!
     var avatar_url: URL!
-    
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
-        return true
-    }
 }
 
 class UserRepository: AbstractRepository<String> {

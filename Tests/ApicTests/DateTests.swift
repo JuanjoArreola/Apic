@@ -80,8 +80,4 @@ class DateContainer: AbstractModel {
     var created: Date!
     var lastEdit: Date?
     var lastAccess: Date = Date(timeIntervalSince1970: 0)
-    
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
-        return ["created"].contains(property)
-    }
 }

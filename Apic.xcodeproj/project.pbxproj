@@ -27,6 +27,8 @@
 		814D76491E7DC4F70061F55D /* URL+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D76481E7DC4F70061F55D /* URL+AnyMatchBuilder.swift */; };
 		814D764B1E7DC5720061F55D /* FromAnyBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D764A1E7DC5720061F55D /* FromAnyBuilder.swift */; };
 		814D764D1E7DC8EF0061F55D /* Color+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D764C1E7DC8EF0061F55D /* Color+AnyMatchBuilder.swift */; };
+		816297721E8C497600BBF065 /* TypeInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816297711E8C497600BBF065 /* TypeInfo.swift */; };
+		816297741E8C49C900BBF065 /* Collection+find.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816297731E8C49C900BBF065 /* Collection+find.swift */; };
 		816A00731E7C64470098630A /* Int+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816A00721E7C64470098630A /* Int+AnyMatchBuilder.swift */; };
 		816A00751E7C7BC90098630A /* Double+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816A00741E7C7BC90098630A /* Double+AnyMatchBuilder.swift */; };
 		816A00771E7C7CF30098630A /* TypeMatchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816A00761E7C7CF30098630A /* TypeMatchable.swift */; };
@@ -39,7 +41,6 @@
 		OBJ_58 /* AbstractModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* AbstractModel.swift */; };
 		OBJ_59 /* AbstractRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* AbstractRepository.swift */; };
 		OBJ_60 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* Configuration.swift */; };
-		OBJ_61 /* GenericTypeResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* GenericTypeResolver.swift */; };
 		OBJ_62 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* Log.swift */; };
 		OBJ_63 /* URLRequest+ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* URLRequest+ParameterEncoding.swift */; };
 		OBJ_64 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* Reachability.swift */; };
@@ -104,6 +105,8 @@
 		814D76481E7DC4F70061F55D /* URL+AnyMatchBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URL+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
 		814D764A1E7DC5720061F55D /* FromAnyBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FromAnyBuilder.swift; sourceTree = "<group>"; };
 		814D764C1E7DC8EF0061F55D /* Color+AnyMatchBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
+		816297711E8C497600BBF065 /* TypeInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeInfo.swift; sourceTree = "<group>"; };
+		816297731E8C49C900BBF065 /* Collection+find.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+find.swift"; sourceTree = "<group>"; };
 		816A00721E7C64470098630A /* Int+AnyMatchBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
 		816A00741E7C7BC90098630A /* Double+AnyMatchBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Double+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
 		816A00761E7C7CF30098630A /* TypeMatchable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeMatchable.swift; sourceTree = "<group>"; };
@@ -114,7 +117,6 @@
 		OBJ_11 /* AbstractModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractModel.swift; sourceTree = "<group>"; };
 		OBJ_12 /* AbstractRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractRepository.swift; sourceTree = "<group>"; };
 		OBJ_13 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
-		OBJ_14 /* GenericTypeResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericTypeResolver.swift; sourceTree = "<group>"; };
 		OBJ_15 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		OBJ_16 /* URLRequest+ParameterEncoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+ParameterEncoding.swift"; sourceTree = "<group>"; };
 		OBJ_17 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
@@ -186,6 +188,17 @@
 				814D764C1E7DC8EF0061F55D /* Color+AnyMatchBuilder.swift */,
 			);
 			name = Builder;
+			sourceTree = "<group>";
+		};
+		816297701E8C494700BBF065 /* Type resolution */ = {
+			isa = PBXGroup;
+			children = (
+				816297711E8C497600BBF065 /* TypeInfo.swift */,
+				811C4A9B1E7B43130049D8A3 /* TypeResolver.swift */,
+				811C4A9D1E7B43BD0049D8A3 /* DefaultTypeResolver.swift */,
+				816297731E8C49C900BBF065 /* Collection+find.swift */,
+			);
+			name = "Type resolution";
 			sourceTree = "<group>";
 		};
 		OBJ_19 /* Tests */ = {
@@ -261,21 +274,19 @@
 		OBJ_8 /* Apic */ = {
 			isa = PBXGroup;
 			children = (
+				816297701E8C494700BBF065 /* Type resolution */,
 				814D76471E7DC4100061F55D /* Builder */,
 				OBJ_9 /* AbstractCustomErrorRepository.swift */,
 				OBJ_10 /* AbstractModel+SoftSerialization.swift */,
 				OBJ_11 /* AbstractModel.swift */,
 				OBJ_12 /* AbstractRepository.swift */,
 				OBJ_13 /* Configuration.swift */,
-				OBJ_14 /* GenericTypeResolver.swift */,
 				OBJ_15 /* Log.swift */,
 				OBJ_16 /* URLRequest+ParameterEncoding.swift */,
 				OBJ_17 /* Reachability.swift */,
 				OBJ_18 /* Request.swift */,
 				811C4A991E7B0F000049D8A3 /* Color+Hex.swift */,
-				811C4A9B1E7B43130049D8A3 /* TypeResolver.swift */,
 				811C4AA11E7B45B90049D8A3 /* Mirror+Util.swift */,
-				811C4A9D1E7B43BD0049D8A3 /* DefaultTypeResolver.swift */,
 				816A00761E7C7CF30098630A /* TypeMatchable.swift */,
 				81C6E6501E7C82B1006105D1 /* Date+Parse.swift */,
 				814D76431E7CDA1E0061F55D /* ModelError.swift */,
@@ -375,15 +386,16 @@
 				8147026D1E7FA98600A2B874 /* AbstractModel+PropertyParser.swift in Sources */,
 				OBJ_59 /* AbstractRepository.swift in Sources */,
 				OBJ_60 /* Configuration.swift in Sources */,
-				OBJ_61 /* GenericTypeResolver.swift in Sources */,
 				811C4A9E1E7B43BD0049D8A3 /* DefaultTypeResolver.swift in Sources */,
 				814D76441E7CDA1E0061F55D /* ModelError.swift in Sources */,
 				816A00751E7C7BC90098630A /* Double+AnyMatchBuilder.swift in Sources */,
+				816297741E8C49C900BBF065 /* Collection+find.swift in Sources */,
 				814702691E7F202D00A2B874 /* RepositoryError.swift in Sources */,
 				814D764B1E7DC5720061F55D /* FromAnyBuilder.swift in Sources */,
 				816A00731E7C64470098630A /* Int+AnyMatchBuilder.swift in Sources */,
 				OBJ_62 /* Log.swift in Sources */,
 				814D76491E7DC4F70061F55D /* URL+AnyMatchBuilder.swift in Sources */,
+				816297721E8C497600BBF065 /* TypeInfo.swift in Sources */,
 				814D76461E7D1AB10061F55D /* NSDecimalNumber+AnyMatchBuilder.swift in Sources */,
 				8147026B1E7F205600A2B874 /* HTTPMethod.swift in Sources */,
 				81C6E64D1E7C7E4B006105D1 /* String+AnyMatchBuilder.swift in Sources */,

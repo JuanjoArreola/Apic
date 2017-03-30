@@ -142,21 +142,18 @@ class IntTests: XCTestCase {
 }
 
 class IntContainer: AbstractModel {
-    var id: Int = 0
+    var id: Int!
     var option: Int?
-    var level: Int!
+    var level: Int! = 0
     var value: Int = 1
     
     override func assign(value: Any, forProperty property: String) throws {
         if property == "option" { option = value as? Int}
         else if property == "level" { level = value as! Int}
+        else if property == "id" { id = value as! Int}
         else {
             try super.assign(value: value, forProperty: property)
         }
-    }
-    
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
-        return ["id"].contains(property)
     }
 }
 
@@ -164,8 +161,4 @@ class IntArrayContainer: AbstractModel {
     var ids: [Int]!
     var values: [Int]?
     var options: [Int] = [1, 2]
-    
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
-        return ["ids"].contains(property)
-    }
 }

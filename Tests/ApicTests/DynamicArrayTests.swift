@@ -40,10 +40,6 @@ class DynamicArrayTests: XCTestCase {
 class Moview: AbstractModel {
     var name: String!
     var awards: [Award]!
-    
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
-        return true
-    }
 }
 
 class Award: AbstractModel, DynamicTypeModel {

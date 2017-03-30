@@ -52,10 +52,6 @@ class HttpError: AbstractErrorModel {
     var code: Int = 0
     var message: String!
     var solution: String!
-    
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
-        return true
-    }
 }
 
 class ModelErrorRepository: AbstractCustomErrorRepository<String, HttpError> {

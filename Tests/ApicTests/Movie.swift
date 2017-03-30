@@ -63,12 +63,12 @@ class Movie: AbstractModel {
     
     var reproductions = 0
     
-    override class var ignoredProperties: [String] { return ["reproductions"] }
+    override class var ignoredProperties: [String] {
+        return ["reproductions"]
+    }
     
-    override class var propertyDateFormats: [String: String] { return ["releaseDate": "y-MM-dd HH:mm:ss"] }
-    
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
-        return ["id", "name", "year", "rating", "duration", "format", "country", "cast"].contains(property)
+    override class var propertyDateFormats: [String: String] {
+        return ["releaseDate": "y-MM-dd HH:mm:ss"]
     }
     
     override func assign(value: Any, forProperty property: String) throws {
@@ -86,10 +86,6 @@ class Person: AbstractModel {
 
 class Director: Person {
     var filmography: [Movie]?
-    
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
-        return ["name"].contains(property)
-    }
 }
 
 class Nomination: AbstractModel {
@@ -98,17 +94,9 @@ class Nomination: AbstractModel {
 
 class Actor: Person {
     var country: String?
-    
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
-        return ["name"].contains(property)
-    }
 }
 
 class Synopsis: AbstractModel {
     var text: String = ""
     var author: Person?
-    
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
-        return ["text"].contains(property)
-    }
 }

@@ -23,7 +23,7 @@ extension AbstractModel {
             if let value = child.value as? StringRepresentable {
                 coder.encode(value.rawValue, forKey: property)
             } else if let _ = modelType.resolver.resolve(type: propertyType) as? StringRepresentable.Type {
-                Log.debug("representable")
+                Log.warn("representable")
             } else {
                 coder.encode(child.value, forKey: property)
             }

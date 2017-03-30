@@ -58,29 +58,41 @@ extension AbstractModel: PropertyParser {
     
     public func parsedDate(value: Any, property: String, type: Any.Type) throws -> Bool {
         if Date.match(type: type) {
-            let format = modelType.propertyDateFormats[property] ?? Configuration.dateFormat
-            guard let date = Date(value: value, format: format) else {
-                throw ModelError.dateError(property: property, value: String(describing: value))
-            }
+            let date = try parseDate(value: value, property: property)
             setValue(date, forKey: property)
             return true
         }
         return false
     }
     
+    private func parseDate(value: Any, property: String) throws -> Date {
+        let date: Date
+        if let format = modelType.propertyDateFormats[property] {
+            if let propertyDate = Date(value: value, format: format) {
+                date = propertyDate
+            } else {
+                throw ModelError.dateError(property: property, type: modelType, value: String(describing: value), format: format)
+            }
+        } else if let format = modelType.dateFormat {
+            if let propertyDate = Date(value: value, format: format) {
+                date = propertyDate
+            } else {
+                throw ModelError.dateError(property: property, type: modelType, value: String(describing: value), format: format)
+            }
+        } else if let propertyDate = Date(value: value, format: Configuration.dateFormat) {
+            date = propertyDate
+        } else {
+            throw ModelError.dateError(property: property, type: modelType, value: String(describing: value), format: Configuration.dateFormat)
+        }
+        return date
+    }
+    
     public func parsedDateArray(value: Any, property: String, type: Any.Type) throws -> Bool {
         if Date.matchArray(type: type) {
-            let format = modelType.propertyDateFormats[property] ?? Configuration.dateFormat
             guard let array = value as? [Any] else {
-                throw ModelError.dateError(property: property, value: String(describing: value))
+                throw ModelError.sourceValueError(property: property, model: modelType, value: value)
             }
-            var dates = [Date]()
-            for value in array {
-                guard let date = Date(value: value, format: format) else {
-                    throw ModelError.dateError(property: property, value: String(describing: value))
-                }
-                dates.append(date)
-            }
+            let dates = try array.map({ try parseDate(value: $0, property: property) })
             setValue(dates, forKey: property)
             return true
         }

@@ -25,7 +25,7 @@ public enum RepositoryError: Error, CustomStringConvertible {
         case .badJSON:
             return "Bad JSON"
         case .badJSONContent:
-            return "Bad JOSN Content"
+            return "Bad JSON Content"
         case .invalidURL:
             return "Invalid URL"
         case .invalidParameters:

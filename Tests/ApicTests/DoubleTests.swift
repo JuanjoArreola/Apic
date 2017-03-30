@@ -62,7 +62,10 @@ class DoubleTests: XCTestCase {
             let container = try DoubleContainer(dictionary: ["id": 1.0, "option": 4.0])
             XCTAssertNotNil(container)
             XCTAssertNotNil(container.option)
-        } catch { XCTFail() }
+        } catch {
+            Log.error(error)
+            XCTFail()
+        }
     }
     
     func testChangeDouble() {
@@ -143,19 +146,20 @@ class DoubleTests: XCTestCase {
 }
 
 class DoubleContainer: AbstractModel {
-    var id: Double = 0.0
+    var id: Double!
     var option: Double?
     var value: Double = 1.0
     
     override func assign(value: Any, forProperty property: String) throws {
-        if property == "option" { option = value as? Double}
+        if property == "option" {
+            option = value as? Double
+        }
+        else if property == "id" {
+            id = value as! Double
+        }
         else {
             try super.assign(value: value, forProperty: property)
         }
-    }
-    
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
-        return ["id"].contains(property)
     }
 }
 
@@ -163,8 +167,4 @@ class DoubleArrayContainer: AbstractModel {
     var ids: [Double]!
     var values: [Double]?
     var options: [Double] = [1.0, 2.0]
-    
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
-        return ["ids"].contains(property)
-    }
 }

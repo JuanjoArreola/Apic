@@ -121,10 +121,6 @@ class StateContainer: AbstractModel {
     var nextState: State?
     var mediaType: MediaType!
     
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
-        return ["state", "mediaType"].contains(property)
-    }
-    
     override func assign(value: Any, forProperty property: String) throws {
         if property == "state" {
             state = value as! State
@@ -147,10 +143,6 @@ class PositionContainer: AbstractModel {
     }
     
     var location: Location!
-    
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
-        return ["location"].contains(property)
-    }
     
     override func assign(value: Any, forProperty property: String) throws {
         if property == "location" {

@@ -102,8 +102,4 @@ class DecimalContainer: AbstractModel {
     var shipping = NSDecimalNumber(value: 8.0)
     
     var prices: [NSDecimalNumber]?
-    
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
-        return ["price"].contains(property)
-    }
 }

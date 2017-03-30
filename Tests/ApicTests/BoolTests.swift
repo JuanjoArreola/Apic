@@ -146,21 +146,19 @@ class BoolTests: XCTestCase {
 }
 
 class BoolContainer: AbstractModel {
-    var hasId: Bool = false
+    var hasId: Bool!
     var option: Bool?
     var value: Bool = false
     
     override func assign(value: Any, forProperty property: String) throws {
         if property == "option" {
             option = value as? Bool
+        } else if property == "hasId" {
+            hasId = value as! Bool
         }
         else {
             try super.assign(value: value, forProperty: property)
         }
-    }
-    
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
-        return ["hasId"].contains(property)
     }
 }
 
@@ -168,8 +166,4 @@ class BoolArrayContainer: AbstractModel {
     var hasIds: [Bool]!
     var values: [Bool]?
     var options: [Bool] = [true, false]
-    
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
-        return ["hasIds"].contains(property)
-    }
 }

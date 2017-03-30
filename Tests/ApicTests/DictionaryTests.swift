@@ -45,37 +45,9 @@ class DictionaryTests: XCTestCase {
 class World: AbstractModel {
     var capitals: [String: String]!
     var countries: [String: Country]!
-    
-    override open class var resolver: TypeResolver { return WorldResolver.shared }
-    
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
-        return true
-    }
 }
 
 class Country: AbstractModel {
     var capital: String = ""
     var name: String = ""
-    
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
-        return true
-    }
-}
-
-fileprivate class WorldResolver: GenericTypeResolver {
-    
-    static var shared = WorldResolver()
-    
-    fileprivate override func resolve(type: Any.Type) -> Any.Type? {
-        return nil
-    }
-    
-    fileprivate override func resolve(typeForName typeName: String) -> Any? {
-        return nil
-    }
-    
-    fileprivate override func resolveDictionary(type: Any.Type) -> Any.Type? {
-        if type is ImplicitlyUnwrappedOptional<Dictionary<String, Country>>.Type { return Country.self }
-        return nil
-    }
 }

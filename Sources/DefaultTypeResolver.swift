@@ -8,81 +8,40 @@
 
 import Foundation
 
-struct TypeInfo {
-    let type: Any.Type
-    let typeNames: [String]
-    let arrayTypeNames: [String]
-    
-    init<T>(type: T.Type) {
-        self.type = type
-        typeNames = ["\(type)", "Optional<\(type)>", "ImplicitlyUnwrappedOptional<\(type)>"]
-        arrayTypeNames = ["Array<\(type)>", "Optional<Array<\(type)>>",
-            "ImplicitlyUnwrappedOptional<Array<\(type)>>"]
-    }
-    
-    init<T>(type: T.Type, name: String) {
-        self.type = type
-        typeNames = [name]
-        arrayTypeNames = []
-    }
-    
-    func match(type: Any.Type) -> Any.Type? {
-        if typeNames.contains("\(type)") {
-            return self.type
-        }
-        return nil
-    }
-    
-    func matchArray(type: Any.Type) -> Any.Type? {
-        if arrayTypeNames.contains("\(type)") {
-            return self.type
-        }
-        return nil
-    }
-    
-    func match(typeName: String) -> Any.Type? {
-        if typeNames.contains(typeName) {
-            return type
-        }
-        return nil
-    }
-}
-
 open class DefaultTypeResolver: TypeResolver {
     
     public static var shared = DefaultTypeResolver()
     
-    var types = [TypeInfo]()
-    var typeNames = [TypeInfo]()
+    var types: Set<TypeInfo> = []
+    var typeNames: Set<TypeInfo> = []
     
     public func register<T>(type: T.Type) {
-        if contains(type: type) { return }
-        if type == AbstractModel.self { return }
-        types.append(TypeInfo(type: type))
+        if !contains(type: type) && type != AbstractModel.self {
+            types.insert(TypeInfo(type: type))
+        }
+    }
+    
+    public func register<T>(types: T.Type...) {
+        for type in types {
+            register(type: type)
+        }
     }
     
     public func register<T>(type: T.Type, forName name: String) {
-        if contains(typeName: name) { return }
-        typeNames.append(TypeInfo(type: type, name: name))
+        if !contains(typeName: name) {
+            typeNames.insert(TypeInfo(type: type, name: name))
+        }
     }
     
     private func contains(type: Any.Type) -> Bool {
-        for info in types {
-            if info.type == type {
-                return true
-            }
-        }
-        return false
+        return types.find({ $0.type == type }) != nil
     }
     
     private func contains(typeName: String) -> Bool {
-        for info in typeNames {
-            if info.typeNames.contains(typeName) {
-                return true
-            }
-        }
-        return false
+        return typeNames.find({ $0.typeNames.contains(typeName) }) != nil
     }
+    
+    // MARK: - TypeResolver
     
     public func resolve(type: Any.Type) -> Any.Type? {
         for info in types {
@@ -99,6 +58,9 @@ open class DefaultTypeResolver: TypeResolver {
     }
     
     public func resolveDictionary(type: Any.Type) -> Any.Type? {
+        for info in types {
+            if let match = info.matchDictionary(type: type) { return match }
+        }
         return nil
     }
     

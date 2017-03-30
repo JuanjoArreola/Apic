@@ -143,21 +143,19 @@ class FloatTests: XCTestCase {
 }
 
 class FloatContainer: AbstractModel {
-    var id: Float = 0.0
+    var id: Float!
     var option: Float?
     var value: Float = 1.0
     
     override func assign(value: Any, forProperty property: String) throws {
         if property == "option" {
             option = value as? Float
+        } else if property == "id" {
+            id = value as! Float
         }
         else {
             try super.assign(value: value, forProperty: property)
         }
-    }
-    
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool? {
-        return ["id"].contains(property)
     }
 }
 
@@ -165,8 +163,4 @@ class FloatArrayContainer: AbstractModel {
     var ids: [Float]!
     var values: [Float]?
     var options: [Float] = [1.0, 2.0]
-    
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
-        return ["ids"].contains(property)
-    }
 }

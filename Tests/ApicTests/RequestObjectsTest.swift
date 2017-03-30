@@ -130,17 +130,9 @@ class WrongHistoryRepository: AbstractRepository<String> {
 class Gist: AbstractModel {
     var id: String!
     var url: URL!
-    
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
-        return true
-    }
 }
 
 class HistoryEntry: AbstractModel {
     var version: String!
     var url: URL!
-    
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
-        return true
-    }
 }

@@ -33,12 +33,14 @@ public extension AbstractModel {
         if let superMirror = mirror.superclassMirror, !superMirror.isAbstractModelMirror {
             try softAddProperties(to: &dictionary, mirror: superMirror, strict: strict)
         }
-        let modelType = mirror.subjectType as! AbstractModel.Type
         for child in mirror.children {
             guard let property = child.label else { continue }
             guard let value = self.value(forKey: property) else {
                 let propertyType = Mirror(reflecting:child.value).subjectType
-                if strict && shouldFail(withInvalidValue: self.value(forKey: property), forProperty: property, type: propertyType) {
+                if "\(propertyType)".hasPrefix("Optional<") {
+                    continue
+                }
+                if strict {
                     throw ModelError.serializationError(property: property, model: String(describing: modelType))
                 }
                 continue

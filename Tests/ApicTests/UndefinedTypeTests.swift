@@ -41,7 +41,7 @@ class LocationContainer: AbstractModel {
     var location: SimpleLocation!
     var previousLocation: SimpleLocation?
     
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool? {
+    override func shouldFail(withInvalidValue value: Any, forProperty property: String, type: Any.Type) -> Bool {
         if property == "previousLocation" {
             let location = SimpleLocation()
             location.lat = 19.0
@@ -49,7 +49,7 @@ class LocationContainer: AbstractModel {
             previousLocation = location
             return false
         } else {
-            return super.shouldFail(withInvalidValue: value, forProperty: property)
+            return super.shouldFail(withInvalidValue: value, forProperty: property, type: type)
         }
     }
 }

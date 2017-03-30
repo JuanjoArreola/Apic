@@ -17,10 +17,12 @@
 open class AbstractModel: NSObject, NSCoding, InitializableWithDictionary {
     
     open class var propertyKeys: [String: String] { return [:] }
+    open class var ignoredProperties: [String] { return [] }
+    
+    open class var dateFormat: String? { return nil }
     open class var propertyDateFormats: [String: String] { return [:] }
     
-    open class var resolver: TypeResolver { return DefaultTypeResolver.shared }
-    open class var ignoredProperties: [String] { return [] }
+    static let resolver = DefaultTypeResolver.shared
     
     open override class func initialize() {
         DefaultTypeResolver.shared.register(type: self)
@@ -51,29 +53,17 @@ open class AbstractModel: NSObject, NSCoding, InitializableWithDictionary {
         }
         
         for child in mirror.children {
-            guard let property = child.label else { continue }
+            guard let property = child.label, !modelType.ignoredProperties.contains(property) else { continue }
             
             let key = modelType.propertyKeys[property] ?? property
-            do {
-                try assign(rawValue: dictionary[key], to: child, parser: self)
-            } catch {
-                if shouldFail(withInvalidValue: dictionary[key], forProperty: property, type: modelType) {
-                    throw error
-                }
-            }
+            try assign(rawValue: dictionary[key], to: child, parser: self)
         }
     }
     
     public func assign(rawValue: Any?, toProperty property: String, mirror: Mirror? = nil) throws {
         let mirror = mirror ?? Mirror(reflecting: self)
         if let child = mirror.findChild(withName: property) {
-            do {
-                try assign(rawValue: rawValue, to: child, parser: self)
-            } catch {
-                if shouldFail(withInvalidValue: rawValue, forProperty: property, type: modelType) {
-                    throw error
-                }
-            }
+            try assign(rawValue: rawValue, to: child, parser: self)
         } else {
             if mirror.isAbstractModelMirror {
                 throw ModelError.invalidProperty(property: property)
@@ -86,18 +76,17 @@ open class AbstractModel: NSObject, NSCoding, InitializableWithDictionary {
     
     open func assign(rawValue optionalRawValue: Any?, to child: Mirror.Child, parser: PropertyParser) throws {
         guard let property = child.label else { return }
-        
-        if modelType.ignoredProperties.contains(property) {
-            return
-        }
-        let propertyType = Mirror(reflecting: child.value).subjectType
+    
+        let propertyType = type(of: child.value)
         
         guard let rawValue = optionalRawValue else {
-            if self.shouldFail(withInvalidValue: nil, forProperty: property, type: propertyType) {
-                throw ModelError.sourceValueError(property: property, model: modelType, value: nil)
-            } else {
+            if "\(propertyType)".hasPrefix("Optional<") {
                 return
             }
+            if String(describing: child.value) != "nil" {
+                return
+            }
+            throw ModelError.sourceValueError(property: property, model: modelType, value: nil)
         }
         
 //      MARK: - String
@@ -173,7 +162,9 @@ open class AbstractModel: NSObject, NSCoding, InitializableWithDictionary {
         }
         
         else {
-            throw ModelError.sourceValueError(property: property, model: modelType, value: rawValue)
+            if shouldFail(withInvalidValue: rawValue, forProperty: property, type: propertyType) {
+                throw ModelError.sourceValueError(property: property, model: modelType, value: rawValue)
+            }
         }
     }
     
@@ -182,18 +173,8 @@ open class AbstractModel: NSObject, NSCoding, InitializableWithDictionary {
     }
     
     /// Override this method in subclasses and return true if the object is invalid if a value couln't be parsed for a property
-    open func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool? {
-        return nil
-    }
-    
-    internal func shouldFail(withInvalidValue value: Any?, forProperty property: String, type: Any.Type) -> Bool {
-        if let fail = shouldFail(withInvalidValue: value, forProperty: property) { return fail }
-        if "\(type)".hasPrefix("Optional<") {
-            if let value = value {
-                Log.warn("The value: \(value) could not be parsed to type: |\(type)|, the property: \(property) might have an incorrect value")
-            }
-            return false
-        }
+    open func shouldFail(withInvalidValue value: Any, forProperty property: String, type: Any.Type) -> Bool {
+        Log.warn("The value: \(value) could not be parsed to type: |\(type)|, the property: \(property) might have an incorrect value")
         return true
     }
     

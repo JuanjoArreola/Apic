@@ -93,8 +93,4 @@ class ColorContainer: AbstractModel {
     var main: Color!
     var secondary: Color?
     var defaultColor = Color(white: 0.0, alpha: 1.0)
-    
-    override func shouldFail(withInvalidValue value: Any?, forProperty property: String) -> Bool {
-        return ["main"].contains(property)
-    }
 }
