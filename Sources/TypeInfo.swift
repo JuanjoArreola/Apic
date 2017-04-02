@@ -14,7 +14,7 @@ struct TypeInfo: Hashable {
     let arrayTypeNames: [String]
     let dictionaryTypeNames: [String]
     
-    init<T>(type: T.Type) {
+    init(type: Any.Type) {
         self.type = type
         typeNames = [
             "\(type)",
@@ -30,7 +30,7 @@ struct TypeInfo: Hashable {
             "ImplicitlyUnwrappedOptional<Dictionary<String, \(type)>>"]
     }
     
-    init<T>(type: T.Type, name: String) {
+    init(type: Any.Type, name: String) {
         self.type = type
         typeNames = [name]
         arrayTypeNames = []

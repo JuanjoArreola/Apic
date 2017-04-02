@@ -22,7 +22,7 @@ public class Log {
     
     public static var logLevels: [LogLevel] = [.debug, .warning, .error]
     public static var showDate = true
-    public static var showLocation = true
+    public static var showLocation = false
     
     private static var formatter: DateFormatter = {
         let formatter = DateFormatter()

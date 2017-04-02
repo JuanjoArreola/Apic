@@ -41,12 +41,6 @@ class Movie: AbstractModel {
     
     var rating: Float?
     
-    override class func initialize() {
-        super.initialize()
-        
-        DefaultTypeResolver.shared.register(type: MovieFormat.self)
-    }
-    
 //    MARK: - Specifications
     var duration: Int = 0
     var format: MovieFormat = .standard

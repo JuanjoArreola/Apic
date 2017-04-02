@@ -7,12 +7,14 @@
 //
 
 import XCTest
+import Apic
 
 class ChangeValueTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        
+        DefaultTypeResolver.shared.register(types: Playlist.self, Song.self)
     }
     
     override func tearDown() {

@@ -13,7 +13,10 @@ class NoClassTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        
+        DefaultTypeResolver.shared.register(type: State.self)
+        DefaultTypeResolver.shared.register(type: MediaType.self)
+        DefaultTypeResolver.shared.register(type: Location.self)
     }
     
     override func tearDown() {
@@ -110,13 +113,6 @@ enum MediaType: IntInitializable {
 
 class StateContainer: AbstractModel {
     
-    open override class func initialize() {
-        super.initialize()
-        
-        DefaultTypeResolver.shared.register(type: State.self)
-        DefaultTypeResolver.shared.register(type: MediaType.self)
-    }
-    
     var state: State!
     var nextState: State?
     var mediaType: MediaType!
@@ -135,12 +131,6 @@ class StateContainer: AbstractModel {
 }
 
 class PositionContainer: AbstractModel {
-    
-    open override class func initialize() {
-        super.initialize()
-        
-        DefaultTypeResolver.shared.register(type: Location.self)
-    }
     
     var location: Location!
     

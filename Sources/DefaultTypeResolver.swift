@@ -8,26 +8,26 @@
 
 import Foundation
 
-open class DefaultTypeResolver: TypeResolver {
+public class DefaultTypeResolver: TypeResolver {
     
     public static var shared = DefaultTypeResolver()
     
-    var types: Set<TypeInfo> = []
-    var typeNames: Set<TypeInfo> = []
+    private var types: Set<TypeInfo> = []
+    private var typeNames: Set<TypeInfo> = []
     
-    public func register<T>(type: T.Type) {
+    public func register(type: Any.Type) {
         if !contains(type: type) && type != AbstractModel.self {
             types.insert(TypeInfo(type: type))
         }
     }
     
-    public func register<T>(types: T.Type...) {
+    public func register(types: Any.Type...) {
         for type in types {
             register(type: type)
         }
     }
     
-    public func register<T>(type: T.Type, forName name: String) {
+    public func register(type: Any.Type, forName name: String) {
         if !contains(typeName: name) {
             typeNames.insert(TypeInfo(type: type, name: name))
         }

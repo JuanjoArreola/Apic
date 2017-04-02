@@ -24,10 +24,6 @@ open class AbstractModel: NSObject, NSCoding, InitializableWithDictionary {
     
     static let resolver = DefaultTypeResolver.shared
     
-    open override class func initialize() {
-        DefaultTypeResolver.shared.register(type: self)
-    }
-    
     internal lazy var modelType: AbstractModel.Type = type(of: self)
     
     public override init() {
@@ -56,14 +52,14 @@ open class AbstractModel: NSObject, NSCoding, InitializableWithDictionary {
             guard let property = child.label, !modelType.ignoredProperties.contains(property) else { continue }
             
             let key = modelType.propertyKeys[property] ?? property
-            try assign(rawValue: dictionary[key], to: child, parser: self)
+            try assign(rawValue: dictionary[key], to: child)
         }
     }
     
     public func assign(rawValue: Any?, toProperty property: String, mirror: Mirror? = nil) throws {
         let mirror = mirror ?? Mirror(reflecting: self)
         if let child = mirror.findChild(withName: property) {
-            try assign(rawValue: rawValue, to: child, parser: self)
+            try assign(rawValue: rawValue, to: child)
         } else {
             if mirror.isAbstractModelMirror {
                 throw ModelError.invalidProperty(property: property)
@@ -74,7 +70,7 @@ open class AbstractModel: NSObject, NSCoding, InitializableWithDictionary {
         }
     }
     
-    open func assign(rawValue optionalRawValue: Any?, to child: Mirror.Child, parser: PropertyParser) throws {
+    open func assign(rawValue optionalRawValue: Any?, to child: Mirror.Child) throws {
         guard let property = child.label else { return }
     
         let propertyType = type(of: child.value)
@@ -89,82 +85,16 @@ open class AbstractModel: NSObject, NSCoding, InitializableWithDictionary {
             throw ModelError.sourceValueError(property: property, model: modelType, value: nil)
         }
         
-//      MARK: - String
-        if try parser.parsed(value: rawValue, property: property, type: propertyType, target: String.self) {}
-            
-        else if try parser.parsedArray(value: rawValue, property: property, type: propertyType, target: String.self) {}
-            
-//      MARK: - Int
-        else if try parser.safeParsed(value: rawValue, property: property, type: propertyType, target: Int.self) {}
-            
-        else if try parser.parsedArray(value: rawValue, property: property, type: propertyType, target: Int.self) {}
-
-//      MARK: - Float
-        else if try parser.safeParsed(value: rawValue, property: property, type: propertyType, target: Float.self) {}
-            
-        else if try parser.parsedArray(value: rawValue, property: property, type: propertyType, target: Float.self) {}
-            
-//      MARK: - Double
-        else if try parser.safeParsed(value: rawValue, property: property, type: propertyType, target: Double.self) {}
-            
-        else if try parser.parsedArray(value: rawValue, property: property, type: propertyType, target: Double.self) {}
-            
-//      MARK: - Bool
-        else if try parser.safeParsed(value: rawValue, property: property, type: propertyType, target: Bool.self) {}
-            
-        else if try parser.parsedArray(value: rawValue, property: property, type: propertyType, target: Bool.self) {}
-            
-//      MARK: - Date
-        else if try parser.parsedDate(value: rawValue, property: property, type: propertyType) {}
-            
-        else if try parser.parsedDateArray(value: rawValue, property: property, type: propertyType) {}
-            
-//      MARK: - NSDecimalNumber
-        else if try parser.parsed(value: rawValue, property: property, type: propertyType, target: NSDecimalNumber.self) {}
-            
-        else if try parser.parsedArray(value: rawValue, property: property, type: propertyType, target: NSDecimalNumber.self) {}
-            
-//      MARK: - URL
-        else if try parser.parsed(value: rawValue, property: property, type: propertyType, target: URL.self) {}
-            
-        else if try parser.parsedArray(value: rawValue, property: property, type: propertyType, target: URL.self) {}
-            
-//      MARK: - Color
-        else if try parser.parsed(value: rawValue, property: property, type: propertyType, target: Color.self) {}
-            
-        else if try parser.parsedArray(value: rawValue, property: property, type: propertyType, target: Color.self) {}
-            
-//      MARK: - [String: String]
-        else if try parser.parsedStringDictionary(value: rawValue, property: property, type: propertyType) {}
-            
-//      MARK: AbstractModel
-            
-        else if let propertyType = modelType.resolver.resolve(type: propertyType) as? InitializableWithDictionary.Type {
-            try parser.parseInitializable(value: rawValue, property: property, type: propertyType)
-        }
-            
-        else if let propertyType = modelType.resolver.resolveArray(type: propertyType) as? InitializableWithDictionary.Type {
-            try parser.parseInitializableArray(value: rawValue, property: property, type: propertyType)
-        }
-            
-        else if let propertyType = modelType.resolver.resolveDictionary(type: propertyType) as? InitializableWithDictionary.Type {
-            try parser.parseDictionary(value: rawValue, property: property, type: propertyType)
-        }
-            
-//      MARK: - AnyInitializable
-            
-        else if let propertyType = modelType.resolver.resolve(type: propertyType) as? AnyInitializable.Type {
-            try parser.parseAnyInitializable(value: rawValue, property: property, type: propertyType)
-        }
-            
-        else if let propertyType = modelType.resolver.resolveArray(type: propertyType) as? AnyInitializable.Type {
-            try parser.parseAnyInitializableArray(value: rawValue, property: property, type: propertyType)
-        }
+        let parser = ModelParserProvider.shared.parser(for: type(of: self))
         
-        else {
-            if shouldFail(withInvalidValue: rawValue, forProperty: property, type: propertyType) {
-                throw ModelError.sourceValueError(property: property, model: modelType, value: rawValue)
-            }
+        if try parser.assignBasic(value: rawValue, to: self, child: child) { return }
+            
+        if try parser.assignDictionaryInitializable(value: rawValue, to: self, child: child) { return }
+            
+        if try parser.assignAnyInitializable(value: rawValue, to: self, child: child) { return }
+        
+        if shouldFail(withInvalidValue: rawValue, forProperty: property, type: propertyType) {
+            throw ModelError.sourceValueError(property: property, model: modelType, value: rawValue)
         }
     }
     
@@ -174,7 +104,7 @@ open class AbstractModel: NSObject, NSCoding, InitializableWithDictionary {
     
     /// Override this method in subclasses and return true if the object is invalid if a value couln't be parsed for a property
     open func shouldFail(withInvalidValue value: Any, forProperty property: String, type: Any.Type) -> Bool {
-        Log.warn("The value: \(value) could not be parsed to type: |\(type)|, the property: \(property) might have an incorrect value")
+        Log.warn("The value: \(value) could not be parsed to type: |\(type)|, consider to register the type with:\n\nDefaultTypeResolver.shared.register(type: <MyModel>.self\n")
         return true
     }
     

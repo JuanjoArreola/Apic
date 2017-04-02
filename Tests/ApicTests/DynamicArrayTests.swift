@@ -13,7 +13,10 @@ class DynamicArrayTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        
+        DefaultTypeResolver.shared.register(types: Award.self)
+        DefaultTypeResolver.shared.register(type: Oscar.self, forName: "Oscar")
+        DefaultTypeResolver.shared.register(type: GoldenGlobe.self, forName: "GoldenGlobe")
     }
     
     override func tearDown() {
@@ -44,13 +47,6 @@ class Moview: AbstractModel {
 
 class Award: AbstractModel, DynamicTypeModel {
     var name: String!
-    
-    override class func initialize() {
-        super.initialize()
-        
-        DefaultTypeResolver.shared.register(type: Oscar.self, forName: "Oscar")
-        DefaultTypeResolver.shared.register(type: GoldenGlobe.self, forName: "GoldenGlobe")
-    }
     
     static var typeNameProperty: String {
         return "type"

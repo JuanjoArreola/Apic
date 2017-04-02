@@ -17,8 +17,6 @@
 		814702671E7F1DBE00A2B874 /* IntInitializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814702661E7F1DBE00A2B874 /* IntInitializable.swift */; };
 		814702691E7F202D00A2B874 /* RepositoryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814702681E7F202D00A2B874 /* RepositoryError.swift */; };
 		8147026B1E7F205600A2B874 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8147026A1E7F205600A2B874 /* HTTPMethod.swift */; };
-		8147026D1E7FA98600A2B874 /* AbstractModel+PropertyParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8147026C1E7FA98600A2B874 /* AbstractModel+PropertyParser.swift */; };
-		8147026F1E7FAA1600A2B874 /* PropertyParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8147026E1E7FAA1600A2B874 /* PropertyParser.swift */; };
 		814702711E8038C700A2B874 /* AbstractModel+Coding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814702701E8038C700A2B874 /* AbstractModel+Coding.swift */; };
 		814702731E80755200A2B874 /* InitializableWithDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814702721E80755200A2B874 /* InitializableWithDictionary.swift */; };
 		814702751E8079A400A2B874 /* DynamicTypeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814702741E8079A400A2B874 /* DynamicTypeModel.swift */; };
@@ -35,6 +33,9 @@
 		81C6E64D1E7C7E4B006105D1 /* String+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6E64C1E7C7E4B006105D1 /* String+AnyMatchBuilder.swift */; };
 		81C6E64F1E7C8153006105D1 /* Date+TypeMatchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6E64E1E7C8153006105D1 /* Date+TypeMatchable.swift */; };
 		81C6E6511E7C82B1006105D1 /* Date+Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6E6501E7C82B1006105D1 /* Date+Parse.swift */; };
+		81FC7DEF1E91C1E600FC2FA9 /* ModelParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FC7DEE1E91C1E600FC2FA9 /* ModelParser.swift */; };
+		81FC7DF11E91C21B00FC2FA9 /* ModelParserProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FC7DF01E91C21B00FC2FA9 /* ModelParserProvider.swift */; };
+		81FC7DF31E91C23400FC2FA9 /* ChildProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FC7DF21E91C23400FC2FA9 /* ChildProperty.swift */; };
 		OBJ_100 /* Apic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = OBJ_49 /* Apic.framework */; };
 		OBJ_56 /* AbstractCustomErrorRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* AbstractCustomErrorRepository.swift */; };
 		OBJ_57 /* AbstractModel+SoftSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* AbstractModel+SoftSerialization.swift */; };
@@ -95,8 +96,6 @@
 		814702661E7F1DBE00A2B874 /* IntInitializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntInitializable.swift; sourceTree = "<group>"; };
 		814702681E7F202D00A2B874 /* RepositoryError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryError.swift; sourceTree = "<group>"; };
 		8147026A1E7F205600A2B874 /* HTTPMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
-		8147026C1E7FA98600A2B874 /* AbstractModel+PropertyParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AbstractModel+PropertyParser.swift"; sourceTree = "<group>"; };
-		8147026E1E7FAA1600A2B874 /* PropertyParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyParser.swift; sourceTree = "<group>"; };
 		814702701E8038C700A2B874 /* AbstractModel+Coding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AbstractModel+Coding.swift"; sourceTree = "<group>"; };
 		814702721E80755200A2B874 /* InitializableWithDictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitializableWithDictionary.swift; sourceTree = "<group>"; };
 		814702741E8079A400A2B874 /* DynamicTypeModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicTypeModel.swift; sourceTree = "<group>"; };
@@ -113,6 +112,9 @@
 		81C6E64C1E7C7E4B006105D1 /* String+AnyMatchBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
 		81C6E64E1E7C8153006105D1 /* Date+TypeMatchable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+TypeMatchable.swift"; sourceTree = "<group>"; };
 		81C6E6501E7C82B1006105D1 /* Date+Parse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Parse.swift"; sourceTree = "<group>"; };
+		81FC7DEE1E91C1E600FC2FA9 /* ModelParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelParser.swift; sourceTree = "<group>"; };
+		81FC7DF01E91C21B00FC2FA9 /* ModelParserProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelParserProvider.swift; sourceTree = "<group>"; };
+		81FC7DF21E91C23400FC2FA9 /* ChildProperty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChildProperty.swift; sourceTree = "<group>"; };
 		OBJ_10 /* AbstractModel+SoftSerialization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AbstractModel+SoftSerialization.swift"; sourceTree = "<group>"; };
 		OBJ_11 /* AbstractModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractModel.swift; sourceTree = "<group>"; };
 		OBJ_12 /* AbstractRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractRepository.swift; sourceTree = "<group>"; };
@@ -201,6 +203,16 @@
 			name = "Type resolution";
 			sourceTree = "<group>";
 		};
+		81FC7DED1E91C1C300FC2FA9 /* Parser */ = {
+			isa = PBXGroup;
+			children = (
+				81FC7DEE1E91C1E600FC2FA9 /* ModelParser.swift */,
+				81FC7DF01E91C21B00FC2FA9 /* ModelParserProvider.swift */,
+				81FC7DF21E91C23400FC2FA9 /* ChildProperty.swift */,
+			);
+			name = Parser;
+			sourceTree = "<group>";
+		};
 		OBJ_19 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -274,6 +286,7 @@
 		OBJ_8 /* Apic */ = {
 			isa = PBXGroup;
 			children = (
+				81FC7DED1E91C1C300FC2FA9 /* Parser */,
 				816297701E8C494700BBF065 /* Type resolution */,
 				814D76471E7DC4100061F55D /* Builder */,
 				OBJ_9 /* AbstractCustomErrorRepository.swift */,
@@ -294,8 +307,6 @@
 				814702661E7F1DBE00A2B874 /* IntInitializable.swift */,
 				814702681E7F202D00A2B874 /* RepositoryError.swift */,
 				8147026A1E7F205600A2B874 /* HTTPMethod.swift */,
-				8147026C1E7FA98600A2B874 /* AbstractModel+PropertyParser.swift */,
-				8147026E1E7FAA1600A2B874 /* PropertyParser.swift */,
 				814702701E8038C700A2B874 /* AbstractModel+Coding.swift */,
 				814702721E80755200A2B874 /* InitializableWithDictionary.swift */,
 				814702741E8079A400A2B874 /* DynamicTypeModel.swift */,
@@ -372,6 +383,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				81FC7DEF1E91C1E600FC2FA9 /* ModelParser.swift in Sources */,
 				811C4AA41E7B466E0049D8A3 /* Bool+AnyMatchBuilder.swift in Sources */,
 				814702751E8079A400A2B874 /* DynamicTypeModel.swift in Sources */,
 				OBJ_56 /* AbstractCustomErrorRepository.swift in Sources */,
@@ -381,9 +393,9 @@
 				811C4AA01E7B45960049D8A3 /* Float+AnyMatchBuilder.swift in Sources */,
 				811C4AA21E7B45B90049D8A3 /* Mirror+Util.swift in Sources */,
 				814702711E8038C700A2B874 /* AbstractModel+Coding.swift in Sources */,
-				8147026F1E7FAA1600A2B874 /* PropertyParser.swift in Sources */,
 				OBJ_58 /* AbstractModel.swift in Sources */,
-				8147026D1E7FA98600A2B874 /* AbstractModel+PropertyParser.swift in Sources */,
+				81FC7DF31E91C23400FC2FA9 /* ChildProperty.swift in Sources */,
+				81FC7DF11E91C21B00FC2FA9 /* ModelParserProvider.swift in Sources */,
 				OBJ_59 /* AbstractRepository.swift in Sources */,
 				OBJ_60 /* Configuration.swift in Sources */,
 				811C4A9E1E7B43BD0049D8A3 /* DefaultTypeResolver.swift in Sources */,
