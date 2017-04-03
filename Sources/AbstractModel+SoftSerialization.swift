@@ -10,23 +10,11 @@ import Foundation
 
 public extension AbstractModel {
     
-    func jsonValidDictionary() -> [String: Any] {
+    func jsonValidDictionary(strict: Bool = false) throws -> [String: Any] {
         var result = [String: Any]()
-        try? softAddProperties(to: &result, mirror: Mirror(reflecting: self), strict: false)
+        try softAddProperties(to: &result, mirror: Mirror(reflecting: self), strict: strict)
         
         return result
-    }
-    
-    func jsonValidStrictDictionary() throws -> [String: Any] {
-        var result = [String: Any]()
-        try softAddProperties(to: &result, mirror: Mirror(reflecting: self), strict: true)
-        
-        return result
-    }
-    
-    @available(*, deprecated: 3.2.2, message: "Use jsonValidDictionary() instead")
-    var softDictionary: [String: Any] {
-        return jsonValidDictionary()
     }
     
     private func softAddProperties(to dictionary: inout [String: Any], mirror: Mirror, strict: Bool) throws {
@@ -36,7 +24,7 @@ public extension AbstractModel {
         for child in mirror.children {
             guard let property = child.label else { continue }
             guard let value = self.value(forKey: property) else {
-                let propertyType = Mirror(reflecting:child.value).subjectType
+                let propertyType = type(of: child.value)
                 if "\(propertyType)".hasPrefix("Optional<") {
                     continue
                 }
@@ -52,9 +40,9 @@ public extension AbstractModel {
                 let format = modelType.propertyDateFormats[property] ?? Configuration.dateFormat
                 dictionary[resultKey] = date.toString(format: format)
             } else if let model = value as? AbstractModel {
-                dictionary[resultKey] = strict ? try model.jsonValidStrictDictionary() : model.jsonValidDictionary()
+                dictionary[resultKey] = try model.jsonValidDictionary(strict: strict)
             } else if let models = value as? [AbstractModel] {
-                dictionary[resultKey] = strict ? try models.jsonValidStrict() : models.jsonValid()
+                dictionary[resultKey] = try models.jsonValid(strict: strict)
             } else {
                 dictionary[resultKey] = String(describing: value)
             }
@@ -64,16 +52,7 @@ public extension AbstractModel {
 
 public extension Array where Element: AbstractModel {
     
-    func jsonValid() -> [[String: Any]] {
-        return self.map({ $0.jsonValidDictionary() })
-    }
-    
-    func jsonValidStrict() throws -> [[String: Any]] {
-        return try self.map({ try $0.jsonValidStrictDictionary() })
-    }
-    
-    @available(*, deprecated: 3.2.2, message: "Use jsonValid() instead")
-    var softArray: [[String: Any]] {
-        return self.map({ $0.softDictionary })
+    func jsonValid(strict: Bool = false) throws -> [[String: Any]] {
+        return try self.map({ try $0.jsonValidDictionary(strict: strict) })
     }
 }

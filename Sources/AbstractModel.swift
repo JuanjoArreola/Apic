@@ -88,6 +88,8 @@ open class AbstractModel: NSObject, NSCoding, InitializableWithDictionary {
         let parser = ModelParserProvider.shared.parser(for: type(of: self))
         
         if try parser.assignBasic(value: rawValue, to: self, child: child) { return }
+        
+        if try parser.assignSimple(value: rawValue, to: self, child: child) { return }
             
         if try parser.assignDictionaryInitializable(value: rawValue, to: self, child: child) { return }
             

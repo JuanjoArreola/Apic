@@ -25,7 +25,7 @@ class JSONValidTests: XCTestCase {
         let playlist = Playlist()
         playlist.name = "Favourites"
         playlist.songs = [Song(id: "1", name: "No one knows"), Song(id: "2", name: "Symmetry")]
-        let dictionary = playlist.jsonValidDictionary()
+        let dictionary = try! playlist.jsonValidDictionary()
         XCTAssertEqual(dictionary.count, 2)
         XCTAssertNotNil(dictionary["songs"])
         XCTAssertTrue(dictionary["songs"] is [[String: Any]])
@@ -38,7 +38,7 @@ class JSONValidTests: XCTestCase {
             playlist.id = "1"
             playlist.name = "Favourites"
             playlist.songs = [Song(id: "1", name: "No one knows"), Song(id: "2", name: "Symmetry")]
-            let dictionary = try playlist.jsonValidStrictDictionary()
+            let dictionary = try playlist.jsonValidDictionary(strict: true)
             XCTAssertEqual(dictionary.count, 4)
             XCTAssertNotNil(dictionary["songs"])
             XCTAssertNotNil(dictionary["created"])
@@ -53,7 +53,7 @@ class JSONValidTests: XCTestCase {
             let playlist = Playlist()
             playlist.name = "Favourites"
             playlist.songs = [Song(id: "1", name: "No one knows"), Song(id: "2", name: "Symmetry")]
-            let _ = try playlist.jsonValidStrictDictionary()
+            let _ = try playlist.jsonValidDictionary(strict: true)
             XCTFail()
         } catch ModelError.serializationError(let property, _) {
             XCTAssertEqual(property, "id")

@@ -44,30 +44,18 @@ public class DefaultTypeResolver: TypeResolver {
     // MARK: - TypeResolver
     
     public func resolve(type: Any.Type) -> Any.Type? {
-        for info in types {
-            if let match = info.match(type: type) { return match }
-        }
-        return nil
+        return types.find({ $0.match(type: type) != nil })?.type
     }
     
     public func resolveArray(type: Any.Type) -> Any.Type? {
-        for info in types {
-            if let match = info.matchArray(type: type) { return match }
-        }
-        return nil
+        return types.find({ $0.matchArray(type: type) != nil })?.type
     }
     
     public func resolveDictionary(type: Any.Type) -> Any.Type? {
-        for info in types {
-            if let match = info.matchDictionary(type: type) { return match }
-        }
-        return nil
+        return types.find({ $0.matchDictionary(type: type) != nil })?.type
     }
     
     public func resolve(typeForName typeName: String) -> Any? {
-        for info in typeNames {
-            if let match = info.match(typeName: typeName) { return match }
-        }
-        return nil
+        return typeNames.find({ $0.match(typeName: typeName) != nil })?.type
     }
 }

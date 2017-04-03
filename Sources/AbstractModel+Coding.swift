@@ -19,7 +19,7 @@ extension AbstractModel {
         }
         for child in mirror.children {
             guard let property = child.label else { continue }
-            let propertyType = Mirror(reflecting: child.value).subjectType
+            let propertyType = type(of: child.value)
             if let value = child.value as? StringRepresentable {
                 coder.encode(value.rawValue, forKey: property)
             } else if let _ = modelType.resolver.resolve(type: propertyType) as? StringRepresentable.Type {
@@ -39,13 +39,16 @@ extension AbstractModel {
         }
         for child in mirror.children {
             guard let property = child.label else { continue }
-            let propertyType = Mirror(reflecting: child.value).subjectType
-            if let value = decoder.decodeObject(forKey: property), !(value is NSNull) {
-                if let type = modelType.resolver.resolve(type: propertyType) as? StringRepresentable.Type, let string = value as? String, let representable = type.init(rawValue: string) {
-                    assign(value: representable, from: decoder, forProperty: property)
-                } else {
-                    assign(value: value, from: decoder, forProperty: property)
-                }
+            guard let value = decoder.decodeObject(forKey: property), !(value is NSNull) else {
+                continue
+            }
+            let propertyType = type(of: child.value)
+            if let type = modelType.resolver.resolve(type: propertyType) as? StringRepresentable.Type,
+                let string = value as? String,
+                let representable = type.init(rawValue: string) {
+                assign(value: representable, from: decoder, forProperty: property)
+            } else {
+                assign(value: value, from: decoder, forProperty: property)
             }
         }
     }

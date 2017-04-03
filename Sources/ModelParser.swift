@@ -36,6 +36,12 @@ internal class ModelParser {
         if let _: Double = try safeAssign(value, to: model, property: childProperty) { return true }
         if let _: [Double] = try assignArray(value, to: model, property: childProperty) { return true }
         
+        return false
+    }
+    
+    func assignSimple(value: Any, to model: AbstractModel, child: Mirror.Child) throws -> Bool {
+        guard let childProperty = ChildProperty(child: child) else { return false }
+        
         if try assignDate(value: value, to: model, property: childProperty) { return true }
         if try assignDateArray(value: value, to: model, property: childProperty) { return true }
         

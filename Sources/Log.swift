@@ -30,26 +30,22 @@ public class Log {
         return formatter
     }()
     
-    public class func debug(_ message: @autoclosure () -> Any, file: String = #file, function: StaticString = #function, line: Int = #line) {
-        log(message, level: .debug, file: file, function: function, line: line)
+    public class func debug(_ message: @autoclosure () -> Any) {
+        log(message, level: .debug)
     }
     
-    public class func warn(_ message: @autoclosure () -> Any, file: String = #file, function: StaticString = #function, line: Int = #line) {
-        log(message, level: .warning, file: file, function: function, line: line)
+    public class func warn(_ message: @autoclosure () -> Any) {
+        log(message, level: .warning)
     }
     
-    public class func error(_ message: @autoclosure () -> Any, file: String = #file, function: StaticString = #function, line: Int = #line) {
-        log(message, level: .error, file: file, function: function, line: line)
+    public class func error(_ message: @autoclosure () -> Any) {
+        log(message, level: .error)
     }
     
-    private class func log(_ message: () -> Any, level: LogLevel, file: String, function: StaticString, line: Int) {
+    private class func log(_ message: () -> Any, level: LogLevel) {
         if !logLevels.contains(level) { return }
-        var string = ""
-        string += showDate ? formatter.string(from: Date()) + " " : ""
-        if showLocation {
-            let file = file.components(separatedBy: "/").last ?? ""
-            string += "\(file) \(function) [\(line)] "
-        }
+        
+        var string = showDate ? formatter.string(from: Date()) + " " : ""
         string += level.name + ": " + String(describing: message())
         print(string)
     }
