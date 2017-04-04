@@ -30,6 +30,7 @@
 		816A00731E7C64470098630A /* Int+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816A00721E7C64470098630A /* Int+AnyMatchBuilder.swift */; };
 		816A00751E7C7BC90098630A /* Double+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816A00741E7C7BC90098630A /* Double+AnyMatchBuilder.swift */; };
 		816A00771E7C7CF30098630A /* TypeMatchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816A00761E7C7CF30098630A /* TypeMatchable.swift */; };
+		81A117951E92FDFF00F51D29 /* ValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A117941E92FDFF00F51D29 /* ValidationTests.swift */; };
 		81C6E64D1E7C7E4B006105D1 /* String+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6E64C1E7C7E4B006105D1 /* String+AnyMatchBuilder.swift */; };
 		81C6E64F1E7C8153006105D1 /* Date+TypeMatchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6E64E1E7C8153006105D1 /* Date+TypeMatchable.swift */; };
 		81C6E6511E7C82B1006105D1 /* Date+Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6E6501E7C82B1006105D1 /* Date+Parse.swift */; };
@@ -109,6 +110,7 @@
 		816A00721E7C64470098630A /* Int+AnyMatchBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
 		816A00741E7C7BC90098630A /* Double+AnyMatchBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Double+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
 		816A00761E7C7CF30098630A /* TypeMatchable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeMatchable.swift; sourceTree = "<group>"; };
+		81A117941E92FDFF00F51D29 /* ValidationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationTests.swift; sourceTree = "<group>"; };
 		81C6E64C1E7C7E4B006105D1 /* String+AnyMatchBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
 		81C6E64E1E7C8153006105D1 /* Date+TypeMatchable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+TypeMatchable.swift"; sourceTree = "<group>"; };
 		81C6E6501E7C82B1006105D1 /* Date+Parse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Parse.swift"; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 				OBJ_45 /* SoftDictionaryTests.swift */,
 				OBJ_46 /* StringTests.swift */,
 				OBJ_47 /* UndefinedTypeTests.swift */,
+				81A117941E92FDFF00F51D29 /* ValidationTests.swift */,
 			);
 			name = ApicTests;
 			path = Tests/ApicTests;
@@ -438,6 +441,7 @@
 				OBJ_79 /* DecimalTests.swift in Sources */,
 				OBJ_80 /* DictionaryTests.swift in Sources */,
 				OBJ_81 /* DoubleTests.swift in Sources */,
+				81A117951E92FDFF00F51D29 /* ValidationTests.swift in Sources */,
 				OBJ_82 /* DynamicArrayTests.swift in Sources */,
 				OBJ_83 /* ErrorTests.swift in Sources */,
 				OBJ_84 /* FloatTests.swift in Sources */,

@@ -20,4 +20,6 @@ public enum ModelError: Error {
     case undefinedTypeName(name: String)
     case unasignedInstance(property: String)
     case dynamicTypeInfo(key: String)
+    
+    case validationError(reason: String, type: Any.Type)
 }

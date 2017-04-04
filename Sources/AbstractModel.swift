@@ -38,6 +38,7 @@ open class AbstractModel: NSObject, NSCoding, InitializableWithDictionary {
         super.init()
         
         try initializeProperties(of: Mirror(reflecting: self), with: dictionary)
+        try validate()
     }
     
     open func initializeProperties(of mirror: Mirror, with dictionary: [String: Any]) throws {
@@ -108,6 +109,10 @@ open class AbstractModel: NSObject, NSCoding, InitializableWithDictionary {
     open func shouldFail(withInvalidValue value: Any, forProperty property: String, type: Any.Type) -> Bool {
         Log.warn("The value: \(value) could not be parsed to type: |\(type)|, consider to register the type with:\n\nDefaultTypeResolver.shared.register(type: <MyModel>.self\n")
         return true
+    }
+    
+    open func validate() throws {
+        
     }
     
     // MARK: - NSCoding
