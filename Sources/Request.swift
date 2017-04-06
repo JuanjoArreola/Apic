@@ -21,7 +21,13 @@ private let syncQueue: DispatchQueue = DispatchQueue(label: "com.apic.SyncQueue"
 open class Request<T: Any>: CustomDebugStringConvertible, Cancellable {
     
     private var completionHandlers: [(_ getObject: () throws -> T) -> Void]? = []
-    private var result: (() throws -> T)?
+    
+    private var successHandlers: [(T) -> Void]? = []
+    private var errorHandlers: [(Error) -> Void]? = []
+    private var finishHandlers: [() -> Void]? = []
+    
+    private var object: T?
+    private var error: Error?
     
     open var subrequest: Cancellable? {
         didSet {
@@ -32,12 +38,16 @@ open class Request<T: Any>: CustomDebugStringConvertible, Cancellable {
     }
     
     open var completed: Bool {
-        return result != nil
+        return object != nil || error != nil
     }
     
     open private(set) var canceled = false
     
     required public init() {}
+    
+    required public init(successHandler: @escaping (T) -> Void) {
+        successHandlers?.append(successHandler)
+    }
     
     required public init(completionHandler: @escaping (_ getObject: () throws -> T) -> Void) {
         completionHandlers?.append(completionHandler)
@@ -51,32 +61,76 @@ open class Request<T: Any>: CustomDebugStringConvertible, Cancellable {
     open func cancel() {
         sync() { self.canceled = true }
         subrequest?.cancel()
-        complete(withError: RequestError.canceled)
+        complete(with: RequestError.canceled)
     }
     
-    open func complete(withObject object: T) {
-        if result == nil {
-            result = { return object }
+    open func complete(with object: T) {
+        if !completed {
+            self.object = object
             callHandlers()
         }
     }
     
-    open func complete(withError error: Error) {
-        if result == nil {
-            result = { throw error }
+    open func complete(with error: Error) {
+        if !completed {
+            self.error = error
             callHandlers()
         }
+    }
+    
+    @discardableResult
+    public func success(handler: @escaping (T) -> Void) -> Self {
+        if let object = object {
+            handler(object)
+        } else if error == nil {
+            successHandlers?.append(handler)
+        }
+        return self
+    }
+    
+    @discardableResult
+    public func fail(handler: @escaping (Error) -> Void) -> Self {
+        if let error = error {
+            handler(error)
+        } else if object == nil {
+            errorHandlers?.append(handler)
+        }
+        return self
+    }
+    
+    @discardableResult
+    public func finished(handler: @escaping () -> Void) -> Self {
+        if completed {
+            handler()
+        } else {
+            finishHandlers?.append(handler)
+        }
+        return self
     }
     
     private func callHandlers() {
-        guard let getClosure = result else { return }
-        completionHandlers?.forEach({ $0(getClosure) })
-        sync() { self.completionHandlers = nil }
+        guard let handlers = completionHandlers else { return }
+        if let object = object {
+            handlers.forEach({ $0({ return object }) })
+            successHandlers?.forEach({ $0(object) })
+        } else if let error = error {
+            handlers.forEach({ $0({ throw error }) })
+            errorHandlers?.forEach({ $0(error) })
+        }
+        finishHandlers?.forEach({ $0() })
+        sync() {
+            self.completionHandlers = nil
+            self.successHandlers = nil
+            self.errorHandlers = nil
+            self.finishHandlers = nil
+        }
     }
     
     open func add(completionHandler completion: @escaping (_ getObject: () throws -> T) -> Void) {
-        if let getClosure = result {
-            completion(getClosure)
+        if let object = object {
+            completion({ return object })
+        } else if let error = error {
+            completion({ throw error })
         } else {
             sync() { self.completionHandlers?.append(completion) }
         }
@@ -103,6 +157,10 @@ open class ApicRequest<T: Any>: Request<T>, ProgressReporter, Equatable {
     
     public required init(completionHandler: @escaping (_ getObject: () throws -> T) -> Void) {
         super.init(completionHandler: completionHandler)
+    }
+    
+    required public init(successHandler: @escaping (T) -> Void) {
+        super.init(successHandler: successHandler)
     }
 
     required public init() {

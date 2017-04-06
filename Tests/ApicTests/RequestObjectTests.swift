@@ -37,6 +37,17 @@ class RequestObjectTests: XCTestCase {
         waitForExpectations(timeout: 60.0, handler: nil)
     }
     
+    func testRequestUser2() {
+        let userRepository = UserRepository()
+        
+        let expectation: XCTestExpectation = self.expectation(description: "fetch list")
+        let request = userRepository.requestUser2(withName: "JuanjoArreola") { user in
+            expectation.fulfill()
+        }
+        request?.fail { _ in XCTFail() }
+        waitForExpectations(timeout: 60.0, handler: nil)
+    }
+    
     func testRequestInnerUser() {
         let gistRepository = GistRepository()
         
@@ -96,6 +107,10 @@ class UserRepository: AbstractRepository {
     init() {
         let parser = DefaultResponseParser<String>()
         super.init(responseParser: parser)
+    }
+    
+    @discardableResult func requestUser2(withName name: String, completion: @escaping (User) -> Void) -> Request<User>? {
+        return requestObject(route: .get("https://api.github.com/users/\(name)"), completion: completion)
     }
     
     @discardableResult func requestUser(withName name: String, completion: @escaping (_ getUser: () throws -> User) -> Void) -> Request<User>? {

@@ -22,7 +22,7 @@ open class AbstractRepository {
     open var repositorySessionDelegate: RepositorySessionDataDelegate?
     
 #if os(iOS) || os(OSX) || os(tvOS)
-    open var checkReachability = true
+    open var reachabilityManager: ReachabilityManager?
 #endif
     
     private var parser: ResponseParser
@@ -31,58 +31,85 @@ open class AbstractRepository {
         self.parser = responseParser
     }
     
+    open func requestSuccess(_ route: Route, params: [String: Any]? = [:], encoding: ParameterEncoding? = nil, headers: [String: String]? = nil, completion: @escaping (Bool) -> Void) -> ApicRequest<Bool> {
+        let request = ApicRequest<Bool>(successHandler: completion)
+        process(request: request, route: route, params: params, encoding: encoding, headers: headers, completion: successHandler(for: request))
+        
+        return request
+    }
+    
     open func requestSuccess(method: HTTPMethod, url: URLConvertible, params: [String: Any]? = [:], encoding: ParameterEncoding? = nil, headers: [String: String]? = nil, completion: @escaping (_ getSuccess: () throws -> Bool) -> Void) -> ApicRequest<Bool> {
         let request = ApicRequest(completionHandler: completion)
+        let route = method.route(url: url)
+        process(request: request, route: route, completion: successHandler(for: request))
         
-        process(request: request, method: method, url: url) { (data, response, error) in
+        return request
+    }
+    
+    private func successHandler(for request: Request<Bool>) -> (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void {
+        return { (data, response, error) in
             do {
                 _ = try self.parser.object(from: data, response: response, error: error)
-                self.responseQueue.async { request.complete(withObject: true) }
+                self.responseQueue.async { request.complete(with: true) }
             }
             catch {
-                self.responseQueue.async { request.complete(withError: error) }
+                self.responseQueue.async { request.complete(with: error) }
             }
         }
+    }
+    
+    open func requestObject<T: InitializableWithDictionary>(route: Route, params: [String: Any]? = [:], encoding: ParameterEncoding? = nil, headers: [String: String]? = nil, completion: @escaping (T) -> Void) -> ApicRequest<T> {
+        let request = ApicRequest(successHandler: completion)
+        process(request: request, route: route, params: params, encoding: encoding, headers: headers, completion: objectHandler(for: request))
         
         return request
     }
     
     open func requestObject<T: InitializableWithDictionary>(method: HTTPMethod, url: URLConvertible, params: [String: Any]? = [:], encoding: ParameterEncoding? = nil, headers: [String: String]? = nil, completion: @escaping (_ getObject: () throws -> T) -> Void) -> ApicRequest<T> {
         let request = ApicRequest(completionHandler: completion)
-        
-        process(request: request, method: method, url: url, params: params, encoding: encoding, headers: headers) { (data, response, error) in
+        let route = method.route(url: url)
+        process(request: request, route: route, params: params, encoding: encoding, headers: headers, completion: objectHandler(for: request))
+
+        return request
+    }
+    
+    func objectHandler<T: InitializableWithDictionary>(for request: Request<T>) -> (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void {
+        return { (data, response, error) in
             do {
                 let dictionary = try self.parser.object(from: data, response: response, error: error)
                 let object = try T(dictionary: dictionary)
-                self.responseQueue.async { request.complete(withObject: object) }
+                self.responseQueue.async { request.complete(with: object) }
             } catch {
-                self.responseQueue.async { request.complete(withError: error) }
+                self.responseQueue.async { request.complete(with: error) }
             }
         }
-
-        return request
     }
     
     open func requestObjects<T: InitializableWithDictionary>(method: HTTPMethod, url: URLConvertible, params: [String: Any]? = [:], encoding: ParameterEncoding? = nil, headers: [String: String]? = nil, completion: @escaping (_ getObjects: () throws -> [T]) -> Void) -> ApicRequest<[T]> {
         let request = ApicRequest(completionHandler: completion)
-        
-        process(request: request, method: method, url: url, params: params, encoding: encoding, headers: headers) { (data, response, error) in
-            do {
-                let array = try self.parser.array(from: data, response: response, error: error)
-                let objects = try array.map({ try T(dictionary: $0) })
-                self.responseQueue.async { request.complete(withObject: objects) }
-            } catch {
-                self.responseQueue.async { request.complete(withError: error) }
-            }
-        }
+        let route = method.route(url: url)
+        process(request: request, route: route, params: params, encoding: encoding, headers: headers, completion: objectsHandler(for: request))
 
         return request
     }
     
+    private func objectsHandler<T: InitializableWithDictionary>(for request: ApicRequest<[T]>) -> (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void {
+        return { (data, response, error) in
+            do {
+                let array = try self.parser.array(from: data, response: response, error: error)
+                let objects = try array.map({ try T(dictionary: $0) })
+                self.responseQueue.async { request.complete(with: objects) }
+            } catch {
+                self.responseQueue.async { request.complete(with: error) }
+            }
+        }
+    }
+    
     open func requestDictionaryOfObjects<T: InitializableWithDictionary>(method: HTTPMethod, url: URLConvertible, params: [String: Any]? = [:], encoding: ParameterEncoding? = nil, headers: [String: String]? = nil, completion: @escaping (_ getDictionary: () throws -> [String: T]) -> Void) -> ApicRequest<[String: T]> {
         let request = ApicRequest(completionHandler: completion)
+        let route = method.route(url: url)
         
-        process(request: request, method: method, url: url, params: params, encoding: encoding, headers: headers) { (data: Data?, response: URLResponse?, error: Error?) in
+        process(request: request, route: route, params: params, encoding: encoding, headers: headers) { (data: Data?, response: URLResponse?, error: Error?) in
             do {
                 let dictionary = try self.parser.dictionary(from: data, response: response, error: error)
                 var objects = [String: T]()
@@ -90,9 +117,9 @@ open class AbstractRepository {
                     objects[key] = try T(dictionary: value)
                     self.didAssign(object: objects[key]!, to: &objects, withKey: key)
                 }
-                self.responseQueue.async { request.complete(withObject: objects) }
+                self.responseQueue.async { request.complete(with: objects) }
             } catch {
-                self.responseQueue.async { request.complete(withError: error) }
+                self.responseQueue.async { request.complete(with: error) }
             }
         }
 
@@ -130,21 +157,19 @@ open class AbstractRepository {
     
     // MARK: -
     
-    @inline(__always) private func process<T>(request: ApicRequest<T>, method: HTTPMethod, url: URLConvertible, params: [String: Any]? = [:], encoding: ParameterEncoding? = nil, headers: [String: String]? = nil, completion: @escaping (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void) {
-        guard let url = url.url else {
-            responseQueue.async { request.complete(withError: RepositoryError.invalidURL) }
-            return
-        }
+    @inline(__always) private func process<T>(request: ApicRequest<T>, route: Route, params: [String: Any]? = [:], encoding: ParameterEncoding? = nil, headers: [String: String]? = nil, completion: @escaping (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void) {
         processQueue.async {
             do {
-                try self.checkURLReachability(url: url)
+                let url = try route.url()
+                let method = route.method()
+                try self.reachabilityManager?.checkReachability(url: url)
                 let parameterEncoding = encoding ?? method.preferredParameterEncoding
                 
                 request.dataTask = try self.request(url: url, method: method, parameters: params, parameterEncoding: parameterEncoding, headers: headers, completion: completion)
                 
                 self.repositorySessionDelegate?.add(reporter: request, for: request.dataTask!)
             } catch {
-                self.responseQueue.async { request.complete(withError: error) }
+                self.responseQueue.async { request.complete(with: error) }
             }
         }
     }
@@ -161,23 +186,6 @@ open class AbstractRepository {
         }
         task.resume()
         return task
-    }
-    
-    @inline(__always) func checkURLReachability(url: URL) throws {
-        #if os(iOS) || os(OSX) || os(tvOS)
-            if !self.checkReachability {
-                return
-            }
-            guard let info = try? Reachability.reachabilityInfo(forURL: url) else {
-                return
-            }
-            guard let reachable = info.isReachable else {
-                return
-            }
-            if !reachable {
-                throw RepositoryError.networkConnection
-            }
-        #endif
     }
     
 }

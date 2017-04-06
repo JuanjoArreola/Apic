@@ -9,36 +9,13 @@
 import Foundation
 import SystemConfiguration
     
-    private let reachabilityQueue: DispatchQueue = DispatchQueue(label: "com.apic.ReachabilityQueue", attributes: [])
-    private let syncQueue: DispatchQueue = DispatchQueue(label: "com.apic.SyncQueue", attributes: [])
+private let reachabilityQueue: DispatchQueue = DispatchQueue(label: "com.apic.ReachabilityQueue", attributes: [])
+private let syncQueue: DispatchQueue = DispatchQueue(label: "com.apic.SyncQueue", attributes: [])
     
-    public enum ReachabilityError: Error {
-        case invalidURL
-        case inicializationError
-    }
-    
-    open class HostReachabilityInfo {
-        open let host: String
-        fileprivate let networkReachability: SCNetworkReachability
-        open fileprivate(set) var flags: SCNetworkReachabilityFlags?
-        
-        init(host: String, networkReachability: SCNetworkReachability) {
-            self.host = host
-            self.networkReachability = networkReachability
-        }
-        
-        open var isReachable: Bool? {
-            if let flags = flags {
-                return flags.rawValue & UInt32(kSCNetworkFlagsReachable) != 0
-            }
-            return nil
-        }
-        
-        deinit {
-            SCNetworkReachabilitySetCallback(networkReachability, nil, nil)
-            SCNetworkReachabilitySetDispatchQueue(networkReachability, nil)
-        }
-    }
+public enum ReachabilityError: Error {
+    case invalidURL
+    case inicializationError
+}
 
 public class Reachability {
     

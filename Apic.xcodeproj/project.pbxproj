@@ -13,6 +13,9 @@
 		811C4AA01E7B45960049D8A3 /* Float+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C4A9F1E7B45960049D8A3 /* Float+AnyMatchBuilder.swift */; };
 		811C4AA21E7B45B90049D8A3 /* Mirror+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C4AA11E7B45B90049D8A3 /* Mirror+Util.swift */; };
 		811C4AA41E7B466E0049D8A3 /* Bool+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C4AA31E7B466E0049D8A3 /* Bool+AnyMatchBuilder.swift */; };
+		81277E7C1E96DD4000005EFF /* HostReachabilityInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81277E7B1E96DD4000005EFF /* HostReachabilityInfo.swift */; };
+		81277E7E1E96DDCF00005EFF /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81277E7D1E96DDCF00005EFF /* ReachabilityManager.swift */; };
+		81277E801E96E47F00005EFF /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81277E7F1E96E47F00005EFF /* Route.swift */; };
 		814702651E7F1D9300A2B874 /* StringInitializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814702641E7F1D9300A2B874 /* StringInitializable.swift */; };
 		814702671E7F1DBE00A2B874 /* IntInitializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814702661E7F1DBE00A2B874 /* IntInitializable.swift */; };
 		814702691E7F202D00A2B874 /* RepositoryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814702681E7F202D00A2B874 /* RepositoryError.swift */; };
@@ -97,6 +100,9 @@
 		811C4A9F1E7B45960049D8A3 /* Float+AnyMatchBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Float+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
 		811C4AA11E7B45B90049D8A3 /* Mirror+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Mirror+Util.swift"; sourceTree = "<group>"; };
 		811C4AA31E7B466E0049D8A3 /* Bool+AnyMatchBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bool+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
+		81277E7B1E96DD4000005EFF /* HostReachabilityInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HostReachabilityInfo.swift; sourceTree = "<group>"; };
+		81277E7D1E96DDCF00005EFF /* ReachabilityManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReachabilityManager.swift; sourceTree = "<group>"; };
+		81277E7F1E96E47F00005EFF /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		814702641E7F1D9300A2B874 /* StringInitializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringInitializable.swift; sourceTree = "<group>"; };
 		814702661E7F1DBE00A2B874 /* IntInitializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntInitializable.swift; sourceTree = "<group>"; };
 		814702681E7F202D00A2B874 /* RepositoryError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryError.swift; sourceTree = "<group>"; };
@@ -185,6 +191,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		81277E7A1E96DD2500005EFF /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_17 /* Reachability.swift */,
+				81277E7B1E96DD4000005EFF /* HostReachabilityInfo.swift */,
+				81277E7D1E96DDCF00005EFF /* ReachabilityManager.swift */,
+			);
+			name = Reachability;
+			sourceTree = "<group>";
+		};
 		814D76471E7DC4100061F55D /* Builder */ = {
 			isa = PBXGroup;
 			children = (
@@ -310,6 +326,7 @@
 		OBJ_8 /* Apic */ = {
 			isa = PBXGroup;
 			children = (
+				81277E7A1E96DD2500005EFF /* Reachability */,
 				OBJ_11 /* AbstractModel.swift */,
 				OBJ_10 /* AbstractModel+SoftSerialization.swift */,
 				814D76471E7DC4100061F55D /* Builder */,
@@ -324,7 +341,6 @@
 				811C4AA11E7B45B90049D8A3 /* Mirror+Util.swift */,
 				814D76431E7CDA1E0061F55D /* ModelError.swift */,
 				81FC7DED1E91C1C300FC2FA9 /* Parser */,
-				OBJ_17 /* Reachability.swift */,
 				816B23551E958A7100D1D24F /* Repository */,
 				814702681E7F202D00A2B874 /* RepositoryError.swift */,
 				OBJ_18 /* Request.swift */,
@@ -333,6 +349,7 @@
 				816A00761E7C7CF30098630A /* TypeMatchable.swift */,
 				OBJ_16 /* URLRequest+ParameterEncoding.swift */,
 				816B23621E95BDCE00D1D24F /* ModelCoding.swift */,
+				81277E7F1E96E47F00005EFF /* Route.swift */,
 			);
 			name = Apic;
 			path = Sources;
@@ -410,6 +427,7 @@
 				81FC7DEF1E91C1E600FC2FA9 /* ModelParser.swift in Sources */,
 				811C4AA41E7B466E0049D8A3 /* Bool+AnyMatchBuilder.swift in Sources */,
 				814702751E8079A400A2B874 /* DynamicTypeModel.swift in Sources */,
+				81277E7C1E96DD4000005EFF /* HostReachabilityInfo.swift in Sources */,
 				OBJ_56 /* CustomErrorResponseParser.swift in Sources */,
 				811C4A9C1E7B43130049D8A3 /* TypeResolver.swift in Sources */,
 				816A00771E7C7CF30098630A /* TypeMatchable.swift in Sources */,
@@ -417,11 +435,13 @@
 				811C4AA01E7B45960049D8A3 /* Float+AnyMatchBuilder.swift in Sources */,
 				811C4AA21E7B45B90049D8A3 /* Mirror+Util.swift in Sources */,
 				OBJ_58 /* AbstractModel.swift in Sources */,
+				81277E7E1E96DDCF00005EFF /* ReachabilityManager.swift in Sources */,
 				81FC7DF31E91C23400FC2FA9 /* ChildProperty.swift in Sources */,
 				81FC7DF11E91C21B00FC2FA9 /* ModelParserProvider.swift in Sources */,
 				OBJ_59 /* AbstractRepository.swift in Sources */,
 				OBJ_60 /* Configuration.swift in Sources */,
 				811C4A9E1E7B43BD0049D8A3 /* DefaultTypeResolver.swift in Sources */,
+				81277E801E96E47F00005EFF /* Route.swift in Sources */,
 				816B235F1E95B5DF00D1D24F /* DefaultResponseParser.swift in Sources */,
 				814D76441E7CDA1E0061F55D /* ModelError.swift in Sources */,
 				816A00751E7C7BC90098630A /* Double+AnyMatchBuilder.swift in Sources */,
