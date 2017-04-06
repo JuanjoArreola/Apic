@@ -120,13 +120,13 @@ open class AbstractModel: NSObject, NSCoding, InitializableWithDictionary {
     public required init?(coder aDecoder: NSCoder) {
         super.init()
         do {
-            try initializeProperties(of: Mirror(reflecting: self), with: aDecoder)
+            try ModelCoding.shared.initializeProperties(of: self, mirror: Mirror(reflecting: self), with: aDecoder)
         } catch {
             return nil
         }
     }
     
     public func encode(with aCoder: NSCoder) {
-        encodeProperties(of: Mirror(reflecting: self), with: aCoder)
+        ModelCoding.shared.encodeProperties(of: self, mirror: Mirror(reflecting: self), with: aCoder)
     }
 }

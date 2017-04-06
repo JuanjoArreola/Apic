@@ -54,9 +54,16 @@ class HttpError: AbstractErrorModel {
     var solution: String!
 }
 
-class ModelErrorRepository: AbstractCustomErrorRepository<String, HttpError> {
+class ModelErrorRepository: AbstractRepository {
+    
     init() {
-        super.init(objectKey: "object", objectsKey: "objects", statusKey: "status", statusOk: "OK", errorKey: "error")
+        let configuration = CustomErrorResponseParser<String, HttpError>()
+        configuration.objectKey = "object"
+        configuration.objectsKey = "objects"
+        configuration.statusKey = "status"
+        configuration.statusOk = "OK"
+        configuration.errorKey = "error"
+        super.init(responseParser: configuration)
     }
     
     func requestThatFails(_ completion: @escaping (_ getSuccess: () throws -> Bool) -> Void) -> Request<Bool> {

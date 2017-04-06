@@ -87,19 +87,11 @@ class RequestObjectsTest: XCTestCase {
 }
 
 
-class GistsRepository: AbstractRepository<String> {
-    
-    init() { super.init() }
-    
-    func requestGists(ofUser user: String, completion: @escaping (_ getGists: () throws -> [Gist]) -> Void) -> Request<[Gist]>? {
-        return requestObjects(method: .GET, url: "https://api.github.com/users/\(user)/gists", completion: completion)
-    }
-}
-
-class WrongGistsRepository: AbstractRepository<String> {
+class GistsRepository: AbstractRepository {
     
     init() {
-        super.init(objectsKey: "gists")
+        let parser = DefaultResponseParser<String>()
+        super.init(responseParser: parser)
     }
     
     func requestGists(ofUser user: String, completion: @escaping (_ getGists: () throws -> [Gist]) -> Void) -> Request<[Gist]>? {
@@ -107,10 +99,25 @@ class WrongGistsRepository: AbstractRepository<String> {
     }
 }
 
-class HistoryRepository: AbstractRepository<String> {
+class WrongGistsRepository: AbstractRepository {
     
     init() {
-        super.init(objectsKey: "history")
+        let parser = DefaultResponseParser<String>()
+        parser.objectsKey = "gists"
+        super.init(responseParser: parser)
+    }
+    
+    func requestGists(ofUser user: String, completion: @escaping (_ getGists: () throws -> [Gist]) -> Void) -> Request<[Gist]>? {
+        return requestObjects(method: .GET, url: "https://api.github.com/users/\(user)/gists", completion: completion)
+    }
+}
+
+class HistoryRepository: AbstractRepository {
+    
+    init() {
+        let parser = DefaultResponseParser<String>()
+        parser.objectsKey = "history"
+        super.init(responseParser: parser)
     }
     
     func requestHistoryOfGist(_ gist: String, completion: @escaping (_ getHistory: () throws -> [HistoryEntry]) -> Void) -> Request<[HistoryEntry]>? {
@@ -118,9 +125,12 @@ class HistoryRepository: AbstractRepository<String> {
     }
 }
 
-class WrongHistoryRepository: AbstractRepository<String> {
+class WrongHistoryRepository: AbstractRepository {
     
-    init() { super.init() }
+    init() {
+        let parser = DefaultResponseParser<String>()
+        super.init(responseParser: parser)
+    }
     
     func requestHistory(ofGist gist: String, completion: @escaping (_ getHistory: () throws -> [HistoryEntry]) -> Void) -> Request<[HistoryEntry]>? {
         return requestObjects(method: .GET, url: "https://api.github.com/gists/\(gist)", completion: completion)

@@ -79,9 +79,13 @@ class HeadersTests: XCTestCase {
     
 }
 
-class WithHeaderRepository: AbstractRepository<String> {
+class WithHeaderRepository: AbstractRepository {
+    
     init() {
-        super.init(statusKey: "status", statusOk: "OK")
+        let configuration = DefaultResponseParser<String>()
+        configuration.statusKey = "status"
+        configuration.statusOk = "OK"
+        super.init(responseParser: configuration)
     }
     
     @discardableResult func requestTest(_ token: String, completion: @escaping (_ getSuccess: () throws -> Bool) -> Void) -> Request<Bool>? {

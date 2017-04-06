@@ -91,19 +91,11 @@ class User: AbstractModel {
     var avatar_url: URL!
 }
 
-class UserRepository: AbstractRepository<String> {
-    
-    init() { super.init() }
-    
-    @discardableResult func requestUser(withName name: String, completion: @escaping (_ getUser: () throws -> User) -> Void) -> Request<User>? {
-        return requestObject(method: .GET, url: "https://api.github.com/users/\(name)", completion: completion)
-    }
-}
-
-class WrongUserRepository: AbstractRepository<String> {
+class UserRepository: AbstractRepository {
     
     init() {
-        super.init(objectKey: "user")
+        let parser = DefaultResponseParser<String>()
+        super.init(responseParser: parser)
     }
     
     @discardableResult func requestUser(withName name: String, completion: @escaping (_ getUser: () throws -> User) -> Void) -> Request<User>? {
@@ -111,10 +103,25 @@ class WrongUserRepository: AbstractRepository<String> {
     }
 }
 
-class GistRepository: AbstractRepository<String> {
+class WrongUserRepository: AbstractRepository {
     
     init() {
-        super.init(objectKey: "owner")
+        let parser = DefaultResponseParser<String>()
+        parser.objectKey = "user"
+        super.init(responseParser: parser)
+    }
+    
+    @discardableResult func requestUser(withName name: String, completion: @escaping (_ getUser: () throws -> User) -> Void) -> Request<User>? {
+        return requestObject(method: .GET, url: "https://api.github.com/users/\(name)", completion: completion)
+    }
+}
+
+class GistRepository: AbstractRepository {
+    
+    init() {
+        let parser = DefaultResponseParser<String>()
+        parser.objectKey = "owner"
+        super.init(responseParser: parser)
     }
     
     @discardableResult func requestUser(fromGist gist: String, completion: @escaping (_ getUser: () throws -> User) -> Void) -> Request<User>? {
@@ -122,9 +129,12 @@ class GistRepository: AbstractRepository<String> {
     }
 }
 
-class WrongGistRepository: AbstractRepository<String> {
+class WrongGistRepository: AbstractRepository {
     
-    init() { super.init() }
+    init() {
+        let parser = DefaultResponseParser<String>()
+        super.init(responseParser: parser)
+    }
     
     @discardableResult func requestUser(fromGist gist: String, completion: @escaping (_ getUser: () throws -> User) -> Void) -> Request<User>? {
         return requestObject(method: .GET, url: "https://api.github.com/gists/\(gist)", completion: completion)

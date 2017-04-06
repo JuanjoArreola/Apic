@@ -1,24 +1,29 @@
 //
-//  AbstractModel+Coding.swift
+//  ModelCoding.swift
 //  Apic
 //
-//  Created by Juan Jose Arreola Simon on 3/20/17.
+//  Created by Juan Jose Arreola on 05/04/17.
 //
 //
 
 import Foundation
 
-extension AbstractModel {
+class ModelCoding {
     
-    func encodeProperties(of mirror: Mirror, with coder: NSCoder) {
+    static var shared = ModelCoding()
+    
+    func encodeProperties(of model: AbstractModel, mirror: Mirror, with coder: NSCoder) {
         if mirror.isAbstractModelMirror {
             return
         }
         if let superclassMirror = mirror.superclassMirror, !superclassMirror.isAbstractModelMirror {
-            encodeProperties(of: superclassMirror, with: coder)
+            encodeProperties(of: model, mirror: superclassMirror, with: coder)
         }
+        
+        let modelType = type(of: model)
         for child in mirror.children {
             guard let property = child.label else { continue }
+            
             let propertyType = type(of: child.value)
             if let value = child.value as? StringRepresentable {
                 coder.encode(value.rawValue, forKey: property)
@@ -30,13 +35,15 @@ extension AbstractModel {
         }
     }
     
-    open func initializeProperties(of mirror: Mirror, with decoder: NSCoder) throws {
+    open func initializeProperties(of model: AbstractModel, mirror: Mirror, with decoder: NSCoder) throws {
         if mirror.isAbstractModelMirror {
             return
         }
         if let superclassMirror = mirror.superclassMirror, !superclassMirror.isAbstractModelMirror {
-            try initializeProperties(of: superclassMirror, with: decoder)
+            try initializeProperties(of: model, mirror: superclassMirror, with: decoder)
         }
+        
+        let modelType = type(of: model)
         for child in mirror.children {
             guard let property = child.label else { continue }
             guard let value = decoder.decodeObject(forKey: property), !(value is NSNull) else {
@@ -46,18 +53,18 @@ extension AbstractModel {
             if let type = modelType.resolver.resolve(type: propertyType) as? StringRepresentable.Type,
                 let string = value as? String,
                 let representable = type.init(rawValue: string) {
-                assign(value: representable, from: decoder, forProperty: property)
+                assign(value: representable, to: model, decoder: decoder, forProperty: property)
             } else {
-                assign(value: value, from: decoder, forProperty: property)
+                assign(value: value, to: model, decoder: decoder, forProperty: property)
             }
         }
     }
     
-    open func assign(value: Any, from decoder: NSCoder, forProperty property: String) {
+    open func assign(value: Any, to model: AbstractModel, decoder: NSCoder, forProperty property: String) {
         do {
-            try assign(value: value, forProperty: property)
+            try model.assign(value: value, forProperty: property)
         } catch {
-            setValue(value, forKey: property)
+            model.setValue(value, forKey: property)
         }
     }
 }

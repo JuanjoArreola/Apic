@@ -94,9 +94,13 @@ class RepositoryStatusTests: XCTestCase {
     
 }
 
-class StringStatusRepository: AbstractRepository<String> {
+class StringStatusRepository: AbstractRepository {
+    
     init() {
-        super.init(statusKey: "status", statusOk: "OK")
+        let parser = DefaultResponseParser<String>()
+        parser.statusKey = "status"
+        parser.statusOk = "OK"
+        super.init(responseParser: parser)
     }
     
     func requestTest(completion: @escaping (_ getSuccess: () throws -> Bool) -> Void) -> Request<Bool>? {
@@ -104,9 +108,13 @@ class StringStatusRepository: AbstractRepository<String> {
     }
 }
 
-class BoolStatusRepository: AbstractRepository<Bool> {
+class BoolStatusRepository: AbstractRepository {
+    
     init() {
-        super.init(statusKey: "success", statusOk: true)
+        let parser = DefaultResponseParser<Bool>()
+        parser.statusKey = "status"
+        parser.statusOk = true
+        super.init(responseParser: parser)
     }
     
     func requestTest(completion: @escaping (_ getSuccess: () throws -> Bool) -> Void) -> Request<Bool>? {

@@ -34,28 +34,28 @@ public class DefaultTypeResolver: TypeResolver {
     }
     
     private func contains(type: Any.Type) -> Bool {
-        return types.find({ $0.type == type }) != nil
+        return types.first(where: { $0.type == type }) != nil
     }
     
     private func contains(typeName: String) -> Bool {
-        return typeNames.find({ $0.typeNames.contains(typeName) }) != nil
+        return typeNames.first(where: { $0.typeNames.contains(typeName) }) != nil
     }
     
     // MARK: - TypeResolver
     
     public func resolve(type: Any.Type) -> Any.Type? {
-        return types.find({ $0.match(type: type) != nil })?.type
+        return types.first(where: { $0.match(type: type) != nil })?.type
     }
     
     public func resolveArray(type: Any.Type) -> Any.Type? {
-        return types.find({ $0.matchArray(type: type) != nil })?.type
+        return types.first(where: { $0.matchArray(type: type) != nil })?.type
     }
     
     public func resolveDictionary(type: Any.Type) -> Any.Type? {
-        return types.find({ $0.matchDictionary(type: type) != nil })?.type
+        return types.first(where: { $0.matchDictionary(type: type) != nil })?.type
     }
     
     public func resolve(typeForName typeName: String) -> Any? {
-        return typeNames.find({ $0.match(typeName: typeName) != nil })?.type
+        return typeNames.first(where: { $0.match(typeName: typeName) != nil })?.type
     }
 }

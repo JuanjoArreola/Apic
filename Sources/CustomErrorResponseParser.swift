@@ -1,8 +1,8 @@
 //
-//  AbstractCustomErrorRepository.swift
+//  CustomErrorResponseParser.swift
 //  Apic
 //
-//  Created by Juan Jose Arreola Simon on 8/16/16.
+//  Created by Juan Jose Arreola on 8/16/16.
 //  Copyright © 2016 Juanjo. All rights reserved.
 //
 
@@ -10,13 +10,9 @@ import Foundation
 
 open class AbstractErrorModel: AbstractModel, Error { }
 
-open class AbstractCustomErrorRepository<StatusType: Equatable, ErrorModelType: AbstractErrorModel>: AbstractRepository<StatusType> {
-    open var errorKey: String?
+open class CustomErrorResponseParser<StatusType: Equatable, ErrorModelType: AbstractErrorModel>: DefaultResponseParser<StatusType> {
     
-    public init(objectKey: String? = nil, objectsKey: String? = nil, statusKey: String? = nil, statusOk: StatusType? = nil, errorDescriptionKey: String? = nil, errorCodeKey: String? = nil, errorKey: String? = nil) {
-        super.init(objectKey: objectKey, objectsKey: objectsKey, statusKey: statusKey, statusOk: statusOk, errorDescriptionKey: errorDescriptionKey, errorCodeKey: errorCodeKey)
-        self.errorKey = errorKey
-    }
+    open var errorKey: String?
     
     override public func dictionary(fromJSON JSON: Any?) throws -> [String: Any] {
         guard let data = JSON as? [String: Any] else {
