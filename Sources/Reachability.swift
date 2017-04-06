@@ -100,31 +100,27 @@ public class Reachability {
     }
     
     public static func reachabilityInfo(forURL url: URL) throws -> HostReachabilityInfo {
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
+            throw ReachabilityError.invalidURL
+        }
+        guard let host = components.host else {
+            throw ReachabilityError.invalidURL
+        }
+        if let info = Reachability.reachabilityInfo[host] {
+            return info
+        }
         
         var reachabilityInfo: HostReachabilityInfo?
         var trackingError: Error?
         
         syncQueue.sync(execute: {
-            guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
-                trackingError = ReachabilityError.invalidURL
-                return
-            }
-            guard let host = components.host else {
-                trackingError = ReachabilityError.invalidURL
-                return
-            }
-            if let info = Reachability.reachabilityInfo[host] {
-                reachabilityInfo = info
-            } else {
-                do {
-                    reachabilityInfo = try startTracking(host: host)
-                    Reachability.reachabilityInfo[host] = reachabilityInfo
-                } catch {
-                    trackingError = error
-                }
+            do {
+                reachabilityInfo = try startTracking(host: host)
+                Reachability.reachabilityInfo[host] = reachabilityInfo
+            } catch {
+                trackingError = error
             }
         })
-        
         if let info = reachabilityInfo {
             return info
         }
@@ -132,7 +128,6 @@ public class Reachability {
             throw error
         }
         throw ReachabilityError.inicializationError
-        
     }
     
     public static func getReachabilityInfoForHost(_ host: String) -> HostReachabilityInfo? {

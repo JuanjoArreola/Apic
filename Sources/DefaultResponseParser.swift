@@ -61,25 +61,24 @@ open class DefaultResponseParser<StatusType: Equatable>: ResponseParser {
     }
     
     open func getError(from response: URLResponse, data: Data?) -> Error? {
-        guard let httpResponse = response as? HTTPURLResponse else {
+        guard let code = (response as? HTTPURLResponse)?.statusCode, code >= 400, code < 600 else {
             return nil
         }
-        let code = httpResponse.statusCode
-        if code >= 400 && code < 600 {
-            if let data = data, let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] {
-                if let key = errorDescriptionKey, let message = json?[key] as? String, let codeKey = errorCodeKey, let code = json?[codeKey] as? String {
-                    return RepositoryError.statusFail(message: message, code: code)
-                }
-            }
-            var message: String?
-            if let data = data {
-                message = String(data: data, encoding: String.Encoding.isoLatin1)
-            }
-            return RepositoryError.httpError(statusCode: code, message: message)
+        guard let data = data else {
+            return RepositoryError.httpError(statusCode: code, message: nil)
         }
-        return nil
+        if let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] {
+            if let key = errorDescriptionKey,
+                let message = json?[key] as? String,
+                let codeKey = errorCodeKey,
+                let code = json?[codeKey] as? String {
+                return RepositoryError.statusFail(message: message, code: code)
+            }
+        }
+        let message = String(data: data, encoding: String.Encoding.isoLatin1)
+        return RepositoryError.httpError(statusCode: code, message: message)
     }
-    
+
     open func error(forCode code: String, message: String?) -> Error? {
         return nil
     }

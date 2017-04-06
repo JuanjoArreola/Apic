@@ -134,25 +134,29 @@ open class AbstractRepository {
                 try self.checkURLReachability(url: url)
                 let parameterEncoding = encoding ?? method.preferredParameterEncoding
                 
-                request.dataTask = try self.request(url: url, method: method, parameters: params, parameterEncoding: parameterEncoding, headers: headers, completion: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
-                    do {
-                        let dictionary = try self.parser.dictionary(from: data, response: response, error: error)
-                        var objects = [String: T]()
-                        for (key, value) in dictionary {
-                            objects[key] = try T(dictionary: value)
-                            self.didAssign(object: objects[key]!, to: &objects, withKey: key)
-                        }
-                        self.responseQueue.async { request.complete(withObject: objects) }
-                    } catch {
-                        self.responseQueue.async { request.complete(withError: error) }
-                    }
-                })
+                request.dataTask = try self.request(url: url, method: method, parameters: params, parameterEncoding: parameterEncoding, headers: headers, completion: self.dictionaryHandler(for: request))
                 self.repositorySessionDelegate?.add(reporter: request, for: request.dataTask!)
             } catch {
                 self.responseQueue.async { request.complete(withError: error) }
             }
         }
         return request
+    }
+    
+    func dictionaryHandler<T: InitializableWithDictionary>(for request: Request<[String: T]>) -> (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void {
+        return { (data: Data?, response: URLResponse?, error: Error?) in
+            do {
+                let dictionary = try self.parser.dictionary(from: data, response: response, error: error)
+                var objects = [String: T]()
+                for (key, value) in dictionary {
+                    objects[key] = try T(dictionary: value)
+                    self.didAssign(object: objects[key]!, to: &objects, withKey: key)
+                }
+                self.responseQueue.async { request.complete(withObject: objects) }
+            } catch {
+                self.responseQueue.async { request.complete(withError: error) }
+            }
+        }
     }
     
     open func didAssign<T: InitializableWithDictionary>(object: T, to dictionary: inout [String: T], withKey key: String) {
