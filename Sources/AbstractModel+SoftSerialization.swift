@@ -42,7 +42,7 @@ public extension AbstractModel {
             } else if let model = value as? AbstractModel {
                 dictionary[resultKey] = try model.jsonValidDictionary(strict: strict)
             } else if let models = value as? [AbstractModel] {
-                dictionary[resultKey] = try models.jsonValid(strict: strict)
+                dictionary[resultKey] = try models.jsonValidArray(strict: strict)
             } else {
                 dictionary[resultKey] = String(describing: value)
             }
@@ -52,7 +52,7 @@ public extension AbstractModel {
 
 public extension Array where Element: AbstractModel {
     
-    func jsonValid(strict: Bool = false) throws -> [[String: Any]] {
+    func jsonValidArray(strict: Bool = false) throws -> [[String: Any]] {
         return try self.map({ try $0.jsonValidDictionary(strict: strict) })
     }
 }

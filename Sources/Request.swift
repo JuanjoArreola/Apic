@@ -106,7 +106,7 @@ open class ApicRequest<T: Any>: Request<T>, ProgressReporter, Equatable {
     }
 
     required public init() {
-        fatalError("init() has not been implemented")
+        super.init()
     }
     
     override open func cancel() {
