@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "Apic"
-  s.version      = "3.8.2"
+  s.version      = "3.8.3"
   s.summary      = "Apic is a library that parses JSON API responses into swift objects"
   s.homepage     = "https://github.com/JuanjoArreola/Apic"
   s.license      = { :type => "MIT", :file => "LICENSE" }

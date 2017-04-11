@@ -41,7 +41,7 @@ open class AbstractRepository {
     open func requestSuccess(method: HTTPMethod, url: URLConvertible, params: [String: Any]? = [:], encoding: ParameterEncoding? = nil, headers: [String: String]? = nil, completion: @escaping (_ getSuccess: () throws -> Bool) -> Void) -> ApicRequest<Bool> {
         let request = ApicRequest(completionHandler: completion)
         let route = method.route(url: url)
-        process(request: request, route: route, completion: successHandler(for: request))
+        process(request: request, route: route, params: params, encoding: encoding, headers: headers, completion: successHandler(for: request))
         
         return request
     }
@@ -49,8 +49,8 @@ open class AbstractRepository {
     private func successHandler(for request: Request<Bool>) -> (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void {
         return { (data, response, error) in
             do {
-                _ = try self.parser.object(from: data, response: response, error: error)
-                self.responseQueue.async { request.complete(with: true) }
+                let result = try self.parser.success(from: data, response: response, error: error)
+                self.responseQueue.async { request.complete(with: result) }
             }
             catch {
                 self.responseQueue.async { request.complete(with: error) }

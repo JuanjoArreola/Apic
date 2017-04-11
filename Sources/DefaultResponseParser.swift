@@ -19,6 +19,12 @@ open class DefaultResponseParser<StatusType: Equatable>: ResponseParser {
     
     public init() {}
     
+    open func success(from data: Data?, response: URLResponse?, error: Error?) throws -> Bool {
+        let json = try getJSON(data: data, response: response, error: error)
+        _ = try self.dictionary(fromJSON: json)
+        return true
+    }
+    
     open func object(from data: Data?, response: URLResponse?, error: Error?) throws -> [String : Any] {
         let json = try getJSON(data: data, response: response, error: error)
         let dictionary = try self.dictionary(fromJSON: json)

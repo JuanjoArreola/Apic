@@ -10,6 +10,7 @@ import Foundation
 
 public protocol ResponseParser {
     
+    func success(from data: Data?, response: URLResponse?, error: Error?) throws -> Bool
     func object(from data: Data?, response: URLResponse?, error: Error?) throws -> [String: Any]
     func array(from data: Data?, response: URLResponse?, error: Error?) throws -> [[String: Any]]
     func dictionary(from data: Data?, response: URLResponse?, error: Error?) throws -> [String: [String: Any]]

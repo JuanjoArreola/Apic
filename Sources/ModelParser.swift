@@ -187,8 +187,8 @@ internal class ModelParser {
             throw ModelError.sourceValueError(property: property.name, model: modelType, value: value)
         }
         let instance: InitializableWithDictionary
-        if let propertyType = propertyType as? DynamicTypeModel.Type {
-            instance = try dynamicItem(from: dictionary, typeNameKey: propertyType.typeNameProperty)
+        if let dynamicType = propertyType as? DynamicTypeModel.Type {
+            instance = try dynamicItem(from: dictionary, type: propertyType, typeNameKey: dynamicType.typeNameProperty)
         } else {
             instance = try propertyType.init(dictionary: dictionary)
         }
@@ -209,8 +209,8 @@ internal class ModelParser {
             throw ModelError.sourceValueError(property: property.name, model: modelType, value: value)
         }
         var newArray: [InitializableWithDictionary]
-        if let propertyType = propertyType as? DynamicTypeModel.Type {
-            newArray = try array.map({ try dynamicItem(from: $0, typeNameKey: propertyType.typeNameProperty)})
+        if let dynamicType = propertyType as? DynamicTypeModel.Type {
+            newArray = try array.map({ try dynamicItem(from: $0, type: propertyType, typeNameKey: dynamicType.typeNameProperty)})
         } else {
             newArray = try array.map({ try propertyType.init(dictionary: $0) })
         }
@@ -226,8 +226,8 @@ internal class ModelParser {
             throw ModelError.sourceValueError(property: property.name, model: modelType, value: value)
         }
         var newDictionary = [String: InitializableWithDictionary]()
-        if let type = propertyType as? DynamicTypeModel.Type {
-            try dictionary.forEach({ newDictionary[$0] = try dynamicItem(from: $1, typeNameKey: type.typeNameProperty) })
+        if let dynamicType = propertyType as? DynamicTypeModel.Type {
+            try dictionary.forEach({ newDictionary[$0] = try dynamicItem(from: $1, type: propertyType, typeNameKey: dynamicType.typeNameProperty) })
         } else {
             try dictionary.forEach({ newDictionary[$0] = try propertyType.init(dictionary: $1) })
         }
@@ -235,13 +235,12 @@ internal class ModelParser {
         return true
     }
     
-    private func dynamicItem(from dictionary: [String: Any], typeNameKey: String) throws -> InitializableWithDictionary {
+    private func dynamicItem(from dictionary: [String: Any], type: InitializableWithDictionary.Type, typeNameKey: String) throws -> InitializableWithDictionary {
         guard let typeName = dictionary[typeNameKey] as? String else {
-            Log.warn("Dynamic item has no type info")
-            throw ModelError.dynamicTypeInfo(key: typeNameKey)
-        }
-        if let type = resolver.resolve(typeForName: typeName) as? InitializableWithDictionary.Type {
             return try type.init(dictionary: dictionary)
+        }
+        if let propertyType = resolver.resolve(typeForName: typeName) as? InitializableWithDictionary.Type {
+            return try propertyType.init(dictionary: dictionary)
         }
         throw ModelError.undefinedTypeName(name: typeName)
     }
