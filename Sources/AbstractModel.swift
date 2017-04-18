@@ -97,7 +97,7 @@ open class AbstractModel: NSObject, NSCoding, InitializableWithDictionary {
         if try parser.assignAnyInitializable(value: rawValue, to: self, child: child) { return }
         
         if shouldFail(withInvalidValue: rawValue, forProperty: property, type: propertyType) {
-            throw ModelError.sourceValueError(property: property, model: modelType, value: rawValue)
+            throw ModelError.undefinedType(type: propertyType, model: modelType)
         }
     }
     
@@ -107,26 +107,29 @@ open class AbstractModel: NSObject, NSCoding, InitializableWithDictionary {
     
     /// Override this method in subclasses and return true if the object is invalid if a value couln't be parsed for a property
     open func shouldFail(withInvalidValue value: Any, forProperty property: String, type: Any.Type) -> Bool {
-        Log.warn("The value: \(value) could not be parsed to type: |\(type)|, consider to register the type with:\n\nDefaultTypeResolver.shared.register(type: <MyModel>.self\n")
         return true
     }
     
-    open func validate() throws {
-        
-    }
+    open func validate() throws {}
     
     // MARK: - NSCoding
     
     public required init?(coder aDecoder: NSCoder) {
         super.init()
         do {
-            try ModelCoding.shared.initializeProperties(of: self, mirror: Mirror(reflecting: self), with: aDecoder)
+            if let dictionary = aDecoder.decodeObject(forKey: "dictionary") as? [String: Any] {
+                try initializeProperties(of: Mirror(reflecting: self), with: dictionary)
+                try validate()
+            } else {
+                return nil
+            }
         } catch {
             return nil
         }
     }
     
     public func encode(with aCoder: NSCoder) {
-        ModelCoding.shared.encodeProperties(of: self, mirror: Mirror(reflecting: self), with: aCoder)
+        let dictionary = try! self.jsonValidDictionary()
+        aCoder.encode(dictionary, forKey: "dictionary")
     }
 }

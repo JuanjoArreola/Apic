@@ -36,7 +36,7 @@
 		816B235D1E95B5C900D1D24F /* ResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816B235C1E95B5C900D1D24F /* ResponseParser.swift */; };
 		816B235F1E95B5DF00D1D24F /* DefaultResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816B235E1E95B5DF00D1D24F /* DefaultResponseParser.swift */; };
 		816B23611E95B84F00D1D24F /* ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816B23601E95B84F00D1D24F /* ParameterEncoding.swift */; };
-		816B23631E95BDCE00D1D24F /* ModelCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816B23621E95BDCE00D1D24F /* ModelCoding.swift */; };
+		817BEF631EA540470014B39A /* NSCodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817BEF621EA540470014B39A /* NSCodingTests.swift */; };
 		81A117951E92FDFF00F51D29 /* ValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A117941E92FDFF00F51D29 /* ValidationTests.swift */; };
 		81C6E64D1E7C7E4B006105D1 /* String+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6E64C1E7C7E4B006105D1 /* String+AnyMatchBuilder.swift */; };
 		81C6E64F1E7C8153006105D1 /* Date+TypeMatchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6E64E1E7C8153006105D1 /* Date+TypeMatchable.swift */; };
@@ -50,7 +50,6 @@
 		OBJ_58 /* AbstractModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* AbstractModel.swift */; };
 		OBJ_59 /* AbstractRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* AbstractRepository.swift */; };
 		OBJ_60 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* Configuration.swift */; };
-		OBJ_62 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* Log.swift */; };
 		OBJ_63 /* URLRequest+ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* URLRequest+ParameterEncoding.swift */; };
 		OBJ_64 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* Reachability.swift */; };
 		OBJ_65 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_18 /* Request.swift */; };
@@ -123,7 +122,7 @@
 		816B235C1E95B5C900D1D24F /* ResponseParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseParser.swift; sourceTree = "<group>"; };
 		816B235E1E95B5DF00D1D24F /* DefaultResponseParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultResponseParser.swift; sourceTree = "<group>"; };
 		816B23601E95B84F00D1D24F /* ParameterEncoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParameterEncoding.swift; sourceTree = "<group>"; };
-		816B23621E95BDCE00D1D24F /* ModelCoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelCoding.swift; sourceTree = "<group>"; };
+		817BEF621EA540470014B39A /* NSCodingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSCodingTests.swift; sourceTree = "<group>"; };
 		81A117941E92FDFF00F51D29 /* ValidationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationTests.swift; sourceTree = "<group>"; };
 		81C6E64C1E7C7E4B006105D1 /* String+AnyMatchBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
 		81C6E64E1E7C8153006105D1 /* Date+TypeMatchable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+TypeMatchable.swift"; sourceTree = "<group>"; };
@@ -135,7 +134,6 @@
 		OBJ_11 /* AbstractModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractModel.swift; sourceTree = "<group>"; };
 		OBJ_12 /* AbstractRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractRepository.swift; sourceTree = "<group>"; };
 		OBJ_13 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
-		OBJ_15 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		OBJ_16 /* URLRequest+ParameterEncoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+ParameterEncoding.swift"; sourceTree = "<group>"; };
 		OBJ_17 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		OBJ_18 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
@@ -291,6 +289,7 @@
 				OBJ_46 /* StringTests.swift */,
 				OBJ_47 /* UndefinedTypeTests.swift */,
 				81A117941E92FDFF00F51D29 /* ValidationTests.swift */,
+				817BEF621EA540470014B39A /* NSCodingTests.swift */,
 			);
 			name = ApicTests;
 			path = Tests/ApicTests;
@@ -337,7 +336,6 @@
 				8147026A1E7F205600A2B874 /* HTTPMethod.swift */,
 				814702721E80755200A2B874 /* InitializableWithDictionary.swift */,
 				814702661E7F1DBE00A2B874 /* IntInitializable.swift */,
-				OBJ_15 /* Log.swift */,
 				811C4AA11E7B45B90049D8A3 /* Mirror+Util.swift */,
 				814D76431E7CDA1E0061F55D /* ModelError.swift */,
 				81FC7DED1E91C1C300FC2FA9 /* Parser */,
@@ -348,7 +346,6 @@
 				816297701E8C494700BBF065 /* Type resolution */,
 				816A00761E7C7CF30098630A /* TypeMatchable.swift */,
 				OBJ_16 /* URLRequest+ParameterEncoding.swift */,
-				816B23621E95BDCE00D1D24F /* ModelCoding.swift */,
 				81277E7F1E96E47F00005EFF /* Route.swift */,
 			);
 			name = Apic;
@@ -448,13 +445,11 @@
 				814702691E7F202D00A2B874 /* RepositoryError.swift in Sources */,
 				814D764B1E7DC5720061F55D /* FromAnyBuilder.swift in Sources */,
 				816A00731E7C64470098630A /* Int+AnyMatchBuilder.swift in Sources */,
-				OBJ_62 /* Log.swift in Sources */,
 				814D76491E7DC4F70061F55D /* URL+AnyMatchBuilder.swift in Sources */,
 				816297721E8C497600BBF065 /* TypeInfo.swift in Sources */,
 				814D76461E7D1AB10061F55D /* NSDecimalNumber+AnyMatchBuilder.swift in Sources */,
 				8147026B1E7F205600A2B874 /* HTTPMethod.swift in Sources */,
 				81C6E64D1E7C7E4B006105D1 /* String+AnyMatchBuilder.swift in Sources */,
-				816B23631E95BDCE00D1D24F /* ModelCoding.swift in Sources */,
 				OBJ_63 /* URLRequest+ParameterEncoding.swift in Sources */,
 				81C6E64F1E7C8153006105D1 /* Date+TypeMatchable.swift in Sources */,
 				814702651E7F1D9300A2B874 /* StringInitializable.swift in Sources */,
@@ -479,6 +474,7 @@
 				OBJ_73 /* ArrayTests.swift in Sources */,
 				OBJ_74 /* BoolTests.swift in Sources */,
 				OBJ_75 /* ChangeValueTests.swift in Sources */,
+				817BEF631EA540470014B39A /* NSCodingTests.swift in Sources */,
 				OBJ_76 /* ColorTests.swift in Sources */,
 				OBJ_77 /* ComplexModelTests.swift in Sources */,
 				OBJ_78 /* DateTests.swift in Sources */,

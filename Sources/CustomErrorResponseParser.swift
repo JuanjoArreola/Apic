@@ -28,12 +28,7 @@ open class CustomErrorResponseParser<StatusType: Equatable, ErrorModelType: Abst
             return data
         }
         if let errorDictionary = errorKey != nil ? data[errorKey!] as? [String: Any] : nil {
-            var modelError: Any?
-            do {
-                modelError = try ErrorModelType(dictionary: errorDictionary)
-            } catch {
-                Log.error("Error parsing error dictionary")
-            }
+            let modelError: Any? = try ErrorModelType(dictionary: errorDictionary)
             if let error = modelError as? Error {
                 throw error
             }

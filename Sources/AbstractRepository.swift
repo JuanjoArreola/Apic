@@ -162,7 +162,9 @@ open class AbstractRepository {
             do {
                 let url = try route.url()
                 let method = route.method()
+#if os(iOS) || os(OSX) || os(tvOS)
                 try self.reachabilityManager?.checkReachability(url: url)
+#endif
                 let parameterEncoding = encoding ?? method.preferredParameterEncoding
                 
                 request.dataTask = try self.request(url: url, method: method, parameters: params, parameterEncoding: parameterEncoding, headers: headers, completion: completion)

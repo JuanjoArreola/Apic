@@ -12,7 +12,7 @@ public protocol IntInitializable: AnyInitializable {
     init?(rawValue: Int)
 }
 
-protocol IntRepresentable {
+public protocol IntRepresentable {
     var rawValue: Int { get }
 }
 
