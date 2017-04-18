@@ -11,7 +11,7 @@ import Foundation
 public enum RepositoryError: Error, CustomStringConvertible {
     case badJSON
     case badJSONContent
-    case invalidURL
+    case invalidURL(url: String?)
     case invalidParameters
     case statusFail(message: String?, code: String?)
     case networkConnection

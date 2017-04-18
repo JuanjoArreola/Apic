@@ -13,6 +13,8 @@
 		811C4AA01E7B45960049D8A3 /* Float+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C4A9F1E7B45960049D8A3 /* Float+AnyMatchBuilder.swift */; };
 		811C4AA21E7B45B90049D8A3 /* Mirror+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C4AA11E7B45B90049D8A3 /* Mirror+Util.swift */; };
 		811C4AA41E7B466E0049D8A3 /* Bool+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C4AA31E7B466E0049D8A3 /* Bool+AnyMatchBuilder.swift */; };
+		8124C6001EA69ACF0080EA86 /* BaseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124C5FF1EA69ACF0080EA86 /* BaseRepository.swift */; };
+		8124C6021EA69CDA0080EA86 /* AbstractRequestRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124C6011EA69CDA0080EA86 /* AbstractRequestRepository.swift */; };
 		81277E7C1E96DD4000005EFF /* HostReachabilityInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81277E7B1E96DD4000005EFF /* HostReachabilityInfo.swift */; };
 		81277E7E1E96DDCF00005EFF /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81277E7D1E96DDCF00005EFF /* ReachabilityManager.swift */; };
 		81277E801E96E47F00005EFF /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81277E7F1E96E47F00005EFF /* Route.swift */; };
@@ -99,6 +101,8 @@
 		811C4A9F1E7B45960049D8A3 /* Float+AnyMatchBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Float+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
 		811C4AA11E7B45B90049D8A3 /* Mirror+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Mirror+Util.swift"; sourceTree = "<group>"; };
 		811C4AA31E7B466E0049D8A3 /* Bool+AnyMatchBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bool+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
+		8124C5FF1EA69ACF0080EA86 /* BaseRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseRepository.swift; sourceTree = "<group>"; };
+		8124C6011EA69CDA0080EA86 /* AbstractRequestRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbstractRequestRepository.swift; sourceTree = "<group>"; };
 		81277E7B1E96DD4000005EFF /* HostReachabilityInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HostReachabilityInfo.swift; sourceTree = "<group>"; };
 		81277E7D1E96DDCF00005EFF /* ReachabilityManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReachabilityManager.swift; sourceTree = "<group>"; };
 		81277E7F1E96E47F00005EFF /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
@@ -230,6 +234,8 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_12 /* AbstractRepository.swift */,
+				8124C6011EA69CDA0080EA86 /* AbstractRequestRepository.swift */,
+				8124C5FF1EA69ACF0080EA86 /* BaseRepository.swift */,
 				OBJ_9 /* CustomErrorResponseParser.swift */,
 				816B235E1E95B5DF00D1D24F /* DefaultResponseParser.swift */,
 				816B23601E95B84F00D1D24F /* ParameterEncoding.swift */,
@@ -422,10 +428,12 @@
 			files = (
 				816B23611E95B84F00D1D24F /* ParameterEncoding.swift in Sources */,
 				81FC7DEF1E91C1E600FC2FA9 /* ModelParser.swift in Sources */,
+				8124C6021EA69CDA0080EA86 /* AbstractRequestRepository.swift in Sources */,
 				811C4AA41E7B466E0049D8A3 /* Bool+AnyMatchBuilder.swift in Sources */,
 				814702751E8079A400A2B874 /* DynamicTypeModel.swift in Sources */,
 				81277E7C1E96DD4000005EFF /* HostReachabilityInfo.swift in Sources */,
 				OBJ_56 /* CustomErrorResponseParser.swift in Sources */,
+				8124C6001EA69ACF0080EA86 /* BaseRepository.swift in Sources */,
 				811C4A9C1E7B43130049D8A3 /* TypeResolver.swift in Sources */,
 				816A00771E7C7CF30098630A /* TypeMatchable.swift in Sources */,
 				OBJ_57 /* AbstractModel+SoftSerialization.swift in Sources */,

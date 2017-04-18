@@ -19,19 +19,26 @@ public enum Route {
     func url() throws -> URL {
         switch self {
         case .get(let convertible):
-            if let url = convertible.url { return url }
+            return try getURL(from: convertible)
         case .post(let convertible):
-            if let url = convertible.url { return url }
+            return try getURL(from: convertible)
         case .put(let convertible):
-            if let url = convertible.url { return url }
+            return try getURL(from: convertible)
         case .delete(let convertible):
-            if let url = convertible.url { return url }
+            return try getURL(from: convertible)
         case .head(let convertible):
-            if let url = convertible.url { return url }
+            return try getURL(from: convertible)
         case .patch(let convertible):
-            if let url = convertible.url { return url }
+            return try getURL(from: convertible)
         }
-        throw RepositoryError.invalidURL
+    }
+    
+    private func getURL(from convertible: URLConvertible) throws -> URL {
+        if let url = convertible.url { return url }
+        if let string = convertible as? String {
+            throw RepositoryError.invalidURL(url: string)
+        }
+        throw RepositoryError.invalidURL(url: String(describing: convertible))
     }
     
     func method() -> HTTPMethod {
