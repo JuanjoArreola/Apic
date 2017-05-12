@@ -34,7 +34,7 @@ class DynamicArrayTests: XCTestCase {
             XCTAssertTrue(movie.awards[1] is GoldenGlobe)
         } catch {
             XCTFail()
-            Log.error(error)
+            print(error)
         }
     }
     

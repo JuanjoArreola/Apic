@@ -72,6 +72,16 @@ class Movie: AbstractModel {
         default: try super.assign(value: value, forProperty: property)
         }
     }
+    
+    override func value(forKey key: String) -> Any? {
+        if key == "rating" {
+            return rating
+        } else if key == "format" {
+            return format.rawValue
+        } else {
+            return super.value(forKey: key)
+        }
+    }
 }
 
 class Person: AbstractModel {

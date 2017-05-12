@@ -18,7 +18,7 @@ public protocol Cancellable {
 
 private let syncQueue: DispatchQueue = DispatchQueue(label: "com.apic.SyncQueue", attributes: .concurrent)
 
-open class Request<T: Any>: CustomDebugStringConvertible, Cancellable {
+open class Request<T: Any>: Cancellable {
     
     private var completionHandlers: [(_ getObject: () throws -> T) -> Void]? = []
     
@@ -31,7 +31,7 @@ open class Request<T: Any>: CustomDebugStringConvertible, Cancellable {
     
     open var subrequest: Cancellable? {
         didSet {
-            if canceled {
+            if let _ = error {
                 subrequest?.cancel()
             }
         }
@@ -40,8 +40,6 @@ open class Request<T: Any>: CustomDebugStringConvertible, Cancellable {
     open var completed: Bool {
         return object != nil || error != nil
     }
-    
-    open private(set) var canceled = false
     
     required public init() {}
     
@@ -59,7 +57,6 @@ open class Request<T: Any>: CustomDebugStringConvertible, Cancellable {
     }
     
     open func cancel() {
-        sync() { self.canceled = true }
         subrequest?.cancel()
         complete(with: RequestError.canceled)
     }
@@ -109,15 +106,15 @@ open class Request<T: Any>: CustomDebugStringConvertible, Cancellable {
     }
     
     private func callHandlers() {
-        guard let handlers = completionHandlers else { return }
         if let object = object {
-            handlers.forEach({ $0({ return object }) })
+            completionHandlers?.forEach({ $0({ return object }) })
             successHandlers?.forEach({ $0(object) })
         } else if let error = error {
-            handlers.forEach({ $0({ throw error }) })
+            completionHandlers?.forEach({ $0({ throw error }) })
             errorHandlers?.forEach({ $0(error) })
         }
         finishHandlers?.forEach({ $0() })
+        
         sync() {
             self.completionHandlers = nil
             self.successHandlers = nil
@@ -135,52 +132,8 @@ open class Request<T: Any>: CustomDebugStringConvertible, Cancellable {
             sync() { self.completionHandlers?.append(completion) }
         }
     }
-    
-    open var debugDescription: String {
-        return String(describing: Unmanaged.passUnretained(self).toOpaque())
-    }
 }
 
 private func sync(_ closure: @escaping () -> Void) {
     syncQueue.async(flags: .barrier, execute: closure)
-}
-
-public protocol ProgressReporter: Any {
-    var dataTask: URLSessionTask? { get }
-    var progressHandler: ((_ progress: Double) -> Void)? { get }
-}
-
-open class ApicRequest<T: Any>: Request<T>, ProgressReporter, Equatable {
-    
-    open var dataTask: URLSessionTask?
-    open var progressHandler: ((_ progress: Double) -> Void)?
-    
-    public required init(completionHandler: @escaping (_ getObject: () throws -> T) -> Void) {
-        super.init(completionHandler: completionHandler)
-    }
-    
-    required public init(successHandler: @escaping (T) -> Void) {
-        super.init(successHandler: successHandler)
-    }
-
-    required public init() {
-        super.init()
-    }
-    
-    override open func cancel() {
-        dataTask?.cancel()
-        super.cancel()
-    }
-    
-    override open var debugDescription: String {
-        var desc = "ApicRequest<\(T.self)>"
-        if let url = dataTask?.originalRequest?.url {
-            desc += "(\(url))"
-        }
-        return desc
-    }
-}
-
-public func ==<T>(lhs: ApicRequest<T>, rhs: ApicRequest<T>) -> Bool {
-    return lhs.dataTask == rhs.dataTask
 }

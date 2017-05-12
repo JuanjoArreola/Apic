@@ -32,7 +32,7 @@ class NoClassTests: XCTestCase {
             XCTAssertEqual(container.mediaType, MediaType.video)
         } catch {
             XCTFail()
-            Log.error(error)
+            print(error)
         }
     }
     

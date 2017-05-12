@@ -37,7 +37,7 @@ class ComplexModelTests: XCTestCase {
             _ = try ComplexContainer(dictionary: ["id": "1"])
             XCTFail()
         } catch {
-            Log.debug(error)
+            print(error)
         }
     }
     

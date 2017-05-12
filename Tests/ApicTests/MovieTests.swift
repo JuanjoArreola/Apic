@@ -38,7 +38,7 @@ class MovieTests: XCTestCase {
             XCTAssertNotNil(movie.synopsis)
             XCTAssertNotNil(movie.releaseDate)
         } catch {
-            Log.error(error)
+            print(error)
             XCTFail()
         }
     }
@@ -58,7 +58,7 @@ class MovieTests: XCTestCase {
             XCTAssertNotNil(movie.synopsis)
             XCTAssertNotNil(movie.releaseDate)
         } catch {
-            Log.error(error)
+            print(error)
             XCTFail()
         }
     }

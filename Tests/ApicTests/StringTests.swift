@@ -26,7 +26,7 @@ class StringTests: XCTestCase {
             let container = try StringContainer(dictionary: ["id": "1"])
             XCTAssertNotNil(container.id)
         } catch {
-            Log.error(error)
+            print(error)
             XCTFail()
         }
     }
@@ -92,7 +92,7 @@ class StringTests: XCTestCase {
             let container = try StringArrayContainer(dictionary: ["ids": ["1", "2", "3"]])
             XCTAssertNotNil(container.ids)
         } catch {
-            Log.error(error)
+            print(error)
             XCTFail()
         }
     }

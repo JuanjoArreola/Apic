@@ -31,7 +31,7 @@ class RequestObjectsTest: XCTestCase {
                 XCTAssertGreaterThan(gists.count, 0)
                 expectation.fulfill()
             } catch {
-                Log.error(error)
+                print(error)
                 XCTFail()
             }
         }
@@ -47,7 +47,7 @@ class RequestObjectsTest: XCTestCase {
                 _ = try getHistory()
                 expectation.fulfill()
             } catch {
-                Log.error(error)
+                print(error)
                 XCTFail()
             }
         }

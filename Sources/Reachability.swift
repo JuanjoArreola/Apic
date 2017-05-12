@@ -9,8 +9,8 @@
 import Foundation
 import SystemConfiguration
     
-private let reachabilityQueue: DispatchQueue = DispatchQueue(label: "com.apic.ReachabilityQueue", attributes: [])
-private let syncQueue: DispatchQueue = DispatchQueue(label: "com.apic.SyncQueue", attributes: [])
+private let reachabilityQueue = DispatchQueue(label: "com.apic.ReachabilityQueue", attributes: [])
+private let syncQueue = DispatchQueue(label: "com.apic.SyncQueue", attributes: [])
     
 public enum ReachabilityError: Error {
     case invalidURL

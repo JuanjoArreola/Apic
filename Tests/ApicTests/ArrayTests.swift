@@ -26,7 +26,7 @@ class ArrayTests: XCTestCase {
             let array = try Country.initFrom(list: [["name": "England", "capital": "London"], ["name": "France", "capital": "Paris"]])
             XCTAssertGreaterThan(array.count, 0)
         } catch {
-            Log.error(error)
+            print(error)
             XCTFail()
         }
     }

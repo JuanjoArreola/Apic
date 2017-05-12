@@ -31,7 +31,7 @@ class RepositoryStatusTests: XCTestCase {
                 XCTAssertTrue(success)
                 expectation.fulfill()
             } catch {
-                Log.error(error)
+                print(error)
                 XCTFail()
             }
         }
@@ -48,7 +48,7 @@ class RepositoryStatusTests: XCTestCase {
                 XCTAssertTrue(success)
                 expectation.fulfill()
             } catch {
-                Log.error(error)
+                print(error)
                 XCTFail()
             }
         }

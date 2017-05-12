@@ -58,7 +58,7 @@ class JSONValidTests: XCTestCase {
         } catch ModelError.serializationError(let property, _) {
             XCTAssertEqual(property, "id")
         } catch {
-            Log.error(error)
+            print(error)
         }
     }
     

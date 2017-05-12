@@ -27,7 +27,7 @@ class DictionaryTests: XCTestCase {
             let world = try World(dictionary: ["capitals": ["England": "London", "France": "Paris"], "countries": [:]])
             XCTAssertEqual(world.capitals.count, 2)
         } catch {
-            Log.error(error)
+            print(error)
             XCTFail()
         }
     }

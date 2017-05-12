@@ -31,14 +31,14 @@ class ReachabilityTests: XCTestCase {
             testQueue.async {
                 do {
                     let info = try Reachability.reachabilityInfo(forURL: URL(string: "http://github.com/\(i)")!)
-                    Log.debug("info: \(info)")
+                    print("info: \(info)")
                     count += 1
                     if count >= 19 && !fulfilled {
                         fulfilled = true
                         expectation.fulfill()
                     }
                 } catch {
-                    Log.error(error)
+                    print(error)
                     XCTFail()
                 }
             }

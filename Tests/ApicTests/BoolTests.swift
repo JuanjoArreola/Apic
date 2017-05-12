@@ -63,7 +63,7 @@ class BoolTests: XCTestCase {
             XCTAssertNotNil(container)
             XCTAssertNotNil(container.option)
         } catch {
-            Log.error(error)
+            print(error)
             XCTFail()
         }
     }

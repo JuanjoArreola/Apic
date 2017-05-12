@@ -30,7 +30,7 @@ class RequestObjectTests: XCTestCase {
                 _ = try getUser()
                 expectation.fulfill()
             } catch {
-                Log.error(error)
+                print(error)
                 XCTFail()
             }
         }
@@ -38,10 +38,8 @@ class RequestObjectTests: XCTestCase {
     }
     
     func testRequestUser2() {
-        let userRepository = UserRepository()
-        
         let expectation: XCTestExpectation = self.expectation(description: "fetch list")
-        let request = userRepository.requestUser2(withName: "JuanjoArreola") { user in
+        let request = UserRepository2.shared.requestUser2(withName: "JuanjoArreola") { user in
             expectation.fulfill()
         }
         request?.fail { _ in XCTFail() }
@@ -57,7 +55,7 @@ class RequestObjectTests: XCTestCase {
                 _ = try getUser()
                 expectation.fulfill()
             } catch {
-                Log.error(error)
+                print(error)
                 XCTFail()
             }
         }
@@ -102,15 +100,20 @@ class User: AbstractModel {
     var avatar_url: URL!
 }
 
+class UserRepository2: AbstractRequestRepository {
+    
+    static var shared = UserRepository2(responseParser: DefaultResponseParser<String>())
+    
+    @discardableResult func requestUser2(withName name: String, completion: @escaping (User) -> Void) -> Request<User>? {
+        return requestObject(route: .get("https://api.github.com/users/\(name)"), completion: completion)
+    }
+}
+
 class UserRepository: AbstractRepository {
     
     init() {
         let parser = DefaultResponseParser<String>()
         super.init(responseParser: parser)
-    }
-    
-    @discardableResult func requestUser2(withName name: String, completion: @escaping (User) -> Void) -> Request<User>? {
-        return requestObject(route: .get("https://api.github.com/users/\(name)"), completion: completion)
     }
     
     @discardableResult func requestUser(withName name: String, completion: @escaping (_ getUser: () throws -> User) -> Void) -> Request<User>? {
