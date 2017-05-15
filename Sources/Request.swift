@@ -115,6 +115,10 @@ open class Request<T: Any>: Cancellable {
         }
         finishHandlers?.forEach({ $0() })
         
+        clearHandlers()
+    }
+    
+    private func clearHandlers() {
         sync() {
             self.completionHandlers = nil
             self.successHandlers = nil
