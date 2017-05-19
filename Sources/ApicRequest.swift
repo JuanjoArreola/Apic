@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AsyncRequest
 
 public protocol ProgressReporter: Any {
     var dataTask: URLSessionTask? { get }
@@ -17,18 +18,6 @@ open class ApicRequest<T: Any>: Request<T>, ProgressReporter, Equatable {
     
     open var dataTask: URLSessionTask?
     open var progressHandler: ((_ progress: Double) -> Void)?
-    
-    public required init(completionHandler: @escaping (_ getObject: () throws -> T) -> Void) {
-        super.init(completionHandler: completionHandler)
-    }
-    
-    required public init(successHandler: @escaping (T) -> Void) {
-        super.init(successHandler: successHandler)
-    }
-    
-    required public init() {
-        super.init()
-    }
     
     override open func cancel() {
         dataTask?.cancel()

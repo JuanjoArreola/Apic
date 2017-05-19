@@ -149,20 +149,23 @@ internal class ModelParser {
     }
     
     private func parseDate(value: Any, property: String) throws -> Date {
+        guard let string = value as? String else {
+            throw ModelError.sourceValueError(property: property, model: modelType, value: value)
+        }
         if let format = modelType.propertyDateFormats[property] {
-            if let date = Date(value: value, format: format) {
+            if let date = Date(string: string, format: format) {
                 return date
             }
-            throw ModelError.dateError(property: property, type: modelType, value: String(describing: value), format: format)
+            throw ModelError.dateError(property: property, type: modelType, value: string, format: format, locale: Date.apicFormatter.locale)
         } else if let format = modelType.dateFormat {
-            if let date = Date(value: value, format: format) {
+            if let date = Date(string: string, format: format) {
                 return date
             }
-            throw ModelError.dateError(property: property, type: modelType, value: String(describing: value), format: format)
-        } else if let date = Date(value: value, format: Configuration.dateFormat) {
+            throw ModelError.dateError(property: property, type: modelType, value: string, format: format, locale: Date.apicFormatter.locale)
+        } else if let date = Date(string: string, format: Configuration.dateFormat) {
             return date
         }
-        throw ModelError.dateError(property: property, type: modelType, value: String(describing: value), format: Configuration.dateFormat)
+        throw ModelError.dateError(property: property, type: modelType, value: string, format: Configuration.dateFormat, locale: Date.apicFormatter.locale)
     }
     
     private func assignStringDictionary(value: Any, to model: AbstractModel, property: ChildProperty) throws -> Bool {

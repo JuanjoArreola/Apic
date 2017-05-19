@@ -34,7 +34,7 @@ class RequestObjectTests: XCTestCase {
                 XCTFail()
             }
         }
-        waitForExpectations(timeout: 60.0, handler: nil)
+        waitForExpectations(timeout: 8.0, handler: nil)
     }
     
     func testRequestUser2() {
@@ -43,7 +43,7 @@ class RequestObjectTests: XCTestCase {
             expectation.fulfill()
         }
         request?.fail { _ in XCTFail() }
-        waitForExpectations(timeout: 60.0, handler: nil)
+        waitForExpectations(timeout: 8.0, handler: nil)
     }
     
     func testRequestInnerUser() {
@@ -59,7 +59,7 @@ class RequestObjectTests: XCTestCase {
                 XCTFail()
             }
         }
-        waitForExpectations(timeout: 60.0, handler: nil)
+        waitForExpectations(timeout: 8.0, handler: nil)
     }
     
     func testRequestInnerUserWrong() {
@@ -74,7 +74,7 @@ class RequestObjectTests: XCTestCase {
                 expectation.fulfill()
             }
         }
-        waitForExpectations(timeout: 60.0, handler: nil)
+        waitForExpectations(timeout: 8.0, handler: nil)
     }
     
     func testRequestUserWrong() {
@@ -89,7 +89,7 @@ class RequestObjectTests: XCTestCase {
                 expectation.fulfill()
             }
         }
-        waitForExpectations(timeout: 60.0, handler: nil)
+        waitForExpectations(timeout: 8.0, handler: nil)
     }
     
 }

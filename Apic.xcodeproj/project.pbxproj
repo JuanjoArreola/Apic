@@ -7,395 +7,415 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		811C4A9A1E7B0F000049D8A3 /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C4A991E7B0F000049D8A3 /* Color+Hex.swift */; };
-		811C4A9C1E7B43130049D8A3 /* TypeResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C4A9B1E7B43130049D8A3 /* TypeResolver.swift */; };
-		811C4A9E1E7B43BD0049D8A3 /* DefaultTypeResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C4A9D1E7B43BD0049D8A3 /* DefaultTypeResolver.swift */; };
-		811C4AA01E7B45960049D8A3 /* Float+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C4A9F1E7B45960049D8A3 /* Float+AnyMatchBuilder.swift */; };
-		811C4AA21E7B45B90049D8A3 /* Mirror+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C4AA11E7B45B90049D8A3 /* Mirror+Util.swift */; };
-		811C4AA41E7B466E0049D8A3 /* Bool+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C4AA31E7B466E0049D8A3 /* Bool+AnyMatchBuilder.swift */; };
-		8124C6001EA69ACF0080EA86 /* BaseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124C5FF1EA69ACF0080EA86 /* BaseRepository.swift */; };
-		8124C6021EA69CDA0080EA86 /* AbstractRequestRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124C6011EA69CDA0080EA86 /* AbstractRequestRepository.swift */; };
-		81277E7C1E96DD4000005EFF /* HostReachabilityInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81277E7B1E96DD4000005EFF /* HostReachabilityInfo.swift */; };
-		81277E7E1E96DDCF00005EFF /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81277E7D1E96DDCF00005EFF /* ReachabilityManager.swift */; };
-		81277E801E96E47F00005EFF /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81277E7F1E96E47F00005EFF /* Route.swift */; };
-		814702651E7F1D9300A2B874 /* StringInitializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814702641E7F1D9300A2B874 /* StringInitializable.swift */; };
-		814702671E7F1DBE00A2B874 /* IntInitializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814702661E7F1DBE00A2B874 /* IntInitializable.swift */; };
-		814702691E7F202D00A2B874 /* RepositoryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814702681E7F202D00A2B874 /* RepositoryError.swift */; };
-		8147026B1E7F205600A2B874 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8147026A1E7F205600A2B874 /* HTTPMethod.swift */; };
-		814702731E80755200A2B874 /* InitializableWithDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814702721E80755200A2B874 /* InitializableWithDictionary.swift */; };
-		814702751E8079A400A2B874 /* DynamicTypeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814702741E8079A400A2B874 /* DynamicTypeModel.swift */; };
-		814D76441E7CDA1E0061F55D /* ModelError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D76431E7CDA1E0061F55D /* ModelError.swift */; };
-		814D76461E7D1AB10061F55D /* NSDecimalNumber+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D76451E7D1AB10061F55D /* NSDecimalNumber+AnyMatchBuilder.swift */; };
-		814D76491E7DC4F70061F55D /* URL+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D76481E7DC4F70061F55D /* URL+AnyMatchBuilder.swift */; };
-		814D764B1E7DC5720061F55D /* FromAnyBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D764A1E7DC5720061F55D /* FromAnyBuilder.swift */; };
-		814D764D1E7DC8EF0061F55D /* Color+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D764C1E7DC8EF0061F55D /* Color+AnyMatchBuilder.swift */; };
-		816297721E8C497600BBF065 /* TypeInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816297711E8C497600BBF065 /* TypeInfo.swift */; };
-		816A00731E7C64470098630A /* Int+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816A00721E7C64470098630A /* Int+AnyMatchBuilder.swift */; };
-		816A00751E7C7BC90098630A /* Double+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816A00741E7C7BC90098630A /* Double+AnyMatchBuilder.swift */; };
-		816A00771E7C7CF30098630A /* TypeMatchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816A00761E7C7CF30098630A /* TypeMatchable.swift */; };
-		816B23571E958AF400D1D24F /* RepositorySessionDataDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816B23561E958AF400D1D24F /* RepositorySessionDataDelegate.swift */; };
-		816B23591E95978800D1D24F /* URLConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816B23581E95978800D1D24F /* URLConvertible.swift */; };
-		816B235D1E95B5C900D1D24F /* ResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816B235C1E95B5C900D1D24F /* ResponseParser.swift */; };
-		816B235F1E95B5DF00D1D24F /* DefaultResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816B235E1E95B5DF00D1D24F /* DefaultResponseParser.swift */; };
-		816B23611E95B84F00D1D24F /* ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816B23601E95B84F00D1D24F /* ParameterEncoding.swift */; };
-		817BEF631EA540470014B39A /* NSCodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817BEF621EA540470014B39A /* NSCodingTests.swift */; };
-		818758051EC1124500EA2329 /* ApicRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818758041EC1124500EA2329 /* ApicRequest.swift */; };
-		81A117951E92FDFF00F51D29 /* ValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A117941E92FDFF00F51D29 /* ValidationTests.swift */; };
-		81C6E64D1E7C7E4B006105D1 /* String+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6E64C1E7C7E4B006105D1 /* String+AnyMatchBuilder.swift */; };
-		81C6E64F1E7C8153006105D1 /* Date+TypeMatchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6E64E1E7C8153006105D1 /* Date+TypeMatchable.swift */; };
-		81C6E6511E7C82B1006105D1 /* Date+Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6E6501E7C82B1006105D1 /* Date+Parse.swift */; };
-		81FC7DEF1E91C1E600FC2FA9 /* ModelParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FC7DEE1E91C1E600FC2FA9 /* ModelParser.swift */; };
-		81FC7DF11E91C21B00FC2FA9 /* ModelParserProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FC7DF01E91C21B00FC2FA9 /* ModelParserProvider.swift */; };
-		81FC7DF31E91C23400FC2FA9 /* ChildProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FC7DF21E91C23400FC2FA9 /* ChildProperty.swift */; };
-		OBJ_100 /* Apic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = OBJ_49 /* Apic.framework */; };
-		OBJ_56 /* CustomErrorResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* CustomErrorResponseParser.swift */; };
-		OBJ_57 /* AbstractModel+SoftSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* AbstractModel+SoftSerialization.swift */; };
-		OBJ_58 /* AbstractModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* AbstractModel.swift */; };
-		OBJ_59 /* AbstractRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* AbstractRepository.swift */; };
-		OBJ_60 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* Configuration.swift */; };
-		OBJ_63 /* URLRequest+ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* URLRequest+ParameterEncoding.swift */; };
-		OBJ_64 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* Reachability.swift */; };
-		OBJ_65 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_18 /* Request.swift */; };
-		OBJ_72 /* ApicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_21 /* ApicTests.swift */; };
-		OBJ_73 /* ArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_22 /* ArrayTests.swift */; };
-		OBJ_74 /* BoolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_23 /* BoolTests.swift */; };
-		OBJ_75 /* ChangeValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_24 /* ChangeValueTests.swift */; };
-		OBJ_76 /* ColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* ColorTests.swift */; };
-		OBJ_77 /* ComplexModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_26 /* ComplexModelTests.swift */; };
-		OBJ_78 /* DateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_27 /* DateTests.swift */; };
-		OBJ_79 /* DecimalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_28 /* DecimalTests.swift */; };
-		OBJ_80 /* DictionaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_29 /* DictionaryTests.swift */; };
-		OBJ_81 /* DoubleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_30 /* DoubleTests.swift */; };
-		OBJ_82 /* DynamicArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_31 /* DynamicArrayTests.swift */; };
-		OBJ_83 /* ErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_32 /* ErrorTests.swift */; };
-		OBJ_84 /* FloatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_33 /* FloatTests.swift */; };
-		OBJ_85 /* HeadersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_34 /* HeadersTests.swift */; };
-		OBJ_86 /* InheritanceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_35 /* InheritanceTest.swift */; };
-		OBJ_87 /* IntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_36 /* IntTests.swift */; };
-		OBJ_88 /* JSONValidTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_37 /* JSONValidTests.swift */; };
-		OBJ_89 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_38 /* Movie.swift */; };
-		OBJ_90 /* MovieTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_39 /* MovieTests.swift */; };
-		OBJ_91 /* NoClassTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_40 /* NoClassTests.swift */; };
-		OBJ_92 /* ReachabilityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_41 /* ReachabilityTests.swift */; };
-		OBJ_93 /* RepositoryStatusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_42 /* RepositoryStatusTests.swift */; };
-		OBJ_94 /* RequestObjectsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_43 /* RequestObjectsTest.swift */; };
-		OBJ_95 /* RequestObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_44 /* RequestObjectTests.swift */; };
-		OBJ_96 /* SoftDictionaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_45 /* SoftDictionaryTests.swift */; };
-		OBJ_97 /* StringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_46 /* StringTests.swift */; };
-		OBJ_98 /* UndefinedTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_47 /* UndefinedTypeTests.swift */; };
+		OBJ_100 /* RequestHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_88 /* RequestHandlers.swift */; };
+		OBJ_101 /* URLSessionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_89 /* URLSessionRequest.swift */; };
+		OBJ_108 /* AbstractModel+SoftSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_8 /* AbstractModel+SoftSerialization.swift */; };
+		OBJ_109 /* AbstractModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* AbstractModel.swift */; };
+		OBJ_110 /* AbstractRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* AbstractRepository.swift */; };
+		OBJ_111 /* AbstractRequestRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* AbstractRequestRepository.swift */; };
+		OBJ_112 /* ApicRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* ApicRequest.swift */; };
+		OBJ_113 /* BaseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* BaseRepository.swift */; };
+		OBJ_114 /* Bool+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* Bool+AnyMatchBuilder.swift */; };
+		OBJ_115 /* ChildProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* ChildProperty.swift */; };
+		OBJ_116 /* Color+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* Color+AnyMatchBuilder.swift */; };
+		OBJ_117 /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* Color+Hex.swift */; };
+		OBJ_118 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_18 /* Configuration.swift */; };
+		OBJ_119 /* CustomErrorResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_19 /* CustomErrorResponseParser.swift */; };
+		OBJ_120 /* Date+Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_20 /* Date+Parse.swift */; };
+		OBJ_121 /* Date+TypeMatchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_21 /* Date+TypeMatchable.swift */; };
+		OBJ_122 /* DefaultResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_22 /* DefaultResponseParser.swift */; };
+		OBJ_123 /* DefaultTypeResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_23 /* DefaultTypeResolver.swift */; };
+		OBJ_124 /* Double+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_24 /* Double+AnyMatchBuilder.swift */; };
+		OBJ_125 /* DynamicTypeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* DynamicTypeModel.swift */; };
+		OBJ_126 /* Float+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_26 /* Float+AnyMatchBuilder.swift */; };
+		OBJ_127 /* FromAnyBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_27 /* FromAnyBuilder.swift */; };
+		OBJ_128 /* HostReachabilityInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_28 /* HostReachabilityInfo.swift */; };
+		OBJ_129 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_29 /* HTTPMethod.swift */; };
+		OBJ_130 /* InitializableWithDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_30 /* InitializableWithDictionary.swift */; };
+		OBJ_131 /* Int+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_31 /* Int+AnyMatchBuilder.swift */; };
+		OBJ_132 /* IntInitializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_32 /* IntInitializable.swift */; };
+		OBJ_133 /* Mirror+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_33 /* Mirror+Util.swift */; };
+		OBJ_134 /* ModelError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_34 /* ModelError.swift */; };
+		OBJ_135 /* ModelParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_35 /* ModelParser.swift */; };
+		OBJ_136 /* ModelParserProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_36 /* ModelParserProvider.swift */; };
+		OBJ_137 /* NSDecimalNumber+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_37 /* NSDecimalNumber+AnyMatchBuilder.swift */; };
+		OBJ_138 /* ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_38 /* ParameterEncoding.swift */; };
+		OBJ_139 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_39 /* Reachability.swift */; };
+		OBJ_140 /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_40 /* ReachabilityManager.swift */; };
+		OBJ_141 /* RepositoryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_41 /* RepositoryError.swift */; };
+		OBJ_142 /* RepositorySessionDataDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_42 /* RepositorySessionDataDelegate.swift */; };
+		OBJ_144 /* ResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_44 /* ResponseParser.swift */; };
+		OBJ_145 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_45 /* Route.swift */; };
+		OBJ_146 /* String+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_46 /* String+AnyMatchBuilder.swift */; };
+		OBJ_147 /* StringInitializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_47 /* StringInitializable.swift */; };
+		OBJ_148 /* TypeInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_48 /* TypeInfo.swift */; };
+		OBJ_149 /* TypeMatchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_49 /* TypeMatchable.swift */; };
+		OBJ_150 /* TypeResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_50 /* TypeResolver.swift */; };
+		OBJ_151 /* URL+AnyMatchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_51 /* URL+AnyMatchBuilder.swift */; };
+		OBJ_152 /* URLConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_52 /* URLConvertible.swift */; };
+		OBJ_153 /* URLRequest+ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_53 /* URLRequest+ParameterEncoding.swift */; };
+		OBJ_155 /* AsyncRequest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = OBJ_91 /* AsyncRequest.framework */; };
+		OBJ_162 /* ApicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_56 /* ApicTests.swift */; };
+		OBJ_163 /* ArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_57 /* ArrayTests.swift */; };
+		OBJ_164 /* BoolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_58 /* BoolTests.swift */; };
+		OBJ_165 /* ChangeValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_59 /* ChangeValueTests.swift */; };
+		OBJ_166 /* ColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_60 /* ColorTests.swift */; };
+		OBJ_167 /* ComplexModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_61 /* ComplexModelTests.swift */; };
+		OBJ_168 /* DateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_62 /* DateTests.swift */; };
+		OBJ_169 /* DecimalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_63 /* DecimalTests.swift */; };
+		OBJ_170 /* DictionaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_64 /* DictionaryTests.swift */; };
+		OBJ_171 /* DoubleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_65 /* DoubleTests.swift */; };
+		OBJ_172 /* DynamicArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_66 /* DynamicArrayTests.swift */; };
+		OBJ_173 /* ErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_67 /* ErrorTests.swift */; };
+		OBJ_174 /* FloatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_68 /* FloatTests.swift */; };
+		OBJ_175 /* HeadersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_69 /* HeadersTests.swift */; };
+		OBJ_176 /* InheritanceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_70 /* InheritanceTest.swift */; };
+		OBJ_177 /* IntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_71 /* IntTests.swift */; };
+		OBJ_178 /* JSONValidTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_72 /* JSONValidTests.swift */; };
+		OBJ_179 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_73 /* Movie.swift */; };
+		OBJ_180 /* MovieTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_74 /* MovieTests.swift */; };
+		OBJ_181 /* NoClassTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_75 /* NoClassTests.swift */; };
+		OBJ_182 /* NSCodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_76 /* NSCodingTests.swift */; };
+		OBJ_183 /* ReachabilityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_77 /* ReachabilityTests.swift */; };
+		OBJ_184 /* RepositoryStatusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_78 /* RepositoryStatusTests.swift */; };
+		OBJ_185 /* RequestObjectsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_79 /* RequestObjectsTest.swift */; };
+		OBJ_186 /* RequestObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_80 /* RequestObjectTests.swift */; };
+		OBJ_187 /* SoftDictionaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_81 /* SoftDictionaryTests.swift */; };
+		OBJ_188 /* StringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_82 /* StringTests.swift */; };
+		OBJ_189 /* UndefinedTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_83 /* UndefinedTypeTests.swift */; };
+		OBJ_190 /* ValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_84 /* ValidationTests.swift */; };
+		OBJ_192 /* AsyncRequest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = OBJ_91 /* AsyncRequest.framework */; };
+		OBJ_193 /* Apic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = OBJ_92 /* Apic.framework */; };
+		OBJ_99 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_87 /* Request.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		81649C3B1E77234E006BD3D6 /* PBXContainerItemProxy */ = {
+		815C1ED41ECFB13C009DD67D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = OBJ_51;
+			remoteGlobalIDString = OBJ_94;
+			remoteInfo = AsyncRequest;
+		};
+		815C1ED51ECFB13C009DD67D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = OBJ_94;
+			remoteInfo = AsyncRequest;
+		};
+		815C1ED61ECFB13C009DD67D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = OBJ_103;
 			remoteInfo = Apic;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		811C4A991E7B0F000049D8A3 /* Color+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
-		811C4A9B1E7B43130049D8A3 /* TypeResolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeResolver.swift; sourceTree = "<group>"; };
-		811C4A9D1E7B43BD0049D8A3 /* DefaultTypeResolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultTypeResolver.swift; sourceTree = "<group>"; };
-		811C4A9F1E7B45960049D8A3 /* Float+AnyMatchBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Float+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
-		811C4AA11E7B45B90049D8A3 /* Mirror+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Mirror+Util.swift"; sourceTree = "<group>"; };
-		811C4AA31E7B466E0049D8A3 /* Bool+AnyMatchBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bool+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
-		8124C5FF1EA69ACF0080EA86 /* BaseRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseRepository.swift; sourceTree = "<group>"; };
-		8124C6011EA69CDA0080EA86 /* AbstractRequestRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbstractRequestRepository.swift; sourceTree = "<group>"; };
-		81277E7B1E96DD4000005EFF /* HostReachabilityInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HostReachabilityInfo.swift; sourceTree = "<group>"; };
-		81277E7D1E96DDCF00005EFF /* ReachabilityManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReachabilityManager.swift; sourceTree = "<group>"; };
-		81277E7F1E96E47F00005EFF /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
-		814702641E7F1D9300A2B874 /* StringInitializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringInitializable.swift; sourceTree = "<group>"; };
-		814702661E7F1DBE00A2B874 /* IntInitializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntInitializable.swift; sourceTree = "<group>"; };
-		814702681E7F202D00A2B874 /* RepositoryError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryError.swift; sourceTree = "<group>"; };
-		8147026A1E7F205600A2B874 /* HTTPMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
-		814702721E80755200A2B874 /* InitializableWithDictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitializableWithDictionary.swift; sourceTree = "<group>"; };
-		814702741E8079A400A2B874 /* DynamicTypeModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicTypeModel.swift; sourceTree = "<group>"; };
-		814D76431E7CDA1E0061F55D /* ModelError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelError.swift; sourceTree = "<group>"; };
-		814D76451E7D1AB10061F55D /* NSDecimalNumber+AnyMatchBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDecimalNumber+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
-		814D76481E7DC4F70061F55D /* URL+AnyMatchBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URL+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
-		814D764A1E7DC5720061F55D /* FromAnyBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FromAnyBuilder.swift; sourceTree = "<group>"; };
-		814D764C1E7DC8EF0061F55D /* Color+AnyMatchBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
-		816297711E8C497600BBF065 /* TypeInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeInfo.swift; sourceTree = "<group>"; };
-		816A00721E7C64470098630A /* Int+AnyMatchBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
-		816A00741E7C7BC90098630A /* Double+AnyMatchBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Double+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
-		816A00761E7C7CF30098630A /* TypeMatchable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeMatchable.swift; sourceTree = "<group>"; };
-		816B23561E958AF400D1D24F /* RepositorySessionDataDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositorySessionDataDelegate.swift; sourceTree = "<group>"; };
-		816B23581E95978800D1D24F /* URLConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLConvertible.swift; sourceTree = "<group>"; };
-		816B235C1E95B5C900D1D24F /* ResponseParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseParser.swift; sourceTree = "<group>"; };
-		816B235E1E95B5DF00D1D24F /* DefaultResponseParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultResponseParser.swift; sourceTree = "<group>"; };
-		816B23601E95B84F00D1D24F /* ParameterEncoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParameterEncoding.swift; sourceTree = "<group>"; };
-		817BEF621EA540470014B39A /* NSCodingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSCodingTests.swift; sourceTree = "<group>"; };
-		818758041EC1124500EA2329 /* ApicRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApicRequest.swift; sourceTree = "<group>"; };
-		81A117941E92FDFF00F51D29 /* ValidationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationTests.swift; sourceTree = "<group>"; };
-		81C6E64C1E7C7E4B006105D1 /* String+AnyMatchBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
-		81C6E64E1E7C8153006105D1 /* Date+TypeMatchable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+TypeMatchable.swift"; sourceTree = "<group>"; };
-		81C6E6501E7C82B1006105D1 /* Date+Parse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Parse.swift"; sourceTree = "<group>"; };
-		81FC7DEE1E91C1E600FC2FA9 /* ModelParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelParser.swift; sourceTree = "<group>"; };
-		81FC7DF01E91C21B00FC2FA9 /* ModelParserProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelParserProvider.swift; sourceTree = "<group>"; };
-		81FC7DF21E91C23400FC2FA9 /* ChildProperty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChildProperty.swift; sourceTree = "<group>"; };
-		OBJ_10 /* AbstractModel+SoftSerialization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AbstractModel+SoftSerialization.swift"; sourceTree = "<group>"; };
-		OBJ_11 /* AbstractModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractModel.swift; sourceTree = "<group>"; };
-		OBJ_12 /* AbstractRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractRepository.swift; sourceTree = "<group>"; };
-		OBJ_13 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
-		OBJ_16 /* URLRequest+ParameterEncoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+ParameterEncoding.swift"; sourceTree = "<group>"; };
-		OBJ_17 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
-		OBJ_18 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
-		OBJ_21 /* ApicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApicTests.swift; sourceTree = "<group>"; };
-		OBJ_22 /* ArrayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayTests.swift; sourceTree = "<group>"; };
-		OBJ_23 /* BoolTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoolTests.swift; sourceTree = "<group>"; };
-		OBJ_24 /* ChangeValueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeValueTests.swift; sourceTree = "<group>"; };
-		OBJ_25 /* ColorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTests.swift; sourceTree = "<group>"; };
-		OBJ_26 /* ComplexModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplexModelTests.swift; sourceTree = "<group>"; };
-		OBJ_27 /* DateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTests.swift; sourceTree = "<group>"; };
-		OBJ_28 /* DecimalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalTests.swift; sourceTree = "<group>"; };
-		OBJ_29 /* DictionaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryTests.swift; sourceTree = "<group>"; };
-		OBJ_30 /* DoubleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleTests.swift; sourceTree = "<group>"; };
-		OBJ_31 /* DynamicArrayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicArrayTests.swift; sourceTree = "<group>"; };
-		OBJ_32 /* ErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorTests.swift; sourceTree = "<group>"; };
-		OBJ_33 /* FloatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatTests.swift; sourceTree = "<group>"; };
-		OBJ_34 /* HeadersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadersTests.swift; sourceTree = "<group>"; };
-		OBJ_35 /* InheritanceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InheritanceTest.swift; sourceTree = "<group>"; };
-		OBJ_36 /* IntTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntTests.swift; sourceTree = "<group>"; };
-		OBJ_37 /* JSONValidTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONValidTests.swift; sourceTree = "<group>"; };
-		OBJ_38 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
-		OBJ_39 /* MovieTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTests.swift; sourceTree = "<group>"; };
-		OBJ_40 /* NoClassTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoClassTests.swift; sourceTree = "<group>"; };
-		OBJ_41 /* ReachabilityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityTests.swift; sourceTree = "<group>"; };
-		OBJ_42 /* RepositoryStatusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryStatusTests.swift; sourceTree = "<group>"; };
-		OBJ_43 /* RequestObjectsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestObjectsTest.swift; sourceTree = "<group>"; };
-		OBJ_44 /* RequestObjectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestObjectTests.swift; sourceTree = "<group>"; };
-		OBJ_45 /* SoftDictionaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoftDictionaryTests.swift; sourceTree = "<group>"; };
-		OBJ_46 /* StringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringTests.swift; sourceTree = "<group>"; };
-		OBJ_47 /* UndefinedTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UndefinedTypeTests.swift; sourceTree = "<group>"; };
-		OBJ_49 /* Apic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Apic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		OBJ_50 /* ApicTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = ApicTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		OBJ_10 /* AbstractRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractRepository.swift; sourceTree = "<group>"; };
+		OBJ_11 /* AbstractRequestRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractRequestRepository.swift; sourceTree = "<group>"; };
+		OBJ_12 /* ApicRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApicRequest.swift; sourceTree = "<group>"; };
+		OBJ_13 /* BaseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseRepository.swift; sourceTree = "<group>"; };
+		OBJ_14 /* Bool+AnyMatchBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
+		OBJ_15 /* ChildProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildProperty.swift; sourceTree = "<group>"; };
+		OBJ_16 /* Color+AnyMatchBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
+		OBJ_17 /* Color+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
+		OBJ_18 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		OBJ_19 /* CustomErrorResponseParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomErrorResponseParser.swift; sourceTree = "<group>"; };
+		OBJ_20 /* Date+Parse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Parse.swift"; sourceTree = "<group>"; };
+		OBJ_21 /* Date+TypeMatchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+TypeMatchable.swift"; sourceTree = "<group>"; };
+		OBJ_22 /* DefaultResponseParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultResponseParser.swift; sourceTree = "<group>"; };
+		OBJ_23 /* DefaultTypeResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultTypeResolver.swift; sourceTree = "<group>"; };
+		OBJ_24 /* Double+AnyMatchBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
+		OBJ_25 /* DynamicTypeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicTypeModel.swift; sourceTree = "<group>"; };
+		OBJ_26 /* Float+AnyMatchBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Float+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
+		OBJ_27 /* FromAnyBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FromAnyBuilder.swift; sourceTree = "<group>"; };
+		OBJ_28 /* HostReachabilityInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostReachabilityInfo.swift; sourceTree = "<group>"; };
+		OBJ_29 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		OBJ_30 /* InitializableWithDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitializableWithDictionary.swift; sourceTree = "<group>"; };
+		OBJ_31 /* Int+AnyMatchBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
+		OBJ_32 /* IntInitializable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntInitializable.swift; sourceTree = "<group>"; };
+		OBJ_33 /* Mirror+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Mirror+Util.swift"; sourceTree = "<group>"; };
+		OBJ_34 /* ModelError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelError.swift; sourceTree = "<group>"; };
+		OBJ_35 /* ModelParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelParser.swift; sourceTree = "<group>"; };
+		OBJ_36 /* ModelParserProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelParserProvider.swift; sourceTree = "<group>"; };
+		OBJ_37 /* NSDecimalNumber+AnyMatchBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSDecimalNumber+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
+		OBJ_38 /* ParameterEncoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterEncoding.swift; sourceTree = "<group>"; };
+		OBJ_39 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		OBJ_40 /* ReachabilityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityManager.swift; sourceTree = "<group>"; };
+		OBJ_41 /* RepositoryError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryError.swift; sourceTree = "<group>"; };
+		OBJ_42 /* RepositorySessionDataDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositorySessionDataDelegate.swift; sourceTree = "<group>"; };
+		OBJ_44 /* ResponseParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseParser.swift; sourceTree = "<group>"; };
+		OBJ_45 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
+		OBJ_46 /* String+AnyMatchBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
+		OBJ_47 /* StringInitializable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringInitializable.swift; sourceTree = "<group>"; };
+		OBJ_48 /* TypeInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeInfo.swift; sourceTree = "<group>"; };
+		OBJ_49 /* TypeMatchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeMatchable.swift; sourceTree = "<group>"; };
+		OBJ_50 /* TypeResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeResolver.swift; sourceTree = "<group>"; };
+		OBJ_51 /* URL+AnyMatchBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+AnyMatchBuilder.swift"; sourceTree = "<group>"; };
+		OBJ_52 /* URLConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLConvertible.swift; sourceTree = "<group>"; };
+		OBJ_53 /* URLRequest+ParameterEncoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+ParameterEncoding.swift"; sourceTree = "<group>"; };
+		OBJ_56 /* ApicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApicTests.swift; sourceTree = "<group>"; };
+		OBJ_57 /* ArrayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayTests.swift; sourceTree = "<group>"; };
+		OBJ_58 /* BoolTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoolTests.swift; sourceTree = "<group>"; };
+		OBJ_59 /* ChangeValueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeValueTests.swift; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		OBJ_9 /* CustomErrorResponseParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomErrorResponseParser.swift; sourceTree = "<group>"; };
+		OBJ_60 /* ColorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTests.swift; sourceTree = "<group>"; };
+		OBJ_61 /* ComplexModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplexModelTests.swift; sourceTree = "<group>"; };
+		OBJ_62 /* DateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTests.swift; sourceTree = "<group>"; };
+		OBJ_63 /* DecimalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalTests.swift; sourceTree = "<group>"; };
+		OBJ_64 /* DictionaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryTests.swift; sourceTree = "<group>"; };
+		OBJ_65 /* DoubleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleTests.swift; sourceTree = "<group>"; };
+		OBJ_66 /* DynamicArrayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicArrayTests.swift; sourceTree = "<group>"; };
+		OBJ_67 /* ErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorTests.swift; sourceTree = "<group>"; };
+		OBJ_68 /* FloatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatTests.swift; sourceTree = "<group>"; };
+		OBJ_69 /* HeadersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadersTests.swift; sourceTree = "<group>"; };
+		OBJ_70 /* InheritanceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InheritanceTest.swift; sourceTree = "<group>"; };
+		OBJ_71 /* IntTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntTests.swift; sourceTree = "<group>"; };
+		OBJ_72 /* JSONValidTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONValidTests.swift; sourceTree = "<group>"; };
+		OBJ_73 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		OBJ_74 /* MovieTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTests.swift; sourceTree = "<group>"; };
+		OBJ_75 /* NoClassTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoClassTests.swift; sourceTree = "<group>"; };
+		OBJ_76 /* NSCodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSCodingTests.swift; sourceTree = "<group>"; };
+		OBJ_77 /* ReachabilityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityTests.swift; sourceTree = "<group>"; };
+		OBJ_78 /* RepositoryStatusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryStatusTests.swift; sourceTree = "<group>"; };
+		OBJ_79 /* RequestObjectsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestObjectsTest.swift; sourceTree = "<group>"; };
+		OBJ_8 /* AbstractModel+SoftSerialization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AbstractModel+SoftSerialization.swift"; sourceTree = "<group>"; };
+		OBJ_80 /* RequestObjectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestObjectTests.swift; sourceTree = "<group>"; };
+		OBJ_81 /* SoftDictionaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoftDictionaryTests.swift; sourceTree = "<group>"; };
+		OBJ_82 /* StringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringTests.swift; sourceTree = "<group>"; };
+		OBJ_83 /* UndefinedTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UndefinedTypeTests.swift; sourceTree = "<group>"; };
+		OBJ_84 /* ValidationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationTests.swift; sourceTree = "<group>"; };
+		OBJ_87 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		OBJ_88 /* RequestHandlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHandlers.swift; sourceTree = "<group>"; };
+		OBJ_89 /* URLSessionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionRequest.swift; sourceTree = "<group>"; };
+		OBJ_9 /* AbstractModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractModel.swift; sourceTree = "<group>"; };
+		OBJ_91 /* AsyncRequest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AsyncRequest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		OBJ_92 /* Apic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Apic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		OBJ_93 /* ApicTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = ApicTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		OBJ_66 /* Frameworks */ = {
+		OBJ_102 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_99 /* Frameworks */ = {
+		OBJ_154 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_100 /* Apic.framework in Frameworks */,
+				OBJ_155 /* AsyncRequest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_191 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_192 /* AsyncRequest.framework in Frameworks */,
+				OBJ_193 /* Apic.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		81277E7A1E96DD2500005EFF /* Reachability */ = {
+		OBJ_5 /*  */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_17 /* Reachability.swift */,
-				81277E7B1E96DD4000005EFF /* HostReachabilityInfo.swift */,
-				81277E7D1E96DDCF00005EFF /* ReachabilityManager.swift */,
+				OBJ_6 /* Package.swift */,
+				OBJ_7 /* Sources */,
+				OBJ_54 /* Tests */,
+				OBJ_85 /* Dependencies */,
+				OBJ_90 /* Products */,
 			);
-			name = Reachability;
+			name = "";
 			sourceTree = "<group>";
 		};
-		814D76471E7DC4100061F55D /* Builder */ = {
+		OBJ_54 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				811C4AA31E7B466E0049D8A3 /* Bool+AnyMatchBuilder.swift */,
-				814D76451E7D1AB10061F55D /* NSDecimalNumber+AnyMatchBuilder.swift */,
-				81C6E64E1E7C8153006105D1 /* Date+TypeMatchable.swift */,
-				816A00741E7C7BC90098630A /* Double+AnyMatchBuilder.swift */,
-				811C4A9F1E7B45960049D8A3 /* Float+AnyMatchBuilder.swift */,
-				816A00721E7C64470098630A /* Int+AnyMatchBuilder.swift */,
-				81C6E64C1E7C7E4B006105D1 /* String+AnyMatchBuilder.swift */,
-				814D76481E7DC4F70061F55D /* URL+AnyMatchBuilder.swift */,
-				814D764A1E7DC5720061F55D /* FromAnyBuilder.swift */,
-				814D764C1E7DC8EF0061F55D /* Color+AnyMatchBuilder.swift */,
+				OBJ_55 /* ApicTests */,
 			);
-			name = Builder;
-			sourceTree = "<group>";
+			name = Tests;
+			sourceTree = SOURCE_ROOT;
 		};
-		816297701E8C494700BBF065 /* Type resolution */ = {
+		OBJ_55 /* ApicTests */ = {
 			isa = PBXGroup;
 			children = (
-				816297711E8C497600BBF065 /* TypeInfo.swift */,
-				811C4A9B1E7B43130049D8A3 /* TypeResolver.swift */,
-				811C4A9D1E7B43BD0049D8A3 /* DefaultTypeResolver.swift */,
-			);
-			name = "Type resolution";
-			sourceTree = "<group>";
-		};
-		816B23551E958A7100D1D24F /* Repository */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_12 /* AbstractRepository.swift */,
-				8124C6011EA69CDA0080EA86 /* AbstractRequestRepository.swift */,
-				8124C5FF1EA69ACF0080EA86 /* BaseRepository.swift */,
-				OBJ_9 /* CustomErrorResponseParser.swift */,
-				816B235E1E95B5DF00D1D24F /* DefaultResponseParser.swift */,
-				816B23601E95B84F00D1D24F /* ParameterEncoding.swift */,
-				816B23561E958AF400D1D24F /* RepositorySessionDataDelegate.swift */,
-				816B235C1E95B5C900D1D24F /* ResponseParser.swift */,
-				816B23581E95978800D1D24F /* URLConvertible.swift */,
-			);
-			name = Repository;
-			sourceTree = "<group>";
-		};
-		81FC7DED1E91C1C300FC2FA9 /* Parser */ = {
-			isa = PBXGroup;
-			children = (
-				81FC7DEE1E91C1E600FC2FA9 /* ModelParser.swift */,
-				81FC7DF01E91C21B00FC2FA9 /* ModelParserProvider.swift */,
-				81FC7DF21E91C23400FC2FA9 /* ChildProperty.swift */,
-			);
-			name = Parser;
-			sourceTree = "<group>";
-		};
-		OBJ_19 /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_20 /* ApicTests */,
-			);
-			path = Tests;
-			sourceTree = "<group>";
-		};
-		OBJ_20 /* ApicTests */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_21 /* ApicTests.swift */,
-				OBJ_22 /* ArrayTests.swift */,
-				OBJ_23 /* BoolTests.swift */,
-				OBJ_24 /* ChangeValueTests.swift */,
-				OBJ_25 /* ColorTests.swift */,
-				OBJ_26 /* ComplexModelTests.swift */,
-				OBJ_27 /* DateTests.swift */,
-				OBJ_28 /* DecimalTests.swift */,
-				OBJ_29 /* DictionaryTests.swift */,
-				OBJ_30 /* DoubleTests.swift */,
-				OBJ_31 /* DynamicArrayTests.swift */,
-				OBJ_32 /* ErrorTests.swift */,
-				OBJ_33 /* FloatTests.swift */,
-				OBJ_34 /* HeadersTests.swift */,
-				OBJ_35 /* InheritanceTest.swift */,
-				OBJ_36 /* IntTests.swift */,
-				OBJ_37 /* JSONValidTests.swift */,
-				OBJ_38 /* Movie.swift */,
-				OBJ_39 /* MovieTests.swift */,
-				OBJ_40 /* NoClassTests.swift */,
-				OBJ_41 /* ReachabilityTests.swift */,
-				OBJ_42 /* RepositoryStatusTests.swift */,
-				OBJ_43 /* RequestObjectsTest.swift */,
-				OBJ_44 /* RequestObjectTests.swift */,
-				OBJ_45 /* SoftDictionaryTests.swift */,
-				OBJ_46 /* StringTests.swift */,
-				OBJ_47 /* UndefinedTypeTests.swift */,
-				81A117941E92FDFF00F51D29 /* ValidationTests.swift */,
-				817BEF621EA540470014B39A /* NSCodingTests.swift */,
+				OBJ_56 /* ApicTests.swift */,
+				OBJ_57 /* ArrayTests.swift */,
+				OBJ_58 /* BoolTests.swift */,
+				OBJ_59 /* ChangeValueTests.swift */,
+				OBJ_60 /* ColorTests.swift */,
+				OBJ_61 /* ComplexModelTests.swift */,
+				OBJ_62 /* DateTests.swift */,
+				OBJ_63 /* DecimalTests.swift */,
+				OBJ_64 /* DictionaryTests.swift */,
+				OBJ_65 /* DoubleTests.swift */,
+				OBJ_66 /* DynamicArrayTests.swift */,
+				OBJ_67 /* ErrorTests.swift */,
+				OBJ_68 /* FloatTests.swift */,
+				OBJ_69 /* HeadersTests.swift */,
+				OBJ_70 /* InheritanceTest.swift */,
+				OBJ_71 /* IntTests.swift */,
+				OBJ_72 /* JSONValidTests.swift */,
+				OBJ_73 /* Movie.swift */,
+				OBJ_74 /* MovieTests.swift */,
+				OBJ_75 /* NoClassTests.swift */,
+				OBJ_76 /* NSCodingTests.swift */,
+				OBJ_77 /* ReachabilityTests.swift */,
+				OBJ_78 /* RepositoryStatusTests.swift */,
+				OBJ_79 /* RequestObjectsTest.swift */,
+				OBJ_80 /* RequestObjectTests.swift */,
+				OBJ_81 /* SoftDictionaryTests.swift */,
+				OBJ_82 /* StringTests.swift */,
+				OBJ_83 /* UndefinedTypeTests.swift */,
+				OBJ_84 /* ValidationTests.swift */,
 			);
 			name = ApicTests;
 			path = Tests/ApicTests;
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_48 /* Products */ = {
+		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_49 /* Apic.framework */,
-				OBJ_50 /* ApicTests.xctest */,
+				OBJ_8 /* AbstractModel+SoftSerialization.swift */,
+				OBJ_9 /* AbstractModel.swift */,
+				OBJ_10 /* AbstractRepository.swift */,
+				OBJ_11 /* AbstractRequestRepository.swift */,
+				OBJ_12 /* ApicRequest.swift */,
+				OBJ_13 /* BaseRepository.swift */,
+				OBJ_14 /* Bool+AnyMatchBuilder.swift */,
+				OBJ_15 /* ChildProperty.swift */,
+				OBJ_16 /* Color+AnyMatchBuilder.swift */,
+				OBJ_17 /* Color+Hex.swift */,
+				OBJ_18 /* Configuration.swift */,
+				OBJ_19 /* CustomErrorResponseParser.swift */,
+				OBJ_20 /* Date+Parse.swift */,
+				OBJ_21 /* Date+TypeMatchable.swift */,
+				OBJ_22 /* DefaultResponseParser.swift */,
+				OBJ_23 /* DefaultTypeResolver.swift */,
+				OBJ_24 /* Double+AnyMatchBuilder.swift */,
+				OBJ_25 /* DynamicTypeModel.swift */,
+				OBJ_26 /* Float+AnyMatchBuilder.swift */,
+				OBJ_27 /* FromAnyBuilder.swift */,
+				OBJ_28 /* HostReachabilityInfo.swift */,
+				OBJ_29 /* HTTPMethod.swift */,
+				OBJ_30 /* InitializableWithDictionary.swift */,
+				OBJ_31 /* Int+AnyMatchBuilder.swift */,
+				OBJ_32 /* IntInitializable.swift */,
+				OBJ_33 /* Mirror+Util.swift */,
+				OBJ_34 /* ModelError.swift */,
+				OBJ_35 /* ModelParser.swift */,
+				OBJ_36 /* ModelParserProvider.swift */,
+				OBJ_37 /* NSDecimalNumber+AnyMatchBuilder.swift */,
+				OBJ_38 /* ParameterEncoding.swift */,
+				OBJ_39 /* Reachability.swift */,
+				OBJ_40 /* ReachabilityManager.swift */,
+				OBJ_41 /* RepositoryError.swift */,
+				OBJ_42 /* RepositorySessionDataDelegate.swift */,
+				OBJ_44 /* ResponseParser.swift */,
+				OBJ_45 /* Route.swift */,
+				OBJ_46 /* String+AnyMatchBuilder.swift */,
+				OBJ_47 /* StringInitializable.swift */,
+				OBJ_48 /* TypeInfo.swift */,
+				OBJ_49 /* TypeMatchable.swift */,
+				OBJ_50 /* TypeResolver.swift */,
+				OBJ_51 /* URL+AnyMatchBuilder.swift */,
+				OBJ_52 /* URLConvertible.swift */,
+				OBJ_53 /* URLRequest+ParameterEncoding.swift */,
+			);
+			path = Sources;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_85 /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_86 /* AsyncRequest 1.0.0 */,
+			);
+			name = Dependencies;
+			sourceTree = "<group>";
+		};
+		OBJ_86 /* AsyncRequest 1.0.0 */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_87 /* Request.swift */,
+				OBJ_88 /* RequestHandlers.swift */,
+				OBJ_89 /* URLSessionRequest.swift */,
+			);
+			name = "AsyncRequest 1.0.0";
+			path = ".build/checkouts/AsyncRequest.git--7759525247004104975/Sources";
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_90 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_91 /* AsyncRequest.framework */,
+				OBJ_92 /* Apic.framework */,
+				OBJ_93 /* ApicTests.xctest */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		OBJ_5 = {
-			isa = PBXGroup;
-			children = (
-				OBJ_6 /* Package.swift */,
-				OBJ_7 /* Sources */,
-				OBJ_19 /* Tests */,
-				OBJ_48 /* Products */,
-			);
-			sourceTree = "<group>";
-		};
-		OBJ_7 /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_8 /* Apic */,
-			);
-			path = Sources;
-			sourceTree = "<group>";
-		};
-		OBJ_8 /* Apic */ = {
-			isa = PBXGroup;
-			children = (
-				81277E7A1E96DD2500005EFF /* Reachability */,
-				OBJ_11 /* AbstractModel.swift */,
-				OBJ_10 /* AbstractModel+SoftSerialization.swift */,
-				814D76471E7DC4100061F55D /* Builder */,
-				811C4A991E7B0F000049D8A3 /* Color+Hex.swift */,
-				OBJ_13 /* Configuration.swift */,
-				81C6E6501E7C82B1006105D1 /* Date+Parse.swift */,
-				814702741E8079A400A2B874 /* DynamicTypeModel.swift */,
-				8147026A1E7F205600A2B874 /* HTTPMethod.swift */,
-				814702721E80755200A2B874 /* InitializableWithDictionary.swift */,
-				814702661E7F1DBE00A2B874 /* IntInitializable.swift */,
-				811C4AA11E7B45B90049D8A3 /* Mirror+Util.swift */,
-				814D76431E7CDA1E0061F55D /* ModelError.swift */,
-				81FC7DED1E91C1C300FC2FA9 /* Parser */,
-				816B23551E958A7100D1D24F /* Repository */,
-				814702681E7F202D00A2B874 /* RepositoryError.swift */,
-				OBJ_18 /* Request.swift */,
-				814702641E7F1D9300A2B874 /* StringInitializable.swift */,
-				816297701E8C494700BBF065 /* Type resolution */,
-				816A00761E7C7CF30098630A /* TypeMatchable.swift */,
-				OBJ_16 /* URLRequest+ParameterEncoding.swift */,
-				81277E7F1E96E47F00005EFF /* Route.swift */,
-				818758041EC1124500EA2329 /* ApicRequest.swift */,
-			);
-			name = Apic;
-			path = Sources;
-			sourceTree = SOURCE_ROOT;
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		OBJ_51 /* Apic */ = {
+		OBJ_103 /* Apic */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_52 /* Build configuration list for PBXNativeTarget "Apic" */;
+			buildConfigurationList = OBJ_104 /* Build configuration list for PBXNativeTarget "Apic" */;
 			buildPhases = (
-				OBJ_55 /* Sources */,
-				OBJ_66 /* Frameworks */,
+				OBJ_107 /* Sources */,
+				OBJ_154 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				OBJ_156 /* PBXTargetDependency */,
 			);
 			name = Apic;
 			productName = Apic;
-			productReference = OBJ_49 /* Apic.framework */;
+			productReference = OBJ_92 /* Apic.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		OBJ_67 /* ApicTests */ = {
+		OBJ_157 /* ApicTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_68 /* Build configuration list for PBXNativeTarget "ApicTests" */;
+			buildConfigurationList = OBJ_158 /* Build configuration list for PBXNativeTarget "ApicTests" */;
 			buildPhases = (
-				OBJ_71 /* Sources */,
-				OBJ_99 /* Frameworks */,
+				OBJ_161 /* Sources */,
+				OBJ_191 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				OBJ_101 /* PBXTargetDependency */,
+				OBJ_194 /* PBXTargetDependency */,
+				OBJ_195 /* PBXTargetDependency */,
 			);
 			name = ApicTests;
 			productName = ApicTests;
-			productReference = OBJ_50 /* ApicTests.xctest */;
+			productReference = OBJ_93 /* ApicTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		OBJ_94 /* AsyncRequest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_95 /* Build configuration list for PBXNativeTarget "AsyncRequest" */;
+			buildPhases = (
+				OBJ_98 /* Sources */,
+				OBJ_102 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AsyncRequest;
+			productName = AsyncRequest;
+			productReference = OBJ_91 /* AsyncRequest.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -403,7 +423,6 @@
 		OBJ_1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0830;
 				LastUpgradeCheck = 9999;
 			};
 			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "Apic" */;
@@ -413,121 +432,218 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5;
-			productRefGroup = OBJ_48 /* Products */;
+			mainGroup = OBJ_5 /*  */;
+			productRefGroup = OBJ_90 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				OBJ_51 /* Apic */,
-				OBJ_67 /* ApicTests */,
+				OBJ_94 /* AsyncRequest */,
+				OBJ_103 /* Apic */,
+				OBJ_157 /* ApicTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		OBJ_55 /* Sources */ = {
+		OBJ_107 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				816B23611E95B84F00D1D24F /* ParameterEncoding.swift in Sources */,
-				81FC7DEF1E91C1E600FC2FA9 /* ModelParser.swift in Sources */,
-				8124C6021EA69CDA0080EA86 /* AbstractRequestRepository.swift in Sources */,
-				811C4AA41E7B466E0049D8A3 /* Bool+AnyMatchBuilder.swift in Sources */,
-				814702751E8079A400A2B874 /* DynamicTypeModel.swift in Sources */,
-				81277E7C1E96DD4000005EFF /* HostReachabilityInfo.swift in Sources */,
-				818758051EC1124500EA2329 /* ApicRequest.swift in Sources */,
-				OBJ_56 /* CustomErrorResponseParser.swift in Sources */,
-				8124C6001EA69ACF0080EA86 /* BaseRepository.swift in Sources */,
-				811C4A9C1E7B43130049D8A3 /* TypeResolver.swift in Sources */,
-				816A00771E7C7CF30098630A /* TypeMatchable.swift in Sources */,
-				OBJ_57 /* AbstractModel+SoftSerialization.swift in Sources */,
-				811C4AA01E7B45960049D8A3 /* Float+AnyMatchBuilder.swift in Sources */,
-				811C4AA21E7B45B90049D8A3 /* Mirror+Util.swift in Sources */,
-				OBJ_58 /* AbstractModel.swift in Sources */,
-				81277E7E1E96DDCF00005EFF /* ReachabilityManager.swift in Sources */,
-				81FC7DF31E91C23400FC2FA9 /* ChildProperty.swift in Sources */,
-				81FC7DF11E91C21B00FC2FA9 /* ModelParserProvider.swift in Sources */,
-				OBJ_59 /* AbstractRepository.swift in Sources */,
-				OBJ_60 /* Configuration.swift in Sources */,
-				811C4A9E1E7B43BD0049D8A3 /* DefaultTypeResolver.swift in Sources */,
-				81277E801E96E47F00005EFF /* Route.swift in Sources */,
-				816B235F1E95B5DF00D1D24F /* DefaultResponseParser.swift in Sources */,
-				814D76441E7CDA1E0061F55D /* ModelError.swift in Sources */,
-				816A00751E7C7BC90098630A /* Double+AnyMatchBuilder.swift in Sources */,
-				814702691E7F202D00A2B874 /* RepositoryError.swift in Sources */,
-				814D764B1E7DC5720061F55D /* FromAnyBuilder.swift in Sources */,
-				816A00731E7C64470098630A /* Int+AnyMatchBuilder.swift in Sources */,
-				814D76491E7DC4F70061F55D /* URL+AnyMatchBuilder.swift in Sources */,
-				816297721E8C497600BBF065 /* TypeInfo.swift in Sources */,
-				814D76461E7D1AB10061F55D /* NSDecimalNumber+AnyMatchBuilder.swift in Sources */,
-				8147026B1E7F205600A2B874 /* HTTPMethod.swift in Sources */,
-				81C6E64D1E7C7E4B006105D1 /* String+AnyMatchBuilder.swift in Sources */,
-				OBJ_63 /* URLRequest+ParameterEncoding.swift in Sources */,
-				81C6E64F1E7C8153006105D1 /* Date+TypeMatchable.swift in Sources */,
-				814702651E7F1D9300A2B874 /* StringInitializable.swift in Sources */,
-				814702671E7F1DBE00A2B874 /* IntInitializable.swift in Sources */,
-				816B23591E95978800D1D24F /* URLConvertible.swift in Sources */,
-				814702731E80755200A2B874 /* InitializableWithDictionary.swift in Sources */,
-				OBJ_64 /* Reachability.swift in Sources */,
-				81C6E6511E7C82B1006105D1 /* Date+Parse.swift in Sources */,
-				816B235D1E95B5C900D1D24F /* ResponseParser.swift in Sources */,
-				811C4A9A1E7B0F000049D8A3 /* Color+Hex.swift in Sources */,
-				816B23571E958AF400D1D24F /* RepositorySessionDataDelegate.swift in Sources */,
-				OBJ_65 /* Request.swift in Sources */,
-				814D764D1E7DC8EF0061F55D /* Color+AnyMatchBuilder.swift in Sources */,
+				OBJ_108 /* AbstractModel+SoftSerialization.swift in Sources */,
+				OBJ_109 /* AbstractModel.swift in Sources */,
+				OBJ_110 /* AbstractRepository.swift in Sources */,
+				OBJ_111 /* AbstractRequestRepository.swift in Sources */,
+				OBJ_112 /* ApicRequest.swift in Sources */,
+				OBJ_113 /* BaseRepository.swift in Sources */,
+				OBJ_114 /* Bool+AnyMatchBuilder.swift in Sources */,
+				OBJ_115 /* ChildProperty.swift in Sources */,
+				OBJ_116 /* Color+AnyMatchBuilder.swift in Sources */,
+				OBJ_117 /* Color+Hex.swift in Sources */,
+				OBJ_118 /* Configuration.swift in Sources */,
+				OBJ_119 /* CustomErrorResponseParser.swift in Sources */,
+				OBJ_120 /* Date+Parse.swift in Sources */,
+				OBJ_121 /* Date+TypeMatchable.swift in Sources */,
+				OBJ_122 /* DefaultResponseParser.swift in Sources */,
+				OBJ_123 /* DefaultTypeResolver.swift in Sources */,
+				OBJ_124 /* Double+AnyMatchBuilder.swift in Sources */,
+				OBJ_125 /* DynamicTypeModel.swift in Sources */,
+				OBJ_126 /* Float+AnyMatchBuilder.swift in Sources */,
+				OBJ_127 /* FromAnyBuilder.swift in Sources */,
+				OBJ_128 /* HostReachabilityInfo.swift in Sources */,
+				OBJ_129 /* HTTPMethod.swift in Sources */,
+				OBJ_130 /* InitializableWithDictionary.swift in Sources */,
+				OBJ_131 /* Int+AnyMatchBuilder.swift in Sources */,
+				OBJ_132 /* IntInitializable.swift in Sources */,
+				OBJ_133 /* Mirror+Util.swift in Sources */,
+				OBJ_134 /* ModelError.swift in Sources */,
+				OBJ_135 /* ModelParser.swift in Sources */,
+				OBJ_136 /* ModelParserProvider.swift in Sources */,
+				OBJ_137 /* NSDecimalNumber+AnyMatchBuilder.swift in Sources */,
+				OBJ_138 /* ParameterEncoding.swift in Sources */,
+				OBJ_139 /* Reachability.swift in Sources */,
+				OBJ_140 /* ReachabilityManager.swift in Sources */,
+				OBJ_141 /* RepositoryError.swift in Sources */,
+				OBJ_142 /* RepositorySessionDataDelegate.swift in Sources */,
+				OBJ_144 /* ResponseParser.swift in Sources */,
+				OBJ_145 /* Route.swift in Sources */,
+				OBJ_146 /* String+AnyMatchBuilder.swift in Sources */,
+				OBJ_147 /* StringInitializable.swift in Sources */,
+				OBJ_148 /* TypeInfo.swift in Sources */,
+				OBJ_149 /* TypeMatchable.swift in Sources */,
+				OBJ_150 /* TypeResolver.swift in Sources */,
+				OBJ_151 /* URL+AnyMatchBuilder.swift in Sources */,
+				OBJ_152 /* URLConvertible.swift in Sources */,
+				OBJ_153 /* URLRequest+ParameterEncoding.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_71 /* Sources */ = {
+		OBJ_161 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_72 /* ApicTests.swift in Sources */,
-				OBJ_73 /* ArrayTests.swift in Sources */,
-				OBJ_74 /* BoolTests.swift in Sources */,
-				OBJ_75 /* ChangeValueTests.swift in Sources */,
-				817BEF631EA540470014B39A /* NSCodingTests.swift in Sources */,
-				OBJ_76 /* ColorTests.swift in Sources */,
-				OBJ_77 /* ComplexModelTests.swift in Sources */,
-				OBJ_78 /* DateTests.swift in Sources */,
-				OBJ_79 /* DecimalTests.swift in Sources */,
-				OBJ_80 /* DictionaryTests.swift in Sources */,
-				OBJ_81 /* DoubleTests.swift in Sources */,
-				81A117951E92FDFF00F51D29 /* ValidationTests.swift in Sources */,
-				OBJ_82 /* DynamicArrayTests.swift in Sources */,
-				OBJ_83 /* ErrorTests.swift in Sources */,
-				OBJ_84 /* FloatTests.swift in Sources */,
-				OBJ_85 /* HeadersTests.swift in Sources */,
-				OBJ_86 /* InheritanceTest.swift in Sources */,
-				OBJ_87 /* IntTests.swift in Sources */,
-				OBJ_88 /* JSONValidTests.swift in Sources */,
-				OBJ_89 /* Movie.swift in Sources */,
-				OBJ_90 /* MovieTests.swift in Sources */,
-				OBJ_91 /* NoClassTests.swift in Sources */,
-				OBJ_92 /* ReachabilityTests.swift in Sources */,
-				OBJ_93 /* RepositoryStatusTests.swift in Sources */,
-				OBJ_94 /* RequestObjectsTest.swift in Sources */,
-				OBJ_95 /* RequestObjectTests.swift in Sources */,
-				OBJ_96 /* SoftDictionaryTests.swift in Sources */,
-				OBJ_97 /* StringTests.swift in Sources */,
-				OBJ_98 /* UndefinedTypeTests.swift in Sources */,
+				OBJ_162 /* ApicTests.swift in Sources */,
+				OBJ_163 /* ArrayTests.swift in Sources */,
+				OBJ_164 /* BoolTests.swift in Sources */,
+				OBJ_165 /* ChangeValueTests.swift in Sources */,
+				OBJ_166 /* ColorTests.swift in Sources */,
+				OBJ_167 /* ComplexModelTests.swift in Sources */,
+				OBJ_168 /* DateTests.swift in Sources */,
+				OBJ_169 /* DecimalTests.swift in Sources */,
+				OBJ_170 /* DictionaryTests.swift in Sources */,
+				OBJ_171 /* DoubleTests.swift in Sources */,
+				OBJ_172 /* DynamicArrayTests.swift in Sources */,
+				OBJ_173 /* ErrorTests.swift in Sources */,
+				OBJ_174 /* FloatTests.swift in Sources */,
+				OBJ_175 /* HeadersTests.swift in Sources */,
+				OBJ_176 /* InheritanceTest.swift in Sources */,
+				OBJ_177 /* IntTests.swift in Sources */,
+				OBJ_178 /* JSONValidTests.swift in Sources */,
+				OBJ_179 /* Movie.swift in Sources */,
+				OBJ_180 /* MovieTests.swift in Sources */,
+				OBJ_181 /* NoClassTests.swift in Sources */,
+				OBJ_182 /* NSCodingTests.swift in Sources */,
+				OBJ_183 /* ReachabilityTests.swift in Sources */,
+				OBJ_184 /* RepositoryStatusTests.swift in Sources */,
+				OBJ_185 /* RequestObjectsTest.swift in Sources */,
+				OBJ_186 /* RequestObjectTests.swift in Sources */,
+				OBJ_187 /* SoftDictionaryTests.swift in Sources */,
+				OBJ_188 /* StringTests.swift in Sources */,
+				OBJ_189 /* UndefinedTypeTests.swift in Sources */,
+				OBJ_190 /* ValidationTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_98 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_99 /* Request.swift in Sources */,
+				OBJ_100 /* RequestHandlers.swift in Sources */,
+				OBJ_101 /* URLSessionRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		OBJ_101 /* PBXTargetDependency */ = {
+		OBJ_156 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = OBJ_51 /* Apic */;
-			targetProxy = 81649C3B1E77234E006BD3D6 /* PBXContainerItemProxy */;
+			target = OBJ_94 /* AsyncRequest */;
+			targetProxy = 815C1ED41ECFB13C009DD67D /* PBXContainerItemProxy */;
+		};
+		OBJ_194 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = OBJ_94 /* AsyncRequest */;
+			targetProxy = 815C1ED51ECFB13C009DD67D /* PBXContainerItemProxy */;
+		};
+		OBJ_195 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = OBJ_103 /* Apic */;
+			targetProxy = 815C1ED61ECFB13C009DD67D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		OBJ_105 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = Apic.xcodeproj/Apic_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = Apic;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGET_NAME = Apic;
+			};
+			name = Debug;
+		};
+		OBJ_106 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = Apic.xcodeproj/Apic_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = Apic;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGET_NAME = Apic;
+			};
+			name = Release;
+		};
+		OBJ_159 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = Apic.xcodeproj/ApicTests_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/Frameworks";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				TARGET_NAME = ApicTests;
+			};
+			name = Debug;
+		};
+		OBJ_160 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = Apic.xcodeproj/ApicTests_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/Frameworks";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				TARGET_NAME = ApicTests;
+			};
+			name = Release;
+		};
 		OBJ_3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -550,6 +666,7 @@
 		OBJ_4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -561,13 +678,13 @@
 				SDKROOT = macosx;
 				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SWIFT_PACKAGE;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
 				USE_HEADERMAP = NO;
 			};
 			name = Release;
 		};
-		OBJ_53 /* Debug */ = {
+		OBJ_96 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ENABLE_TESTABILITY = YES;
@@ -576,18 +693,19 @@
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = Apic.xcodeproj/Apic_Info.plist;
+				INFOPLIST_FILE = Apic.xcodeproj/AsyncRequest_Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = Apic;
+				PRODUCT_BUNDLE_IDENTIFIER = AsyncRequest;
 				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				TARGET_NAME = Apic;
+				SKIP_INSTALL = YES;
+				TARGET_NAME = AsyncRequest;
 			};
 			name = Debug;
 		};
-		OBJ_54 /* Release */ = {
+		OBJ_97 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ENABLE_TESTABILITY = YES;
@@ -596,54 +714,39 @@
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = Apic.xcodeproj/Apic_Info.plist;
+				INFOPLIST_FILE = Apic.xcodeproj/AsyncRequest_Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = Apic;
+				PRODUCT_BUNDLE_IDENTIFIER = AsyncRequest;
 				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				TARGET_NAME = Apic;
-			};
-			name = Release;
-		};
-		OBJ_69 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = Apic.xcodeproj/ApicTests_Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				TARGET_NAME = ApicTests;
-			};
-			name = Debug;
-		};
-		OBJ_70 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = Apic.xcodeproj/ApicTests_Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				TARGET_NAME = ApicTests;
+				SKIP_INSTALL = YES;
+				TARGET_NAME = AsyncRequest;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		OBJ_104 /* Build configuration list for PBXNativeTarget "Apic" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_105 /* Debug */,
+				OBJ_106 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		OBJ_158 /* Build configuration list for PBXNativeTarget "ApicTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_159 /* Debug */,
+				OBJ_160 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		OBJ_2 /* Build configuration list for PBXProject "Apic" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -653,20 +756,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		OBJ_52 /* Build configuration list for PBXNativeTarget "Apic" */ = {
+		OBJ_95 /* Build configuration list for PBXNativeTarget "AsyncRequest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_53 /* Debug */,
-				OBJ_54 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		OBJ_68 /* Build configuration list for PBXNativeTarget "ApicTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_69 /* Debug */,
-				OBJ_70 /* Release */,
+				OBJ_96 /* Debug */,
+				OBJ_97 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

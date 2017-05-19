@@ -11,7 +11,7 @@ import Foundation
 public enum ModelError: Error {
     case sourceValueError(property: String, model: Any.Type, value: Any?)
     case serializationError(property: String, model: String)
-    case dateError(property: String?, type: Any.Type, value: String?, format: String)
+    case dateError(property: String, type: Any.Type, value: String, format: String, locale: Locale)
     case urlError(property: String?, value: String?)
     case invalidProperty(property: String)
     case undefinedType(type: Any.Type, model: Any.Type)

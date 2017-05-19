@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AsyncRequest
 
 let processQueue = DispatchQueue(label: "com.apic.ProcessQueue", attributes: DispatchQueue.Attributes.concurrent)
 

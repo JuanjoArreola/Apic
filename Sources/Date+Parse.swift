@@ -18,6 +18,10 @@ extension Date {
     
     init?(value: Any, format: String) {
         guard let string = value as? String else { return nil }
+        self.init(string: string, format: format)
+    }
+    
+    init?(string: String, format: String) {
         dateFormatter.dateFormat = format
         if let date = dateFormatter.date(from: string) {
             self = date
@@ -29,5 +33,9 @@ extension Date {
     func toString(format: String) -> String {
         dateFormatter.dateFormat = format
         return dateFormatter.string(from: self)
+    }
+    
+    static var apicFormatter: DateFormatter {
+        return dateFormatter
     }
 }
