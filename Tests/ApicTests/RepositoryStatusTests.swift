@@ -8,6 +8,7 @@
 
 import XCTest
 import Apic
+import AsyncRequest
 
 class RepositoryStatusTests: XCTestCase {
     
