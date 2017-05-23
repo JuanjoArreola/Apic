@@ -102,7 +102,7 @@ open class DefaultResponseParser<StatusType: Equatable>: ResponseParser {
         return try JSONSerialization.jsonObject(with: data, options: .allowFragments)
     }
     
-    func dictionary(fromJSON JSON: Any?) throws -> [String: Any] {
+    open func dictionary(fromJSON JSON: Any?) throws -> [String: Any] {
         guard let data = JSON as? [String: Any] else {
             throw RepositoryError.badJSONContent
         }

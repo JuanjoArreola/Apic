@@ -14,7 +14,7 @@ open class CustomErrorResponseParser<StatusType: Equatable, ErrorModelType: Abst
     
     open var errorKey: String?
     
-    override public func dictionary(fromJSON JSON: Any?) throws -> [String: Any] {
+    override open func dictionary(fromJSON JSON: Any?) throws -> [String: Any] {
         guard let data = JSON as? [String: Any] else {
             throw RepositoryError.badJSONContent
         }
