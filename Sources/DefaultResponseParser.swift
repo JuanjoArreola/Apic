@@ -78,7 +78,7 @@ open class DefaultResponseParser<StatusType: Equatable>: ResponseParser {
                 let message = json?[key] as? String,
                 let codeKey = errorCodeKey,
                 let code = json?[codeKey] as? String {
-                return RepositoryError.statusFail(message: message, code: code)
+                return error(forCode: code, message: message) ?? RepositoryError.statusFail(message: message, code: code)
             }
         }
         let message = String(data: data, encoding: String.Encoding.isoLatin1)
