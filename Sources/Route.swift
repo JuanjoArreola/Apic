@@ -33,14 +33,6 @@ public enum Route {
         }
     }
     
-    private func getURL(from convertible: URLConvertible) throws -> URL {
-        if let url = convertible.url { return url }
-        if let string = convertible as? String {
-            throw RepositoryError.invalidURL(url: string)
-        }
-        throw RepositoryError.invalidURL(url: String(describing: convertible))
-    }
-    
     func method() -> HTTPMethod {
         switch self {
         case .get: return HTTPMethod.GET
@@ -51,4 +43,12 @@ public enum Route {
         case .patch: return HTTPMethod.PATCH
         }
     }
+}
+
+func getURL(from convertible: URLConvertible) throws -> URL {
+    if let url = convertible.url { return url }
+    if let string = convertible as? String {
+        throw RepositoryError.invalidURL(url: string)
+    }
+    throw RepositoryError.invalidURL(url: String(describing: convertible))
 }
