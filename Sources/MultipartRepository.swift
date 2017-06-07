@@ -15,7 +15,7 @@ public enum MultipartError: Error {
 
 open class MultipartRepository: BaseRepository {
     
-    let boundary = "Boundary-\(NSUUID().uuidString)"
+    let boundary = "Boundary-\(UUID().uuidString)"
     
     open func multipartSuccess(url: URLConvertible, parts: [Part], params: [String: Any]? = [:], headers: [String: String]? = nil, completion: @escaping (Bool) -> Void) -> Request<Bool> {
         let request = ApicRequest<Bool>(successHandler: completion)
@@ -29,7 +29,7 @@ open class MultipartRepository: BaseRepository {
         return request
     }
     
-    open func requestObject<T: InitializableWithDictionary>(url: URLConvertible, parts: [Part], params: [String: Any]? = [:], headers: [String: String]? = nil, completion: @escaping (T) -> Void) -> Request<T> {
+    open func multipartObject<T: InitializableWithDictionary>(url: URLConvertible, parts: [Part], params: [String: Any]? = [:], headers: [String: String]? = nil, completion: @escaping (T) -> Void) -> Request<T> {
         let request = ApicRequest(successHandler: completion)
         do {
             let url = try getURL(from: url)
@@ -40,7 +40,7 @@ open class MultipartRepository: BaseRepository {
         return request
     }
     
-    open func requestObjects<T: InitializableWithDictionary>(url: URLConvertible, parts: [Part], params: [String: Any]? = [:], headers: [String: String]? = nil, completion: @escaping ([T]) -> Void) -> ApicRequest<[T]> {
+    open func multipartObjects<T: InitializableWithDictionary>(url: URLConvertible, parts: [Part], params: [String: Any]? = [:], headers: [String: String]? = nil, completion: @escaping ([T]) -> Void) -> ApicRequest<[T]> {
         let request = ApicRequest(successHandler: completion)
         do {
             let url = try getURL(from: url)
@@ -54,6 +54,7 @@ open class MultipartRepository: BaseRepository {
     open func multipart(url: URL, parts: [Part], parameters: [String: Any]? = nil, headers: [String: String]? = nil, completion: @escaping (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void) throws -> URLSessionDataTask {
         var data = try parameters?.encode(withBoundary: boundary) ?? Data()
         try parts.forEach({ data.append(try $0.encode(withBoundary: boundary))})
+        try data.append(string: "--\(boundary)--\r\n")
         
         return requestMultipart(url: url, data: data, headers: headers, completion: completion)
     }

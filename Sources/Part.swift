@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class Part {
+open class Part {
     var type: String
     var name: String
     var filename: String

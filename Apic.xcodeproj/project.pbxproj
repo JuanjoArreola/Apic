@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		812EBB201EE896AC00E45100 /* MultipoartRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812EBB1F1EE896AC00E45100 /* MultipoartRepository.swift */; };
+		812EBB201EE896AC00E45100 /* MultipartRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812EBB1F1EE896AC00E45100 /* MultipartRepository.swift */; };
 		812EBB221EE8A84400E45100 /* Part.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812EBB211EE8A84400E45100 /* Part.swift */; };
 		OBJ_100 /* RequestHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_88 /* RequestHandlers.swift */; };
 		OBJ_101 /* URLSessionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_89 /* URLSessionRequest.swift */; };
@@ -116,7 +116,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		812EBB1F1EE896AC00E45100 /* MultipoartRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultipoartRepository.swift; sourceTree = "<group>"; };
+		812EBB1F1EE896AC00E45100 /* MultipartRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultipartRepository.swift; sourceTree = "<group>"; };
 		812EBB211EE8A84400E45100 /* Part.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Part.swift; sourceTree = "<group>"; };
 		OBJ_10 /* AbstractRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractRepository.swift; sourceTree = "<group>"; };
 		OBJ_11 /* AbstractRequestRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractRequestRepository.swift; sourceTree = "<group>"; };
@@ -335,7 +335,7 @@
 				OBJ_50 /* URL+AnyMatchBuilder.swift */,
 				OBJ_51 /* URLConvertible.swift */,
 				OBJ_52 /* URLRequest+ParameterEncoding.swift */,
-				812EBB1F1EE896AC00E45100 /* MultipoartRepository.swift */,
+				812EBB1F1EE896AC00E45100 /* MultipartRepository.swift */,
 				812EBB211EE8A84400E45100 /* Part.swift */,
 			);
 			path = Sources;
@@ -458,7 +458,7 @@
 			files = (
 				OBJ_108 /* AbstractModel+SoftSerialization.swift in Sources */,
 				OBJ_109 /* AbstractModel.swift in Sources */,
-				812EBB201EE896AC00E45100 /* MultipoartRepository.swift in Sources */,
+				812EBB201EE896AC00E45100 /* MultipartRepository.swift in Sources */,
 				OBJ_110 /* AbstractRepository.swift in Sources */,
 				OBJ_111 /* AbstractRequestRepository.swift in Sources */,
 				OBJ_112 /* ApicRequest.swift in Sources */,
