@@ -76,7 +76,7 @@ open class AbstractModel: NSObject, NSCoding, InitializableWithDictionary {
     
         let propertyType = type(of: child.value)
         
-        guard let rawValue = optionalRawValue else {
+        guard let rawValue = optionalRawValue, !(rawValue is NSNull) else {
             if "\(propertyType)".hasPrefix("Optional<") {
                 return
             }
