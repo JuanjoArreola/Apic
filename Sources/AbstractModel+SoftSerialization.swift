@@ -34,7 +34,7 @@ public extension AbstractModel {
                 continue
             }
             let resultKey = modelType.propertyKeys[property] ?? property
-            if JSONSerialization.isValidJSONObject(["value": value]) {
+            if JSONSerialization.isValidJSONObject(["_": value]) {
                 dictionary[resultKey] = value
             } else if let date = value as? Date {
                 let format = modelType.propertyDateFormats[property] ?? Configuration.dateFormat

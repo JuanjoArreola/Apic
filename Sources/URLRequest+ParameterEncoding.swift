@@ -46,7 +46,7 @@ public extension Dictionary where Key: ExpressibleByStringLiteral {
     
     public var jsonValid: [Key: Any] {
         var result = [Key: Any]()
-        self.forEach({ result[$0] = JSONSerialization.isValidJSONObject($1) ? $1 : String(describing: $1) })
+        self.forEach({ result[$0] = JSONSerialization.isValidJSONObject(["_": $1]) ? $1 : String(describing: $1) })
         return result
     }
 }
