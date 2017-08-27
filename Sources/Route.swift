@@ -1,54 +1,57 @@
-//
-//  Route.swift
-//  Apic
-//
-//  Created by Juan Jose Arreola on 06/04/17.
-//
-//
-
 import Foundation
 
 public enum Route {
-    case get(URLConvertible)
-    case post(URLConvertible)
-    case put(URLConvertible)
-    case delete(URLConvertible)
-    case head(URLConvertible)
-    case patch(URLConvertible)
+    case get(String)
+    case post(String)
+    case put(String)
+    case delete(String)
+    case head(String)
+    case patch(String)
     
-    func url() throws -> URL {
+    func getURL() throws -> URL {
         switch self {
-        case .get(let convertible):
-            return try getURL(from: convertible)
-        case .post(let convertible):
-            return try getURL(from: convertible)
-        case .put(let convertible):
-            return try getURL(from: convertible)
-        case .delete(let convertible):
-            return try getURL(from: convertible)
-        case .head(let convertible):
-            return try getURL(from: convertible)
-        case .patch(let convertible):
-            return try getURL(from: convertible)
+        case .get(let string): return try url(from: string)
+        case .post(let string): return try url(from: string)
+        case .put(let string): return try url(from: string)
+        case .delete(let string): return try url(from: string)
+        case .head(let string): return try url(from: string)
+        case .patch(let string): return try url(from: string)
         }
     }
     
-    func method() -> HTTPMethod {
+    var httpMethod: String {
         switch self {
-        case .get: return HTTPMethod.GET
-        case .post: return HTTPMethod.POST
-        case .put: return HTTPMethod.PUT
-        case .delete: return HTTPMethod.DELETE
-        case .head: return HTTPMethod.HEAD
-        case .patch: return HTTPMethod.PATCH
+        case .get: return "GET"
+        case .post: return "POST"
+        case .put: return "PUT"
+        case .delete: return "DELETE"
+        case .head: return "HEAD"
+        case .patch: return "PATCH"
         }
+    }
+    
+    var preferredParameterEncoding: ParameterEncoding {
+        switch self {
+        case .get: return .url
+        case .post: return .json
+        case .put: return .json
+        case .delete: return .url
+        case .head: return .url
+        case .patch: return .json
+        }
+    }
+    
+    private func url(from string: String) throws -> URL {
+        if let url = URL(string: string) {
+            return url
+        }
+        throw RepositoryError.invalidURL(url: string)
     }
 }
 
-func getURL(from convertible: URLConvertible) throws -> URL {
-    if let url = convertible.url { return url }
-    if let string = convertible as? String {
-        throw RepositoryError.invalidURL(url: string)
-    }
-    throw RepositoryError.invalidURL(url: String(describing: convertible))
+public enum RepositoryError: Error {
+    case invalidURL(url: String)
+    case invalidParameters
+    case encodingError
+    case networkConnection
 }

@@ -1,11 +1,3 @@
-//
-//  URLRequest+ParameterEncoding.swift
-//  Apic
-//
-//  Created by Juan Jose Arreola on 3/2/16.
-//  Copyright © 2016 Juanjo. All rights reserved.
-//
-
 import Foundation
 
 enum EncodeError: Error {

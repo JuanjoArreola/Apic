@@ -1,13 +1,5 @@
-//
-//  DateTests.swift
-//  Apic
-//
-//  Created by Juan Jose Arreola Simon on 1/23/16.
-//  Copyright © 2016 Juanjo. All rights reserved.
-//
-
 import XCTest
-@testable import Apic
+import Apic4
 
 class DateTests: XCTestCase {
     
@@ -21,63 +13,27 @@ class DateTests: XCTestCase {
         super.tearDown()
     }
     
-//    YYYY-MM-dd'T' HH:mm:ssZ
-    func testMandatoryDate() {
+    func testExample() {
+        let parser = DefaultResponseParser()
+        let json = """
+                {"object": "2016-01-23 18:30:00Z",
+                 "status": "OK"
+                }
+                """
+        let data = json.data(using: .utf8)
         do {
-            let container = try DateContainer(dictionary: ["created": "2016-01-23 18:30:00Z"])
-            XCTAssertNotNil(container.created)
-        } catch { XCTFail() }
-    }
-    
-    func testMandatoryDateNil() {
-        do {
-            _ = try DateContainer(dictionary: [:])
+            let date: Date = try parser.object(from: data, response: nil, error: nil)
+            XCTAssertEqual(date, Date(timeIntervalSinceReferenceDate: 475266600.0))
+        } catch {
+            print(error)
             XCTFail()
-        } catch { }
-    }
-    
-    func testInvalidDate() {
-        do {
-            _ = try DateContainer(dictionary: ["created": "2016-01-23_18:30:00Z"])
-            XCTFail()
-        } catch { }
-    }
-    
-    func testInvalidValue() {
-        do {
-            _ = try DateContainer(dictionary: ["created": 1])
-            XCTFail()
-        } catch { }
-    }
-    
-    func testOptionalDateNil() {
-        do {
-            let container = try DateContainer(dictionary: ["created": "2016-01-23 18:30:00Z"])
-            XCTAssertNotNil(container)
-            XCTAssertNil(container.lastEdit)
-        } catch { XCTFail() }
-    }
-    
-    func testOptionalDateNotNil() {
-        do {
-            let container = try DateContainer(dictionary: ["created": "2016-01-23 18:30:00Z", "lastEdit": "2016-01-23 18:40:00Z"])
-            XCTAssertNotNil(container)
-            XCTAssertNotNil(container.lastEdit)
-        } catch { XCTFail() }
-    }
-    
-    func testChangeDate() {
-        do {
-            let container = try DateContainer(dictionary: ["created": "2016-01-23 18:30:00Z", "lastAccess": "2016-01-23 18:40:00Z"])
-            XCTAssertNotNil(container)
-            XCTAssertNotEqual(container.lastAccess, Date(timeIntervalSince1970: 0))
-        } catch { XCTFail() }
+        }
     }
     
 }
 
-class DateContainer: AbstractModel {
-    var created: Date!
-    var lastEdit: Date?
-    var lastAccess: Date = Date(timeIntervalSince1970: 0)
+extension DefaultResponseParser: CustomDateParsing {
+    public var dateFormats: [String] {
+        return ["y-MM-dd HH:mm:ssZ"]
+    }
 }

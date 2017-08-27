@@ -1,11 +1,3 @@
-//
-//  Part.swift
-//  Apic
-//
-//  Created by Juan Jose Arreola on 07/06/17.
-//
-//
-
 import Foundation
 
 open class Part {
@@ -45,4 +37,30 @@ enum MimeType: String {
     case jpeg = "image/jpeg"
     case png = "image/png"
     case text = "text/plain"
+}
+
+extension Dictionary where Key == String {
+    func encode(withBoundary boundary: String) throws -> Data {
+        var content = Data()
+        for (key, value) in self {
+            try content.append(string: "--\(boundary)\r\n")
+            try content.append(string: "Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
+            try content.append(string: "\(value)\r\n")
+        }
+        return content
+    }
+}
+
+extension Data {
+    
+    mutating func append(string: String) throws {
+        guard let data = string.data(using: .utf8) else {
+            throw MultipartError.dataEncoding
+        }
+        append(data)
+    }
+}
+
+public enum MultipartError: Error {
+    case dataEncoding
 }

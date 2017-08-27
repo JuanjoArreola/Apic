@@ -1,10 +1,4 @@
-//
-//  HostReachabilityInfo.swift
-//  Apic
-//
-//  Created by Juan Jose Arreola on 06/04/17.
-//
-//
+import Foundation
 
 #if os(iOS) || os(OSX) || os(tvOS)
     import Foundation
@@ -31,6 +25,6 @@
             SCNetworkReachabilitySetCallback(networkReachability, nil, nil)
             SCNetworkReachabilitySetDispatchQueue(networkReachability, nil)
         }
-}
-
+    }
+    
 #endif

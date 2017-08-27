@@ -1,45 +1,65 @@
-//
-//  AbstractRepository.swift
-//  Apic
-//
-//  Created by Juanjo on 30/05/15.
-//  Copyright (c) 2015 Juanjo. All rights reserved.
-//
-
 import Foundation
+import AsyncRequest
 
 open class AbstractRepository: BaseRepository {
     
-    open func requestSuccess(method: HTTPMethod, url: URLConvertible, params: [String: Any]? = [:], encoding: ParameterEncoding? = nil, headers: [String: String]? = nil, completion: @escaping (_ getSuccess: () throws -> Bool) -> Void) -> ApicRequest<Bool> {
-        let request = ApicRequest(completionHandler: completion)
-        let route = method.route(url: url)
-        process(request: request, route: route, params: params, encoding: encoding, headers: headers, completion: successHandler(for: request))
-        
+    let encoder = JSONEncoder()
+    
+    open func requestSuccess(route: Route, parameters: [String: Any]? = [:], encoding: ParameterEncoding? = nil, headers: [String: String]? = nil, completion: ((Bool) -> Void)?) -> Request<Bool> {
+        let request = URLSessionRequest<Bool>(successHandler: completion)
+        do {
+            try self.reachabilityManager?.checkReachability(route: route)
+            request.dataTask = try doRequest(route: route, parameters: parameters, encoding: encoding, headers: headers, completion: successHandler(for: request))
+        } catch {
+            self.responseQueue.async { request.complete(with: error) }
+        }
         return request
     }
     
-    open func requestObject<T: InitializableWithDictionary>(method: HTTPMethod, url: URLConvertible, params: [String: Any]? = [:], encoding: ParameterEncoding? = nil, headers: [String: String]? = nil, completion: @escaping (_ getObject: () throws -> T) -> Void) -> ApicRequest<T> {
-        let request = ApicRequest(completionHandler: completion)
-        let route = method.route(url: url)
-        process(request: request, route: route, params: params, encoding: encoding, headers: headers, completion: objectHandler(for: request))
-
+    open func requestObject<T: Codable>(route: Route, parameters: [String: Any]? = [:], encoding: ParameterEncoding? = nil, headers: [String: String]? = nil, completion: ((T) -> Void)?) -> Request<T> {
+        let request = URLSessionRequest<T>(successHandler: completion)
+        do {
+            try self.reachabilityManager?.checkReachability(route: route)
+            request.dataTask = try doRequest(route: route, parameters: parameters, encoding: encoding, headers: headers, completion: objectHandler(for: request))
+        } catch {
+            self.responseQueue.async { request.complete(with: error) }
+        }
         return request
     }
     
-    open func requestObjects<T: InitializableWithDictionary>(method: HTTPMethod, url: URLConvertible, params: [String: Any]? = [:], encoding: ParameterEncoding? = nil, headers: [String: String]? = nil, completion: @escaping (_ getObjects: () throws -> [T]) -> Void) -> ApicRequest<[T]> {
-        let request = ApicRequest(completionHandler: completion)
-        let route = method.route(url: url)
-        process(request: request, route: route, params: params, encoding: encoding, headers: headers, completion: objectsHandler(for: request))
-
+    open func requestArray<T: Codable>(route: Route, parameters: [String: Any]? = [:], encoding: ParameterEncoding? = nil, headers: [String: String]? = nil, completion: (([T]) -> Void)?) -> Request<[T]> {
+        let request = URLSessionRequest<[T]>(successHandler: completion)
+        do {
+            try self.reachabilityManager?.checkReachability(route: route)
+            request.dataTask = try doRequest(route: route, parameters: parameters, encoding: encoding, headers: headers, completion: arrayHandler(for: request))
+        } catch {
+            self.responseQueue.async { request.complete(with: error) }
+        }
         return request
     }
     
-    open func requestDictionaryOfObjects<T: InitializableWithDictionary>(method: HTTPMethod, url: URLConvertible, params: [String: Any]? = [:], encoding: ParameterEncoding? = nil, headers: [String: String]? = nil, completion: @escaping (_ getDictionary: () throws -> [String: T]) -> Void) -> ApicRequest<[String: T]> {
-        let request = ApicRequest(completionHandler: completion)
-        let route = method.route(url: url)
-        process(request: request, route: route, params: params, encoding: encoding, headers: headers, completion: dictionaryHandler(for: request))
-
+    open func requestDictionary<T: Codable>(route: Route, parameters: [String: Any]? = [:], encoding: ParameterEncoding? = nil, headers: [String: String]? = nil, completion: (([String: T]) -> Void)?) -> Request<[String: T]> {
+        let request = URLSessionRequest<[String: T]>(successHandler: completion)
+        do {
+            try self.reachabilityManager?.checkReachability(route: route)
+            request.dataTask = try doRequest(route: route, parameters: parameters, encoding: encoding, headers: headers, completion: dictionaryHandler(for: request))
+        } catch {
+            self.responseQueue.async { request.complete(with: error) }
+        }
         return request
     }
     
+    // MARK: -
+    
+    open func requestObject<T: Codable, U: Encodable>(route: Route, body: U, headers: [String: String]? = nil, completion: ((T) -> Void)?) -> Request<T> {
+        let request = URLSessionRequest<T>(successHandler: completion)
+        do {
+            try self.reachabilityManager?.checkReachability(route: route)
+            let data = try encoder.encode(body)
+            request.dataTask = try doRequest(route: route, data: data, headers: headers, completion: objectHandler(for: request))
+        } catch {
+            self.responseQueue.async { request.complete(with: error) }
+        }
+        return request
+    }
 }

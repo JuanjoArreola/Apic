@@ -1,26 +1,13 @@
-//
-//  MultipoartRepository.swift
-//  Apic
-//
-//  Created by Juan Jose Arreola on 07/06/17.
-//
-//
-
 import Foundation
 import AsyncRequest
-
-public enum MultipartError: Error {
-    case dataEncoding
-}
 
 open class MultipartRepository: BaseRepository {
     
     let boundary = "Boundary-\(UUID().uuidString)"
     
-    open func multipartSuccess(url: URLConvertible, parts: [Part], params: [String: Any]? = [:], headers: [String: String]? = nil, completion: @escaping (Bool) -> Void) -> Request<Bool> {
-        let request = ApicRequest<Bool>(successHandler: completion)
+    open func multipartSuccess(url: URL, parts: [Part], params: [String: Any]? = [:], headers: [String: String]? = nil, completion: ((Bool) -> Void)?) -> Request<Bool> {
+        let request = URLSessionRequest<Bool>(successHandler: completion)
         do {
-            let url = try getURL(from: url)
             request.dataTask = try multipart(url: url, parts: parts, parameters: params, headers: headers, completion: successHandler(for: request))
         } catch {
             self.responseQueue.async { request.complete(with: error) }
@@ -29,10 +16,9 @@ open class MultipartRepository: BaseRepository {
         return request
     }
     
-    open func multipartObject<T: InitializableWithDictionary>(url: URLConvertible, parts: [Part], params: [String: Any]? = [:], headers: [String: String]? = nil, completion: @escaping (T) -> Void) -> Request<T> {
-        let request = ApicRequest(successHandler: completion)
+    open func multipartObject<T: Codable>(url: URL, parts: [Part], params: [String: Any]? = [:], headers: [String: String]? = nil, completion: @escaping (T) -> Void) -> Request<T> {
+        let request = URLSessionRequest(successHandler: completion)
         do {
-            let url = try getURL(from: url)
             request.dataTask = try multipart(url: url, parts: parts, parameters: params, headers: headers, completion: objectHandler(for: request))
         } catch {
             self.responseQueue.async { request.complete(with: error) }
@@ -40,11 +26,10 @@ open class MultipartRepository: BaseRepository {
         return request
     }
     
-    open func multipartObjects<T: InitializableWithDictionary>(url: URLConvertible, parts: [Part], params: [String: Any]? = [:], headers: [String: String]? = nil, completion: @escaping ([T]) -> Void) -> ApicRequest<[T]> {
-        let request = ApicRequest(successHandler: completion)
+    open func multipartObjects<T: Codable>(url: URL, parts: [Part], params: [String: Any]? = [:], headers: [String: String]? = nil, completion: @escaping ([T]) -> Void) -> Request<[T]> {
+        let request = URLSessionRequest(successHandler: completion)
         do {
-            let url = try getURL(from: url)
-            request.dataTask = try multipart(url: url, parts: parts, parameters: params, headers: headers, completion: objectsHandler(for: request))
+            request.dataTask = try multipart(url: url, parts: parts, parameters: params, headers: headers, completion: arrayHandler(for: request))
         } catch {
             self.responseQueue.async { request.complete(with: error) }
         }
@@ -69,38 +54,7 @@ open class MultipartRepository: BaseRepository {
         request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.httpBody = data
         
-        let session = self.session ?? URLSession.shared
-        
-        var task: URLSessionDataTask
-        if let delegate = repositorySessionDelegate {
-            task = session.dataTask(with: request)
-            delegate.add(completion: completion, for: task)
-        } else {
-            task = session.dataTask(with: request, completionHandler: completion)
-        }
-        task.resume()
-        return task
+        return dataTask(with: request, completion: completion)
     }
 }
 
-extension Dictionary where Key == String {
-    func encode(withBoundary boundary: String) throws -> Data {
-        var content = Data()
-        for (key, value) in self {
-            try content.append(string: "--\(boundary)\r\n")
-            try content.append(string: "Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
-            try content.append(string: "\(value)\r\n")
-        }
-        return content
-    }
-}
-
-extension Data {
-    
-    mutating func append(string: String) throws {
-        guard let data = string.data(using: .utf8) else {
-            throw MultipartError.dataEncoding
-        }
-        append(data)
-    }
-}

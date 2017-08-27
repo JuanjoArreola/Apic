@@ -21,14 +21,4 @@ class ArrayTests: XCTestCase {
         super.tearDown()
     }
     
-    func testArrayOfModels() {
-        do {
-            let array = try Country.initFrom(list: [["name": "England", "capital": "London"], ["name": "France", "capital": "Paris"]])
-            XCTAssertGreaterThan(array.count, 0)
-        } catch {
-            print(error)
-            XCTFail()
-        }
-    }
-    
 }

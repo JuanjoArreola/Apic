@@ -13,42 +13,20 @@ class DictionaryTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        
-        DefaultTypeResolver.shared.register(types: Country.self)
     }
     
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
-    func testStringDictionary() {
-        do {
-            let world = try World(dictionary: ["capitals": ["England": "London", "France": "Paris"], "countries": [:]])
-            XCTAssertEqual(world.capitals.count, 2)
-        } catch {
-            print(error)
-            XCTFail()
-        }
-    }
-    
-    func testModelsDictionary() {
-        do {
-            let world = try World(dictionary: ["capitals": [:], "countries": ["england": ["name": "England", "capital": "London"], "france": ["name": "France", "capital": "Paris"]]])
-            XCTAssertEqual(world.countries.count, 2)
-        } catch {
-            XCTFail()
-        }
-    }
-    
 }
 
-class World: AbstractModel {
+class World: Codable {
     var capitals: [String: String]!
     var countries: [String: Country]!
 }
 
-class Country: AbstractModel {
+class Country: Codable {
     var capital: String = ""
     var name: String = ""
 }
