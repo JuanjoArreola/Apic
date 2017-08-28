@@ -17,6 +17,6 @@ Pod::Spec.new do |s|
   s.requires_arc = true
   s.framework    = "SystemConfiguration"
 
-  s.dependency "AsyncRequest", "~> 1.0.3"
+  s.dependency "AsyncRequest", "~> 2.0.0"
 
 end

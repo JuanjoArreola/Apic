@@ -73,6 +73,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8165DD721F533DAF00CF00E3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		OBJ_10 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		OBJ_11 /* DefaultResponseParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultResponseParser.swift; sourceTree = "<group>"; };
 		OBJ_12 /* HostReachabilityInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostReachabilityInfo.swift; sourceTree = "<group>"; };
@@ -178,6 +179,7 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
+				8165DD721F533DAF00CF00E3 /* README.md */,
 				OBJ_7 /* Sources */,
 				OBJ_24 /* Tests */,
 				OBJ_55 /* ApicWatch */,
