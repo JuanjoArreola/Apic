@@ -26,7 +26,7 @@ open class BaseRepository {
         }
     }
     
-    func objectHandler<T: Codable>(for request: Request<T>) -> (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void {
+    func objectHandler<T: Decodable>(for request: Request<T>) -> (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void {
         return { (data, response, error) in
             do {
                 let object: T = try self.responseParser.object(from: data, response: response, error: error)
@@ -37,21 +37,10 @@ open class BaseRepository {
         }
     }
     
-    func arrayHandler<T: Codable>(for request: Request<[T]>) -> (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void {
+    func arrayHandler<T: Decodable>(for request: Request<[T]>) -> (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void {
         return { (data, response, error) in
             do {
                 let array: [T] = try self.responseParser.array(from: data, response: response, error: error)
-                self.responseQueue.async { request.complete(with: array) }
-            } catch {
-                self.responseQueue.async { request.complete(with: error) }
-            }
-        }
-    }
-    
-    func dictionaryHandler<T: Codable>(for request: Request<[String: T]>) -> (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void {
-        return { (data, response, error) in
-            do {
-                let array: [String: T] = try self.responseParser.dictionary(from: data, response: response, error: error)
                 self.responseQueue.async { request.complete(with: array) }
             } catch {
                 self.responseQueue.async { request.complete(with: error) }

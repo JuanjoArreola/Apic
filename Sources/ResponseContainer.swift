@@ -1,20 +1,21 @@
 import Foundation
 
-open class ResponseContainer<T: Codable>: Codable {
-    var status: String?
-    var errorCode: String?
-    var errorMessage: String?
+open class ResponseContainer<T: Decodable>: Decodable {
+    public var status: String?
+    public var errorCode: String?
+    public var errorMessage: String?
     
-    var object: T?
-    var array: [T]?
-    var dictionary: [String: T]?
+    public var object: T?
+    public var array: [T]?
     
     func successful() -> Bool {
         return status == "OK"
     }
     
-    func getError() -> Error? {
+    public func getError() -> Error? {
         if successful() { return nil }
         return ResponseError.statusFail(message: errorMessage, code: errorCode)
     }
+    
+    public init() {}
 }

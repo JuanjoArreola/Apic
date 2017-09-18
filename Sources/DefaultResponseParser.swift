@@ -29,34 +29,25 @@ open class DefaultResponseParser: ResponseParser {
         return container.successful()
     }
     
-    open func object<T: Codable>(from data: Data?, response: URLResponse?, error: Error?) throws -> T {
+    open func object<T: Decodable>(from data: Data?, response: URLResponse?, error: Error?) throws -> T {
         let data = try validate(data: data, response: response, error: error)
         let container: ResponseContainer<T> = try getContainer(from: data)
         if let object = container.object {
             return object
         }
-        throw ResponseError.invalidResponse
+        throw getError(from: data, response: response)
     }
     
-    open func array<T: Codable>(from data: Data?, response: URLResponse?, error: Error?) throws -> [T] {
+    open func array<T: Decodable>(from data: Data?, response: URLResponse?, error: Error?) throws -> [T] {
         let data = try validate(data: data, response: response, error: error)
         let container: ResponseContainer<T> = try getContainer(from: data)
         if let array = container.array {
             return array
         }
-        throw ResponseError.invalidResponse
+        throw getError(from: data, response: response)
     }
     
-    open func dictionary<T: Codable>(from data: Data?, response: URLResponse?, error: Error?) throws -> [String : T] {
-        let data = try validate(data: data, response: response, error: error)
-        let container: ResponseContainer<T> = try getContainer(from: data)
-        if let dictionary = container.dictionary {
-            return dictionary
-        }
-        throw ResponseError.invalidResponse
-    }
-    
-    func getContainer<T: Codable>(from data: Data) throws -> ResponseContainer<T> {
+    open func getContainer<T: Decodable>(from data: Data) throws -> ResponseContainer<T> {
         let container: ResponseContainer<T> = try decoder.decode(ResponseContainer<T>.self, from: data)
         if let error = container.getError() {
             throw error
@@ -67,12 +58,20 @@ open class DefaultResponseParser: ResponseParser {
     public func validate(data: Data?, response: URLResponse?, error: Error?) throws -> Data {
         if let error = error { throw error }
         guard let validData = data else {
-            if let code = (response as? HTTPURLResponse)?.statusCode, code >= 400, code < 600 {
-                throw ResponseError.httpError(statusCode: code, message: nil)
-            }
-            throw ResponseError.invalidResponse
+            throw getError(from: data, response: response)
         }
         return validData
+    }
+    
+    public func getError(from data: Data?, response: URLResponse?) -> Error {
+        var message: String? = nil
+        if let data = data {
+            message = String(data: data, encoding: .utf8)
+        }
+        if let code = (response as? HTTPURLResponse)?.statusCode, code >= 400, code < 600 {
+            return ResponseError.httpError(statusCode: code, message: message)
+        }
+        return ResponseError.invalidResponse(string: message)
     }
     
 }

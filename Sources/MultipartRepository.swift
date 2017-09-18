@@ -16,7 +16,7 @@ open class MultipartRepository: BaseRepository {
         return request
     }
     
-    open func multipartObject<T: Codable>(url: URL, parts: [Part], params: [String: Any]? = [:], headers: [String: String]? = nil, completion: @escaping (T) -> Void) -> Request<T> {
+    open func multipartObject<T: Decodable>(url: URL, parts: [Part], params: [String: Any]? = [:], headers: [String: String]? = nil, completion: @escaping (T) -> Void) -> Request<T> {
         let request = URLSessionRequest(successHandler: completion)
         do {
             request.dataTask = try multipart(url: url, parts: parts, parameters: params, headers: headers, completion: objectHandler(for: request))
@@ -26,7 +26,7 @@ open class MultipartRepository: BaseRepository {
         return request
     }
     
-    open func multipartObjects<T: Codable>(url: URL, parts: [Part], params: [String: Any]? = [:], headers: [String: String]? = nil, completion: @escaping ([T]) -> Void) -> Request<[T]> {
+    open func multipartArray<T: Decodable>(url: URL, parts: [Part], params: [String: Any]? = [:], headers: [String: String]? = nil, completion: @escaping ([T]) -> Void) -> Request<[T]> {
         let request = URLSessionRequest(successHandler: completion)
         do {
             request.dataTask = try multipart(url: url, parts: parts, parameters: params, headers: headers, completion: arrayHandler(for: request))
