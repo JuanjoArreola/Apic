@@ -7,10 +7,8 @@ public enum ResponseError: Error {
     case httpError(statusCode: Int, message: String?)
     case invalidDate(string: String?)
     case emptyResponse
-}
-
-extension ResponseError: LocalizedError {
-    public var errorDescription: String? {
+    
+    public var localizedDescription: String {
         switch self {
         case .invalidResponse(_):
             return "The response data could not be decoded"
