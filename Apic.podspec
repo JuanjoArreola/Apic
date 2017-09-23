@@ -15,7 +15,9 @@ Pod::Spec.new do |s|
   s.source_files = "Sources/*.swift"
 
   s.requires_arc = true
-  s.framework    = "SystemConfiguration"
+  s.ios.framework    = "SystemConfiguration"
+  s.osx.framework    = "SystemConfiguration"
+  s.tvos.framework    = "SystemConfiguration"
 
   s.dependency "AsyncRequest", "~> 2.0.0"
 
