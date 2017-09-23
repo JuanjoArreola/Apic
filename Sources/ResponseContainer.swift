@@ -8,6 +8,8 @@ open class ResponseContainer<T: Decodable>: Decodable {
     public var object: T?
     public var array: [T]?
     
+    public init() {}
+    
     func successful() -> Bool {
         return status == "OK"
     }
@@ -16,6 +18,4 @@ open class ResponseContainer<T: Decodable>: Decodable {
         if successful() { return nil }
         return ResponseError.statusFail(message: errorMessage, code: errorCode)
     }
-    
-    public init() {}
 }

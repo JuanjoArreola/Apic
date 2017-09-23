@@ -2,12 +2,14 @@ import Foundation
 import AsyncRequest
 
 open class BaseRepository {
+    
+    let responseParser: ResponseParser
+    
     open var session: URLSession?
     open var cachePolicy: URLRequest.CachePolicy?
     open var timeoutInterval: TimeInterval?
     open var allowsCellularAccess: Bool?
     open var responseQueue = DispatchQueue.main
-    open var responseParser: ResponseParser
     open var reachabilityManager: ReachabilityManager?
     open var repositorySessionDelegate: RepositorySessionDataDelegate?
     
