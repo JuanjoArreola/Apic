@@ -21,8 +21,7 @@ open class DefaultResponseParser: ResponseParser {
     }
     
     open func success(from data: Data?, response: URLResponse?, error: Error?) throws -> Bool {
-        let data = try validate(data: data, response: response, error: error)
-        let container: ResponseContainer<Bool> = try getContainer(from: data)
+        let container: ResponseContainer<Bool> = try validate(data: data, response: response, error: error)
         if let success = container.object {
             return success
         }
@@ -30,53 +29,53 @@ open class DefaultResponseParser: ResponseParser {
     }
     
     open func object<T: Decodable>(from data: Data?, response: URLResponse?, error: Error?) throws -> T {
-        let data = try validate(data: data, response: response, error: error)
-        let container: ResponseContainer<T> = try getContainer(from: data)
+        let container: ResponseContainer<T> = try validate(data: data, response: response, error: error)
         if let object = container.object {
             return object
         }
-        throw getError(from: data, response: response)
+        throw ResponseError.objectNotFound
     }
     
     open func array<T: Decodable>(from data: Data?, response: URLResponse?, error: Error?) throws -> [T] {
-        let data = try validate(data: data, response: response, error: error)
-        let container: ResponseContainer<T> = try getContainer(from: data)
+        let container: ResponseContainer<T> = try validate(data: data, response: response, error: error)
         if let array = container.array {
             return array
         }
-        throw getError(from: data, response: response)
+        throw ResponseError.arrayNotFound
     }
     
     open func getContainer<T: Decodable>(from data: Data) throws -> ResponseContainer<T> {
         let container: ResponseContainer<T> = try decoder.decode(ResponseContainer<T>.self, from: data)
-        if let error = container.getError() {
-            throw error
-        }
         return container
     }
     
-    public func validate(data: Data?, response: URLResponse?, error: Error?) throws -> Data {
+    public func validate<T: Decodable>(data: Data?, response: URLResponse?, error: Error?) throws -> ResponseContainer<T> {
         if let error = error { throw error }
-        guard let validData = data else {
-            throw getError(from: data, response: response)
-        }
-        return validData
-    }
-    
-    public func getError(from data: Data?, response: URLResponse?) -> Error {
-        var message: String? = nil
-        if let data = data {
-            message = String(data: data, encoding: .utf8)
-        }
         if let code = (response as? HTTPURLResponse)?.statusCode, code >= 400, code < 600 {
-            return ResponseError.httpError(statusCode: code, message: message)
+            guard let data = data else {
+                throw ResponseError.httpError(statusCode: code, message: nil)
+            }
+            do {
+                let container: ResponseContainer<T> = try getContainer(from: data)
+                if let error = container.getError() {
+                    throw error
+                }
+                return container
+            } catch is DecodingError {
+                throw ResponseError.httpError(statusCode: code, message: String(data: data, encoding: .utf8))
+            }
+        } else if let data = data {
+            let container: ResponseContainer<T> = try getContainer(from: data)
+            if let error = container.getError() {
+                throw error
+            }
+            return container
+        } else {
+            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: [], debugDescription: "No data"))
         }
-        return ResponseError.invalidResponse(string: message)
     }
-    
 }
 
 public protocol CustomDateParsing {
     var dateFormats: [String] { get }
 }
-

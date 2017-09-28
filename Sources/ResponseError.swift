@@ -6,7 +6,8 @@ public enum ResponseError: Error {
     case networkConnection
     case httpError(statusCode: Int, message: String?)
     case invalidDate(string: String?)
-    case emptyResponse
+    case objectNotFound
+    case arrayNotFound
     
     public var localizedDescription: String {
         switch self {

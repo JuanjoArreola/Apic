@@ -13,10 +13,6 @@ class DynamicArrayTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        
-        DefaultTypeResolver.shared.register(types: Award.self)
-        DefaultTypeResolver.shared.register(type: Oscar.self, forName: "Oscar")
-        DefaultTypeResolver.shared.register(type: GoldenGlobe.self, forName: "GoldenGlobe")
     }
     
     override func tearDown() {
@@ -24,28 +20,28 @@ class DynamicArrayTests: XCTestCase {
         super.tearDown()
     }
     
-    func testDynamicArray() {
-        do {
-            let movie = try Moview(dictionary: ["name": "Mad Max", "awards": [
-                ["type": "Oscar", "name": "Best Achievement in Film Editing", "edition": "LXXXVIII"],
-                ["type": "GoldenGlobe", "name": "Best Motion Picture - Drama", "year": 2016]]])
-            XCTAssertNotNil(movie)
-            XCTAssertTrue(movie.awards[0] is Oscar)
-            XCTAssertTrue(movie.awards[1] is GoldenGlobe)
-        } catch {
-            XCTFail()
-            print(error)
-        }
-    }
+//    func testDynamicArray() {
+//        do {
+//            let movie = try Moview(dictionary: ["name": "Mad Max", "awards": [
+//                ["type": "Oscar", "name": "Best Achievement in Film Editing", "edition": "LXXXVIII"],
+//                ["type": "GoldenGlobe", "name": "Best Motion Picture - Drama", "year": 2016]]])
+//            XCTAssertNotNil(movie)
+//            XCTAssertTrue(movie.awards[0] is Oscar)
+//            XCTAssertTrue(movie.awards[1] is GoldenGlobe)
+//        } catch {
+//            XCTFail()
+//            print(error)
+//        }
+//    }
     
 }
 
-class Moview: AbstractModel {
+class Moview: Codable {
     var name: String!
     var awards: [Award]!
 }
 
-class Award: AbstractModel, DynamicTypeModel {
+class Award: Codable {
     var name: String!
     
     static var typeNameProperty: String {

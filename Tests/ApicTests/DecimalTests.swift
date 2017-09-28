@@ -1,5 +1,5 @@
 import XCTest
-import Apic4
+import Apic
 
 class DecimalTests: XCTestCase {
     
