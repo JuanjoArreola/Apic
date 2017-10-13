@@ -51,7 +51,10 @@ open class DefaultResponseParser: ResponseParser {
     
     public func validate<T: Decodable>(data: Data?, response: URLResponse?, error: Error?) throws -> ResponseContainer<T> {
         if let error = error { throw error }
-        if let code = (response as? HTTPURLResponse)?.statusCode, code >= 400, code < 600 {
+        if let code = (response as? HTTPURLResponse)?.statusCode, code == 404 {
+            throw ResponseError.httpError(statusCode: code, message: response?.url?.absoluteString)
+        }
+        else if let code = (response as? HTTPURLResponse)?.statusCode, code >= 400, code < 600 {
             guard let data = data else {
                 throw ResponseError.httpError(statusCode: code, message: nil)
             }

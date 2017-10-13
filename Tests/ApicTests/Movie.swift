@@ -10,7 +10,7 @@ import Foundation
 @testable import Apic
 
 
-enum MovieFormat: StringRepresentable {
+enum MovieFormat: String, Codable {
     case widescreen
     case standard
     
@@ -31,7 +31,7 @@ enum MovieFormat: StringRepresentable {
     }
 }
 
-class Movie: AbstractModel {
+class Movie: Codable {
     var id: String = ""
     var name: String = ""
     var year: Int = 0
@@ -47,8 +47,8 @@ class Movie: AbstractModel {
     
     var releaseDate: Date?
     
-    var budget: NSDecimalNumber?
-    var gross: NSDecimalNumber?
+    var budget: Decimal?
+    var gross: Decimal?
     
     
     var nominations: [Nomination]?
@@ -56,35 +56,9 @@ class Movie: AbstractModel {
     var synopsis: Synopsis?
     
     var reproductions = 0
-    
-    override class var ignoredProperties: [String] {
-        return ["reproductions"]
-    }
-    
-    override class var propertyDateFormats: [String: String] {
-        return ["releaseDate": "y-MM-dd HH:mm:ss"]
-    }
-    
-    override func assign(value: Any, forProperty property: String) throws {
-        switch property {
-        case "format": format = value as! MovieFormat
-        case "rating": rating = value as? Float
-        default: try super.assign(value: value, forProperty: property)
-        }
-    }
-    
-    override func value(forKey key: String) -> Any? {
-        if key == "rating" {
-            return rating
-        } else if key == "format" {
-            return format.rawValue
-        } else {
-            return super.value(forKey: key)
-        }
-    }
 }
 
-class Person: AbstractModel {
+class Person: Codable {
     var name: String!
 }
 
@@ -92,7 +66,7 @@ class Director: Person {
     var filmography: [Movie]?
 }
 
-class Nomination: AbstractModel {
+class Nomination: Codable {
     var name: String = ""
 }
 
@@ -100,7 +74,7 @@ class Actor: Person {
     var country: String?
 }
 
-class Synopsis: AbstractModel {
+class Synopsis: Codable {
     var text: String = ""
     var author: Person?
 }
