@@ -11,7 +11,7 @@ open class AbstractRepository: BaseRepository {
             try self.reachabilityManager?.checkReachability(route: route)
             request.dataTask = try doRequest(route: route, parameters: parameters, encoding: encoding, headers: headers, completion: successHandler(for: request))
         } catch {
-            self.responseQueue.async { request.complete(with: error) }
+            request.complete(with: error, in: responseQueue)
         }
         return request
     }
@@ -22,7 +22,7 @@ open class AbstractRepository: BaseRepository {
             try self.reachabilityManager?.checkReachability(route: route)
             request.dataTask = try doRequest(route: route, parameters: parameters, encoding: encoding, headers: headers, completion: objectHandler(for: request))
         } catch {
-            self.responseQueue.async { request.complete(with: error) }
+            request.complete(with: error, in: responseQueue)
         }
         return request
     }
@@ -33,7 +33,7 @@ open class AbstractRepository: BaseRepository {
             try self.reachabilityManager?.checkReachability(route: route)
             request.dataTask = try doRequest(route: route, parameters: parameters, encoding: encoding, headers: headers, completion: arrayHandler(for: request))
         } catch {
-            self.responseQueue.async { request.complete(with: error) }
+            request.complete(with: error, in: responseQueue)
         }
         return request
     }
@@ -47,7 +47,7 @@ open class AbstractRepository: BaseRepository {
             let data = try encoder.encode(body)
             request.dataTask = try doRequest(route: route, data: data, headers: headers, completion: objectHandler(for: request))
         } catch {
-            self.responseQueue.async { request.complete(with: error) }
+            request.complete(with: error, in: responseQueue)
         }
         return request
     }
@@ -59,7 +59,19 @@ open class AbstractRepository: BaseRepository {
             let data = try encoder.encode(body)
             request.dataTask = try doRequest(route: route, data: data, headers: headers, completion: arrayHandler(for: request))
         } catch {
-            self.responseQueue.async { request.complete(with: error) }
+            request.complete(with: error, in: responseQueue)
+        }
+        return request
+    }
+    
+    open func requestSuccess<U: Encodable>(route: Route, body: U, headers: [String: String]? = nil, completion: ((Bool) -> Void)?) -> Request<Bool> {
+        let request = URLSessionRequest<Bool>(successHandler: completion)
+        do {
+            try self.reachabilityManager?.checkReachability(route: route)
+            let data = try encoder.encode(body)
+            request.dataTask = try doRequest(route: route, data: data, headers: headers, completion: successHandler(for: request))
+        } catch {
+            request.complete(with: error, in: responseQueue)
         }
         return request
     }

@@ -21,9 +21,9 @@ open class BaseRepository {
         return { (data, response, error) in
             do {
                 let success = try self.responseParser.success(from: data, response: response, error: error)
-                self.responseQueue.async { request.complete(with: success) }
+                request.complete(with: success, in: self.responseQueue)
             } catch {
-                self.responseQueue.async { request.complete(with: error) }
+                request.complete(with: error, in: self.responseQueue)
             }
         }
     }
@@ -32,9 +32,9 @@ open class BaseRepository {
         return { (data, response, error) in
             do {
                 let object: T = try self.responseParser.object(from: data, response: response, error: error)
-                self.responseQueue.async { request.complete(with: object) }
+                request.complete(with: object, in: self.responseQueue)
             } catch {
-                self.responseQueue.async { request.complete(with: error) }
+                request.complete(with: error, in: self.responseQueue)
             }
         }
     }
@@ -43,9 +43,9 @@ open class BaseRepository {
         return { (data, response, error) in
             do {
                 let array: [T] = try self.responseParser.array(from: data, response: response, error: error)
-                self.responseQueue.async { request.complete(with: array) }
+                request.complete(with: array, in: self.responseQueue)
             } catch {
-                self.responseQueue.async { request.complete(with: error) }
+                request.complete(with: error, in: self.responseQueue)
             }
         }
     }
