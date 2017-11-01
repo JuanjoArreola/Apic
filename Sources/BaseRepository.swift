@@ -50,6 +50,19 @@ open class BaseRepository {
         }
     }
     
+    func doRequest(route: Route, parameters: HTTPParameters, completion: @escaping (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void) throws -> URLSessionDataTask {
+        var request = URLRequest(url: try route.getURL())
+        request.httpMethod = route.httpMethod
+        request.cachePolicy = cachePolicy ?? request.cachePolicy
+        request.timeoutInterval = timeoutInterval ?? request.timeoutInterval
+        request.allowsCellularAccess = allowsCellularAccess ?? request.allowsCellularAccess
+        parameters.headers?.forEach({ request.addValue($0.value, forHTTPHeaderField: $0.key) })
+        let parameterEncoding = parameters.encoding ?? route.preferredParameterEncoding
+        try request.encode(parameters: parameters.parameters, with: parameterEncoding)
+        
+        return dataTask(with: request, completion: completion)
+    }
+    
     func doRequest(route: Route, parameters: [String: Any]? = [:], encoding: ParameterEncoding? = nil, headers: [String: String]? = nil, completion: @escaping (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void) throws -> URLSessionDataTask {
         var request = URLRequest(url: try route.getURL())
         request.httpMethod = route.httpMethod

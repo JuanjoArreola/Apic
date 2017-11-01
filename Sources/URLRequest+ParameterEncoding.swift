@@ -27,6 +27,11 @@ public extension URLRequest {
             }
         }
     }
+    
+    mutating func encode(parameters: HTTPParameters) throws {
+        guard let method = httpMethod else { throw EncodeError.invalidMethod }
+        
+    }
 }
 
 public extension Dictionary where Key: ExpressibleByStringLiteral {

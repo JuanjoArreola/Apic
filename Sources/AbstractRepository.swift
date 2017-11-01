@@ -5,74 +5,57 @@ open class AbstractRepository: BaseRepository {
     
     public var encoder = JSONEncoder()
     
-    open func requestSuccess(route: Route, parameters: [String: Any]? = [:], encoding: ParameterEncoding? = nil, headers: [String: String]? = nil, completion: ((Bool) -> Void)?) -> Request<Bool> {
+    open func requestSuccess(route: Route, parameters: HTTPParameters, completion: ((Bool) -> Void)?) -> Request<Bool> {
         let request = URLSessionRequest<Bool>(successHandler: completion)
         do {
             try self.reachabilityManager?.checkReachability(route: route)
-            request.dataTask = try doRequest(route: route, parameters: parameters, encoding: encoding, headers: headers, completion: successHandler(for: request))
+            request.dataTask = try doRequest(route: route, parameters: parameters, completion: successHandler(for: request))
         } catch {
             request.complete(with: error, in: responseQueue)
         }
         return request
     }
     
-    open func requestObject<T: Decodable>(route: Route, parameters: [String: Any]? = [:], encoding: ParameterEncoding? = nil, headers: [String: String]? = nil, completion: ((T) -> Void)?) -> Request<T> {
+    open func requestObject<T: Decodable>(route: Route, parameters: HTTPParameters, completion: ((T) -> Void)?) -> Request<T> {
         let request = URLSessionRequest<T>(successHandler: completion)
         do {
             try self.reachabilityManager?.checkReachability(route: route)
-            request.dataTask = try doRequest(route: route, parameters: parameters, encoding: encoding, headers: headers, completion: objectHandler(for: request))
+            request.dataTask = try doRequest(route: route, parameters: parameters, completion: objectHandler(for: request))
         } catch {
             request.complete(with: error, in: responseQueue)
         }
         return request
     }
     
-    open func requestArray<T: Decodable>(route: Route, parameters: [String: Any]? = [:], encoding: ParameterEncoding? = nil, headers: [String: String]? = nil, completion: (([T]) -> Void)?) -> Request<[T]> {
+    open func requestArray<T: Decodable>(route: Route, parameters: HTTPParameters, completion: (([T]) -> Void)?) -> Request<[T]> {
         let request = URLSessionRequest<[T]>(successHandler: completion)
         do {
             try self.reachabilityManager?.checkReachability(route: route)
-            request.dataTask = try doRequest(route: route, parameters: parameters, encoding: encoding, headers: headers, completion: arrayHandler(for: request))
+            request.dataTask = try doRequest(route: route, parameters: parameters, completion: arrayHandler(for: request))
         } catch {
             request.complete(with: error, in: responseQueue)
         }
         return request
     }
+}
+
+public struct HTTPParameters {
+    let parameters: [String: Any]?
+    var headers: [String: String]?
+    let encoding: ParameterEncoding?
+    let data: Data?
     
-    // MARK: - Encodable body
-    
-    open func requestObject<T: Decodable, U: Encodable>(route: Route, body: U, headers: [String: String]? = nil, completion: ((T) -> Void)?) -> Request<T> {
-        let request = URLSessionRequest<T>(successHandler: completion)
-        do {
-            try self.reachabilityManager?.checkReachability(route: route)
-            let data = try encoder.encode(body)
-            request.dataTask = try doRequest(route: route, data: data, headers: headers, completion: objectHandler(for: request))
-        } catch {
-            request.complete(with: error, in: responseQueue)
-        }
-        return request
+    init(parameters: [String: Any]? = nil, encoding: ParameterEncoding? = nil, headers: [String: String]? = nil) {
+        self.parameters = parameters
+        self.encoding = encoding
+        self.headers = headers
+        self.data = nil
     }
     
-    open func requestArray<T: Decodable, U: Encodable>(route: Route, body: U, headers: [String: String]? = nil, completion: (([T]) -> Void)?) -> Request<[T]> {
-        let request = URLSessionRequest<[T]>(successHandler: completion)
-        do {
-            try self.reachabilityManager?.checkReachability(route: route)
-            let data = try encoder.encode(body)
-            request.dataTask = try doRequest(route: route, data: data, headers: headers, completion: arrayHandler(for: request))
-        } catch {
-            request.complete(with: error, in: responseQueue)
-        }
-        return request
-    }
-    
-    open func requestSuccess<U: Encodable>(route: Route, body: U, headers: [String: String]? = nil, completion: ((Bool) -> Void)?) -> Request<Bool> {
-        let request = URLSessionRequest<Bool>(successHandler: completion)
-        do {
-            try self.reachabilityManager?.checkReachability(route: route)
-            let data = try encoder.encode(body)
-            request.dataTask = try doRequest(route: route, data: data, headers: headers, completion: successHandler(for: request))
-        } catch {
-            request.complete(with: error, in: responseQueue)
-        }
-        return request
+    init<T: Encodable>(body: T, headers: [String: String]? = nil) throws {
+        self.parameters = nil
+        self.encoding = nil
+        self.headers = headers
+        self.data = try JSONEncoder().encode(body)
     }
 }
