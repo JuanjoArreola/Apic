@@ -13,7 +13,7 @@ open class Part {
         self.data = data
     }
     
-    convenience init(mimeType type: MimeType, name: String, filename: String, data: Data) {
+    public convenience init(mimeType type: MimeType, name: String, filename: String, data: Data) {
         self.init(type: type.rawValue, name: name, filename: filename, data: data)
     }
     
@@ -28,7 +28,7 @@ open class Part {
     }
 }
 
-enum MimeType: String {
+public enum MimeType: String {
     case bmp = "image/bmp"
     case css = "text/css"
     case csv = "text/csv"

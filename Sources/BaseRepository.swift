@@ -3,89 +3,46 @@ import AsyncRequest
 
 open class BaseRepository {
     
-    let responseParser: ResponseParser
+    let repositorySessionDelegate: RepositorySessionDataDelegate?
     
-    open var session: URLSession?
+    let boundary = "Boundary-\(UUID().uuidString)"
+    
     open var cachePolicy: URLRequest.CachePolicy?
     open var timeoutInterval: TimeInterval?
     open var allowsCellularAccess: Bool?
-    open var responseQueue = DispatchQueue.main
-    open var reachabilityManager: ReachabilityManager?
-    open var repositorySessionDelegate: RepositorySessionDataDelegate?
+    open var session: URLSession?
     
-    public init(responseParser: ResponseParser) {
-        self.responseParser = responseParser
+    public init(repositorySessionDelegate: RepositorySessionDataDelegate? = nil) {
+        self.repositorySessionDelegate = repositorySessionDelegate
     }
     
-    func successHandler(for request: Request<Bool>) -> (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void {
-        return { (data, response, error) in
-            do {
-                let success = try self.responseParser.success(from: data, response: response, error: error)
-                request.complete(with: success, in: self.responseQueue)
-            } catch {
-                request.complete(with: error, in: self.responseQueue)
-            }
-        }
-    }
-    
-    func objectHandler<T: Decodable>(for request: Request<T>) -> (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void {
-        return { (data, response, error) in
-            do {
-                let object: T = try self.responseParser.object(from: data, response: response, error: error)
-                request.complete(with: object, in: self.responseQueue)
-            } catch {
-                request.complete(with: error, in: self.responseQueue)
-            }
-        }
-    }
-    
-    func arrayHandler<T: Decodable>(for request: Request<[T]>) -> (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void {
-        return { (data, response, error) in
-            do {
-                let array: [T] = try self.responseParser.array(from: data, response: response, error: error)
-                request.complete(with: array, in: self.responseQueue)
-            } catch {
-                request.complete(with: error, in: self.responseQueue)
-            }
-        }
-    }
-    
-    func doRequest(route: Route, parameters: HTTPParameters, completion: @escaping (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void) throws -> URLSessionDataTask {
+    func doRequest(route: Route, parameters: RequestParameters?, completion: @escaping (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void) throws -> URLSessionDataTask {
         var request = URLRequest(url: try route.getURL())
         request.httpMethod = route.httpMethod
         request.cachePolicy = cachePolicy ?? request.cachePolicy
         request.timeoutInterval = timeoutInterval ?? request.timeoutInterval
         request.allowsCellularAccess = allowsCellularAccess ?? request.allowsCellularAccess
-        parameters.headers?.forEach({ request.addValue($0.value, forHTTPHeaderField: $0.key) })
-        let parameterEncoding = parameters.encoding ?? route.preferredParameterEncoding
-        try request.encode(parameters: parameters.parameters, with: parameterEncoding)
         
+        try parameters?.preprocess()
+        parameters?.headers?.forEach({ request.addValue($0.value, forHTTPHeaderField: $0.key) })
+        if let params = parameters {
+            try setParameters(params, to: &request, route: route)
+        }
         return dataTask(with: request, completion: completion)
     }
     
-    func doRequest(route: Route, parameters: [String: Any]? = [:], encoding: ParameterEncoding? = nil, headers: [String: String]? = nil, completion: @escaping (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void) throws -> URLSessionDataTask {
-        var request = URLRequest(url: try route.getURL())
-        request.httpMethod = route.httpMethod
-        request.cachePolicy = cachePolicy ?? request.cachePolicy
-        request.timeoutInterval = timeoutInterval ?? request.timeoutInterval
-        request.allowsCellularAccess = allowsCellularAccess ?? request.allowsCellularAccess
-        headers?.forEach({ request.addValue($0.value, forHTTPHeaderField: $0.key) })
-        let parameterEncoding = encoding ?? route.preferredParameterEncoding
-        try request.encode(parameters: parameters, with: parameterEncoding)
-        
-        return dataTask(with: request, completion: completion)
-    }
-    
-    func doRequest(route: Route, data: Data, headers: [String: String]? = nil, completion: @escaping (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void) throws -> URLSessionDataTask {
-        var request = URLRequest(url: try route.getURL())
-        request.httpMethod = route.httpMethod
-        request.cachePolicy = cachePolicy ?? request.cachePolicy
-        request.timeoutInterval = timeoutInterval ?? request.timeoutInterval
-        request.allowsCellularAccess = allowsCellularAccess ?? request.allowsCellularAccess
-        headers?.forEach({ request.addValue($0.value, forHTTPHeaderField: $0.key) })
-        request.httpBody = data
-        
-        return dataTask(with: request, completion: completion)
+    func setParameters(_ parameters: RequestParameters, to request: inout URLRequest, route: Route) throws {
+        if let data = parameters.data {
+            request.httpBody = data
+        } else if let partData = try parameters.getData(withBoundary: boundary) {
+            var data = try parameters.parameters?.encode(withBoundary: boundary) ?? Data()
+            data.append(partData)
+            request.httpBody = data
+            request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        } else if let params = parameters.parameters {
+            let encoding = parameters.encoding ?? route.preferredParameterEncoding
+            try request.encode(parameters: params, with: encoding)
+        }
     }
     
     @inline(__always) func dataTask(with request: URLRequest, completion: @escaping (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void) -> URLSessionDataTask {
