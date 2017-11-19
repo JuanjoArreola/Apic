@@ -1,6 +1,6 @@
 import Foundation
 
-public class RequestParameters {
+open class RequestParameters {
     
     // MARK: -
     let parameters: [String: Any]?
@@ -13,8 +13,7 @@ public class RequestParameters {
     let parts: [Part]?
     
     // MARK: - Commmon
-    var headers: [String: String]?
-    
+    public var headers: [String: String]?
     
     public init(parameters: [String: Any]? = nil, encoding: ParameterEncoding? = nil, headers: [String: String]? = nil) {
         self.parameters = parameters

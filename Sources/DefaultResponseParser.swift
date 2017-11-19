@@ -6,23 +6,23 @@ open class DefaultResponseParser: ResponseParser {
     private let formatter = DateFormatter()
     
     public init() {
-        if let parser = self as? CustomDateParsing {
-            formatter.locale = parser.locale
-            decoder.dateDecodingStrategy = JSONDecoder.DateDecodingStrategy.custom({ decoder -> Date in
-                let string = try decoder.singleValueContainer().decode(String.self)
-                for format in parser.dateFormats {
-                    self.formatter.dateFormat = format
-                    if let date = self.formatter.date(from: string) { return date }
-                }
-                throw ResponseError.invalidDate(string: string)
-            })
-        } else {
+        guard let parser = self as? CustomDateParsing else {
             decoder.dateDecodingStrategy = JSONDecoder.DateDecodingStrategy.secondsSince1970
+            return
         }
+        formatter.locale = parser.locale
+        decoder.dateDecodingStrategy = JSONDecoder.DateDecodingStrategy.custom({ decoder -> Date in
+            let string = try decoder.singleValueContainer().decode(String.self)
+            for format in parser.dateFormats {
+                self.formatter.dateFormat = format
+                if let date = self.formatter.date(from: string) { return date }
+            }
+            throw ResponseError.invalidDate(string: string)
+        })
     }
     
     open func success(from data: Data?, response: URLResponse?, error: Error?) throws -> Bool {
-        let container: ResponseContainer<Bool> = try validate(data: data, response: response, error: error)
+        let container: ResponseContainer<Bool> = try parse(data: data, response: response, error: error)
         if let success = container.object {
             return success
         }
@@ -30,7 +30,7 @@ open class DefaultResponseParser: ResponseParser {
     }
     
     open func object<T: Decodable>(from data: Data?, response: URLResponse?, error: Error?) throws -> T {
-        let container: ResponseContainer<T> = try validate(data: data, response: response, error: error)
+        let container: ResponseContainer<T> = try parse(data: data, response: response, error: error)
         if let object = container.object {
             return object
         }
@@ -38,7 +38,7 @@ open class DefaultResponseParser: ResponseParser {
     }
     
     open func array<T: Decodable>(from data: Data?, response: URLResponse?, error: Error?) throws -> [T] {
-        let container: ResponseContainer<T> = try validate(data: data, response: response, error: error)
+        let container: ResponseContainer<T> = try parse(data: data, response: response, error: error)
         if let array = container.array {
             return array
         }
@@ -50,12 +50,14 @@ open class DefaultResponseParser: ResponseParser {
         return container
     }
     
-    public func validate<T: Decodable>(data: Data?, response: URLResponse?, error: Error?) throws -> ResponseContainer<T> {
+    // MARK: - Error
+    
+    public func parseError<T: Decodable>(data: Data?, response: URLResponse?, error: Error?) throws -> ResponseContainer<T>? {
         if let error = error { throw error }
-        if let code = (response as? HTTPURLResponse)?.statusCode, code == 404 {
-            throw ResponseError.httpError(statusCode: code, message: response?.url?.absoluteString)
-        }
-        else if let code = (response as? HTTPURLResponse)?.statusCode, code >= 400, code < 600 {
+        if let code = (response as? HTTPURLResponse)?.statusCode, code >= 400, code < 600 {
+            if let error = parseError(code: code, data: data, response: response) {
+                throw error
+            }
             guard let data = data else {
                 throw ResponseError.httpError(statusCode: code, message: nil)
             }
@@ -68,7 +70,26 @@ open class DefaultResponseParser: ResponseParser {
             } catch is DecodingError {
                 throw ResponseError.httpError(statusCode: code, message: String(data: data, encoding: .utf8))
             }
-        } else if let data = data {
+        }
+        return nil
+    }
+    
+    open func parseError(code: Int, data: Data?, response: URLResponse?) -> Error? {
+        switch code {
+        case 404:
+            return ResponseError.httpError(statusCode: code, message: response?.url?.absoluteString)
+        default:
+            return nil
+        }
+    }
+    
+    // MARK: - Parse
+    
+    public func parse<T: Decodable>(data: Data?, response: URLResponse?, error: Error?) throws -> ResponseContainer<T> {
+        if let container = try parseError(data: data, response: response, error: error) as ResponseContainer<T>? {
+            return container
+        }
+        if let data = data {
             let container: ResponseContainer<T> = try getContainer(from: data)
             if let error = container.getError() {
                 throw error

@@ -70,28 +70,23 @@
         }
         
         public static func reachabilityInfo(forURL url: URL) throws -> HostReachabilityInfo {
-            guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
-                throw ReachabilityError.invalidURL
-            }
-            guard let host = components.host else {
+            guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+                let host = components.host else {
                 throw ReachabilityError.invalidURL
             }
             if let info = Reachability.reachabilityInfo[host] {
                 return info
             }
             
-            var reachabilityInfo: HostReachabilityInfo?
             var trackingError: Error?
-            
             syncQueue.sync(execute: {
                 do {
-                    reachabilityInfo = try startTracking(host: host)
-                    Reachability.reachabilityInfo[host] = reachabilityInfo
+                    Reachability.reachabilityInfo[host] = try startTracking(host: host)
                 } catch {
                     trackingError = error
                 }
             })
-            if let info = reachabilityInfo {
+            if let info = Reachability.reachabilityInfo[host] {
                 return info
             }
             if let error = trackingError {
@@ -113,8 +108,8 @@
                 throw ReachabilityError.inicializationError
             }
             let reachabilityInfo = HostReachabilityInfo(host: host, networkReachability: reachability)
-            let reachabilityInfoRef = bridge(reachabilityInfo)
-            var context = SCNetworkReachabilityContext(version: 0, info: reachabilityInfoRef, retain: nil, release: nil, copyDescription: nil)
+            var context = SCNetworkReachabilityContext(version: 0, info: bridge(reachabilityInfo),
+                                                       retain: nil, release: nil, copyDescription: nil)
             if SCNetworkReachabilitySetCallback(reachability, { (reachability, flags, info) in
                 if let info = info {
                     let reachabilityInfo = Unmanaged<HostReachabilityInfo>.fromOpaque(info).takeUnretainedValue()
