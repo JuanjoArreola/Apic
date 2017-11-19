@@ -14,11 +14,11 @@ Apic communicates with **RESTful services**, parses the **JSON** HTTP response a
    pod 'Apic' '~> 3.9.6'
 #### Swift 4
   pod 'Apic' '~> 4.0.0'
-
+  pod 'Apic' '~> 5.0.0'
 
 ## Repositories
 
-The repository is a class that implements the logic to communicate with the services that provide the REST resources, basically a Repository has methods that correspond to endpoints in the backend, all repositories inherit from the generic class `AbstractRepository`, or `MultipartRepository`:
+The repository is a class that implements the logic to communicate with the services that provide the REST resources, basically a Repository has methods that correspond to endpoints in the backend, all repositories inherit from the generic class `AbstractRepository`:
 
 ```swift
 class GistsRepository: AbstractRepository {
