@@ -12,14 +12,12 @@ public extension URLRequest {
         case .url:
             if ["GET", "HEAD", "DELETE"].contains(method) {
                 self.url = try self.url?.appending(parameters: parameters)
-            } else {
+            } else if let queryString = parameters.urlQueryString {
                 setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-                guard let queryString = parameters.urlQueryString else {
-                    throw RepositoryError.encodingError
-                }
                 self.httpBody = queryString.data(using: .utf8, allowLossyConversion: false)
+            } else {
+                throw RepositoryError.encodingError
             }
-            
         case .json:
             self.setValue("application/json", forHTTPHeaderField: "Content-Type")
             self.httpBody = try JSONEncoder().encode(parameters)

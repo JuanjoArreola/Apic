@@ -13,13 +13,24 @@ open class DefaultResponseParser: ResponseParser {
         formatter.locale = parser.locale
         decoder.dateDecodingStrategy = JSONDecoder.DateDecodingStrategy.custom({ decoder -> Date in
             let string = try decoder.singleValueContainer().decode(String.self)
-            for format in parser.dateFormats {
-                self.formatter.dateFormat = format
-                if let date = self.formatter.date(from: string) { return date }
+            if let date = self.date(from: string, using: parser.dateFormats) {
+                return date
             }
             throw ResponseError.invalidDate(string: string)
         })
     }
+    
+    open func date(from string: String, using formats: [String]) -> Date? {
+        for format in formats {
+            self.formatter.dateFormat = format
+            if let date = self.formatter.date(from: string) {
+                return date
+            }
+        }
+        return nil
+    }
+    
+    // MARK: -
     
     open func success(from data: Data?, response: URLResponse?, error: Error?) throws -> Bool {
         let container: ResponseContainer<Bool> = try parse(data: data, response: response, error: error)
@@ -45,12 +56,29 @@ open class DefaultResponseParser: ResponseParser {
         throw ResponseError.arrayNotFound
     }
     
+    // MARK: - Parsing
+    
+    public func parse<T: Decodable>(data: Data?, response: URLResponse?, error: Error?) throws -> ResponseContainer<T> {
+        if let container = try parseError(data: data, response: response, error: error) as ResponseContainer<T>? {
+            return container
+        }
+        if let data = data {
+            let container: ResponseContainer<T> = try getContainer(from: data)
+            if let error = container.getError() {
+                throw error
+            }
+            return container
+        } else {
+            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: [], debugDescription: "No data"))
+        }
+    }
+    
     open func getContainer<T: Decodable>(from data: Data) throws -> ResponseContainer<T> {
         let container: ResponseContainer<T> = try decoder.decode(ResponseContainer<T>.self, from: data)
         return container
     }
     
-    // MARK: - Error
+    // MARK: - Parse error
     
     public func parseError<T: Decodable>(data: Data?, response: URLResponse?, error: Error?) throws -> ResponseContainer<T>? {
         if let error = error { throw error }
@@ -80,23 +108,6 @@ open class DefaultResponseParser: ResponseParser {
             return ResponseError.httpError(statusCode: code, message: response?.url?.absoluteString)
         default:
             return nil
-        }
-    }
-    
-    // MARK: - Parse
-    
-    public func parse<T: Decodable>(data: Data?, response: URLResponse?, error: Error?) throws -> ResponseContainer<T> {
-        if let container = try parseError(data: data, response: response, error: error) as ResponseContainer<T>? {
-            return container
-        }
-        if let data = data {
-            let container: ResponseContainer<T> = try getContainer(from: data)
-            if let error = container.getError() {
-                throw error
-            }
-            return container
-        } else {
-            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: [], debugDescription: "No data"))
         }
     }
 }
