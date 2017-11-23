@@ -111,10 +111,7 @@
             var context = SCNetworkReachabilityContext(version: 0, info: bridge(reachabilityInfo),
                                                        retain: nil, release: nil, copyDescription: nil)
             if SCNetworkReachabilitySetCallback(reachability, { (reachability, flags, info) in
-                if let info = info {
-                    let reachabilityInfo = Unmanaged<HostReachabilityInfo>.fromOpaque(info).takeUnretainedValue()
-                    reachabilityInfo.flags = flags
-                }
+                HostReachabilityInfo.from(pointer: info)?.flags = flags
             }, &context) {
                 return reachabilityInfo
             } else {
@@ -124,6 +121,15 @@
         
         private static func bridge<T : AnyObject>(_ obj : T) -> UnsafeMutableRawPointer {
             return UnsafeMutableRawPointer(Unmanaged.passRetained(obj).toOpaque())
+        }
+    }
+    
+    extension HostReachabilityInfo {
+        static func from(pointer: UnsafeMutableRawPointer?) -> HostReachabilityInfo? {
+            if let pointer = pointer {
+                return Unmanaged<HostReachabilityInfo>.fromOpaque(pointer).takeUnretainedValue()
+            }
+            return nil
         }
     }
     
