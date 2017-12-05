@@ -50,11 +50,7 @@
             zeroAddress.sin6_len = UInt8(MemoryLayout<sockaddr_in>.size)
             zeroAddress.sin6_family = sa_family_t(AF_INET6)
             
-            return withUnsafePointer(to: &zeroAddress, {
-                $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
-                    SCNetworkReachabilityCreateWithAddress(nil, $0)
-                }
-            })
+            return withUnsafePointer(to: &zeroAddress, body())
         }
         
         private class func ipv4Reachability() -> SCNetworkReachability? {
@@ -62,11 +58,15 @@
             zeroAddress.sin_len = UInt8(MemoryLayout<sockaddr_in>.size)
             zeroAddress.sin_family = sa_family_t(AF_INET)
             
-            return withUnsafePointer(to: &zeroAddress, {
+            return withUnsafePointer(to: &zeroAddress, body())
+        }
+        
+        private class func body<T>() -> (UnsafePointer<T>) -> SCNetworkReachability? {
+            return {
                 $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
                     SCNetworkReachabilityCreateWithAddress(nil, $0)
                 }
-            })
+            }
         }
         
         public static func reachabilityInfo(forURL url: URL) throws -> HostReachabilityInfo {
