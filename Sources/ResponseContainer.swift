@@ -14,7 +14,7 @@ open class ResponseContainer<T: Decodable>: Decodable {
         return status == "OK"
     }
     
-    public func getError() -> Error? {
+    open func getError() -> Error? {
         if successful() { return nil }
         return ResponseError.statusFail(message: errorMessage, code: errorCode)
     }
