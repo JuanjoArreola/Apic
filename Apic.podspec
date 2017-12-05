@@ -19,6 +19,6 @@ Pod::Spec.new do |s|
   s.osx.framework    = "SystemConfiguration"
   s.tvos.framework    = "SystemConfiguration"
 
-  s.dependency "AsyncRequest", "~> 2.0.0"
+  s.dependency "AsyncRequest", "~> 2.1.0"
 
 end

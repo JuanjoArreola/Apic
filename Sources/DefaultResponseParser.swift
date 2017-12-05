@@ -59,18 +59,13 @@ open class DefaultResponseParser: ResponseParser {
     // MARK: - Parsing
     
     public func parse<T: Decodable>(data: Data?, response: URLResponse?, error: Error?) throws -> ResponseContainer<T> {
-        if let container = try parseError(data: data, response: response, error: error) as ResponseContainer<T>? {
-            return container
+        if let error = try parseError(data: data, response: response, error: error) {
+            throw error
         }
-        if let data = data {
-            let container: ResponseContainer<T> = try getContainer(from: data)
-            if let error = container.getError() {
-                throw error
-            }
-            return container
-        } else {
+        guard let data = data else {
             throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: [], debugDescription: "No data"))
         }
+        return try getContainer(from: data)
     }
     
     open func getContainer<T: Decodable>(from data: Data) throws -> ResponseContainer<T> {
@@ -78,25 +73,25 @@ open class DefaultResponseParser: ResponseParser {
         return container
     }
     
+    open func getErrorContainer(from data: Data) throws -> ErrorContainerProtocol {
+        return try decoder.decode(ErrorContainer.self, from: data)
+    }
+    
     // MARK: - Parse error
     
-    public func parseError<T: Decodable>(data: Data?, response: URLResponse?, error: Error?) throws -> ResponseContainer<T>? {
+    public func parseError(data: Data?, response: URLResponse?, error: Error?) throws -> Error? {
         if let error = error { throw error }
         if let code = (response as? HTTPURLResponse)?.statusCode, code >= 400, code < 600 {
             if let error = parseError(code: code, data: data, response: response) {
-                throw error
+                return error
             }
             guard let data = data else {
-                throw ResponseError.httpError(statusCode: code, message: nil)
+                return ResponseError.httpError(statusCode: code, message: nil)
             }
             do {
-                let container: ResponseContainer<T> = try getContainer(from: data)
-                if let error = container.getError() {
-                    throw error
-                }
-                return container
-            } catch is DecodingError {
-                throw ResponseError.httpError(statusCode: code, message: String(data: data, encoding: .utf8))
+                return try getErrorContainer(from: data).getError()
+            } catch {
+                return ResponseError.httpError(statusCode: code, message: String(data: data, encoding: .utf8))
             }
         }
         return nil
