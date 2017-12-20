@@ -7,6 +7,7 @@ open class DefaultResponseParser: ResponseParser {
     
     public init() {
         if let parser = self as? CustomDateParsing {
+            formatter.locale = parser.locale
             decoder.dateDecodingStrategy = JSONDecoder.DateDecodingStrategy.custom({ decoder -> Date in
                 let string = try decoder.singleValueContainer().decode(String.self)
                 for format in parser.dateFormats {
@@ -81,4 +82,11 @@ open class DefaultResponseParser: ResponseParser {
 
 public protocol CustomDateParsing {
     var dateFormats: [String] { get }
+    var locale: Locale { get }
+}
+
+public extension CustomDateParsing {
+    var locale: Locale {
+        return Locale(identifier: "en_US_POSIX")
+    }
 }
