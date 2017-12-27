@@ -2,6 +2,7 @@
 ![Cocoapods](https://img.shields.io/cocoapods/v/Apic.svg)
 ![Platform](https://img.shields.io/cocoapods/p/Apic.svg)
 ![License](https://img.shields.io/cocoapods/l/Apic.svg)
+[![codebeat badge](https://codebeat.co/badges/d92500f6-a28d-401f-95da-ac84762f1657)](https://codebeat.co/projects/github-com-juanjoarreola-apic-master)
 
 
 Apic communicates with **RESTful services**, parses the **JSON** HTTP response and delivers objects.

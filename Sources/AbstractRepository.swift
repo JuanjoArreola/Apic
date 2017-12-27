@@ -15,7 +15,7 @@ open class AbstractRepository: BaseRepository {
         super.init(repositorySessionDelegate: repositorySessionDelegate)
     }
     
-    open func requestSuccess(route: Route, parameters: RequestParameters?, completion: ((Bool) -> Void)?) -> Request<Bool> {
+    open func requestSuccess(route: Route, parameters: RequestParameters? = nil, completion: ((Bool) -> Void)?) -> Request<Bool> {
         let request = URLSessionRequest<Bool>(successHandler: completion)
         do {
             request.dataTask = try doRequest(route: route, parameters: parameters, completion: { (data, response, error) in
@@ -32,7 +32,7 @@ open class AbstractRepository: BaseRepository {
         return request
     }
     
-    open func requestObject<T: Decodable>(route: Route, parameters: RequestParameters?, completion: ((T) -> Void)?) -> Request<T> {
+    open func requestObject<T: Decodable>(route: Route, parameters: RequestParameters? = nil, completion: ((T) -> Void)?) -> Request<T> {
         let request = URLSessionRequest<T>(successHandler: completion)
         do {
             request.dataTask = try doRequest(route: route, parameters: parameters, completion: { (data, response, error) in
@@ -49,7 +49,7 @@ open class AbstractRepository: BaseRepository {
         return request
     }
     
-    open func requestArray<T: Decodable>(route: Route, parameters: RequestParameters?, completion: (([T]) -> Void)?) -> Request<[T]> {
+    open func requestArray<T: Decodable>(route: Route, parameters: RequestParameters? = nil, completion: (([T]) -> Void)?) -> Request<[T]> {
         let request = URLSessionRequest<[T]>(successHandler: completion)
         do {
             request.dataTask = try doRequest(route: route, parameters: parameters, completion: { (data, response, error) in

@@ -20,7 +20,7 @@ public extension URLRequest {
             }
         case .json:
             self.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            self.httpBody = try JSONEncoder().encode(parameters)
+            self.httpBody = try JSONSerialization.data(withJSONObject: parameters.jsonValid, options: [])
         }
     }
 }
@@ -30,6 +30,12 @@ public extension Dictionary where Key: ExpressibleByStringLiteral {
     public var urlQueryString: String? {
         let string = self.map({ "\($0)=\(String(describing: $1))" }).joined(separator: "&")
         return string.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+    }
+    
+    public var jsonValid: [Key: Any] {
+        var result = [Key: Any]()
+        self.forEach({ result[$0] = JSONSerialization.isValidJSONObject(["_": $1]) ? $1 : String(describing: $1) })
+        return result
     }
 }
 

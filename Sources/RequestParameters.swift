@@ -13,9 +13,9 @@ open class RequestParameters {
     let parts: [Part]?
     
     // MARK: - Commmon
-    public var headers: [String: String]?
+    public var headers: [String: String] = [:]
     
-    public init(parameters: [String: Any]? = nil, encoding: ParameterEncoding? = nil, headers: [String: String]? = nil) {
+    public init(parameters: [String: Any]? = nil, encoding: ParameterEncoding? = nil, headers: [String: String] = [:]) {
         self.parameters = parameters
         self.encoding = encoding
         self.headers = headers
@@ -23,7 +23,7 @@ open class RequestParameters {
         self.parts = nil
     }
     
-    public init<T: Encodable>(body: T, headers: [String: String]? = nil) throws {
+    public init<T: Encodable>(body: T, headers: [String: String] = [:]) throws {
         self.parameters = nil
         self.encoding = nil
         self.headers = headers
@@ -31,7 +31,7 @@ open class RequestParameters {
         self.parts = nil
     }
     
-    public init(parts: [Part], parameters: [String: Any]? = nil, headers: [String: String]? = nil) {
+    public init(parts: [Part], parameters: [String: Any]? = nil, headers: [String: String] = [:]) {
         self.parts = parts
         self.parameters = parameters
         self.headers = headers

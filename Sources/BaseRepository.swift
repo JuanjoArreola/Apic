@@ -24,7 +24,7 @@ open class BaseRepository {
         request.allowsCellularAccess = allowsCellularAccess ?? request.allowsCellularAccess
         
         try parameters?.preprocess()
-        parameters?.headers?.forEach({ request.addValue($0.value, forHTTPHeaderField: $0.key) })
+        parameters?.headers.forEach({ request.addValue($0.value, forHTTPHeaderField: $0.key) })
         if let params = parameters {
             try setParameters(params, to: &request, route: route)
         }
