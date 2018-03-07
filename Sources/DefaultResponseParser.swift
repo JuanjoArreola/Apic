@@ -33,11 +33,10 @@ open class DefaultResponseParser: ResponseParser {
     // MARK: -
     
     open func success(from data: Data?, response: URLResponse?, error: Error?) throws -> Bool {
-        let container: ResponseContainer<Bool> = try parse(data: data, response: response, error: error)
-        if let success = container.object {
-            return success
+        if let error = try parseError(data: data, response: response, error: error) {
+            throw error
         }
-        return container.successful()
+        return true
     }
     
     open func object<T: Decodable>(from data: Data?, response: URLResponse?, error: Error?) throws -> T {
@@ -81,18 +80,16 @@ open class DefaultResponseParser: ResponseParser {
     
     public func parseError(data: Data?, response: URLResponse?, error: Error?) throws -> Error? {
         if let error = error { throw error }
+        if let data = data, let container = try? getErrorContainer(from: data), let error = container.getError() {
+            return error
+        }
         if let code = (response as? HTTPURLResponse)?.statusCode, code >= 400, code < 600 {
             if let error = parseError(code: code, data: data, response: response) {
                 return error
-            }
-            guard let data = data else {
-                return ResponseError.httpError(statusCode: code, message: nil)
-            }
-            do {
-                return try getErrorContainer(from: data).getError()
-            } catch {
+            } else if let data = data {
                 return ResponseError.httpError(statusCode: code, message: String(data: data, encoding: .utf8))
             }
+            return ResponseError.httpError(statusCode: code, message: nil)
         }
         return nil
     }

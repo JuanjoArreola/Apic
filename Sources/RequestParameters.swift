@@ -3,14 +3,14 @@ import Foundation
 open class RequestParameters {
     
     // MARK: -
-    let parameters: [String: Any]?
-    let encoding: ParameterEncoding?
+    public let parameters: [String: Any]?
+    public let encoding: ParameterEncoding?
     
     // MARK: -
-    let data: Data?
+    public let data: Data?
     
     // MARK: -
-    let parts: [Part]?
+    public let parts: [Part]?
     
     // MARK: - Commmon
     public var headers: [String: String] = [:]
@@ -37,6 +37,14 @@ open class RequestParameters {
         self.headers = headers
         self.data = nil
         self.encoding = nil
+    }
+    
+    public init(data: Data, headers: [String: String] = [:]) {
+        self.data = data
+        self.headers = headers
+        self.parameters = nil
+        self.encoding = nil
+        self.parts = nil
     }
     
     func getData(withBoundary boundary: String) throws -> Data? {

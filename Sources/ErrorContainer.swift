@@ -4,7 +4,7 @@ public protocol ErrorContainerProtocol {
     func getError() -> Error?
 }
 
-open class ErrorContainer: Decodable, ErrorContainerProtocol {
+public struct ErrorContainer: Decodable, ErrorContainerProtocol {
     public var status: String?
     
     public var errorCode: String?
@@ -14,7 +14,7 @@ open class ErrorContainer: Decodable, ErrorContainerProtocol {
         return status == "OK"
     }
     
-    open func getError() -> Error? {
+    public func getError() -> Error? {
         if isSuccessful { return nil }
         return ResponseError.statusFail(message: errorMessage, code: errorCode)
     }

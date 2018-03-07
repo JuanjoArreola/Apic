@@ -16,7 +16,7 @@ open class BaseRepository {
         self.repositorySessionDelegate = repositorySessionDelegate
     }
     
-    func doRequest(route: Route, parameters: RequestParameters?, completion: @escaping (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void) throws -> URLSessionDataTask {
+    public func doRequest(route: Route, parameters: RequestParameters?, completion: @escaping (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void) throws -> URLSessionDataTask {
         var request = URLRequest(url: try route.getURL())
         request.httpMethod = route.httpMethod
         request.cachePolicy = cachePolicy ?? request.cachePolicy

@@ -51,7 +51,6 @@ public enum Route {
 
 public enum RepositoryError: Error {
     case invalidURL(url: String)
-    case invalidParameters
     case encodingError
     case networkConnection
 }
