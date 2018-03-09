@@ -17,13 +17,16 @@ open class BaseRepository {
     }
     
     public func doRequest(route: Route, parameters: RequestParameters?, completion: @escaping (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void) throws -> URLSessionDataTask {
+        if let error = parameters?.error {
+            throw error
+        }
+        try parameters?.preprocess()
         var request = URLRequest(url: try route.getURL())
         request.httpMethod = route.httpMethod
         request.cachePolicy = cachePolicy ?? request.cachePolicy
         request.timeoutInterval = timeoutInterval ?? request.timeoutInterval
         request.allowsCellularAccess = allowsCellularAccess ?? request.allowsCellularAccess
         
-        try parameters?.preprocess()
         parameters?.headers.forEach({ request.addValue($0.value, forHTTPHeaderField: $0.key) })
         if let params = parameters {
             try setParameters(params, to: &request, route: route)

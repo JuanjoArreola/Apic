@@ -3,7 +3,7 @@ import Foundation
 open class RequestParameters {
     
     // MARK: -
-    public let parameters: [String: Any]?
+    public var parameters: [String: Any]?
     public let encoding: ParameterEncoding?
     
     // MARK: -
@@ -14,6 +14,7 @@ open class RequestParameters {
     
     // MARK: - Commmon
     public var headers: [String: String] = [:]
+    public var error: Error?
     
     public init(parameters: [String: Any]? = nil, encoding: ParameterEncoding? = nil, headers: [String: String] = [:]) {
         self.parameters = parameters
@@ -23,11 +24,16 @@ open class RequestParameters {
         self.parts = nil
     }
     
-    public init<T: Encodable>(body: T, headers: [String: String] = [:]) throws {
+    public init<T: Encodable>(body: T, headers: [String: String] = [:]) {
+        do {
+            self.data = try JSONEncoder().encode(body)
+        } catch {
+            self.data = nil
+            self.error = error
+        }
+        self.headers = headers
         self.parameters = nil
         self.encoding = nil
-        self.headers = headers
-        self.data = try JSONEncoder().encode(body)
         self.parts = nil
     }
     
