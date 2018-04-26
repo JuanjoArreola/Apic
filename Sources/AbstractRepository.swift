@@ -3,7 +3,7 @@ import AsyncRequest
 
 open class AbstractRepository: BaseRepository {
     
-    let responseParser: ResponseParser
+    public let responseParser: ResponseParser
     let reachabilityManager: ReachabilityManager?
     
     open var responseQueue = DispatchQueue.main

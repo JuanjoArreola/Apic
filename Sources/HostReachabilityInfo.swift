@@ -5,7 +5,7 @@ import Foundation
     import SystemConfiguration
     
     open class HostReachabilityInfo {
-        open let host: String
+        public let host: String
         fileprivate let networkReachability: SCNetworkReachability
         open internal(set) var flags: SCNetworkReachabilityFlags?
         

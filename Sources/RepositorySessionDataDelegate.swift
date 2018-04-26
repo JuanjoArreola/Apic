@@ -2,7 +2,7 @@ import Foundation
 
 open class RepositorySessionDataDelegate: NSObject, URLSessionDataDelegate {
     
-    private var completionHandlers: [URLSessionTask: (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void] = [:]
+    private var completionHandlers: [URLSessionTask: (Data?, URLResponse?, Error?) -> Void] = [:]
     private var buffers: [URLSessionTask: Data] = [:]
     
     public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: (URLSession.ResponseDisposition) -> Void) {
@@ -29,7 +29,7 @@ open class RepositorySessionDataDelegate: NSObject, URLSessionDataDelegate {
         completionHandler(.performDefaultHandling, nil)
     }
     
-    func add(completion: @escaping (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> Void, for task: URLSessionTask) {
+    func add(completion: @escaping (Data?, URLResponse?, Error?) -> Void, for task: URLSessionTask) {
         completionHandlers[task] = completion
     }
 }

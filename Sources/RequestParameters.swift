@@ -45,7 +45,7 @@ open class RequestParameters {
         self.encoding = nil
     }
     
-    public init(data: Data, headers: [String: String] = [:]) {
+    public init(data: Data?, headers: [String: String] = [:]) {
         self.data = data
         self.headers = headers
         self.parameters = nil
