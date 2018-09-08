@@ -7,7 +7,7 @@ open class RequestParameters {
     public let encoding: ParameterEncoding?
     
     // MARK: -
-    public let data: Data?
+    public var data: Data?
     
     // MARK: -
     public let parts: [Part]?
@@ -20,7 +20,6 @@ open class RequestParameters {
         self.parameters = parameters
         self.encoding = encoding
         self.headers = headers
-        self.data = nil
         self.parts = nil
     }
     
@@ -32,7 +31,6 @@ open class RequestParameters {
             self.error = error
         }
         self.headers = headers
-        self.parameters = nil
         self.encoding = nil
         self.parts = nil
     }
@@ -41,14 +39,12 @@ open class RequestParameters {
         self.parts = parts
         self.parameters = parameters
         self.headers = headers
-        self.data = nil
         self.encoding = nil
     }
     
     public init(data: Data?, headers: [String: String] = [:]) {
         self.data = data
         self.headers = headers
-        self.parameters = nil
         self.encoding = nil
         self.parts = nil
     }
