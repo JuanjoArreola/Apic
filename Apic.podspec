@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "Apic"
-  s.version      = "5.0.2"
+  s.version      = "5.0.3"
   s.summary      = "Apic is a library that parses JSON API responses into swift objects"
   s.homepage     = "https://github.com/JuanjoArreola/Apic"
   s.license      = { :type => "MIT", :file => "LICENSE" }
@@ -21,5 +21,4 @@ Pod::Spec.new do |s|
 
   s.dependency "AsyncRequest", "~> 2.1.0"
 
-  s.swift_version = '4.1'
 end
