@@ -15,8 +15,8 @@ open class AbstractRepository: BaseRepository {
         super.init(repositorySessionDelegate: repositorySessionDelegate)
     }
     
-    open func requestSuccess(route: Route, parameters: RequestParameters? = nil, completion: ((Bool) -> Void)?) -> Request<Bool> {
-        let request = URLSessionRequest<Bool>(successHandler: completion)
+    open func requestSuccess(route: Route, parameters: RequestParameters? = nil, success: ((Bool) -> Void)?) -> Request<Bool> {
+        let request = URLSessionRequest<Bool>(successHandler: success)
         do {
             request.dataTask = try doRequest(route: route, parameters: parameters, completion: { (data, response, error) in
                 do {
@@ -32,8 +32,8 @@ open class AbstractRepository: BaseRepository {
         return request
     }
     
-    open func requestObject<T: Decodable>(route: Route, parameters: RequestParameters? = nil, completion: ((T) -> Void)?) -> Request<T> {
-        let request = URLSessionRequest<T>(successHandler: completion)
+    open func requestObject<T: Decodable>(route: Route, parameters: RequestParameters? = nil, success: ((T) -> Void)?) -> Request<T> {
+        let request = URLSessionRequest<T>(successHandler: success)
         do {
             request.dataTask = try doRequest(route: route, parameters: parameters, completion: { (data, response, error) in
                 do {
@@ -49,8 +49,8 @@ open class AbstractRepository: BaseRepository {
         return request
     }
     
-    open func requestArray<T: Decodable>(route: Route, parameters: RequestParameters? = nil, completion: (([T]) -> Void)?) -> Request<[T]> {
-        let request = URLSessionRequest<[T]>(successHandler: completion)
+    open func requestArray<T: Decodable>(route: Route, parameters: RequestParameters? = nil, success: (([T]) -> Void)?) -> Request<[T]> {
+        let request = URLSessionRequest<[T]>(successHandler: success)
         do {
             request.dataTask = try doRequest(route: route, parameters: parameters, completion: { (data, response, error) in
                 do {

@@ -10,7 +10,7 @@ let package = Package(
             targets: ["Apic"]),
         ],
     dependencies: [
-        .package(url: "https://github.com/JuanjoArreola/AsyncRequest.git", from: "2.1.0")
+        .package(url: "https://github.com/JuanjoArreola/AsyncRequest.git", from: "2.2.0")
     ],
     targets: [
         .target(

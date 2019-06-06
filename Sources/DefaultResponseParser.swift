@@ -64,10 +64,10 @@ open class DefaultResponseParser: ResponseParser {
         guard let data = data else {
             throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: [], debugDescription: "No data"))
         }
-        return try getContainer(from: data)
+        return try getContainer(from: data, response: response)
     }
     
-    open func getContainer<T: Decodable>(from data: Data) throws -> ResponseContainer<T> {
+    open func getContainer<T: Decodable>(from data: Data, response: URLResponse?) throws -> ResponseContainer<T> {
         let container: ResponseContainer<T> = try decoder.decode(ResponseContainer<T>.self, from: data)
         return container
     }
